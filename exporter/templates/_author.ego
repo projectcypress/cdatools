@@ -1,0 +1,7 @@
+<%! func AuthorTmpl(w io.Writer, author *models.Person) error %>
+
+<!-- SHALL have 1..* author. MAY be device or person.
+    The author of the CDA document in this example is a device at a data submission vendor/registry. -->
+<author>
+
+</author>

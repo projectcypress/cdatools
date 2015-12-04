@@ -1,0 +1,46 @@
+<%! func RecordTargetTmpl(w io.Writer, patient *models.Record) error %>
+
+<recordTarget>
+  <patientRole>
+    <% if (patient.MedicalRecordNumber != "" && patient.MedicalRecordAssigner != "") { %>
+      <% mrn := models.ID{Root: patient.MedicalRecordNumber, Extension: patient.MedicalRecordAssigner} %>
+      <% var buffer bytes.Buffer %> <% IdTmpl(&buffer, &mrn) %> <% io.WriteString(w, buffer.String()) %>
+    <% } else { %>
+      <id extension="12345" root="PlaceholderOrganization" />
+    <% } %>
+    <addr use="HP">
+      <% if (patient.Addresses != nil) { %>
+      <% for _, address := range patient.Addresses { %>
+        <% for _, street := range address.Street { %><streetAddressLine><%= street %></streetAddressLine><% } %>
+        <city><%= address.City %></city>
+        <state><%= address.State %></state>
+        <postalCode><%= address.Zip %></postalCode>
+        <country><%= address.Country %></country>
+      <% } %>
+      <% } else { %>
+        <streetAddressLine>202 Burlington Rd.</streetAddressLine>
+        <city>Bedford</city>
+        <state>MA</state>
+        <postalCode>01730</postalCode>
+        <country>US</country>
+      <% } %>
+    </addr>
+    <telecom use="WP" value="tel:+1-781-271-3000"/>
+    <patient>
+      <name>
+        <given><%= patient.First %></given>
+        <family><%= patient.Last %></family>
+      </name>
+      <administrativeGenderCode code="<%= patient.Gender %>" codeSystem="2.16.840.1.113883.5.1" codeSystemName="HL7 AdministrativeGender"/>
+      <birthTime value="<%= patient.Birthdate %>"/>
+      <% if (&patient.Race != nil) { %>
+        <raceCode code="<%= patient.Race.Code %>" <% if (patient.Race.Name != "") { %>displayName="<%= patient.Race.Name %>"<% } %> codeSystemName="CDC Race and Ethnicity" codeSystem="2.16.840.1.113883.6.238"/>
+      <% } %>
+      <% if (&patient.Ethnicity != nil) { %>
+        <ethnicGroupCode code="<%= patient.Ethnicity.Code %>" <% if (patient.Ethnicity.Name != "") { %>displayName="<%= patient.Ethnicity.Name %>"<% } %> codeSystemName="CDC Race and Ethnicity" codeSystem="2.16.840.1.113883.6.238"/>
+      <% } %>
+      <!-- LANGUAGE SECTION GOES HERE -->
+
+    </patient>
+  </patientRole>
+</recordTarget>

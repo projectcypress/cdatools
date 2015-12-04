@@ -1,0 +1,35 @@
+<%! func Cat1Tmpl(w io.Writer, patient *models.Record) error %>
+
+<%% import "github.com/pborman/uuid" %%>
+<%% import "time" %%>
+<%% import "bytes" %%>
+<%% import "github.com/projectcypress/cdatools/models" %%>
+
+<?xml version="1.0" encoding="utf-8"?>
+<ClinicalDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns="urn:hl7-org:v3"
+ xmlns:voc="urn:hl7-org:v3/voc"
+ xmlns:sdtc="urn:hl7-org:sdtc">
+  <!-- QRDA Header -->
+  <realmCode code="US"/>
+  <typeId root="2.16.840.1.113883.1.3" extension="POCD_HD000040"/>
+  <!-- US Realm Header Template Id -->
+  <templateId root="2.16.840.1.113883.10.20.22.1.1"/>
+  <!-- QRDA templateId -->
+  <templateId root="2.16.840.1.113883.10.20.24.1.1" />
+  <!-- QDM-based QRDA templateId -->
+  <templateId root="2.16.840.1.113883.10.20.24.1.2" />
+  <!-- This is the globally unique identifier for this QRDA document -->
+  <id root="<%= uuid.NewRandom() %>"/>
+  <!-- QRDA document type code -->
+  <code code="55182-0" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Quality Measure Report"/>
+  <title>QRDA Incidence Report</title>
+  <!-- This is the document creation time -->
+  <effectiveTime value="<%= time.Now().UTC().Unix() %>"/>
+  <confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25"/>
+  <languageCode code="en"/>
+  <!-- reported patient -->
+  <% var buffer bytes.Buffer %> <% RecordTargetTmpl(&buffer, patient) %> <% io.WriteString(w, buffer.String()) %>
+
+
+</ClinicalDocument>
