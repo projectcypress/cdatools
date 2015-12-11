@@ -12,27 +12,6 @@ import (
 	"time"
 )
 
-var patientXPath = xpath.Compile("/cda:ClinicalDocument/cda:recordTarget/cda:patientRole/cda:patient")
-var encounterXPath = xpath.Compile("//cda:encounter[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.23']")
-var diagnosisXPath = xpath.Compile("//cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.11']")
-var timeLowXPath = xpath.Compile("cda:effectiveTime/cda:low/@value")
-var timeHighXPath = xpath.Compile("cda:effectiveTime/cda:high/@value")
-var lastNameXPath = xpath.Compile("cda:name/cda:family")
-var firstNameXPath = xpath.Compile("cda:name/cda:given")
-var birthTimeXPath = xpath.Compile("cda:birthTime/@value")
-var genderXPath = xpath.Compile("cda:administrativeGenderCode/@code")
-var raceXPath = xpath.Compile("cda:raceCode/@code")
-var raceCodeSetXPath = xpath.Compile("cda:raceCode/@codeSystemName")
-var ethnicityXPath = xpath.Compile("cda:ethnicGroupCode/@code")
-var ethnicityCodeSetXPath = xpath.Compile("cda:ethnicGroupCode/@codeSystemName")
-var codeXPath = xpath.Compile("cda:code/@code")
-var codeCodeSetXPath = xpath.Compile("cda:code/@codeSystem")
-var valueCodeXPath = xpath.Compile("cda:value/@code")
-var valueCodeSetXPath = xpath.Compile("cda:value/@codeSystem")
-var textXPath = xpath.Compile("cda:text")
-var idRootXPath = xpath.Compile("cda:id/@root")
-var idExtXPath = xpath.Compile("cda:id/@extension")
-
 func main() {}
 
 func Read_patient(path string) string {
@@ -47,16 +26,26 @@ func Read_patient(path string) string {
 	xp := doc.DocXPathCtx()
 	xp.RegisterNamespace("cda", "urn:hl7-org:v3")
 
-	// fmt.Println("\nPatient Name:\n")
-
+	var patientXPath = xpath.Compile("/cda:ClinicalDocument/cda:recordTarget/cda:patientRole/cda:patient")
 	patientElements, err := doc.Root().Search(patientXPath)
 	util.CheckErr(err)
 	patientElement := patientElements[0]
 	patient := &models.Record{}
 
 	ExtractDemographics(patient, patientElement)
-	ExtractEncounters(patient, doc.Root())
-	ExtractDiagnoses(patient, doc.Root())
+
+	var encounterXPath = xpath.Compile("//cda:encounter[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.23']")
+	rawEncounters := ExtractSection(patientElement, encounterXPath, EncounterExtractor, "2.16.840.1.113883.3.560.1.79")
+	patient.Encounters = make([]models.Encounter, len(rawEncounters))
+	for i := range rawEncounters {
+		patient.Encounters[i] = rawEncounters[i].(models.Encounter)
+	}
+	var diagnosisXPath = xpath.Compile("//cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.11']")
+	rawDiagnoses := ExtractSection(patientElement, diagnosisXPath, DiagnosisExtractor, "2.16.840.1.113883.3.560.1.2")
+	patient.Diagnoses = make([]models.Diagnosis, len(rawDiagnoses))
+	for i := range rawDiagnoses {
+		patient.Diagnoses[i] = rawDiagnoses[i].(models.Diagnosis)
+	}
 
 	patientJSON, err := json.Marshal(patient)
 	if err != nil {
@@ -68,60 +57,92 @@ func Read_patient(path string) string {
 }
 
 func ExtractDemographics(patient *models.Record, patientElement xml.Node) {
+	var firstNameXPath = xpath.Compile("cda:name/cda:given")
 	patient.First = FirstElementContent(firstNameXPath, patientElement)
+	var lastNameXPath = xpath.Compile("cda:name/cda:family")
 	patient.Last = FirstElementContent(lastNameXPath, patientElement)
+	var genderXPath = xpath.Compile("cda:administrativeGenderCode/@code")
 	patient.Gender = FirstElementContent(genderXPath, patientElement)
+	var birthTimeXPath = xpath.Compile("cda:birthTime/@value")
 	patient.Birthdate = GetTimestamp(birthTimeXPath, patientElement)
+	var raceXPath = xpath.Compile("cda:raceCode/@code")
 	patient.Race.Code = FirstElementContent(raceXPath, patientElement)
+	var raceCodeSetXPath = xpath.Compile("cda:raceCode/@codeSystemName")
 	patient.Race.CodeSet = FirstElementContent(raceCodeSetXPath, patientElement)
+	var ethnicityXPath = xpath.Compile("cda:ethnicGroupCode/@code")
 	patient.Ethnicity.Code = FirstElementContent(ethnicityXPath, patientElement)
+	var ethnicityCodeSetXPath = xpath.Compile("cda:ethnicGroupCode/@codeSystemName")
 	patient.Ethnicity.CodeSet = FirstElementContent(ethnicityCodeSetXPath, patientElement)
 }
 
-func ExtractBasicEntry(entry *models.Entry, entryElement xml.Node, codePath *xpath.Expression, codeSetPath *xpath.Expression, oid string) {
+func ExtractSection(xmlNode xml.Node, sectionXpath *xpath.Expression, extractor EntryExtractor, oid string) []interface{} {
+	sectionElements, err := xmlNode.Search(sectionXpath)
+	util.CheckErr(err)
+
+	entries := make([]interface{}, len(sectionElements))
+	for i, entryElement := range sectionElements {
+		entries[i] = ExtractEntry(entryElement, oid, extractor)
+	}
+	return entries
+}
+
+type EntryExtractor func(*models.Entry, xml.Node) interface{}
+
+func ExtractEntry(entryElement xml.Node, oid string, extractor EntryExtractor) interface{} {
+	var entry models.Entry
+
 	//extract cda identifier
+	var idRootXPath = xpath.Compile("cda:id/@root")
+	var idExtXPath = xpath.Compile("cda:id/@extension")
 	entry.ID = models.CDAIdentifier{Root: FirstElementContent(idRootXPath, entryElement), Extension: FirstElementContent(idExtXPath, entryElement)}
 
-	//extract codes
+	//extract dates
+	var timeLowXPath = xpath.Compile("cda:effectiveTime/cda:low/@value")
+	var timeHighXPath = xpath.Compile("cda:effectiveTime/cda:high/@value")
+	entry.StartTime = GetTimestamp(timeLowXPath, entryElement)
+	entry.EndTime = GetTimestamp(timeHighXPath, entryElement)
+
+	//extract description
+	var textXPath = xpath.Compile("cda:text")
+	entry.Description = FirstElementContent(textXPath, entryElement)
+
+	//set oid
+	entry.Oid = oid
+
+	fullEntry := extractor(&entry, entryElement)
+	return fullEntry
+}
+
+func ExtractCodes(entry *models.Entry, entryElement xml.Node, codePath *xpath.Expression, codeSetPath *xpath.Expression) {
 	code := FirstElementContent(codePath, entryElement)
 	codeSystem := models.CodeSystemFor(FirstElementContent(codeSetPath, entryElement))
 	entry.Codes = map[string][]string{
 		codeSystem: []string{code},
 	}
-
-	//extract dates
-	entry.StartTime = GetTimestamp(timeLowXPath, entryElement)
-	entry.EndTime = GetTimestamp(timeHighXPath, entryElement)
-
-	//extract description
-	entry.Description = FirstElementContent(textXPath, entryElement)
-
 }
 
-func ExtractEncounters(record *models.Record, xmlNode xml.Node) {
-	encounterElements, err := xmlNode.Search(encounterXPath)
-	util.CheckErr(err)
-	encounters := make([]models.Encounter, len(encounterElements))
-	for i, encounterElement := range encounterElements {
-		encounter := models.Encounter{}
-		oid := "2.16.840.1.113883.3.560.1.79"
-		ExtractBasicEntry(&encounter.Entry, encounterElement, codeXPath, codeCodeSetXPath, oid)
-		encounters[i] = encounter
-	}
-	record.Encounters = encounters
+func EncounterExtractor(entry *models.Entry, entryElement xml.Node) interface{} {
+	encounter := models.Encounter{}
+	encounter.Entry = *entry
+
+	//extract codes
+	var codePath = xpath.Compile("cda:code/@code")
+	var codeSetPath = xpath.Compile("cda:code/@codeSystem")
+	ExtractCodes(&encounter.Entry, entryElement, codePath, codeSetPath)
+
+	return encounter
 }
 
-func ExtractDiagnoses(record *models.Record, xmlNode xml.Node) {
-	diagnosisElements, err := xmlNode.Search(diagnosisXPath)
-	util.CheckErr(err)
-	diagnoses := make([]models.Diagnosis, len(diagnosisElements))
-	for i, diagnosisElement := range diagnosisElements {
-		diagnosis := models.Diagnosis{}
-		oid := "2.16.840.1.113883.3.560.1.2"
-		ExtractBasicEntry(&diagnosis.Entry, diagnosisElement, valueCodeXPath, valueCodeSetXPath, oid)
-		diagnoses[i] = diagnosis
-	}
-	record.Diagnoses = diagnoses
+func DiagnosisExtractor(entry *models.Entry, entryElement xml.Node) interface{} {
+	diagnosis := models.Diagnosis{}
+	diagnosis.Entry = *entry
+
+	//extract codes
+	var codePath = xpath.Compile("cda:value/@code")
+	var codeSetPath = xpath.Compile("cda:value/@codeSystem")
+	ExtractCodes(&diagnosis.Entry, entryElement, codePath, codeSetPath)
+
+	return diagnosis
 }
 
 func FirstElementContent(xpath *xpath.Expression, xmlNode xml.Node) string {
