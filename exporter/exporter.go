@@ -21,11 +21,10 @@ func Generate_cat1(patient []byte) string {
 	if err != nil {
 		fmt.Println(err)
 	}
-
 	cat1_template := template.New("cat1")
 	for _, d := range data {
-		asset, _ := Asset("templates/" + d)
-		cat1_template.New(d).Parse(string(asset))
+		asset, _ := Asset("templates/cat1/" + d)
+		template.Must(cat1_template.New(d).Parse(string(asset)))
 	}
 
 	p := &models.Record{}
