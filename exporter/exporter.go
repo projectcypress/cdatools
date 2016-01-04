@@ -3,12 +3,30 @@ package exporter
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
+	"text/template"
 
 	"github.com/projectcypress/cdatools/models"
 )
 
+type cat1data struct {
+	Record models.Record
+	Header models.Header
+}
+
 //export generate_cat1
 func Generate_cat1(patient []byte) string {
+
+	data, err := AssetDir("templates/cat1")
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	cat1_template := template.New("cat1")
+	for _, d := range data {
+		asset, _ := Asset("templates/" + d)
+		cat1_template.New(d).Parse(string(asset))
+	}
 
 	p := &models.Record{}
 	h := &models.Header{
@@ -95,16 +113,13 @@ func Generate_cat1(patient []byte) string {
 		},
 	}
 
+	c1d := cat1data{Record: *p, Header: *h}
+
 	json.Unmarshal(patient, p)
 
-	var buf bytes.Buffer
-	err := Cat1Tmpl(&buf, p, h)
+	var b bytes.Buffer
 
-	if err != nil {
-		panic(err)
-	} else {
-		// b, _ := json.Marshal(p)
-		// return string(b)
-		return buf.String()
-	}
+	cat1_template.ExecuteTemplate(&b, "cat1.xml", c1d)
+
+	return b.String()
 }
