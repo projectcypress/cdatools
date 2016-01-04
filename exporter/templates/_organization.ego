@@ -1,0 +1,23 @@
+<%! func OrganizationTmpl(w io.Writer, organization *models.Organization, tag_name string) error %>
+<%% import "fmt" %%>
+
+<%== "<" + tag_name + ">" %>
+  <!-- Represents unique registry organization TIN -->
+  <% var buffer bytes.Buffer
+    for _, id := range organization.Ids {
+      IdTmpl(&buffer, &id)
+    }
+    io.WriteString(w, buffer.String())
+    buffer.Reset()
+  %>
+  <!-- Contains name - specific registry not required-->
+  <name><%= organization.Name %></name>
+  <% for _, telecom := range organization.Telecoms {
+    TelecomTmpl(&buffer, &telecom)
+  }
+  for _, address := range organization.Addresses {
+    AddressTmpl(&buffer, &address)
+  }
+  io.WriteString(w, buffer.String())
+  %>
+</<%= tag_name %>>

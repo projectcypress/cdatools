@@ -7,9 +7,25 @@ type Coded interface {
 
 type Header struct {
 	Authenticator Authenticator
+	Authors       []Author
+	Custodian     Author
+}
+
+type Author struct {
+	Time int64
+	Person
+	Entity
+	Device
+	Organization
 }
 
 type Authenticator struct {
+	Author
+}
+
+type Device struct {
+	Model string
+	Name  string
 }
 
 type Entity struct {
@@ -42,6 +58,7 @@ type Ethnicity struct {
 
 type Organization struct {
 	Entity
+	Name string
 }
 
 type Address struct {
@@ -50,6 +67,7 @@ type Address struct {
 	State   string   `json:"state"`
 	Zip     string   `json:"zip"`
 	Country string   `json:"country"`
+	Use     string   `json:"use"`
 }
 
 type Telecom struct {
@@ -58,6 +76,7 @@ type Telecom struct {
 }
 
 type Language struct {
+	Codes map[string][]string
 }
 
 type ID struct {
@@ -71,6 +90,7 @@ type Record struct {
 	MedicalRecordAssigner string      `json:"medical_record_assigner"`
 	Encounters            []Encounter `json:"encounters"`
 	Diagnoses             []Diagnosis `json:"conditions"`
+	Languages             []Language  `json:"languages"`
 }
 
 type ResultValue struct {
