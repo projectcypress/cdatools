@@ -1,10 +1,8 @@
-<%! func Cat1Tmpl(w io.Writer, patient *models.Record) error %>
-
+<%! func Cat1Tmpl(w io.Writer, patient *models.Record, header *models.Header) error %>
+<%% import "github.com/projectcypress/cdatools/models" %%>
 <%% import "github.com/pborman/uuid" %%>
 <%% import "time" %%>
 <%% import "bytes" %%>
-<%% import "github.com/projectcypress/cdatools/models" %%>
-
 <?xml version="1.0" encoding="utf-8"?>
 <ClinicalDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
  xmlns="urn:hl7-org:v3"
@@ -31,5 +29,136 @@
   <!-- reported patient -->
   <% var buffer bytes.Buffer %> <% RecordTargetTmpl(&buffer, patient) %> <% io.WriteString(w, buffer.String()) %>
 
+  <% if header != nil {
+    var buffer bytes.Buffer
+    for _, author := range header.Authors {
+      AuthorTmpl(&buffer, &author)
+    }
+    io.WriteString(w, buffer.String())
+    %>
+    !-- SHALL have 1..* author. MAY be device or person.
+      The author of the CDA document in this example is a device at a data submission vendor/registry. -->
+
+    <!-- The custodian of the CDA document is the same as the legal authenticator in this
+    example and represents the reporting organization. -->
+    <!-- SHALL -->
+    <custodian>
+      <assignedCustodian>
+      <%
+        buffer.Reset()
+        OrganizationTmpl(&buffer, &header.Custodian.Organization, "representedCustodianOrganization")
+        io.WriteString(w, buffer.String())
+        %>
+      </assignedCustodian>
+    </custodian>
+
+    <!-- The legal authenticator of the CDA document is a single person who is at the
+      same organization as the custodian in this example. This element must be present. -->
+    <!-- SHALL -->
+    <legalAuthenticator>
+      <!-- SHALL -->
+      <time value="<%= header.Authenticator.Time %>"/>
+      <!-- SHALL -->
+      <signatureCode code="S"/>
+      <assignedEntity>
+        <!-- SHALL ID -->
+        <% buffer.Reset()
+          for _, id := range header.Authenticator.Ids {
+            IdTmpl(&buffer, &id)
+          }
+          for _, address := range header.Authenticator.Addresses {
+            AddressTmpl(&buffer, &address)
+          }
+          for _, telecom := range header.Authenticator.Telecoms {
+            TelecomTmpl(&buffer, &telecom)
+          }
+          io.WriteString(w, buffer.String())
+        %>
+        <assignedPerson>
+          <name>
+             <given><%= header.Authenticator.Person.First %></given>
+             <family><%= header.Authenticator.Person.Last %></family>
+          </name>
+       </assignedPerson>
+
+        <% buffer.Reset()
+        OrganizationTmpl(&buffer, &header.Authenticator.Organization, "representedOrganization")
+        io.WriteString(w, buffer.String())
+        %>
+      </assignedEntity>
+    </legalAuthenticator>
+
+  <% } else { %>
+    <author>
+    <time value="<%= time.Now().UTC().Unix() %>"/>
+    <assignedAuthor>
+      <!-- id extension="Cypress" root="2.16.840.1.113883.19.5"/ -->
+      <!-- NPI -->
+      <id extension="FakeNPI" root="2.16.840.1.113883.4.6"/>
+      <addr>
+        <streetAddressLine>202 Burlington Rd.</streetAddressLine>
+        <city>Bedford</city>
+        <state>MA</state>
+        <postalCode>01730</postalCode>
+        <country>US</country>
+      </addr>
+      <telecom use="WP" value="tel:(781)271-3000"/>
+      <assignedAuthoringDevice>
+        <manufacturerModelName>Cypress</manufacturerModelName >
+        <softwareName>Cypress</softwareName >
+      </assignedAuthoringDevice >
+    </assignedAuthor>
+  </author>
+  <custodian>
+    <assignedCustodian>
+      <representedCustodianOrganization>
+        <id root="2.16.840.1.113883.19.5"/>
+        <name>Cypress Test Deck</name>
+        <telecom use="WP" value="tel:(781)271-3000"/>
+        <addr>
+          <streetAddressLine>202 Burlington Rd.</streetAddressLine>
+          <city>Bedford</city>
+          <state>MA</state>
+          <postalCode>01730</postalCode>
+          <country>US</country>
+        </addr>
+      </representedCustodianOrganization>
+    </assignedCustodian>
+  </custodian>
+  <legalAuthenticator>
+    <time value="<%= time.Now().UTC().Unix() %>"/>
+    <signatureCode code="S"/>
+    <assignedEntity>
+      <id root="bc01a5d1-3a34-4286-82cc-43eb04c972a7"/>
+      <addr>
+        <streetAddressLine>202 Burlington Rd.</streetAddressLine>
+        <city>Bedford</city>
+        <state>MA</state>
+        <postalCode>01730</postalCode>
+        <country>US</country>
+      </addr>
+      <telecom use="WP" value="tel:(781)271-3000"/>
+      <assignedPerson>
+        <name>
+           <given>Henry</given>
+           <family>Seven</family>
+        </name>
+     </assignedPerson>
+      <representedOrganization>
+        <id root="2.16.840.1.113883.19.5"/>
+        <name>Cypress</name>
+      </representedOrganization>
+    </assignedEntity>
+  </legalAuthenticator><% } %>
+
+  <!-- PROVIDERS RENDER HERE -->
+
+  <component>
+    <structuredBody>
+      <!--MEASURES RENDER HERE-->
+      <!--REPORTING PARAMS RENDER HERE-->
+      <!--PATIENT DATA RENDERS HERE-->
+    </structuredBody>
+  </component>
 
 </ClinicalDocument>
