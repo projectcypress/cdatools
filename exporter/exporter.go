@@ -16,6 +16,12 @@ type cat1data struct {
 	Header models.Header
 }
 
+func timeToCdaFormat(t int64) string {
+	// timeInt, _ := strconv.ParseInt(t, 10, 64)
+	parsedTime := time.Unix(t, 0)
+	return parsedTime.Format("20060102")
+}
+
 //export generate_cat1
 func Generate_cat1(patient []byte) string {
 
@@ -25,8 +31,9 @@ func Generate_cat1(patient []byte) string {
 	}
 
 	funcMap := template.FuncMap{
-		"timeNow":   time.Now().UTC().Unix,
-		"newRandom": uuid.NewRandom,
+		"timeNow":         time.Now().UTC().Unix,
+		"newRandom":       uuid.NewRandom,
+		"timeToCdaFormat": timeToCdaFormat,
 	}
 
 	cat1_template := template.New("cat1").Funcs(funcMap)
@@ -46,6 +53,25 @@ func Generate_cat1(patient []byte) string {
 						models.ID{
 							Root:      "authorRoot",
 							Extension: "authorExtension",
+						},
+					},
+					Addresses: []models.Address{
+						models.Address{
+							Street: []string{
+								"202 Burlington Road",
+								"Apartment 1",
+							},
+							City:    "Bedford",
+							State:   "MA",
+							Zip:     "01730",
+							Country: "USA",
+							Use:     "PUB",
+						},
+					},
+					Telecoms: []models.Telecom{
+						models.Telecom{
+							Use:   "WP",
+							Value: "1(781)2712000",
 						},
 					},
 				},
@@ -130,7 +156,11 @@ func Generate_cat1(patient []byte) string {
 
 	var b bytes.Buffer
 
-	cat1_template.ExecuteTemplate(&b, "cat1.xml", c1d)
+	err = cat1_template.ExecuteTemplate(&b, "cat1.xml", c1d)
+
+	if err != nil {
+		fmt.Println(err)
+	}
 
 	return b.String()
 }
