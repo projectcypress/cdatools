@@ -12,8 +12,9 @@ import (
 )
 
 type cat1data struct {
-	Record models.Record
-	Header models.Header
+	Record   models.Record
+	Header   models.Header
+	Measures []models.Measure
 }
 
 func timeToCdaFormat(t int64) string {
@@ -21,8 +22,8 @@ func timeToCdaFormat(t int64) string {
 	return parsedTime.Format("20060102")
 }
 
-//export generate_cat1
-func Generate_cat1(patient []byte) string {
+//export GenerateCat1
+func GenerateCat1(patient []byte, measures []byte) string {
 
 	data, err := AssetDir("templates/cat1")
 	if err != nil {
@@ -35,14 +36,15 @@ func Generate_cat1(patient []byte) string {
 		"timeToCdaFormat": timeToCdaFormat,
 	}
 
-	cat1_template := template.New("cat1").Funcs(funcMap)
+	cat1Template := template.New("cat1").Funcs(funcMap)
 
 	for _, d := range data {
 		asset, _ := Asset("templates/cat1/" + d)
-		template.Must(cat1_template.New(d).Parse(string(asset)))
+		template.Must(cat1Template.New(d).Parse(string(asset)))
 	}
 
 	p := &models.Record{}
+	m := []models.Measure{}
 	h := &models.Header{
 		Authors: []models.Author{
 			models.Author{
@@ -150,12 +152,13 @@ func Generate_cat1(patient []byte) string {
 	}
 
 	json.Unmarshal(patient, p)
+	json.Unmarshal(measures, &m)
 
-	c1d := cat1data{Record: *p, Header: *h}
+	c1d := cat1data{Record: *p, Header: *h, Measures: m}
 
 	var b bytes.Buffer
 
-	err = cat1_template.ExecuteTemplate(&b, "cat1.xml", c1d)
+	err = cat1Template.ExecuteTemplate(&b, "cat1.xml", c1d)
 
 	if err != nil {
 		fmt.Println(err)
