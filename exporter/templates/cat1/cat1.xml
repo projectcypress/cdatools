@@ -28,7 +28,7 @@
     {{range .Header.Authors}}
       {{template "_author.xml" .}}
     {{end}}
-    !-- SHALL have 1..* author. MAY be device or person.
+    <!-- SHALL have 1..* author. MAY be device or person.
       The author of the CDA document in this example is a device at a data submission vendor/registry. -->
 
     <!-- The custodian of the CDA document is the same as the legal authenticator in this
