@@ -17,7 +17,6 @@ type cat1data struct {
 }
 
 func timeToCdaFormat(t int64) string {
-	// timeInt, _ := strconv.ParseInt(t, 10, 64)
 	parsedTime := time.Unix(t, 0)
 	return parsedTime.Format("20060102")
 }
