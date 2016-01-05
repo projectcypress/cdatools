@@ -1,8 +1,0 @@
-<%! func AddressTmpl(w io.Writer, address *models.Address) error %>
-<addr use="<%= address.Use %>">
-    <% for _, street := range address.Street { %><streetAddressLine><%= street %></streetAddressLine><% } %>
-    <city><%= address.City %></city>
-    <state><%= address.State %></state>
-    <postalCode><%= address.Zip %></postalCode>
-    <country><%= address.Country %></country>
-</addr>

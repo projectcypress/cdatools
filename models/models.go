@@ -58,7 +58,8 @@ type Ethnicity struct {
 
 type Organization struct {
 	Entity
-	Name string
+	Name    string
+	TagName string
 }
 
 type Address struct {

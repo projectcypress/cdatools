@@ -1,9 +1,7 @@
-<%! func RecordTargetTmpl(w io.Writer, patient *models.Record) error %>
-
 <recordTarget>
   <patientRole>
     <% if (patient.MedicalRecordNumber != "" && patient.MedicalRecordAssigner != "") { %>
-      <% mrn := models.ID{Root: patient.MedicalRecordNumber, Extension: patient.MedicalRecordAssigner} %>
+      {{$mrn := struct {Root: .MedicalRecordNumber, Extension: .MedicalRecordAssigner} }}
       <% var buffer bytes.Buffer %> <% IdTmpl(&buffer, &mrn) %> <% io.WriteString(w, buffer.String()) %>
     <% } else { %>
       <id extension="12345" root="PlaceholderOrganization" />

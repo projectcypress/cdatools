@@ -1,7 +1,1 @@
-<%! func IdTmpl(w io.Writer, identifier *models.ID) error %>
-
-<% if (identifier.Root != "") { %>
-  <id root="<%= identifier.Root %>"  extension="<%= identifier.Extension %>" />
-<% } else { %>
-  <id extension="<%= identifier.Extension %>" />
-<% } %>
+<id {{if .Root}}root="{{.Root}}"{{end}} extension="{{.Extension}}" />

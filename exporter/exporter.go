@@ -10,8 +10,9 @@ import (
 )
 
 type cat1data struct {
-	Record models.Record
-	Header models.Header
+	Record           models.Record
+	Header           models.Header
+	OrganizationName string
 }
 
 //export generate_cat1
@@ -79,7 +80,8 @@ func Generate_cat1(patient []byte) string {
 						},
 					},
 				},
-				Name: "CustodianOrganization",
+				Name:    "CustodianOrganization",
+				TagName: "representedCustodianOrganization",
 			},
 		},
 		Authenticator: models.Authenticator{
