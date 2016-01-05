@@ -1,0 +1,14 @@
+<{{.TagName}}>
+  <!-- Represents unique registry organization TIN -->
+  {{range .Ids}}
+    {{template "_id.xml" .}}
+  {{end}}
+  <!-- Contains name - specific registry not required-->
+  <name>{{.Name}}</name>
+  {{range .Telecoms}}
+    {{template "_telecom.xml" .}}
+  {{end}}
+  {{range .Addresses}}
+    {{template "_address.xml" .}}
+  {{end}}
+</{{.TagName}}>

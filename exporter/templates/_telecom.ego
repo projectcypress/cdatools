@@ -1,2 +1,0 @@
-<%! func TelecomTmpl(w io.Writer, telecom *models.Telecom) error %>
-<telecom use="<%=telecom.Use%>" value="tel:+<%=telecom.Value%>" />
