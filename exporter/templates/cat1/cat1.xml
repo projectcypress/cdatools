@@ -13,12 +13,12 @@
   <!-- QDM-based QRDA templateId -->
   <templateId root="2.16.840.1.113883.10.20.24.1.2" />
   <!-- This is the globally unique identifier for this QRDA document -->
-  <id root="<%= uuid.NewRandom() %>"/>
+  <id root="{{ newRandom }}"/>
   <!-- QRDA document type code -->
   <code code="55182-0" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Quality Measure Report"/>
   <title>QRDA Incidence Report</title>
   <!-- This is the document creation time -->
-  <effectiveTime value="<%= time.Now().UTC().Unix() %>"/>
+  <effectiveTime value="{{ timeNow }}"/>
   <confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25"/>
   <languageCode code="en"/>
   <!-- reported patient -->
@@ -61,21 +61,17 @@
         {{end}}
         <assignedPerson>
           <name>
-             <given><%= header.Authenticator.Person.First %></given>
-             <family><%= header.Authenticator.Person.Last %></family>
+             <given>{{.Header.Authenticator.Person.First}}</given>
+             <family>{{.Header.Authenticator.Person.Last}}</family>
           </name>
        </assignedPerson>
-
-        <% buffer.Reset()
-        OrganizationTmpl(&buffer, &header.Authenticator.Organization, "representedOrganization")
-        io.WriteString(w, buffer.String())
-        %>
+        {{template "_organization.xml" .Header.Authenticator.Organization}}
       </assignedEntity>
     </legalAuthenticator>
 
   {{ else }}
     <author>
-    <time value="<%= time.Now().UTC().Unix() %>"/>
+    <time value="{{ timeNow }}"/>
     <assignedAuthor>
       <!-- id extension="Cypress" root="2.16.840.1.113883.19.5"/ -->
       <!-- NPI -->
@@ -111,7 +107,7 @@
     </assignedCustodian>
   </custodian>
   <legalAuthenticator>
-    <time value="<%= time.Now().UTC().Unix() %>"/>
+    <time value="{{ timeNow }}"/>
     <signatureCode code="S"/>
     <assignedEntity>
       <id root="bc01a5d1-3a34-4286-82cc-43eb04c972a7"/>

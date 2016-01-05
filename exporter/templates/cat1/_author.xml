@@ -1,39 +1,31 @@
-<%! func AuthorTmpl(w io.Writer, author *models.Author) error %>
-
-<!-- SHALL have 1..* author. MAY be device or person.
-    The author of the CDA document in this example is a device at a data submission vendor/registry. -->
+<!-- SHALL have 1..* author. MAY be device or person. -->
 <author>
-  <time value="<%= author.Time %>" />
+  <time value="{{.Time}}" />
   <assignedAuthor>
-  <% var buffer bytes.Buffer
-  for _, id := range author.Ids {
-    IdTmpl(&buffer, &id)
-  }
-  for _, address := range author.Addresses {
-    AddressTmpl(&buffer, &address)
-  }
-  for _, telecom := range author.Telecoms {
-    TelecomTmpl(&buffer, &telecom)
-  }
+  {{range .Ids}}
+    {{template "_id.xml" .}}
+  {{end}}
+  {{range .Addresses}}
+    {{template "_address.xml" .}}
+  {{end}}
+  {{range .Telecoms}}
+    {{template "_telecom.xml" .}}
+  {{end}}
 
-
-  if (&author.Person != nil) {
-    %>
+  {{if .Person.First}}
     <assignedPerson>
       <name>
-        <given><%= author.Person.First %></given>
-        <family><%= author.Person.Last %></family>
+        <given>{{.Person.First}}</given>
+        <family>{{.Person.Last}}</family>
       </name>
     </assignedPerson>
-  <% } else if (&author.Device != nil) { %>
+  {{else if .Device.Model}}
     <assignedAuthoringDevice>
-       <manufacturerModelName><%= author.Device.Model %></manufacturerModelName>
-       <softwareName><%= author.Device.Name %></softwareName>
+       <manufacturerModelName>{{.Device.Model}}</manufacturerModelName>
+       <softwareName>{{.Device.Name}}</softwareName>
      </assignedAuthoringDevice>
-  <% }
+  {{end}}
 
-  OrganizationTmpl(&buffer, &author.Organization, "representedOrganization")
-
-  io.WriteString(w, buffer.String()) %>
+  {{template "_organization.xml" .Organization}}
   </assignedAuthor>
 </author>

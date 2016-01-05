@@ -5,14 +5,15 @@ import (
 	"encoding/json"
 	"fmt"
 	"text/template"
+	"time"
 
+	"github.com/pborman/uuid"
 	"github.com/projectcypress/cdatools/models"
 )
 
 type cat1data struct {
-	Record           models.Record
-	Header           models.Header
-	OrganizationName string
+	Record models.Record
+	Header models.Header
 }
 
 //export generate_cat1
@@ -22,7 +23,14 @@ func Generate_cat1(patient []byte) string {
 	if err != nil {
 		fmt.Println(err)
 	}
-	cat1_template := template.New("cat1")
+
+	funcMap := template.FuncMap{
+		"timeNow":   time.Now().UTC().Unix,
+		"newRandom": uuid.NewRandom,
+	}
+
+	cat1_template := template.New("cat1").Funcs(funcMap)
+
 	for _, d := range data {
 		asset, _ := Asset("templates/cat1/" + d)
 		template.Must(cat1_template.New(d).Parse(string(asset)))
@@ -54,7 +62,8 @@ func Generate_cat1(patient []byte) string {
 							},
 						},
 					},
-					Name: "authorsOrganization",
+					Name:    "authorsOrganization",
+					TagName: "representedOrganization",
 				},
 			},
 		},
@@ -108,15 +117,16 @@ func Generate_cat1(patient []byte) string {
 							},
 						},
 					},
-					Name: "LegalAuthenticatorOrg",
+					Name:    "LegalAuthenticatorOrg",
+					TagName: "representedOrganization",
 				},
 			},
 		},
 	}
 
-	c1d := cat1data{Record: *p, Header: *h}
-
 	json.Unmarshal(patient, p)
+
+	c1d := cat1data{Record: *p, Header: *h}
 
 	var b bytes.Buffer
 

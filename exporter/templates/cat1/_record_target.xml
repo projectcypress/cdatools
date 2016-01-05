@@ -1,57 +1,62 @@
 <recordTarget>
   <patientRole>
-    <% if (patient.MedicalRecordNumber != "" && patient.MedicalRecordAssigner != "") { %>
-      {{$mrn := struct {Root: .MedicalRecordNumber, Extension: .MedicalRecordAssigner} }}
-      <% var buffer bytes.Buffer %> <% IdTmpl(&buffer, &mrn) %> <% io.WriteString(w, buffer.String()) %>
-    <% } else { %>
+    {{if .MedicalRecordNumber}}
+      {{if .MedicalRecordAssigner}}
+        <id extension="{{.MedicalRecordNumber}}" root="{{.MedicalRecordAssigner}}" />
+      {{else}}
+        <id extension="12345" root="PlaceholderOrganization" />
+      {{end}}
+    {{else}}
       <id extension="12345" root="PlaceholderOrganization" />
-    <% } %>
+    {{end}}
     <addr use="HP">
-      <% if (patient.Addresses != nil) { %>
-      <% for _, address := range patient.Addresses { %>
-        <% for _, street := range address.Street { %><streetAddressLine><%= street %></streetAddressLine><% } %>
-        <city><%= address.City %></city>
-        <state><%= address.State %></state>
-        <postalCode><%= address.Zip %></postalCode>
-        <country><%= address.Country %></country>
-      <% } %>
-      <% } else { %>
+      {{if .Addresses}}
+        {{range .Addresses}}
+          {{range .Street}}
+            <streetAddressLine>{{.}}</streetAddressLine>
+          {{end}}
+          <city>{{.City}}</city>
+          <state>{{.State}}</state>
+          <postalCode>{{.Zip}}</postalCode>
+          <country>{{.Country }}</country>
+        {{end}}
+      {{else}}
         <streetAddressLine>202 Burlington Rd.</streetAddressLine>
         <city>Bedford</city>
         <state>MA</state>
         <postalCode>01730</postalCode>
         <country>US</country>
-      <% } %>
+      {{end}}
     </addr>
     <telecom use="WP" value="tel:+1-781-271-3000"/>
     <patient>
       <name>
-        <given><%= patient.First %></given>
-        <family><%= patient.Last %></family>
+        <given>{{.First}}</given>
+        <family>{{.Last}}</family>
       </name>
-      <administrativeGenderCode code="<%= patient.Gender %>" codeSystem="2.16.840.1.113883.5.1" codeSystemName="HL7 AdministrativeGender"/>
-      <birthTime value="<%= patient.Birthdate %>"/>
-      <% if (&patient.Race != nil) { %>
-        <raceCode code="<%= patient.Race.Code %>" <% if (patient.Race.Name != "") { %>displayName="<%= patient.Race.Name %>"<% } %> codeSystemName="CDC Race and Ethnicity" codeSystem="2.16.840.1.113883.6.238"/>
-      <% }
-       if (&patient.Ethnicity != nil) { %>
-        <ethnicGroupCode code="<%= patient.Ethnicity.Code %>" <% if (patient.Ethnicity.Name != "") { %>displayName="<%= patient.Ethnicity.Name %>"<% } %> codeSystemName="CDC Race and Ethnicity" codeSystem="2.16.840.1.113883.6.238"/>
-      <% }
-      var languages []models.Language
-       if (patient.Languages == nil) {
-         var lang = models.Language{map[string][]string{ "IETF": {"en"} }}
-         languages = append(languages, lang)
-       } else {
-        languages = patient.Languages
-      }
-      for _, language := range languages { %>
-        <languageCommunication>
+      <administrativeGenderCode code="{{.Gender}}" codeSystem="2.16.840.1.113883.5.1" codeSystemName="HL7 AdministrativeGender"/>
+      <birthTime value="{{.Birthdate}}"/>
+      {{if .Race}}
+        <raceCode code="{{.Race.Code}}" {{if .Race.Name }}displayName="{{.Race.Name}}"{{end}} codeSystemName="CDC Race and Ethnicity" codeSystem="2.16.840.1.113883.6.238"/>
+      {{end}}
+      {{if .Ethnicity }}
+        <ethnicGroupCode code="{{.Ethnicity.Code}}" {{ if .Ethnicity.Name }}displayName="{{.Ethnicity.Name }}"{{end}} codeSystemName="CDC Race and Ethnicity" codeSystem="2.16.840.1.113883.6.238"/>
+      {{end}}
+      {{if .Languages}}
+        {{range .Languages}}
+          <languageCommunication>
             <templateId root="2.16.840.1.113883.3.88.11.83.2" assigningAuthorityName="HITSP/C83"/>
             <templateId root="1.3.6.1.4.1.19376.1.5.3.1.2.1" assigningAuthorityName="IHE/PCC"/>
-            <languageCode code="<%= language.Codes["IETF"][0] %>"/>
+            <languageCode code="{{index .Codes "IETF" 0 }}"/>
           </languageCommunication>
-      <% } %>
-
+        {{end}}
+      {{else}}
+        <languageCommunication>
+          <templateId root="2.16.840.1.113883.3.88.11.83.2" assigningAuthorityName="HITSP/C83"/>
+          <templateId root="1.3.6.1.4.1.19376.1.5.3.1.2.1" assigningAuthorityName="IHE/PCC"/>
+          <languageCode code="en"/>
+        </languageCommunication>
+      {{end}}
     </patient>
   </patientRole>
 </recordTarget>
