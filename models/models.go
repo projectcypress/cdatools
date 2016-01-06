@@ -87,11 +87,12 @@ type ID struct {
 
 type Record struct {
 	Person
-	MedicalRecordNumber   string      `json:"medical_record_number"`
-	MedicalRecordAssigner string      `json:"medical_record_assigner"`
-	Encounters            []Encounter `json:"encounters"`
-	Diagnoses             []Diagnosis `json:"conditions"`
-	Languages             []Language  `json:"languages"`
+	MedicalRecordNumber   string                `json:"medical_record_number"`
+	MedicalRecordAssigner string                `json:"medical_record_assigner"`
+	Encounters            []Encounter           `json:"encounters"`
+	Diagnoses             []Diagnosis           `json:"conditions"`
+	Languages             []Language            `json:"languages"`
+	ProviderPerformances  []ProviderPerformance `json:"provider_performances"`
 }
 
 type ResultValue struct {
@@ -169,4 +170,10 @@ type Encounter struct {
 
 type Diagnosis struct {
 	Entry `bson:",inline"`
+}
+
+type ProviderPerformance struct {
+	Entry     `bson:",inline"`
+	StartDate int64 `json:"startDate"`
+	EndDate   int64 `json:"endDate"`
 }
