@@ -9,5 +9,5 @@ import (
 // More functional tests are in the go-cda-repo where we run the exports through
 //  HDS validation.
 func TestExport(t *testing.T) {
-	fmt.Println(Generate_cat1([]byte("Foo")))
+	fmt.Println(GenerateCat1([]byte("Foo"), []byte("")))
 }
