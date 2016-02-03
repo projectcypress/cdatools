@@ -122,6 +122,14 @@ type Entry struct {
 	NegationInd bool                `json:"negationInd"`
 	Values      []ResultValue       `bson:"values"`
 	StatusCode  map[string][]string `json:"status_code"`
+	Reason      Reason              `json:"reason"`
+}
+
+type Reason struct {
+	Entry
+	Code           string `json:"code"`
+	CodeSystem     string `json:"code_system"`
+	CodeSystemName string `json:"codeSystemName"`
 }
 
 type CDAIdentifier struct {
@@ -164,12 +172,15 @@ func AddCode(coded Coded, code, codeSystem string) {
 }
 
 type Encounter struct {
-	Entry     `bson:",inline"`
-	AdmitTime int64 `json:"admitTime"`
+	Entry                `bson:",inline"`
+	AdmitTime            int64               `json:"admitTime"`
+	DischargeTime        int64               `json:"discharge_time"`
+	DischargeDisposition map[string][]string `json"discharge_disposition"`
 }
 
 type Diagnosis struct {
-	Entry `bson:",inline"`
+	Entry    `bson:",inline"`
+	Severity map[string][]string `json:"severity"`
 }
 
 type ProviderPerformance struct {
