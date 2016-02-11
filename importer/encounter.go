@@ -41,7 +41,7 @@ func EncounterPerformedExtractor(entry *models.Entry, entryElement xml.Node) int
 	dischargeDispositionCode := FirstElementContent(dischargeDispositionCodeXPath, entryElement)
 	dischargeDispositionCodeSystemOid := FirstElementContent(dischargeDispositionCodeSystemXPath, entryElement)
 	dischargeDispositionCodeSystem := models.CodeSystemFor(dischargeDispositionCodeSystemOid)
-	encounter.DischargeDisposition = map[string][]string{
+	encounter.DischargeDisposition = map[string]string{
 		"code":          dischargeDispositionCode,
 		"codeSystem":    dischargeDispositionCodeSystem,
 		"codeSystemOid": dischargeDispositionCodeSystemOid,

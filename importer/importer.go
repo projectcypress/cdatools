@@ -26,6 +26,7 @@ func Read_patient(path string) string {
 
 	xp := doc.DocXPathCtx()
 	xp.RegisterNamespace("cda", "urn:hl7-org:v3")
+	xp.RegisterNamespace("stdc", "urn:hl7-org:sdtc")
 
 	var patientXPath = xpath.Compile("/cda:ClinicalDocument/cda:recordTarget/cda:patientRole/cda:patient")
 	patientElements, err := doc.Root().Search(patientXPath)
@@ -42,7 +43,7 @@ func Read_patient(path string) string {
 		patient.Encounters[i] = rawEncountersPerformed[i].(models.Encounter)
 	}
 
-	var encounterOrderXpath = xpath.Compile("//cda:encounter[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.22']")
+	var encounterOrderXPath = xpath.Compile("//cda:encounter[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.22']")
 	rawEncounterOrders := ExtractSection(patientElement, encounterOrderXPath, EncounterOrderExtractor, "")
 	for i := range rawEncounterOrders {
 		patient.Encounters = append(patient.Encounters, rawEncounterOrders[i].(models.Encounter))
@@ -123,19 +124,10 @@ func ExtractDates(entry *models.Entry, entryElement xml.Node) {
 
 func ExtractReason(encounter *models.Encounter, entryElement xml.Node) {
 	var reasonXPath = xpath.Compile("cda:entryRelationship[@typeCode='RSON']/cda:observation")
-	reasonElements, err := xmlNode.Search(xpath)
+	reasonElements, err := entryElement.Search(reasonXPath)
 	util.CheckErr(err)
 	if len(reasonElements) > 0 {
-		reasonElement := resultNodes[0]
-		encounter.Reason = *models.Reason
-
-		//extract reason code
-		var reasonCodePath = xpath.Compile("cda:code/@code")
-		var reasonCodeSetPath = xpath.Compile("cda:code/@codeSystem")
-		ExtractCodes(encounter.Reason, reasonElement, reasonCodePath, reasonCodeSetPath)
-
-		//extract dates
-		ExtractDates(encounter.Reason, reasonElement)
+		reasonElement := reasonElements[0]
 
 		//extract reason value code
 		var valueCodeXPath = xpath.Compile("cda:value/@code")
