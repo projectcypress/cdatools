@@ -11,9 +11,8 @@ func DiagnosisActiveExtractor(entry *models.Entry, entryElement xml.Node) interf
 	diagnosisActive.Entry = *entry
 
 	//extract codes
-	var codePath = xpath.Compile("cda:value/@code")
-	var codeSetPath = xpath.Compile("cda:value/@codeSystem")
-	ExtractCodes(&diagnosisActive.Entry, entryElement, codePath, codeSetPath)
+	var codePath = xpath.Compile("cda:value")
+	ExtractCodes(&diagnosisActive.Entry, entryElement, codePath)
 
 	//extract severity
 	var severityCodeXPath = xpath.Compile("cda:entryRelationship/cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.22.4.8']/cda:value/@code")
@@ -28,9 +27,8 @@ func DiagnosisInactiveExtractor(entry *models.Entry, entryElement xml.Node) inte
 	diagnosisInactive.Entry = *entry
 
 	//extract codes
-	var codePath = xpath.Compile("cda:value/@code")
-	var codeSetPath = xpath.Compile("cda:value/@codeSystem")
-	ExtractCodes(&diagnosisInactive.Entry, entryElement, codePath, codeSetPath)
+	var codePath = xpath.Compile("cda:value")
+	ExtractCodes(&diagnosisInactive.Entry, entryElement, codePath)
 
 	return diagnosisInactive
 }

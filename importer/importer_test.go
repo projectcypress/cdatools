@@ -1,13 +1,14 @@
 package importer
 
 import (
+	"io/ioutil"
+	"testing"
+
 	"github.com/moovweb/gokogiri/xml"
 	"github.com/moovweb/gokogiri/xpath"
 	"github.com/pebbe/util"
 	"github.com/projectcypress/cdatools/models"
 	. "gopkg.in/check.v1"
-	"io/ioutil"
-	"testing"
 )
 
 type ImporterSuite struct {
@@ -71,10 +72,19 @@ func (i *ImporterSuite) TestExtractEncounterOrdered(c *C) {
 	rawEncounterOrders := ExtractSection(i.patientElement, encounterOrderXPath, EncounterOrderExtractor, "")
 	i.patient.Encounters = make([]models.Encounter, len(rawEncounterOrders))
 	for j := range rawEncounterOrders {
-		i.patient.Encounters = append(i.patient.Encounters, rawEncounterOrders[j].(models.Encounter))
+		i.patient.Encounters[j] = rawEncounterOrders[j].(models.Encounter)
 	}
 
-	c.Assert(len(i.patient.Encounters), Equals, 2)
+	c.Assert(len(i.patient.Encounters), Equals, 1)
+
+	encounter := i.patient.Encounters[0]
+	c.Assert(encounter.ID.Root, Equals, "50f84c1b7042f9877500025e")
+	c.Assert(encounter.Codes["SNOMED-CT"][0], Equals, "76168009")
+	c.Assert(encounter.Codes["CPT"][0], Equals, "90815")
+	c.Assert(encounter.Codes["ICD-9-CM"][0], Equals, "94.49")
+	c.Assert(encounter.Codes["ICD-10-PCS"][0], Equals, "GZHZZZZ")
+	c.Assert(encounter.StartTime, Equals, int64(1135555200))
+	c.Assert(encounter.EndTime, Equals, int64(1135555200))
 }
 
 func (i *ImporterSuite) TestExtractDiagnosesActive(c *C) {
@@ -93,6 +103,7 @@ func (i *ImporterSuite) TestExtractDiagnosesActive(c *C) {
 	c.Assert(firstDiagnosis.Description, Equals, "Diagnosis, Active: Atrial Fibrillation/Flutter")
 	c.Assert(firstDiagnosis.StartTime, Equals, int64(1332720000))
 	c.Assert(firstDiagnosis.EndTime, Equals, int64(0))
+	c.Assert(firstDiagnosis.Severity["SNOMED-CT"][0], Equals, "55561003")
 
 	secondDiagnosis := i.patient.Diagnoses[1]
 	c.Assert(secondDiagnosis.ID.Root, Equals, "1.3.6.1.4.1.115")
@@ -111,6 +122,20 @@ func (i *ImporterSuite) TestExtractDiagnosesActive(c *C) {
 	c.Assert(thirdDiagnosis.EndTime, Equals, int64(0))
 }
 
-func (i *ImporterSuite) TestExtractDiagnosesOrdered(c *C) {
-	//TODO:write this
+func (i *ImporterSuite) TestExtractDiagnosesInactive(c *C) {
+	var diagnosisInactiveXPath = xpath.Compile("//cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.13']")
+	rawDiagnosesInactive := ExtractSection(i.patientElement, diagnosisInactiveXPath, DiagnosisInactiveExtractor, "2.16.840.1.113883.3.560.1.2")
+	i.patient.Diagnoses = make([]models.Diagnosis, len(rawDiagnosesInactive))
+	for j := range rawDiagnosesInactive {
+		i.patient.Diagnoses[j] = rawDiagnosesInactive[j].(models.Diagnosis)
+	}
+
+	diagnosis := i.patient.Diagnoses[0]
+	c.Assert(len(i.patient.Diagnoses), Equals, 1)
+	c.Assert(diagnosis.ID.Root, Equals, "50f84c1d7042f98775000352")
+	c.Assert(diagnosis.Codes["SNOMED-CT"][0], Equals, "76795007")
+	c.Assert(diagnosis.Codes["ICD-9-CM"][0], Equals, "V02.61")
+	c.Assert(diagnosis.Codes["ICD-10-CM"][0], Equals, "Z22.51")
+	c.Assert(diagnosis.StartTime, Equals, int64(1092614400))
+	c.Assert(diagnosis.EndTime, Equals, int64(1092614400))
 }

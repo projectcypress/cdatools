@@ -13,3 +13,11 @@ type Entry struct {
 	StatusCode  map[string][]string `json:"status_code"`
 	Reason      Reason              `json:"reason"`
 }
+
+func (e *Entry) AddCode(code string, codeSystem string) {
+	if _, ok := e.Codes[codeSystem]; ok {
+		e.Codes[codeSystem] = append(e.Codes[codeSystem], code)
+	} else {
+		e.Codes[codeSystem] = []string{code}
+	}
+}

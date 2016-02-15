@@ -11,9 +11,8 @@ func EncounterOrderExtractor(entry *models.Entry, entryElement xml.Node) interfa
 	encounterOrder.Entry = *entry
 
 	//extract codes
-	var codePath = xpath.Compile("cda:code/@code")
-	var codeSetPath = xpath.Compile("cda:code/@codeSystem")
-	ExtractCodes(&encounterOrder.Entry, entryElement, codePath, codeSetPath)
+	var codePath = xpath.Compile("cda:code")
+	ExtractCodes(&encounterOrder.Entry, entryElement, codePath)
 
 	//extract order specific dates
 	var orderTimeXPath = xpath.Compile("cda:author/cda:time/@value")
@@ -28,9 +27,8 @@ func EncounterPerformedExtractor(entry *models.Entry, entryElement xml.Node) int
 	encounter.Entry = *entry
 
 	//extract codes
-	var codePath = xpath.Compile("cda:code/@code")
-	var codeSetPath = xpath.Compile("cda:code/@codeSystem")
-	ExtractCodes(&encounter.Entry, entryElement, codePath, codeSetPath)
+	var codePath = xpath.Compile("cda:code")
+	ExtractCodes(&encounter.Entry, entryElement, codePath)
 
 	//set discharge time
 	encounter.DischargeTime = encounter.Entry.EndTime

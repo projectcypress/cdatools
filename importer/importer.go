@@ -58,9 +58,8 @@ func Read_patient(path string) string {
 
 	var diagnosisInactiveXPath = xpath.Compile("//cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.13']")
 	rawDiagnosesInactive := ExtractSection(patientElement, diagnosisInactiveXPath, DiagnosisInactiveExtractor, "2.16.840.1.113883.3.560.1.2")
-	patient.Diagnoses = make([]models.Diagnosis, len(rawDiagnosesInactive))
 	for i := range rawDiagnosesInactive {
-		patient.Diagnoses[i] = rawDiagnosesInactive[i].(models.Diagnosis)
+		patient.Diagnoses = append(patient.Diagnoses, rawDiagnosesInactive[i].(models.Diagnosis))
 	}
 
 	patientJSON, err := json.Marshal(patient)
@@ -103,15 +102,44 @@ func ExtractEntry(entryElement xml.Node, oid string, extractor EntryExtractor) i
 	//set oid
 	entry.Oid = oid
 
+	//create code map
+	entry.Codes = map[string][]string{}
+
 	fullEntry := extractor(&entry, entryElement)
 	return fullEntry
 }
 
-func ExtractCodes(entry *models.Entry, entryElement xml.Node, codePath *xpath.Expression, codeSetPath *xpath.Expression) {
-	code := FirstElementContent(codePath, entryElement)
-	codeSystem := models.CodeSystemFor(FirstElementContent(codeSetPath, entryElement))
-	entry.Codes = map[string][]string{
-		codeSystem: []string{code},
+func ExtractCodes(entry *models.Entry, entryElement xml.Node, codePath *xpath.Expression) {
+	codeElements, err := entryElement.Search(codePath)
+	util.CheckErr(err)
+	for _, codeElement := range codeElements {
+		AddCodeIfPresent(entry, codeElement)
+		translationElements, err := codeElement.Search("cda:translation")
+		util.CheckErr(err)
+		for _, translationElement := range translationElements {
+			AddCodeIfPresent(entry, translationElement)
+		}
+	}
+}
+
+func AddCodeIfPresent(entry *models.Entry, codeElement xml.Node) {
+	var code string
+	var codeSystem string
+
+	//extract code from attribute if it exists
+	codeAttribute := codeElement.Attribute("code")
+	if codeAttribute != nil {
+		code = codeAttribute.String()
+	}
+
+	//extract codeSystem from attribute if it exists
+	codeSystemAttribute := codeElement.Attribute("codeSystem")
+	if codeSystemAttribute != nil {
+		codeSystem = models.CodeSystemFor(codeElement.Attribute("codeSystem").String())
+	}
+
+	if code != "" && codeSystem != "" {
+		entry.AddCode(code, codeSystem)
 	}
 }
 
