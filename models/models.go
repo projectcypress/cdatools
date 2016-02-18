@@ -1,10 +1,5 @@
 package models
 
-type Coded interface {
-	Codes() map[string][]string
-	SetCodes(codes map[string][]string)
-}
-
 type Header struct {
 	Authenticator Authenticator
 	Authors       []Author
@@ -98,78 +93,18 @@ type Record struct {
 type ResultValue struct {
 	Scalar string              `json:"scalar"`
 	Units  string              `json:"units"`
-	codes  map[string][]string `json:"codes"`
+	Codes  map[string][]string `json:"codes"`
 }
 
-func (rv *ResultValue) SetCodes(codes map[string][]string) {
-	rv.codes = codes
-}
-
-func NewResultValue() *ResultValue {
-	rv := new(ResultValue)
-	rv.codes = make(map[string][]string)
-	return rv
-}
-
-type Entry struct {
-	StartTime   int64               `json:"start_time"`
-	EndTime     int64               `json:"end_time"`
-	Time        int64               `json:"time"`
-	ID          CDAIdentifier       `json:"cda_identifier"`
-	Oid         string              `json:"oid"`
-	Description string              `json:"description"`
-	Codes       map[string][]string `json:"codes"`
-	NegationInd bool                `json:"negationInd"`
-	Values      []ResultValue       `bson:"values"`
-	StatusCode  map[string][]string `json:"status_code"`
+type Reason struct {
+	Code           string `json:"code"`
+	CodeSystem     string `json:"code_system"`
+	CodeSystemName string `json:"codeSystemName"`
 }
 
 type CDAIdentifier struct {
 	Root      string `json:"root"`
 	Extension string `json:"extension"`
-}
-
-func NewEntry() *Entry {
-	entry := new(Entry)
-	entry.Codes = make(map[string][]string)
-	return entry
-}
-
-func (entry *Entry) AddResultValue(rv *ResultValue) {
-	entry.Values = append(entry.Values, *rv)
-}
-
-func (entry *Entry) SetCodes(codes map[string][]string) {
-	entry.Codes = codes
-}
-
-var oidMap = map[string]string{
-	"2.16.840.1.113883.6.12":  "CPT",
-	"2.16.840.1.113883.6.1":   "LOINC",
-	"2.16.840.1.113883.6.96":  "SNOMED-CT",
-	"2.16.840.1.113883.6.88":  "RxNorm",
-	"2.16.840.1.113883.6.103": "ICD-9-CM",
-	"2.16.840.1.113883.6.104": "ICD-9-PCS",
-	"2.16.840.1.113883.6.4":   "ICD-10-PCS",
-	"2.16.840.1.113883.6.90":  "ICD-10-CM",
-}
-
-func CodeSystemFor(oid string) string {
-	return oidMap[oid]
-}
-
-func AddCode(coded Coded, code, codeSystem string) {
-	codeSystemName := CodeSystemFor(codeSystem)
-	coded.Codes()[codeSystemName] = append(coded.Codes()[codeSystemName], code)
-}
-
-type Encounter struct {
-	Entry     `bson:",inline"`
-	AdmitTime int64 `json:"admitTime"`
-}
-
-type Diagnosis struct {
-	Entry `bson:",inline"`
 }
 
 type ProviderPerformance struct {

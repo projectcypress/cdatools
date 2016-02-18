@@ -23,7 +23,7 @@
   <confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25"/>
   <languageCode code="eng"/>
   <!-- reported patient -->
-    <recordTarget>
+  <recordTarget>
     <patientRole>
       <!-- id root="Cypress" extension="515f07293054cfa39b00007b"/ -->
       <!-- Fake Medicare HIC number -->
@@ -287,6 +287,16 @@
            codeSystemName="SNOMED CT"/>
       </observation>
     </entryRelationship>
+    <entryRelationship typeCode="REFR">
+               <observation classCode="OBS" moodCode="EVN">
+                  <templateId root="2.16.840.1.113883.10.20.22.4.8"/>
+                  <code code="SEV"
+                        codeSystem="2.16.840.1.113883.5.4"/>
+                   <statusCode code="completed"/>
+                   <value xsi:type="CD" code="55561003" displayName="active" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+                </observation>
+
+               </entryRelationship>
   </observation>
 </entry>
 
@@ -396,6 +406,31 @@
   </encounter>
 </entry>
 
+<entry>
+  <encounter classCode="ENC" moodCode="RQO">
+    <!--  Plan of Care Activity Encounter template -->
+    <templateId root="2.16.840.1.113883.10.20.22.4.40"/>
+    <!-- Encounter order template -->
+    <templateId root="2.16.840.1.113883.10.20.24.3.22"/>
+    <id root="50f84c1b7042f9877500025e"/>
+    <code nullFlavor="UNK" ><originalText>Encounter, Order: BH Outpatient psychotherapy (Code List: 2.16.840.1.113883.3.1257.1.973)</originalText><translation code="76168009" codeSystem="2.16.840.1.113883.6.96"/>
+<translation code="90815" codeSystem="2.16.840.1.113883.6.12"/>
+<translation code="94.49" codeSystem="2.16.840.1.113883.6.103"/>
+<translation code="GZHZZZZ" codeSystem="2.16.840.1.113883.6.4"/>
+</code>
+    <text>Encounter, Order: BH Outpatient psychotherapy (Code List: 2.16.840.1.113883.3.1257.1.973)</text>
+    <statusCode code="new"/>
+
+    <!-- Attribute: datetime -->
+    <author>
+      <time value='20051226144034'/>
+      <assignedAuthor>
+        <id root="292627f0-4307-0130-0add-680688cbd736"/>
+      </assignedAuthor>
+    </author>
+
+  </encounter>
+</entry>
 
 <entry>
   <encounter classCode="ENC" moodCode="EVN">
@@ -433,6 +468,46 @@
     </effectiveTime>
   </encounter>
 </entry>
+
+<entry>
+    <observation classCode="OBS" moodCode="EVN">
+    <!--  Problem observation template -->
+    <templateId root="2.16.840.1.113883.10.20.22.4.4"/>
+    <!-- Diagnosis, inactive template -->
+    <templateId root="2.16.840.1.113883.10.20.24.3.13"/>
+    <id root="50f84c1d7042f98775000352"/>
+    <code code="282291009" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="diagnosis"/>
+
+    <statusCode code="completed"/>
+
+    <effectiveTime>
+      <!-- Attribute: Start Datetime -->
+      <low value='20040816121859'/>
+      <!-- Attribute: Stop Datetime -->
+      <high value='20040816200929'/>
+    </effectiveTime>
+
+
+    <value code="76795007" codeSystem="2.16.840.1.113883.6.96" xsi:type="CD" sdtc:valueSet="2.16.840.1.113883.3.67.1.101.1.269"><originalText>Diagnosis, Inactive: Hepatitis B (Code List: 2.16.840.1.113883.3.67.1.101.1.269)</originalText><translation code="V02.61" codeSystem="2.16.840.1.113883.6.103"/>
+  <translation code="Z22.51" codeSystem="2.16.840.1.113883.6.90"/>
+  </value>
+    <!-- Status -->
+    <entryRelationship typeCode="REFR">
+      <observation classCode="OBS" moodCode="EVN">
+        <!-- Problem Status (consolidation) template -->
+        <templateId root="2.16.840.1.113883.10.20.22.4.6"/>
+        <!-- Problem Status, Inactive template -->
+        <templateId root="2.16.840.1.113883.10.20.24.3.95"/>
+        <id root="2a0bd200-4307-0130-0add-680688cbd736"/>
+        <code code="33999-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="status"/>
+        <statusCode code="completed"/>
+        <value code="73425007" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="inactive" xsi:type="CD"/>
+      </observation>
+
+    </entryRelationship>
+
+  </observation>
+  </entry>
 
 
 
