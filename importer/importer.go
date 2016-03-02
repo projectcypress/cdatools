@@ -15,6 +15,7 @@ import (
 
 func main() {}
 
+//export Read_patient
 func Read_patient(path string) string {
 
 	data, err := ioutil.ReadFile(path)
@@ -36,6 +37,7 @@ func Read_patient(path string) string {
 
 	ExtractDemographics(patient, patientElement)
 
+	//encounter performed
 	var encounterPerformedXPath = xpath.Compile("//cda:encounter[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.23']")
 	rawEncountersPerformed := ExtractSection(patientElement, encounterPerformedXPath, EncounterPerformedExtractor, "2.16.840.1.113883.3.560.1.79")
 	patient.Encounters = make([]models.Encounter, len(rawEncountersPerformed))
@@ -43,12 +45,14 @@ func Read_patient(path string) string {
 		patient.Encounters[i] = rawEncountersPerformed[i].(models.Encounter)
 	}
 
+	//encounter ordered
 	var encounterOrderXPath = xpath.Compile("//cda:encounter[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.22']")
 	rawEncounterOrders := ExtractSection(patientElement, encounterOrderXPath, EncounterOrderExtractor, "")
 	for i := range rawEncounterOrders {
 		patient.Encounters = append(patient.Encounters, rawEncounterOrders[i].(models.Encounter))
 	}
 
+	//diagnosis active
 	var diagnosisActiveXPath = xpath.Compile("//cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.11']")
 	rawDiagnosesActive := ExtractSection(patientElement, diagnosisActiveXPath, DiagnosisActiveExtractor, "2.16.840.1.113883.3.560.1.2")
 	patient.Diagnoses = make([]models.Diagnosis, len(rawDiagnosesActive))
@@ -56,11 +60,28 @@ func Read_patient(path string) string {
 		patient.Diagnoses[i] = rawDiagnosesActive[i].(models.Diagnosis)
 	}
 
+	//diagnosis inactive
 	var diagnosisInactiveXPath = xpath.Compile("//cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.13']")
 	rawDiagnosesInactive := ExtractSection(patientElement, diagnosisInactiveXPath, DiagnosisInactiveExtractor, "2.16.840.1.113883.3.560.1.2")
 	for i := range rawDiagnosesInactive {
 		patient.Diagnoses = append(patient.Diagnoses, rawDiagnosesInactive[i].(models.Diagnosis))
 	}
+
+	//lab results
+	var labResultXPath = xpath.Compile("//cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.40']")
+	rawLabResults := ExtractSection(patientElement, labResultXPath, LabResultExtractor, "")
+	patient.LabResults = make([]models.LabResult, len(rawLabResults))
+	for i := range rawLabResults {
+		patient.LabResults[i] = rawLabResults[i].(models.LabResult)
+	}
+
+	//lab orders
+	var labOrderXPath = xpath.Compile("//cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.37']")
+	rawLabOrders := ExtractSection(patientElement, labOrderXPath, LabOrderExtractor, "")
+	for i := range rawLabOrders {
+		patient.LabResults = append(patient.LabResults, rawLabOrders[i].(models.LabResult))
+	}
+
 
 	patientJSON, err := json.Marshal(patient)
 	if err != nil {
