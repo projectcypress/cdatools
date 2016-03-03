@@ -82,7 +82,6 @@ func Read_patient(path string) string {
 		patient.LabResults = append(patient.LabResults, rawLabOrders[i].(models.LabResult))
 	}
 
-
 	patientJSON, err := json.Marshal(patient)
 	if err != nil {
 		fmt.Println(err)

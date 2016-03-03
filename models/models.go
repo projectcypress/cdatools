@@ -86,7 +86,7 @@ type Record struct {
 	MedicalRecordAssigner string                `json:"medical_record_assigner"`
 	Encounters            []Encounter           `json:"encounters"`
 	Diagnoses             []Diagnosis           `json:"conditions"`
-	LabResults						[]LabResult					 `json:"results"`
+	LabResults            []LabResult           `json:"results"`
 	Languages             []Language            `json:"languages"`
 	ProviderPerformances  []ProviderPerformance `json:"provider_performances"`
 }
