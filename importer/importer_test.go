@@ -139,3 +139,34 @@ func (i *ImporterSuite) TestExtractDiagnosesInactive(c *C) {
 	c.Assert(diagnosis.StartTime, Equals, int64(1092614400))
 	c.Assert(diagnosis.EndTime, Equals, int64(1092614400))
 }
+
+func (i *ImporterSuite) TestExtractLabResults(c *C) {
+	var labResultXPath = xpath.Compile("//cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.40']")
+	rawLabResults := ExtractSection(i.patientElement, labResultXPath, LabResultExtractor, "")
+	i.patient.LabResults = make([]models.LabResult, len(rawLabResults))
+	for j := range rawLabResults {
+		i.patient.LabResults[j] = rawLabResults[j].(models.LabResult)
+	}
+
+	labResult := i.patient.LabResults[0]
+	c.Assert(len(i.patient.LabResults), Equals, 1)
+	c.Assert(labResult.ID.Root, Equals, "1.3.6.1.4.1.115")
+	c.Assert(labResult.ID.Extension, Equals, "50d3a288da5fe6e1400002a9")
+	c.Assert(labResult.Codes["LOINC"][0], Equals, "11268-0")
+	c.Assert(labResult.StartTime, Equals, int64(674611200))
+}
+
+func (i *ImporterSuite) TestExtractLabOrders(c *C) {
+	var labOrderXPath = xpath.Compile("//cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.37']")
+	rawLabOrders := ExtractSection(i.patientElement, labOrderXPath, LabOrderExtractor, "")
+	i.patient.LabResults = make([]models.LabResult, len(rawLabOrders))
+	for j := range rawLabOrders {
+		i.patient.LabResults[j] = rawLabOrders[j].(models.LabResult)
+	}
+
+	labOrder := i.patient.LabResults[0]
+	c.Assert(len(i.patient.LabResults), Equals, 1)
+	c.Assert(labOrder.ID.Root, Equals, "50f84c1d7042f9877500039e")
+	c.Assert(labOrder.Codes["SNOMED-CT"][0], Equals, "8879006")
+	c.Assert(labOrder.StartTime, Equals, int64(674611200))
+}
