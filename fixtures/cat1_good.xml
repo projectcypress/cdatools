@@ -509,7 +509,46 @@
   </observation>
   </entry>
 
+  <entry>
+            <observation classCode="OBS" moodCode="RQO">
+              <!-- Consolidation Plan of Care Activity Observation -->
+              <templateId root="2.16.840.1.113883.10.20.22.4.44"/>
+              <!-- Lab Test Order -->
+              <templateId root="2.16.840.1.113883.10.20.24.3.37"/>
+              <id root="50f84c1d7042f9877500039e"/>
+              <code nullFlavor="UNK" sdtc:valueSet="2.16.840.1.113883.3.600.1482"><originalText>Laboratory Test, Order: Laboratory Tests for Hypertension (Code List: 2.16.840.1.113883.3.600.1482)</originalText><translation code="8879006" codeSystem="2.16.840.1.113883.6.96"/>
+          <translation code="80069" codeSystem="2.16.840.1.113883.6.12"/>
+          </code>
+              <text>Laboratory Test, Order: Laboratory Tests for Hypertension (Code List: 2.16.840.1.113883.3.600.1482)</text>
+              <statusCode code="new"/>
 
+              <!-- Attribute: datetime -->
+              <author>
+                <time value='19910519162436'/>
+                <assignedAuthor>
+                  <id nullFlavor="NA" root="2a5d88e0-4307-0130-0add-680688cbd736"/>
+                </assignedAuthor>
+              </author>
+            </observation>
+          </entry>
+
+          <entry>
+            <!--Laboratory test, result -->
+            <observation classCode="OBS" moodCode="EVN">
+              <!--  Result Observation (consolidation) template  -->
+              <templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+              <!-- Laboratory Test, Result template -->
+              <templateId root="2.16.840.1.113883.10.20.24.3.40"/>
+              <id root="1.3.6.1.4.1.115" extension="50d3a288da5fe6e1400002a9"/>
+              <code code="11268-0" codeSystem="2.16.840.1.113883.6.1" sdtc:valueSet="2.16.840.1.113883.3.464.1003.198.12.1012"><originalText>Laboratory Test, Result: Group A Streptococcus Test (Code List: 2.16.840.1.113883.3.464.1003.198.12.1012)</originalText></code>
+              <text>Laboratory Test, Result: Group A Streptococcus Test (Code List: 2.16.840.1.113883.3.464.1003.198.12.1012)</text>
+              <statusCode code="completed"/>
+              <effectiveTime>
+                <low value="19910519162436"/>
+              </effectiveTime>
+              <value xsi:type="ST" >positive</value>
+            </observation>
+          </entry>
 
 
 
