@@ -5,3 +5,5 @@ go:
 branches:
   only:
   - master
+install:
+  - go get -u github.com/jteeuwen/go-bindata/...
