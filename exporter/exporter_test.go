@@ -2,9 +2,10 @@ package exporter
 
 import (
 	"fmt"
-	"testing"
-	"github.com/pebbe/util"
 	"io/ioutil"
+	"testing"
+
+	"github.com/pebbe/util"
 )
 
 // This test is essentially a noop but it's useful to see what you're exporting.

@@ -115,6 +115,25 @@ func GenerateCat1(patient []byte, measures []byte) string {
 							Extension: "custodianOrganzationExt",
 						},
 					},
+					Addresses: []models.Address{
+						models.Address{
+							Street: []string{
+								"202 Burlington Road",
+								"Apartment 1",
+							},
+							City:    "Bedford",
+							State:   "MA",
+							Zip:     "01730",
+							Country: "USA",
+							Use:     "PUB",
+						},
+					},
+					Telecoms: []models.Telecom{
+						models.Telecom{
+							Use:   "WP",
+							Value: "1(781)2712000",
+						},
+					},
 				},
 				Name:    "CustodianOrganization",
 				TagName: "representedCustodianOrganization",
@@ -127,6 +146,25 @@ func GenerateCat1(patient []byte, measures []byte) string {
 						models.ID{
 							Root:      "legalAuthenticatorRoot",
 							Extension: "legalAuthenticatorExt",
+						},
+					},
+					Addresses: []models.Address{
+						models.Address{
+							Street: []string{
+								"202 Burlington Road",
+								"Apartment 1",
+							},
+							City:    "Bedford",
+							State:   "MA",
+							Zip:     "01730",
+							Country: "USA",
+							Use:     "PUB",
+						},
+					},
+					Telecoms: []models.Telecom{
+						models.Telecom{
+							Use:   "WP",
+							Value: "1(781)2712000",
 						},
 					},
 				},
