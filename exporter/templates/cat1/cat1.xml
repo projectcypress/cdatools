@@ -138,7 +138,7 @@
   <component>
     <structuredBody>
       {{template "_measures.xml" .Measures}}
-      <!--REPORTING PARAMS RENDER HERE-->
+      {{template "_reporting_parameters.xml" .}}
       <!--PATIENT DATA RENDERS HERE-->
     </structuredBody>
   </component>

@@ -19,5 +19,8 @@ func TestExport(t *testing.T) {
 	util.CheckErr(err)
 	fmt.Println(string(measureData))
 
-	fmt.Println(GenerateCat1(patientData, measureData))
+	startDate := int64(1451606400)
+	endDate := int64(1483228799)
+
+	fmt.Println(GenerateCat1(patientData, measureData, startDate, endDate))
 }

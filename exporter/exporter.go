@@ -2,8 +2,12 @@ package exporter
 
 import (
 	"bytes"
+	"crypto/md5"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"strconv"
+	"strings"
 	"text/template"
 	"time"
 
@@ -12,9 +16,11 @@ import (
 )
 
 type cat1data struct {
-	Record   models.Record
-	Header   models.Header
-	Measures []models.Measure
+	Record    models.Record
+	Header    models.Header
+	Measures  []models.Measure
+	StartDate int64
+	EndDate   int64
 }
 
 func timeToCdaFormat(t int64) string {
@@ -22,8 +28,28 @@ func timeToCdaFormat(t int64) string {
 	return parsedTime.Format("20060102")
 }
 
+func timeToFormat(t int64, f string) string {
+	parsedTime := time.Unix(t, 0)
+	return parsedTime.Format(f)
+}
+
+func identifierForInt(objs ...int64) string {
+	b := make([]byte, len(objs))
+	for _, val := range objs {
+		b = append(b, []byte(strconv.FormatInt(val, 10))...)
+	}
+	md := md5.Sum(b)
+	return strings.ToUpper(hex.EncodeToString(md[:]))
+}
+
+func identifierForString(objs ...string) string {
+	b := strings.Join(objs, ",")
+	md := md5.Sum([]byte(b))
+	return strings.ToUpper(hex.EncodeToString(md[:]))
+}
+
 //export GenerateCat1
-func GenerateCat1(patient []byte, measures []byte) string {
+func GenerateCat1(patient []byte, measures []byte, startDate int64, endDate int64) string {
 
 	data, err := AssetDir("templates/cat1")
 	if err != nil {
@@ -31,9 +57,12 @@ func GenerateCat1(patient []byte, measures []byte) string {
 	}
 
 	funcMap := template.FuncMap{
-		"timeNow":         time.Now().UTC().Unix,
-		"newRandom":       uuid.NewRandom,
-		"timeToCdaFormat": timeToCdaFormat,
+		"timeNow":             time.Now().UTC().Unix,
+		"newRandom":           uuid.NewRandom,
+		"timeToCdaFormat":     timeToCdaFormat,
+		"timeToFormat":        timeToFormat,
+		"identifierForInt":    identifierForInt,
+		"identifierForString": identifierForString,
 	}
 
 	cat1Template := template.New("cat1").Funcs(funcMap)
@@ -192,7 +221,7 @@ func GenerateCat1(patient []byte, measures []byte) string {
 	json.Unmarshal(patient, p)
 	json.Unmarshal(measures, &m)
 
-	c1d := cat1data{Record: *p, Header: *h, Measures: m}
+	c1d := cat1data{Record: *p, Header: *h, Measures: m, StartDate: startDate, EndDate: endDate}
 
 	var b bytes.Buffer
 
