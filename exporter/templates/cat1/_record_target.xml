@@ -35,7 +35,7 @@
         <family>{{.Last}}</family>
       </name>
       <administrativeGenderCode code="{{.Gender}}" codeSystem="2.16.840.1.113883.5.1" codeSystemName="HL7 AdministrativeGender"/>
-      <birthTime value="{{timeToCdaFormat .Birthdate}}"/>
+      <birthTime value="{{timeToFormat .Birthdate "20060102"}}"/>
       {{if .Race}}
         <raceCode code="{{.Race.Code}}" {{if .Race.Name }}displayName="{{.Race.Name}}"{{end}} codeSystemName="CDC Race and Ethnicity" codeSystem="2.16.840.1.113883.6.238"/>
       {{end}}

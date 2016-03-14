@@ -3,14 +3,14 @@
   {{if .ProviderPerformances}}
     {{range .ProviderPerformances }}
       <effectiveTime>
-        <low value="{{timeToCdaFormat .StartDate}}"/>
-        <high value="{{timeToCdaFormat .EndDate}}"/>
+        <low value="{{timeToFormat .StartDate "20060102"}}"/>
+        <high value="{{timeToFormat .EndDate "20060102"}}"/>
       </effectiveTime>
       <!-- You can include multiple performers, each with an NPI, TIN, CCN. -->
       <performer typeCode="PRF">
         <time>
-          <low value="{{timeToCdaFormat .StartDate}}"/>
-          <high value="{{timeToCdaFormat .EndDate}}"/>
+          <low value="{{timeToFormat .StartDate "20060102"}}"/>
+          <high value="{{timeToFormat .EndDate "20060102"}}"/>
         </time>
         <assignedEntity>
           {{range .Provider.CDAIdentidiers}}
@@ -33,13 +33,13 @@
        putting in a fake provider -->
   <effectiveTime>
     <low value="20020716"/>
-    <high value="{{timeToCdaFormat timeNow}}"/>
+    <high value="{{timeToFormat timeNow "20060102"}}"/>
   </effectiveTime>
   <!-- You can include multiple performers, each with an NPI, TIN, CCN. -->
   <performer typeCode="PRF">
     <time>
       <low value="20020716"/>
-      <high value="{{timeToCdaFormat timeNow}}"/>
+      <high value="{{timeToFormat timeNow "20060102"}}"/>
     </time>
     <assignedEntity>
       <!-- This is the provider NPI -->

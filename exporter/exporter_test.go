@@ -16,8 +16,9 @@ func TestExport(t *testing.T) {
 	util.CheckErr(err)
 
 	measureData, err := ioutil.ReadFile("../fixtures/measures/CMS9v4a.json")
+	measureData2, err := ioutil.ReadFile("../fixtures/measures/CMS26v3.json")
+	measureData = append([]byte("["), append(append(measureData, append([]byte(","), measureData2...)...), []byte("]")...)...)
 	util.CheckErr(err)
-	fmt.Println(string(measureData))
 
 	startDate := int64(1451606400)
 	endDate := int64(1483228799)

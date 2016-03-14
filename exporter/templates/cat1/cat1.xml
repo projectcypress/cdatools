@@ -133,7 +133,6 @@
   </legalAuthenticator>
   {{end}}
 
-  <!-- PROVIDERS RENDER HERE -->
   {{template "_providers.xml" .Record}}
   <component>
     <structuredBody>

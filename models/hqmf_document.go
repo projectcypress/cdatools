@@ -5,14 +5,31 @@ type HQMFDocument struct {
 }
 
 type DataCriteria struct {
-	Title              string `json:"title"`
-	Description        string `json:"description"`
-	CodeListID         string `json:"code_list_id"`
-	Type               string `json:"type"`
-	Definition         string `json:"definition"`
-	Status             string `json:"status"`
-	HardStatus         bool   `json:"hard_status"`
-	Negation           bool   `json:"negation"`
-	SourceDataCriteria string `json:"source_data_criteria"`
-	Variable           bool   `json:"variable"`
+	Title              string                `json:"title"`
+	Description        string                `json:"description"`
+	CodeListID         string                `json:"code_list_id"`
+	Type               string                `json:"type"`
+	Definition         string                `json:"definition"`
+	Status             string                `json:"status"`
+	HardStatus         bool                  `json:"hard_status"`
+	Negation           bool                  `json:"negation"`
+	SourceDataCriteria string                `json:"source_data_criteria"`
+	Variable           bool                  `json:"variable"`
+	FieldValues        map[string]FieldValue `json:"field_values"`
+}
+
+type FieldValue struct {
+	Type       string          `json:"type"`
+	CodeListID string          `json:"code_list_id"`
+	Title      string          `json:"title"`
+	High       FieldValueValue `json:"high"`
+	Low        FieldValueValue `json:"low"`
+}
+
+type FieldValueValue struct {
+	Type      string `json:"type"`
+	Unit      string `json:"unit"`
+	Value     string `json:"value"`
+	Inclusive bool   `json:"inclusive?"`
+	Derived   bool   `json:"derived?"`
 }

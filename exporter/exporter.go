@@ -23,14 +23,14 @@ type cat1data struct {
 	EndDate   int64
 }
 
-func timeToCdaFormat(t int64) string {
-	parsedTime := time.Unix(t, 0)
-	return parsedTime.Format("20060102")
-}
-
 func timeToFormat(t int64, f string) string {
 	parsedTime := time.Unix(t, 0)
 	return parsedTime.Format(f)
+}
+
+func identifierFor(b []byte) string {
+	md := md5.Sum(b)
+	return strings.ToUpper(hex.EncodeToString(md[:]))
 }
 
 func identifierForInt(objs ...int64) string {
@@ -38,14 +38,30 @@ func identifierForInt(objs ...int64) string {
 	for _, val := range objs {
 		b = append(b, []byte(strconv.FormatInt(val, 10))...)
 	}
-	md := md5.Sum(b)
-	return strings.ToUpper(hex.EncodeToString(md[:]))
+	return identifierFor(b)
 }
 
 func identifierForString(objs ...string) string {
 	b := strings.Join(objs, ",")
-	md := md5.Sum([]byte(b))
-	return strings.ToUpper(hex.EncodeToString(md[:]))
+	return identifierFor([]byte(b))
+}
+
+func allDataCriteria(measures []models.Measure) []models.DataCriteria {
+	var dc []models.DataCriteria
+	for _, measure := range measures {
+		for _, crit := range measure.HQMFDocument.DataCriteria {
+			dc = append(dc, crit)
+		}
+	}
+	return dc
+}
+
+func uniqueDataCriteria(allDataCriteria []models.DataCriteria) map[string]models.DataCriteria {
+	var mappedDataCriteria map[string]models.DataCriteria
+	// for _, dataCriteria := range allDataCriteria {
+
+	// }
+	return mappedDataCriteria
 }
 
 //export GenerateCat1
@@ -59,7 +75,6 @@ func GenerateCat1(patient []byte, measures []byte, startDate int64, endDate int6
 	funcMap := template.FuncMap{
 		"timeNow":             time.Now().UTC().Unix,
 		"newRandom":           uuid.NewRandom,
-		"timeToCdaFormat":     timeToCdaFormat,
 		"timeToFormat":        timeToFormat,
 		"identifierForInt":    identifierForInt,
 		"identifierForString": identifierForString,
