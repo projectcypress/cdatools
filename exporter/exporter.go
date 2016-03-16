@@ -6,11 +6,12 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"html/template"
 	"strconv"
 	"strings"
-	"text/template"
 	"time"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/pborman/uuid"
 	"github.com/projectcypress/cdatools/models"
 )
@@ -56,11 +57,41 @@ func allDataCriteria(measures []models.Measure) []models.DataCriteria {
 	return dc
 }
 
-func uniqueDataCriteria(allDataCriteria []models.DataCriteria) map[string]models.DataCriteria {
-	var mappedDataCriteria map[string]models.DataCriteria
-	// for _, dataCriteria := range allDataCriteria {
+type dc struct {
+	DataCriteriaOid string
+	ValueSetOid     string
+}
 
-	// }
+type mdc struct {
+	FieldOids    map[string][]string
+	ResultOids   []string
+	DataCriteria models.DataCriteria
+}
+
+func uniqueDataCriteria(allDataCriteria []models.DataCriteria) map[dc]mdc {
+	mappedDataCriteria := map[dc]mdc{}
+	for _, dataCriteria := range allDataCriteria {
+		oid := GetID(dataCriteria)
+		dc := dc{DataCriteriaOid: oid, ValueSetOid: dataCriteria.CodeListID}
+		var mappedDc = mappedDataCriteria[dc]
+		if mappedDc.FieldOids == nil {
+			mappedDc = mdc{DataCriteria: dataCriteria, FieldOids: make(map[string][]string)}
+		}
+		for field, descr := range dataCriteria.FieldValues {
+			if descr.Type == "CD" {
+				mappedDc.FieldOids[field] = append(mappedDc.FieldOids[field], descr.CodeListID)
+			}
+		}
+		if dataCriteria.Negation {
+			mappedDc.FieldOids["REASON"] = append(mappedDc.FieldOids["REASON"])
+		}
+
+		if dataCriteria.Value.Type == "CD" {
+			mappedDc.ResultOids = append(mappedDc.ResultOids, dataCriteria.Value.CodeListID)
+		}
+
+		mappedDataCriteria[dc] = mappedDc
+	}
 	return mappedDataCriteria
 }
 
@@ -246,5 +277,9 @@ func GenerateCat1(patient []byte, measures []byte, startDate int64, endDate int6
 		fmt.Println(err)
 	}
 
-	return b.String()
+	spew.Dump(uniqueDataCriteria(allDataCriteria(m)))
+	// uniqueDataCriteria(allDataCriteria(m))
+
+	// return b.String()
+	return ""
 }
