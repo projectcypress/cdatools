@@ -66,33 +66,59 @@ type mdc struct {
 	FieldOids    map[string][]string
 	ResultOids   []string
 	DataCriteria models.DataCriteria
+	dc
 }
 
-func uniqueDataCriteria(allDataCriteria []models.DataCriteria) map[dc]mdc {
+func uniqueDataCriteria(allDataCriteria []models.DataCriteria) []mdc {
 	mappedDataCriteria := map[dc]mdc{}
 	for _, dataCriteria := range allDataCriteria {
+		// Based on the data criteria, get the HQMF oid associated with it
 		oid := GetID(dataCriteria)
-		dc := dc{DataCriteriaOid: oid, ValueSetOid: dataCriteria.CodeListID}
+		vsOid := dataCriteria.CodeListID
+
+		// Special cases for the valueSet OID, taken from Health Data Standards
+		if oid == "2.16.840.1.113883.3.560.1.71" {
+			vsOid = dataCriteria.FieldValues["TRANSFER_FROM"].CodeListID
+		} else if oid == "2.16.840.1.113883.3.560.1.72" {
+			vsOid = dataCriteria.FieldValues["TRANSFER_TO"].CodeListID
+		}
+
+		// Generate the key for
+		dc := dc{DataCriteriaOid: oid, ValueSetOid: vsOid}
+
 		var mappedDc = mappedDataCriteria[dc]
 		if mappedDc.FieldOids == nil {
 			mappedDc = mdc{DataCriteria: dataCriteria, FieldOids: make(map[string][]string)}
 		}
+
+		// Add all the codedValues onto the list of field OIDs
 		for field, descr := range dataCriteria.FieldValues {
 			if descr.Type == "CD" {
 				mappedDc.FieldOids[field] = append(mappedDc.FieldOids[field], descr.CodeListID)
 			}
 		}
+
+		// If the data criteria has a negation, add the reason onto the returned FieldOids
 		if dataCriteria.Negation {
 			mappedDc.FieldOids["REASON"] = append(mappedDc.FieldOids["REASON"])
 		}
 
+		// If the data criteria has a value, and it's a "coded" type, added the CodeListId into the result OID set
 		if dataCriteria.Value.Type == "CD" {
 			mappedDc.ResultOids = append(mappedDc.ResultOids, dataCriteria.Value.CodeListID)
 		}
 
 		mappedDataCriteria[dc] = mappedDc
 	}
-	return mappedDataCriteria
+
+	// Add the key to the value to get what HDS would have returned
+	retDataCriteria := make([]mdc, len(mappedDataCriteria))
+	for key, value := range mappedDataCriteria {
+		value.DataCriteriaOid = key.DataCriteriaOid
+		value.ValueSetOid = key.ValueSetOid
+		retDataCriteria = append(retDataCriteria, value)
+	}
+	return retDataCriteria
 }
 
 //export GenerateCat1

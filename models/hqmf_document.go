@@ -1,5 +1,6 @@
 package models
 
+//HQMFDocument is a type that holds the Golang representation of an HQMF measure
 type HQMFDocument struct {
 	DataCriteria map[string]DataCriteria `json:"data_criteria"`
 }
@@ -44,29 +45,6 @@ type MetaValue struct {
 	Val
 	Coded
 	Range
-}
-
-//IsCoded tells caller whether MetaValue is a Coded type
-func (v MetaValue) IsCoded() bool {
-	return len(v.System) > 0 || len(v.Code) > 0 || len(v.CodeListID) > 0
-}
-
-//IsVal tells caller whether MetaValue is a Val(Value) type
-func (v MetaValue) IsVal() bool {
-	return len(v.Unit) > 0 || len(v.Value) > 0 || len(v.Expression) > 0 || v.Inclusive || v.Derived
-}
-
-//IsVal tells caller whether Val has anything set on it
-func (v Val) IsVal() bool {
-	return len(v.Unit) > 0 || len(v.Value) > 0 || len(v.Expression) > 0 || v.Inclusive || v.Derived
-}
-
-func (v MetaValue) IsRange() bool {
-	return v.Low.IsVal() || v.High.IsVal() || v.Width.IsVal()
-}
-
-func (v MetaValue) String() string {
-	return "foo"
 }
 
 type FieldValue struct {
