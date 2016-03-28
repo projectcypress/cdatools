@@ -1,29 +1,49 @@
 package exporter
 
-import "github.com/projectcypress/cdatools/models"
+import (
+	"regexp"
+	"sync"
 
-func handlePatientExpired(patient models.Record) []models.Entry {
+	"github.com/projectcypress/cdatools/models"
+)
+
+var vsMapInit sync.Once
+var vsMap map[string][]models.CodeSet
+
+func initializeVsMap(vs []models.ValueSet) {
+	vsMapInit.Do(func() {
+		vsMap = map[string][]models.CodeSet{}
+		for _, valueSet := range vs {
+			vsMap[valueSet.Oid] = valueSet.CodeSetMap()
+		}
+	})
+}
+
+func valueSetMap(vs []models.ValueSet) map[string][]models.CodeSet {
+	initializeVsMap(vs)
+	return vsMap
+}
+
+func handlePatientExpired(patient models.Record) []interface{} {
 	if patient.Expired {
-		return []models.Entry{models.Entry{StartTime: patient.DeathDate}}
+		exp := make([]interface{}, 1)
+		return append(exp, models.Entry{StartTime: patient.DeathDate})
 	}
 	return nil
 }
 
-func handlePayerInformation(patient models.Record) []models.Entry {
-	providers := make([]models.Entry, len(patient.InsuranceProviders))
+func handlePayerInformation(patient models.Record) []interface{} {
+	providers := make([]interface{}, len(patient.InsuranceProviders))
 	for _, prov := range patient.InsuranceProviders {
-		// NOTE this redefines the InsuranceProviders as Entries, so we can add them into the entries array
-		// This dumps a lot of data out of it, but it doesn't look like the cat1 needs/wants it.
-		entry := models.Entry{ID: prov.ID, StartTime: prov.StartTime, EndTime: prov.EndTime, Codes: prov.Codes}
-		providers = append(providers, entry)
+		providers = append(providers, prov)
 	}
 	return providers
 }
 
 func entriesForDataCriteria(dataCriteria models.DataCriteria, patient models.Record) {
 	dataCriteriaOid := GetID(dataCriteria)
-	var entries []models.Entry
-	var filteredEntries []models.Entry
+	var entries []interface{}
+	var filteredEntries []interface{}
 	switch dataCriteriaOid {
 	case "2.16.840.1.113883.3.560.1.404":
 		filteredEntries = handlePatientExpired(patient)
@@ -31,6 +51,7 @@ func entriesForDataCriteria(dataCriteria models.DataCriteria, patient models.Rec
 		filteredEntries = handlePayerInformation(patient)
 	default:
 		entries = append(entries, patient.EntriesForOid(dataCriteriaOid)...)
+		var codes []models.CodeSet
 		switch dataCriteriaOid {
 		case "2.16.840.1.113883.3.560.1.5":
 			// If Lab Test: Performed, look for Lab Test: Result too
@@ -52,9 +73,28 @@ func entriesForDataCriteria(dataCriteria models.DataCriteria, patient models.Rec
 				codeListID := dataCriteria.FieldValues["TRANSFER_FROM"].CodeListID
 				if codeListID == "" {
 					codeListID = dataCriteria.FieldValues["TRANSFER_TO"].CodeListID
+					codes = vsMap[codeListID]
 				}
-				// TODO finish this method
 			}
 		}
+
+		if codes == nil {
+			codes = vsMap[dataCriteria.CodeListID]
+		}
+
+		// Get a slice containing only unique entries, by adding them to a map, then iterating over that
+		// NOTE: this makes me hate myself
+		uniqueEntries := make(map[string]interface{})
+		for _, entry := range entries {
+			uniqueEntries[entry.(models.Entry).BSONID] = entry
+		}
+		entries = make([]interface{}, len(uniqueEntries))
+		var negationRegexp = regexp.MustCompile(`2\.16\.840\.1\.113883\.3\.526\.3\.100[7-9`)
+		for _, entry := range uniqueEntries {
+			if negationRegexp.FindStringIndex(dataCriteria.CodeListID) != nil {
+				// Add the entry to FilteredEntries if entry.negation_reason['code'] is in codes
+			}
+		}
+
 	}
 }

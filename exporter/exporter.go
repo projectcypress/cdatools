@@ -7,7 +7,6 @@ import (
 	"html/template"
 	"time"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/pborman/uuid"
 	"github.com/projectcypress/cdatools/models"
 )
@@ -16,6 +15,7 @@ type cat1data struct {
 	Record    models.Record
 	Header    models.Header
 	Measures  []models.Measure
+	ValueSets []models.ValueSet
 	StartDate int64
 	EndDate   int64
 }
@@ -91,13 +91,11 @@ func uniqueDataCriteria(allDataCriteria []models.DataCriteria) []mdc {
 		value.ValueSetOid = key.ValueSetOid
 		retDataCriteria = append(retDataCriteria, value)
 	}
-
-	spew.Dump(retDataCriteria)
 	return retDataCriteria
 }
 
 //export GenerateCat1
-func GenerateCat1(patient []byte, measures []byte, startDate int64, endDate int64) string {
+func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate int64, endDate int64) string {
 
 	data, err := AssetDir("templates/cat1")
 	if err != nil {
@@ -121,6 +119,7 @@ func GenerateCat1(patient []byte, measures []byte, startDate int64, endDate int6
 
 	p := &models.Record{}
 	m := []models.Measure{}
+	vs := []models.ValueSet{}
 	h := &models.Header{
 		Authors: []models.Author{
 			models.Author{
@@ -267,8 +266,11 @@ func GenerateCat1(patient []byte, measures []byte, startDate int64, endDate int6
 
 	json.Unmarshal(patient, p)
 	json.Unmarshal(measures, &m)
+	json.Unmarshal(valueSets, &vs)
 
-	c1d := cat1data{Record: *p, Header: *h, Measures: m, StartDate: startDate, EndDate: endDate}
+	initializeVsMap(vs)
+
+	c1d := cat1data{Record: *p, Header: *h, Measures: m, ValueSets: vs, StartDate: startDate, EndDate: endDate}
 
 	var b bytes.Buffer
 
@@ -279,4 +281,5 @@ func GenerateCat1(patient []byte, measures []byte, startDate int64, endDate int6
 	}
 
 	return b.String()
+	// return ""
 }

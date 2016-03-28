@@ -8,12 +8,12 @@ import (
 	"github.com/projectcypress/cdatools/models"
 )
 
-var myMap map[string]models.DataCriteria
+var hqmfMap map[string]models.DataCriteria
 var idMap map[string]string
-var mapInit sync.Once
+var hqmfMapInit sync.Once
 
 func initializeMap() {
-	mapInit.Do(func() {
+	hqmfMapInit.Do(func() {
 		importHQMFTemplateJSON()
 	})
 }
@@ -23,10 +23,9 @@ func importHQMFTemplateJSON() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	json.Unmarshal(data, &myMap)
-	// idMap := make(map[string]string, len(myMap))
+	json.Unmarshal(data, &hqmfMap)
 	idMap = map[string]string{}
-	for id, data := range myMap {
+	for id, data := range hqmfMap {
 		idMap[makeDefinitionKey(data.Definition, data.Status, data.Negation)] = id
 	}
 }
@@ -37,7 +36,7 @@ func makeDefinitionKey(definition string, status string, negation bool) string {
 
 func GetTemplateDefinition(id string) models.DataCriteria {
 	initializeMap()
-	return myMap[id]
+	return hqmfMap[id]
 }
 
 func GetID(data models.DataCriteria) string {
@@ -47,5 +46,5 @@ func GetID(data models.DataCriteria) string {
 
 func GetMap() map[string]models.DataCriteria {
 	initializeMap()
-	return myMap
+	return hqmfMap
 }

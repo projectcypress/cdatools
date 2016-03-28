@@ -27,13 +27,14 @@ func (s *MySuite) TestExport(c *C) {
 
 	measureData, err := ioutil.ReadFile("../fixtures/measures/CMS9v4a.json")
 	measureData2, err := ioutil.ReadFile("../fixtures/measures/CMS26v3.json")
+	valueSetData, err := ioutil.ReadFile("../fixtures/value_sets/combined.json")
 	measureData = append([]byte("["), append(append(measureData, append([]byte(","), measureData2...)...), []byte("]")...)...)
 	util.CheckErr(err)
 
 	startDate := int64(1451606400)
 	endDate := int64(1483228799)
 
-	fmt.Println(GenerateCat1(patientData, measureData, startDate, endDate))
+	fmt.Println(GenerateCat1(patientData, measureData, valueSetData, startDate, endDate))
 }
 
 func (s *MySuite) TestImportHQMFTemplateJSON(c *C) {
