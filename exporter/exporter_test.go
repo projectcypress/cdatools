@@ -1,11 +1,13 @@
 package exporter
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"testing"
 
 	"github.com/pebbe/util"
+	"github.com/projectcypress/cdatools/models"
 	. "gopkg.in/check.v1"
 )
 
@@ -35,11 +37,39 @@ func (s *MySuite) TestExport(c *C) {
 }
 
 func (s *MySuite) TestImportHQMFTemplateJSON(c *C) {
-	// c.Skip("skipped for the moment")
 	var origID = "2.16.840.1.113883.10.20.28.3.19"
 	var def = GetTemplateDefinition(origID)
 	c.Assert(def.Definition, Equals, "diagnosis")
 	c.Assert(def.Status, Equals, "resolved")
 	var id = GetID(def)
 	c.Assert(id, Equals, origID)
+}
+
+func (s *MySuite) TestGetAllDataCriteriaForOneMeasure(c *C) {
+	mes := make([]models.Measure, 1)
+	measureData, err := ioutil.ReadFile("../fixtures/measures/CMS9v4a.json")
+	util.CheckErr(err)
+	measureData = append([]byte("["), append(measureData, []byte("]")...)...)
+	json.Unmarshal(measureData, &mes)
+	c.Assert(len(allDataCriteria(mes)), Equals, 27)
+}
+
+func (s *MySuite) TestGetallDatacriteriaForMultipleMeasures(c *C) {
+	mes := make([]models.Measure, 2)
+	measureData, err := ioutil.ReadFile("../fixtures/measures/CMS9v4a.json")
+	measureData2, err := ioutil.ReadFile("../fixtures/measures/CMS26v3.json")
+	util.CheckErr(err)
+	measureData = append([]byte("["), append(append(measureData, append([]byte(","), measureData2...)...), []byte("]")...)...)
+	json.Unmarshal(measureData, &mes)
+
+	c.Assert(len(allDataCriteria(mes)), Equals, 47)
+}
+
+func (s *MySuite) TestGetUniqueDataCriteriaForOneMeasure(c *C) {
+	mes := make([]models.Measure, 1)
+	measureData, err := ioutil.ReadFile("../fixtures/measures/CMS9v4a.json")
+	util.CheckErr(err)
+	measureData = append([]byte("["), append(measureData, []byte("]")...)...)
+	json.Unmarshal(measureData, &mes)
+	c.Assert(len(uniqueDataCriteria(allDataCriteria(mes))), Equals, 15)
 }

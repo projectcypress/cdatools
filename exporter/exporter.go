@@ -2,13 +2,9 @@ package exporter
 
 import (
 	"bytes"
-	"crypto/md5"
-	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"html/template"
-	"strconv"
-	"strings"
 	"time"
 
 	"github.com/davecgh/go-spew/spew"
@@ -22,29 +18,6 @@ type cat1data struct {
 	Measures  []models.Measure
 	StartDate int64
 	EndDate   int64
-}
-
-func timeToFormat(t int64, f string) string {
-	parsedTime := time.Unix(t, 0)
-	return parsedTime.Format(f)
-}
-
-func identifierFor(b []byte) string {
-	md := md5.Sum(b)
-	return strings.ToUpper(hex.EncodeToString(md[:]))
-}
-
-func identifierForInt(objs ...int64) string {
-	b := make([]byte, len(objs))
-	for _, val := range objs {
-		b = append(b, []byte(strconv.FormatInt(val, 10))...)
-	}
-	return identifierFor(b)
-}
-
-func identifierForString(objs ...string) string {
-	b := strings.Join(objs, ",")
-	return identifierFor([]byte(b))
 }
 
 func allDataCriteria(measures []models.Measure) []models.DataCriteria {
@@ -83,7 +56,7 @@ func uniqueDataCriteria(allDataCriteria []models.DataCriteria) []mdc {
 			vsOid = dataCriteria.FieldValues["TRANSFER_TO"].CodeListID
 		}
 
-		// Generate the key for
+		// Generate the key for the mappedDataCriteria
 		dc := dc{DataCriteriaOid: oid, ValueSetOid: vsOid}
 
 		var mappedDc = mappedDataCriteria[dc]
@@ -112,12 +85,14 @@ func uniqueDataCriteria(allDataCriteria []models.DataCriteria) []mdc {
 	}
 
 	// Add the key to the value to get what HDS would have returned
-	retDataCriteria := make([]mdc, len(mappedDataCriteria))
+	var retDataCriteria []mdc
 	for key, value := range mappedDataCriteria {
 		value.DataCriteriaOid = key.DataCriteriaOid
 		value.ValueSetOid = key.ValueSetOid
 		retDataCriteria = append(retDataCriteria, value)
 	}
+
+	spew.Dump(retDataCriteria)
 	return retDataCriteria
 }
 
@@ -303,9 +278,5 @@ func GenerateCat1(patient []byte, measures []byte, startDate int64, endDate int6
 		fmt.Println(err)
 	}
 
-	spew.Dump(uniqueDataCriteria(allDataCriteria(m)))
-	// uniqueDataCriteria(allDataCriteria(m))
-
-	// return b.String()
-	return ""
+	return b.String()
 }
