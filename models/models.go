@@ -31,24 +31,24 @@ type Entity struct {
 
 type Person struct {
 	Entity
-	First     string    `json:"first"`
-	Last      string    `json:"last"`
-	Gender    string    `json:"gender"`
-	Birthdate int64     `json:"birthdate"`
-	Race      Race      `json:"race"`
-	Ethnicity Ethnicity `json:"ethnicity"`
+	First     string    `json:"first,omitempty"`
+	Last      string    `json:"last,omitempty"`
+	Birthdate int64     `json:"birthdate,omitempty"`
+	Gender    string    `json:"gender,omitempty"`
+	Race      Race      `json:"race,omitempty"`
+	Ethnicity Ethnicity `json:"ethnicity,omitempty"`
 }
 
 type Race struct {
-	Code    string `json:"code"`
-	CodeSet string `json:"code_set"`
-	Name    string `json:"name"`
+	Code    string `json:"code,omitempty"`
+	CodeSet string `json:"code_set,omitempty"`
+	Name    string `json:"name,omitempty"`
 }
 
 type Ethnicity struct {
-	Code    string `json:"code"`
-	CodeSet string `json:"code_set"`
-	Name    string `json:"name"`
+	Code    string `json:"code,omitempty"`
+	CodeSet string `json:"code_set,omitempty"`
+	Name    string `json:"name,omitempty"`
 }
 
 type Organization struct {
@@ -82,17 +82,17 @@ type ID struct {
 
 type Record struct {
 	Person
-	MedicalRecordNumber   string                `json:"medical_record_number"`
-	MedicalRecordAssigner string                `json:"medical_record_assigner"`
-	BirthDate             int64                 `json:"birthdate"`
-	DeathDate             int64                 `json:"deathdate"`
-	Expired               bool                  `json:"expired"`
-	Encounters            []Encounter           `json:"encounters"`
-	Diagnoses             []Diagnosis           `json:"conditions"`
-	LabResults            []LabResult           `json:"results"`
-	Languages             []Language            `json:"languages"`
-	ProviderPerformances  []ProviderPerformance `json:"provider_performances"`
-	InsuranceProviders    []InsuranceProvider   `json:"insurance_providers"`
+	MedicalRecordNumber   string                `json:"medical_record_number,omitempty"`
+	MedicalRecordAssigner string                `json:"medical_record_assigner,omitempty"`
+	BirthDate             int64                 `json:"birthdate,omitempty"`
+	DeathDate             int64                 `json:"deathdate,omitempty"`
+	Expired               bool                  `json:"expired,omitempty"`
+	Encounters            []Encounter           `json:"encounters,omitempty"`
+	Diagnoses             []Diagnosis           `json:"conditions,omitempty"`
+	LabResults            []LabResult           `json:"results,omitempty"`
+	Languages             []Language            `json:"languages,omitempty"`
+	ProviderPerformances  []ProviderPerformance `json:"provider_performances,omitempty"`
+	InsuranceProviders    []InsuranceProvider   `json:"insurance_providers,omitempty"`
 }
 
 // Entries returns all the entries from the Encounters, Diagnoses, and LabResults for a Record
@@ -131,24 +131,24 @@ func (r *Record) EntriesForOid(oid string) []interface{} {
 }
 
 type ResultValue struct {
-	Scalar string              `json:"scalar"`
-	Units  string              `json:"units"`
-	Codes  map[string][]string `json:"codes"`
+	Scalar string              `json:"scalar,omitempty"`
+	Units  string              `json:"units,omitempty"`
+	Codes  map[string][]string `json:"codes,omitempty"`
 }
 
 type Reason struct {
-	Code           string `json:"code"`
-	CodeSystem     string `json:"code_system"`
-	CodeSystemName string `json:"codeSystemName"`
+	Code           string `json:"code,omitempty"`
+	CodeSystem     string `json:"code_system,omitempty"`
+	CodeSystemName string `json:"codeSystemName,omitempty"`
 }
 
 type CDAIdentifier struct {
-	Root      string `json:"root"`
-	Extension string `json:"extension"`
+	Root      string `json:"root,omitempty"`
+	Extension string `json:"extension,omitempty"`
 }
 
 type ProviderPerformance struct {
 	Entry     `bson:",inline"`
-	StartDate int64 `json:"startDate"`
-	EndDate   int64 `json:"endDate"`
+	StartDate int64 `json:"startDate,omitempty"`
+	EndDate   int64 `json:"endDate,omitempty"`
 }

@@ -30,7 +30,8 @@ func EncounterPerformedExtractor(entry *models.Entry, entryElement xml.Node) int
 	var codePath = xpath.Compile("cda:code")
 	ExtractCodes(&encounter.Entry, entryElement, codePath)
 
-	//set discharge time
+	//set admit/discharge times
+	encounter.AdmitTime = encounter.Entry.StartTime
 	encounter.DischargeTime = encounter.Entry.EndTime
 
 	//extract discharge disposition
@@ -39,10 +40,12 @@ func EncounterPerformedExtractor(entry *models.Entry, entryElement xml.Node) int
 	dischargeDispositionCode := FirstElementContent(dischargeDispositionCodeXPath, entryElement)
 	dischargeDispositionCodeSystemOid := FirstElementContent(dischargeDispositionCodeSystemXPath, entryElement)
 	dischargeDispositionCodeSystem := models.CodeSystemFor(dischargeDispositionCodeSystemOid)
-	encounter.DischargeDisposition = map[string]string{
-		"code":          dischargeDispositionCode,
-		"codeSystem":    dischargeDispositionCodeSystem,
-		"codeSystemOid": dischargeDispositionCodeSystemOid,
+	if dischargeDispositionCode != "" {
+		encounter.DischargeDisposition = map[string]string{
+			"code":          dischargeDispositionCode,
+			"codeSystem":    dischargeDispositionCodeSystem,
+			"codeSystemOid": dischargeDispositionCodeSystemOid,
+		}
 	}
 
 	return encounter
