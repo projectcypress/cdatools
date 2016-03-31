@@ -15,7 +15,6 @@ import (
 
 func main() {}
 
-//export Read_patient
 func Read_patient(path string) string {
 
 	data, err := ioutil.ReadFile(path)
@@ -34,7 +33,6 @@ func Read_patient(path string) string {
 	util.CheckErr(err)
 	patientElement := patientElements[0]
 	patient := &models.Record{}
-
 	ExtractDemographics(patient, patientElement)
 
 	//encounter performed
@@ -77,7 +75,7 @@ func Read_patient(path string) string {
 
 	//lab orders
 	var labOrderXPath = xpath.Compile("//cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.37']")
-	rawLabOrders := ExtractSection(patientElement, labOrderXPath, LabOrderExtractor, "")
+	rawLabOrders := ExtractSection(patientElement, labOrderXPath, LabOrderExtractor, "2.16.840.1.113883.3.560.1.50")
 	for i := range rawLabOrders {
 		patient.LabResults = append(patient.LabResults, rawLabOrders[i].(models.LabResult))
 	}
@@ -210,6 +208,9 @@ func TimestampToSeconds(timestamp string) int64 {
 	year, _ := strconv.ParseInt(timestamp[0:4], 10, 32)
 	month, _ := strconv.ParseInt(timestamp[4:6], 10, 32)
 	day, _ := strconv.ParseInt(timestamp[6:8], 10, 32)
-	desiredDate := time.Date(int(year), time.Month(month), int(day), 0, 0, 0, 0, time.UTC)
+	hour, _ := strconv.ParseInt(timestamp[8:10], 10, 32)
+	minute, _ := strconv.ParseInt(timestamp[10:12], 10, 32)
+	second, _ := strconv.ParseInt(timestamp[12:14], 10, 32)
+	desiredDate := time.Date(int(year), time.Month(month), int(day), int(hour), int(minute), int(second), 0, time.UTC)
 	return desiredDate.Unix()
 }
