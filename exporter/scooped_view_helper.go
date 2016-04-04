@@ -88,13 +88,33 @@ func entriesForDataCriteria(dataCriteria models.DataCriteria, patient models.Rec
 		for _, entry := range entries {
 			uniqueEntries[entry.(models.Entry).BSONID] = entry
 		}
-		entries = make([]interface{}, len(uniqueEntries))
 		var negationRegexp = regexp.MustCompile(`2\.16\.840\.1\.113883\.3\.526\.3\.100[7-9`)
 		for _, entry := range uniqueEntries {
+			entry, ok := entry.(models.Entry)
+			if !ok {
+				panic("entry is not of type models.Entry")
+			}
 			if negationRegexp.FindStringIndex(dataCriteria.CodeListID) != nil {
 				// Add the entry to FilteredEntries if entry.negation_reason['code'] is in codes
+				if reasonInCodes(codes[0], entry.NegationReason) {
+					filteredEntries = append(filteredEntries, entry)
+				}
+			} else if dataCriteriaOid == "2.16.840.1.113883.3.560.1.71" {
+				if &entry.TransferFrom != nil {
+					entry.TransferFrom.Codes[entry.TransferFrom.CodeSystem] = []string{entry.TransferFrom.Code}
+					tfc := entry.
+				}
 			}
 		}
 
 	}
+}
+
+func reasonInCodes(code models.CodeSet, reason models.Reason) bool {
+	for _, value := range code.Values {
+		if reason.Code == value.Code && reason.CodeSystem == value.CodeSystem {
+			return true
+		}
+	}
+	return false
 }

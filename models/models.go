@@ -142,6 +142,11 @@ type Reason struct {
 	CodeSystemName string `json:"codeSystemName,omitempty"`
 }
 
+type Transfer struct {
+	Reason
+	Codes map[string][]string `json:"codes"`
+}
+
 type CDAIdentifier struct {
 	Root      string `json:"root,omitempty"`
 	Extension string `json:"extension,omitempty"`

@@ -3,6 +3,7 @@ package models
 type Entry struct {
 	Coded
 	StartTime      int64               `json:"start_time,omitempty"`
+	BSONID         string              `json:"bson_id,omitempty"`
 	EndTime        int64               `json:"end_time,omitempty"`
 	Time           int64               `json:"time,omitempty"`
 	ID             CDAIdentifier       `json:"cda_identifier,omitempty"`
@@ -13,4 +14,6 @@ type Entry struct {
 	Values         []ResultValue       `bson:"values,omitempty"`
 	StatusCode     map[string][]string `json:"status_code,omitempty"`
 	Reason         Reason              `json:"reason,omitempty"`
+	TransferTo     Transfer            `json:"transferTo,omitempty"`
+	TransferFrom   Transfer            `json:"transferFrom,omitempty"`
 }
