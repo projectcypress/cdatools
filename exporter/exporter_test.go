@@ -27,7 +27,7 @@ func (s *MySuite) TestExport(c *C) {
 
 	measureData, err := ioutil.ReadFile("../fixtures/measures/CMS9v4a.json")
 	measureData2, err := ioutil.ReadFile("../fixtures/measures/CMS26v3.json")
-	valueSetData, err := ioutil.ReadFile("../fixtures/value_sets/combined.json")
+	valueSetData, err := ioutil.ReadFile("../fixtures/value_sets/cms9_26.json")
 	measureData = append([]byte("["), append(append(measureData, append([]byte(","), measureData2...)...), []byte("]")...)...)
 	util.CheckErr(err)
 
