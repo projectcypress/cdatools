@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"testing"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/pebbe/util"
 	"github.com/projectcypress/cdatools/models"
 	. "gopkg.in/check.v1"
@@ -35,6 +36,24 @@ func (s *MySuite) TestExport(c *C) {
 	endDate := int64(1483228799)
 
 	fmt.Println(GenerateCat1(patientData, measureData, valueSetData, startDate, endDate))
+}
+
+func (s *MySuite) TestGetEntriesForDataCriteria(c *C) {
+	patientData, err := ioutil.ReadFile("../fixtures/records/barry_berry.json")
+	util.CheckErr(err)
+
+	measureData, err := ioutil.ReadFile("../fixtures/measures/CMS9v4a.json")
+	util.CheckErr(err)
+
+	patient := &models.Record{}
+	measure := &models.Measure{}
+
+	json.Unmarshal(patientData, patient)
+	json.Unmarshal(measureData, measure)
+
+	for _, crit := range measure.HQMFDocument.DataCriteria {
+		spew.Dump(entriesForDataCriteria(crit, *patient))
+	}
 }
 
 func (s *MySuite) TestImportHQMFTemplateJSON(c *C) {

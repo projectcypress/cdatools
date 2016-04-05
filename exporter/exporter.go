@@ -78,7 +78,7 @@ func uniqueDataCriteria(allDataCriteria []models.DataCriteria) []mdc {
 
 		// If the data criteria has a value, and it's a "coded" type, added the CodeListId into the result OID set
 		if dataCriteria.Value.Type == "CD" {
-			mappedDc.ResultOids = append(mappedDc.ResultOids, dataCriteria.Value.CodeListID)
+			mappedDc.ResultOids = append(mappedDc.ResultOids, dataCriteria.CodeListID)
 		}
 
 		mappedDataCriteria[dc] = mappedDc

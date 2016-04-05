@@ -40,7 +40,7 @@ func handlePayerInformation(patient models.Record) []interface{} {
 	return providers
 }
 
-func entriesForDataCriteria(dataCriteria models.DataCriteria, patient models.Record) {
+func entriesForDataCriteria(dataCriteria models.DataCriteria, patient models.Record) []interface{} {
 	dataCriteriaOid := GetID(dataCriteria)
 	var entries []interface{}
 	var filteredEntries []interface{}
@@ -99,15 +99,25 @@ func entriesForDataCriteria(dataCriteria models.DataCriteria, patient models.Rec
 				if reasonInCodes(codes[0], entry.NegationReason) {
 					filteredEntries = append(filteredEntries, entry)
 				}
-			} else if dataCriteriaOid == "2.16.840.1.113883.3.560.1.71" {
-				if &entry.TransferFrom != nil {
-					entry.TransferFrom.Codes[entry.TransferFrom.CodeSystem] = []string{entry.TransferFrom.Code}
-					tfc := entry.
+			} else if dataCriteriaOid == "2.16.840.1.113883.3.560.1.71" && &entry.TransferFrom != nil {
+				entry.TransferFrom.Codes[entry.TransferFrom.CodeSystem] = []string{entry.TransferFrom.Code}
+				tfc := entry.TransferFrom.Coded.CodesInCodeSet(codes[0].Set)
+				if len(tfc) > 0 {
+					filteredEntries = append(filteredEntries, entry)
+				}
+			} else if dataCriteriaOid == "2.16.840.1.113883.3.560.1.72" && &entry.TransferTo != nil {
+				entry.TransferTo.Codes[entry.TransferTo.CodeSystem] = []string{entry.TransferTo.Code}
+				if len(entry.TransferTo.Coded.CodesInCodeSet(codes[0].Set)) > 0 {
+					filteredEntries = append(filteredEntries, entry)
+				}
+			} else {
+				if entry.IsInCodeSet(codes) && entry.NegationInd == dataCriteria.Negation {
+					filteredEntries = append(filteredEntries, entry)
 				}
 			}
 		}
-
 	}
+	return filteredEntries
 }
 
 func reasonInCodes(code models.CodeSet, reason models.Reason) bool {
