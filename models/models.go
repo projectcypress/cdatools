@@ -72,7 +72,7 @@ type Telecom struct {
 }
 
 type Language struct {
-	Codes map[string][]string
+	Coded
 }
 
 type ID struct {
@@ -131,9 +131,9 @@ func (r *Record) EntriesForOid(oid string) []interface{} {
 }
 
 type ResultValue struct {
-	Scalar string              `json:"scalar,omitempty"`
-	Units  string              `json:"units,omitempty"`
-	Codes  map[string][]string `json:"codes,omitempty"`
+	Coded
+	Scalar string `json:"scalar,omitempty"`
+	Units  string `json:"units,omitempty"`
 }
 
 type Reason struct {

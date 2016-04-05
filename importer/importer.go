@@ -131,33 +131,12 @@ func ExtractCodes(entry *models.Entry, entryElement xml.Node, codePath *xpath.Ex
 	codeElements, err := entryElement.Search(codePath)
 	util.CheckErr(err)
 	for _, codeElement := range codeElements {
-		AddCodeIfPresent(entry, codeElement)
+		entry.Coded.AddCodeIfPresent(codeElement)
 		translationElements, err := codeElement.Search("cda:translation")
 		util.CheckErr(err)
 		for _, translationElement := range translationElements {
-			AddCodeIfPresent(entry, translationElement)
+			entry.Coded.AddCodeIfPresent(translationElement)
 		}
-	}
-}
-
-func AddCodeIfPresent(entry *models.Entry, codeElement xml.Node) {
-	var code string
-	var codeSystem string
-
-	//extract code from attribute if it exists
-	codeAttribute := codeElement.Attribute("code")
-	if codeAttribute != nil {
-		code = codeAttribute.String()
-	}
-
-	//extract codeSystem from attribute if it exists
-	codeSystemAttribute := codeElement.Attribute("codeSystem")
-	if codeSystemAttribute != nil {
-		codeSystem = models.CodeSystemFor(codeElement.Attribute("codeSystem").String())
-	}
-
-	if code != "" && codeSystem != "" {
-		entry.AddCode(code, codeSystem)
 	}
 }
 
