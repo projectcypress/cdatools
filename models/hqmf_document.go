@@ -26,12 +26,6 @@ type Range struct {
 	Width Val `json:"width"`
 }
 
-type Coded struct {
-	System     string `json:"system"`
-	Code       string `json:"code"`
-	CodeListID string `json:"code_list_id"`
-}
-
 type Val struct {
 	Unit       string `json:"unit"`
 	Value      string `json:"value"`

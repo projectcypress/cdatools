@@ -42,3 +42,30 @@ func (c *Coded) AddCodeIfPresent(codeElement xml.Node) {
 		c.AddCode(code, codeSystem)
 	}
 }
+
+// IsInCodeSet checks if a code is in the list of possible codes
+func (c *Coded) IsInCodeSet(codeSet []CodeSet) bool {
+	for codeSystem, _ := range c.Codes {
+		for _, set := range codeSet {
+			if set.Set == codeSystem {
+				if doSetsIntersect(set.Values, c.Codes[codeSystem]) {
+					return true
+				}
+			}
+		}
+	}
+	return false
+}
+
+func doSetsIntersect(a []Concept, b []string) bool {
+	var m = make(map[string]int, len(a)+len(b))
+	for _, con := range a {
+		m[con.Code]++
+	}
+	for _, str := range b {
+		if m[str] == 1 {
+			return true
+		}
+	}
+	return false
+}

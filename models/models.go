@@ -144,7 +144,7 @@ type Reason struct {
 
 type Transfer struct {
 	Reason
-	Codes map[string][]string `json:"codes"`
+	Coded
 }
 
 type CDAIdentifier struct {
