@@ -2,11 +2,9 @@ package exporter
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"testing"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/pebbe/util"
 	"github.com/projectcypress/cdatools/models"
 	. "gopkg.in/check.v1"
@@ -35,11 +33,11 @@ func (s *MySuite) TestExport(c *C) {
 	startDate := int64(1451606400)
 	endDate := int64(1483228799)
 
-	fmt.Println(GenerateCat1(patientData, measureData, valueSetData, startDate, endDate))
+	GenerateCat1(patientData, measureData, valueSetData, startDate, endDate)
 }
 
 func (s *MySuite) TestGetEntriesForDataCriteria(c *C) {
-	patientData, err := ioutil.ReadFile("../fixtures/records/barry_berry.json")
+	patientData, err := ioutil.ReadFile("../fixtures/records/1_n_n_ami.json")
 	util.CheckErr(err)
 
 	measureData, err := ioutil.ReadFile("../fixtures/measures/CMS9v4a.json")
@@ -47,12 +45,20 @@ func (s *MySuite) TestGetEntriesForDataCriteria(c *C) {
 
 	patient := &models.Record{}
 	measure := &models.Measure{}
+	valueSetData, err := ioutil.ReadFile("../fixtures/value_sets/cms9_26.json")
+	var vs []models.ValueSet
+	json.Unmarshal(valueSetData, &vs)
+	initializeVsMap(vs)
 
 	json.Unmarshal(patientData, patient)
+	// spew.Dump(patient)
 	json.Unmarshal(measureData, measure)
 
 	for _, crit := range measure.HQMFDocument.DataCriteria {
-		spew.Dump(entriesForDataCriteria(crit, *patient))
+		entriesForDataCriteria(crit, *patient)
+		// for _, _ = range entriesForDataCriteria(crit, *patient) {
+		// 	spew.Dump("FOO")
+		// }
 	}
 }
 

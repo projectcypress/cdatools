@@ -17,3 +17,18 @@ type Entry struct {
 	TransferTo     Transfer            `json:"transferTo,omitempty"`
 	TransferFrom   Transfer            `json:"transferFrom,omitempty"`
 }
+
+func ExtractEntry(entry interface{}) Entry {
+	switch t := entry.(type) {
+	case Encounter:
+		return t.Entry
+	case Diagnosis:
+		return t.Entry
+	case LabResult:
+		return t.Entry
+	case InsuranceProvider:
+		return t.Entry
+	default:
+		panic("We don't know how to extract an Entry from this type")
+	}
+}

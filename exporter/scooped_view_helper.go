@@ -1,9 +1,11 @@
 package exporter
 
 import (
+	"fmt"
 	"regexp"
 	"sync"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/projectcypress/cdatools/models"
 )
 
@@ -86,37 +88,43 @@ func entriesForDataCriteria(dataCriteria models.DataCriteria, patient models.Rec
 		// NOTE: this makes me hate myself
 		uniqueEntries := make(map[string]interface{})
 		for _, entry := range entries {
-			uniqueEntries[entry.(models.Entry).BSONID] = entry
+			uniqueEntries[models.ExtractEntry(entry).BSONID] = entry
 		}
-		var negationRegexp = regexp.MustCompile(`2\.16\.840\.1\.113883\.3\.526\.3\.100[7-9`)
+		var negationRegexp = regexp.MustCompile(`2\.16\.840\.1\.113883\.3\.526\.3\.100[7-9]`)
 		for _, entry := range uniqueEntries {
-			entry, ok := entry.(models.Entry)
-			if !ok {
-				panic("entry is not of type models.Entry")
-			}
+
+			entryData := models.ExtractEntry(entry)
+			spew.Dump(entryData)
+			// if !ok {
+			// 	panic("entry is not of type models.Entry")
+			// }
 			if negationRegexp.FindStringIndex(dataCriteria.CodeListID) != nil {
 				// Add the entry to FilteredEntries if entry.negation_reason['code'] is in codes
-				if reasonInCodes(codes[0], entry.NegationReason) {
+				if reasonInCodes(codes[0], entryData.NegationReason) {
 					filteredEntries = append(filteredEntries, entry)
 				}
-			} else if dataCriteriaOid == "2.16.840.1.113883.3.560.1.71" && &entry.TransferFrom != nil {
-				entry.TransferFrom.Codes[entry.TransferFrom.CodeSystem] = []string{entry.TransferFrom.Code}
-				tfc := entry.TransferFrom.Coded.CodesInCodeSet(codes[0].Set)
+			} else if dataCriteriaOid == "2.16.840.1.113883.3.560.1.71" && &entryData.TransferFrom != nil {
+				entryData.TransferFrom.Codes[entryData.TransferFrom.CodeSystem] = []string{entryData.TransferFrom.Code}
+				tfc := entryData.TransferFrom.Coded.CodesInCodeSet(codes[0].Set)
 				if len(tfc) > 0 {
 					filteredEntries = append(filteredEntries, entry)
 				}
-			} else if dataCriteriaOid == "2.16.840.1.113883.3.560.1.72" && &entry.TransferTo != nil {
-				entry.TransferTo.Codes[entry.TransferTo.CodeSystem] = []string{entry.TransferTo.Code}
-				if len(entry.TransferTo.Coded.CodesInCodeSet(codes[0].Set)) > 0 {
+			} else if dataCriteriaOid == "2.16.840.1.113883.3.560.1.72" && &entryData.TransferTo != nil {
+				entryData.TransferTo.Codes[entryData.TransferTo.CodeSystem] = []string{entryData.TransferTo.Code}
+				if len(entryData.TransferTo.Coded.CodesInCodeSet(codes[0].Set)) > 0 {
 					filteredEntries = append(filteredEntries, entry)
 				}
 			} else {
-				if entry.IsInCodeSet(codes) && entry.NegationInd == dataCriteria.Negation {
+				if entryData.IsInCodeSet(codes) && entryData.NegationInd == dataCriteria.Negation {
 					filteredEntries = append(filteredEntries, entry)
 				}
 			}
 		}
 	}
+	// for i, _ := range filteredEntries {
+	// 	fmt.Println(i)
+	// }
+	fmt.Println(len(filteredEntries))
 	return filteredEntries
 }
 

@@ -2,7 +2,7 @@ package models
 
 // InsuranceProvider for a Record. Provides Payer information
 type InsuranceProvider struct {
-	Entry
+	Entry                       `bson:",inline"`
 	Type                        string            `json:"type"`
 	MemberID                    string            `json:"member_id"`
 	Payer                       Organization      `json:"payer"`
