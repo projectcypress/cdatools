@@ -80,6 +80,15 @@ func Read_patient(path string) string {
 		patient.LabResults = append(patient.LabResults, rawLabOrders[i].(models.LabResult))
 	}
 
+	//insurance provider
+	var insuranceProviderXPath = xpath.Compile("//cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.55']")
+	// oid was 2.16.840.1.113883.3.560.1.405 in Health Data Standards
+	rawInsuranceProviders := ExtractSection(patientElement, insuranceProviderXPath, InsuranceProviderExtractor, "")
+	patient.InsuranceProviders = make([]models.InsuranceProvider, len(rawInsuranceProviders))
+	for i := range rawInsuranceProviders {
+		patient.InsuranceProviders[i] = rawInsuranceProviders[i].(models.InsuranceProvider)
+	}
+
 	patientJSON, err := json.Marshal(patient)
 	if err != nil {
 		fmt.Println(err)
