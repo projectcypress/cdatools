@@ -35,7 +35,9 @@ type Val struct {
 }
 
 type MetaValue struct {
-	Type string `json:"type"`
+	Type   string `json:"type,omitempty"`
+	System string `json:"system,omitempty"`
+	Code   string `json:"code,omitempty"`
 	Val
 	Coded
 	Range

@@ -1,11 +1,10 @@
 package exporter
 
 import (
-	"fmt"
 	"regexp"
 	"sync"
 
-	"github.com/davecgh/go-spew/spew"
+	"github.com/pborman/uuid"
 	"github.com/projectcypress/cdatools/models"
 )
 
@@ -43,7 +42,11 @@ func handlePayerInformation(patient models.Record) []interface{} {
 }
 
 func entriesForDataCriteria(dataCriteria models.DataCriteria, patient models.Record) []interface{} {
-	dataCriteriaOid := GetID(dataCriteria)
+	dataCriteriaOid := GetID(dataCriteria, false)
+	if dataCriteriaOid == "" {
+		dataCriteriaOid = GetID(dataCriteria, true)
+	}
+
 	var entries []interface{}
 	var filteredEntries []interface{}
 	switch dataCriteriaOid {
@@ -52,7 +55,8 @@ func entriesForDataCriteria(dataCriteria models.DataCriteria, patient models.Rec
 	case "2.16.840.1.113883.3.560.1.405":
 		filteredEntries = handlePayerInformation(patient)
 	default:
-		entries = append(entries, patient.EntriesForOid(dataCriteriaOid)...)
+		entries = patient.EntriesForOid(dataCriteriaOid)
+
 		var codes []models.CodeSet
 		switch dataCriteriaOid {
 		case "2.16.840.1.113883.3.560.1.5":
@@ -88,16 +92,13 @@ func entriesForDataCriteria(dataCriteria models.DataCriteria, patient models.Rec
 		// NOTE: this makes me hate myself
 		uniqueEntries := make(map[string]interface{})
 		for _, entry := range entries {
-			uniqueEntries[models.ExtractEntry(entry).BSONID] = entry
+			uniqueEntries[string(uuid.NewRandom())] = entry
 		}
 		var negationRegexp = regexp.MustCompile(`2\.16\.840\.1\.113883\.3\.526\.3\.100[7-9]`)
 		for _, entry := range uniqueEntries {
 
 			entryData := models.ExtractEntry(entry)
-			spew.Dump(entryData)
-			// if !ok {
-			// 	panic("entry is not of type models.Entry")
-			// }
+
 			if negationRegexp.FindStringIndex(dataCriteria.CodeListID) != nil {
 				// Add the entry to FilteredEntries if entry.negation_reason['code'] is in codes
 				if reasonInCodes(codes[0], entryData.NegationReason) {
@@ -121,10 +122,7 @@ func entriesForDataCriteria(dataCriteria models.DataCriteria, patient models.Rec
 			}
 		}
 	}
-	// for i, _ := range filteredEntries {
-	// 	fmt.Println(i)
-	// }
-	fmt.Println(len(filteredEntries))
+
 	return filteredEntries
 }
 

@@ -46,7 +46,10 @@ func uniqueDataCriteria(allDataCriteria []models.DataCriteria) []mdc {
 	mappedDataCriteria := map[dc]mdc{}
 	for _, dataCriteria := range allDataCriteria {
 		// Based on the data criteria, get the HQMF oid associated with it
-		oid := GetID(dataCriteria)
+		oid := GetID(dataCriteria, false)
+		if oid == "" {
+			oid = GetID(dataCriteria, true)
+		}
 		vsOid := dataCriteria.CodeListID
 
 		// Special cases for the valueSet OID, taken from Health Data Standards
