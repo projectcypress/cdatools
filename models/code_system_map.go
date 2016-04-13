@@ -9,6 +9,7 @@ var oidMap = map[string]string{
 	"2.16.840.1.113883.6.104": "ICD-9-PCS",
 	"2.16.840.1.113883.6.4":   "ICD-10-PCS",
 	"2.16.840.1.113883.6.90":  "ICD-10-CM",
+	"2.16.840.1.113883.3.221.5": "SOP",
 }
 
 func CodeSystemFor(oid string) string {
