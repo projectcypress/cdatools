@@ -51,23 +51,23 @@ func (s *MySuite) TestGetEntriesForDataCriteria(c *C) {
 	initializeVsMap(vs)
 
 	json.Unmarshal(patientData, patient)
-	// spew.Dump(patient)
 	json.Unmarshal(measureData, measure)
 
+	var entries []interface{}
 	for _, crit := range measure.HQMFDocument.DataCriteria {
-		entriesForDataCriteria(crit, *patient)
-		// for _, _ = range entriesForDataCriteria(crit, *patient) {
-		// 	spew.Dump("FOO")
-		// }
+		if crit.HQMFOid != "" {
+			entries = append(entries, entriesForDataCriteria(crit, *patient))
+		}
 	}
+	c.Assert(len(entries), Equals, 1)
 }
 
 func (s *MySuite) TestImportHQMFTemplateJSON(c *C) {
 	var origID = "2.16.840.1.113883.10.20.28.3.19"
-	var def = GetTemplateDefinition(origID)
+	var def = GetTemplateDefinition(origID, true)
 	c.Assert(def.Definition, Equals, "diagnosis")
 	c.Assert(def.Status, Equals, "resolved")
-	var id = GetID(def)
+	var id = GetID(def, true)
 	c.Assert(id, Equals, origID)
 }
 

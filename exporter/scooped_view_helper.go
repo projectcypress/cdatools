@@ -42,9 +42,9 @@ func handlePayerInformation(patient models.Record) []interface{} {
 }
 
 func entriesForDataCriteria(dataCriteria models.DataCriteria, patient models.Record) []interface{} {
-	dataCriteriaOid := GetID(dataCriteria, false)
+	dataCriteriaOid := dataCriteria.HQMFOid //GetID(dataCriteria, false)
 	if dataCriteriaOid == "" {
-		dataCriteriaOid = GetID(dataCriteria, true)
+		dataCriteriaOid = dataCriteria.HQMFOid //GetID(dataCriteria, true)
 	}
 
 	var entries []interface{}

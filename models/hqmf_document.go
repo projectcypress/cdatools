@@ -18,6 +18,7 @@ type DataCriteria struct {
 	Variable           bool                  `json:"variable"`
 	FieldValues        map[string]FieldValue `json:"field_values"`
 	Value              MetaValue             `json:"value"`
+	HQMFOid            string                `json:"hqmf_oid"`
 }
 
 type Range struct {
