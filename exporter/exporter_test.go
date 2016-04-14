@@ -59,6 +59,7 @@ func (s *MySuite) TestGetEntriesForDataCriteria(c *C) {
 			entries = append(entries, entriesForDataCriteria(crit, *patient))
 		}
 	}
+	// TODO: This test will have to change when we get a new export of CMS9v4a with all the HQMFOid fields filled.
 	c.Assert(len(entries), Equals, 1)
 }
 
