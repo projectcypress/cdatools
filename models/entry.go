@@ -32,3 +32,17 @@ func ExtractEntry(entry interface{}) Entry {
 		panic("We don't know how to extract an Entry from this type")
 	}
 }
+
+func (e *Entry) AddScalarValue(value int64, units string) {
+	val := ResultValue{}
+	val.Scalar = value
+	val.Units = units
+	e.Values = append(e.Values, val)
+}
+
+func (e *Entry) AddStringValue(value string, units string) {
+	val := ResultValue{}
+	val.Value = value
+	val.Units = units
+	e.Values = append(e.Values, val)
+}

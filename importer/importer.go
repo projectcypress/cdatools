@@ -174,6 +174,39 @@ func ExtractReason(encounter *models.Encounter, entryElement xml.Node) {
 	}
 }
 
+func ExtractValues(entry *models.Entry, entryElement xml.Node, valuePath *xpath.Expression) {
+	valueElements, err := entryElement.Search(valuePath)
+	util.CheckErr(err)
+	if len(valueElements) > 0 {
+		for _, valueElement := range valueElements {
+			value := valueElement.Attribute("value")
+			code := valueElement.Attribute("code")
+			if value != nil {
+				unit := valueElement.Attribute("unit").String()
+				scalar, err := strconv.ParseInt(value.String(), 10, 64)
+				util.CheckErr(err)
+				entry.AddScalarValue(scalar, unit)
+			} else if code != nil {
+				val := models.ResultValue{}
+				val.AddCodeIfPresent(valueElement)
+				var timeLowXPath = xpath.Compile("cda:effectiveTime/cda:low/@value")
+				var timeHighXPath = xpath.Compile("cda:effectiveTime/cda:high/@value")
+				val.StartTime = GetTimestamp(timeLowXPath, entryElement)
+				val.EndTime = GetTimestamp(timeHighXPath, entryElement)
+				entry.Values = append(entry.Values, val)
+			} else {
+				unit := valueElement.Attribute("unit")
+				valString := valueElement.Content()
+				if unit == nil {
+					entry.AddStringValue(valString, "")
+				} else {
+					entry.AddStringValue(valString, unit.String())
+				}
+			}
+		}
+	}
+}
+
 func FirstElementContent(xpath *xpath.Expression, xmlNode xml.Node) string {
 	resultNodes, err := xmlNode.Search(xpath)
 	util.CheckErr(err)

@@ -133,8 +133,11 @@ func (r *Record) EntriesForOid(oid string) []interface{} {
 
 type ResultValue struct {
 	Coded
-	Scalar string `json:"scalar,omitempty"`
-	Units  string `json:"units,omitempty"`
+	Value     string `json:"value, omitempty"`
+	Scalar    int64  `json:"scalar,omitempty"`
+	Units     string `json:"units,omitempty"`
+	StartTime int64  `json:"start_time,omitempty"`
+	EndTime   int64  `json:"end_time,omitempty"`
 }
 
 type Reason struct {
