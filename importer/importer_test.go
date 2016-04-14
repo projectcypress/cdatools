@@ -154,6 +154,8 @@ func (i *ImporterSuite) TestExtractLabResults(c *C) {
 	c.Assert(labResult.ID.Extension, Equals, "50d3a288da5fe6e1400002a9")
 	c.Assert(labResult.Codes["LOINC"][0], Equals, "11268-0")
 	c.Assert(labResult.StartTime, Equals, int64(674670276))
+	c.Assert(len(labResult.Entry.Values), Equals, 1)
+	c.Assert(labResult.Entry.Values[0].Value, Equals, "positive")
 }
 
 func (i *ImporterSuite) TestExtractLabOrders(c *C) {

@@ -13,3 +13,17 @@ type Entry struct {
 	StatusCode  map[string][]string `json:"status_code,omitempty"`
 	Reason      Reason              `json:"reason,omitempty"`
 }
+
+func (e *Entry) AddScalarValue(value int64, units string) {
+	val := ResultValue{}
+	val.Scalar = value
+	val.Units = units
+	e.Values = append(e.Values, val)
+}
+
+func (e *Entry) AddStringValue(value string, units string) {
+	val := ResultValue{}
+	val.Value = value
+	val.Units = units
+	e.Values = append(e.Values, val)
+}

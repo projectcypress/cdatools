@@ -14,6 +14,10 @@ func LabResultExtractor(entry *models.Entry, entryElement xml.Node) interface{} 
 	var codePath = xpath.Compile("cda:code")
 	ExtractCodes(&labResult.Entry, entryElement, codePath)
 
+	//extract values
+	var valuePath = xpath.Compile("cda:value")
+	ExtractValues(&labResult.Entry, entryElement, valuePath)
+
 	return labResult
 }
 
