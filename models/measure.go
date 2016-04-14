@@ -16,4 +16,5 @@ type Measure struct {
 	Category          string            `json:"category"`
 	PopulationIDs     map[string]string `json:"population_ids"`
 	OIDs              []string          `json:"oids"`
+	HQMFDocument      HQMFDocument      `json:"hqmf_document"`
 }

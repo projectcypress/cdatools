@@ -123,7 +123,8 @@ func (r *Record) Entries() []interface{} {
 func (r *Record) EntriesForOid(oid string) []interface{} {
 	var matchedEntries []interface{}
 	for _, entry := range r.Entries() {
-		if entry.(Entry).Oid == oid {
+
+		if ExtractEntry(entry).Oid == oid {
 			matchedEntries = append(matchedEntries, entry)
 		}
 	}
@@ -140,6 +141,11 @@ type Reason struct {
 	Code           string `json:"code,omitempty"`
 	CodeSystem     string `json:"code_system,omitempty"`
 	CodeSystemName string `json:"codeSystemName,omitempty"`
+}
+
+type Transfer struct {
+	Reason
+	Coded
 }
 
 type CDAIdentifier struct {
