@@ -175,7 +175,7 @@ func (i *ImporterSuite) TestExtractLabOrders(c *C) {
 
 func (i *ImporterSuite) TestExtractInsuranceProviders(c *C) {
 	var insuranceProviderXPath = xpath.Compile("//cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.55']")
-	rawInsuranceProviders := ExtractSection(i.patientElement, insuranceProviderXPath, InsuranceProviderExtractor, "")
+	rawInsuranceProviders := ExtractSection(i.patientElement, insuranceProviderXPath, InsuranceProviderExtractor, "2.16.840.1.113883.3.560.1.405")
 	i.patient.InsuranceProviders = make([]models.InsuranceProvider, len(rawInsuranceProviders))
 	for j := range rawInsuranceProviders {
 		i.patient.InsuranceProviders[j] = rawInsuranceProviders[j].(models.InsuranceProvider)
@@ -186,4 +186,20 @@ func (i *ImporterSuite) TestExtractInsuranceProviders(c *C) {
 	c.Assert(insuranceProvider.ID.Root, Equals, "1.3.6.1.4.1.115")
 	c.Assert(insuranceProvider.Codes["SOP"][0], Equals, "349")
 	c.Assert(insuranceProvider.StartTime, Equals, int64(1111851000)) // March 26, 2005 @ 15:30:00 GMT
+}
+
+func (i *ImporterSuite) TestExtractDiagnosticStudyOrders(c *C) {
+	var diagnosticStudyOrderXPath = xpath.Compile("//cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.17']")
+	rawDiagnosticStudyOrders := ExtractSection(i.patientElement, diagnosticStudyOrderXPath, DiagnosticStudyOrderExtractor, "2.16.840.1.113883.3.560.1.40")
+	i.patient.Procedures = make([]models.Procedure, len(rawDiagnosticStudyOrders))
+	for j := range rawDiagnosticStudyOrders {
+		i.patient.Procedures[j] = rawDiagnosticStudyOrders[j].(models.Procedure)
+	}
+
+	diagnosticStudyOrder := i.patient.Procedures[0]
+	c.Assert(len(i.patient.Procedures), Equals, 1)
+	c.Assert(diagnosticStudyOrder.ID.Root, Equals, "50f84dbb7042f9366f00014c")
+	c.Assert(diagnosticStudyOrder.Codes["LOINC"][0], Equals, "69399-4")
+	c.Assert(diagnosticStudyOrder.StartTime, Equals, int64(629709860)) // start and end time should be equal for diagnostic study orders
+	c.Assert(diagnosticStudyOrder.EndTime, Equals, int64(629709860))
 }

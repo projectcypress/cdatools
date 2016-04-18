@@ -259,6 +259,26 @@
               <value code="349" codeSystem="2.16.840.1.113883.3.221.5" xsi:type="CD" sdtc:valueSet="2.16.840.1.114222.4.11.3591"><originalText></originalText></value>
             </observation>
           </entry>
+          <entry>
+            <observation classCode="OBS" moodCode="RQO">
+              <!-- Consolidated Plan of Care Activity Observation 
+                   templateId (Implied Template) -->
+              <templateId root="2.16.840.1.113883.10.20.22.4.44"/>
+              <!-- Diagnostic Study, Order template -->
+              <templateId root="2.16.840.1.113883.10.20.24.3.17"/>
+              <id root="50f84dbb7042f9366f00014c"/>
+              <code code="69399-4" codeSystem="2.16.840.1.113883.6.1" sdtc:valueSet="2.16.840.1.113883.3.117.1.7.1.276"><originalText>Diagnostic Study, Order: VTE Diagnostic Test (Code List: 2.16.840.1.113883.3.117.1.7.1.276)</originalText></code>
+              <text>Diagnostic Study, Order: VTE Diagnostic Test (Code List: 2.16.840.1.113883.3.117.1.7.1.276)</text>
+              <statusCode code="new"/>
+              <!-- Attribute: datetime -->
+              <author>
+                <time value='19891215072420'/>
+                <assignedAuthor>
+                  <id nullFlavor="NA" root="2107e410-4308-0130-0ade-680688cbd736"/>
+                </assignedAuthor>
+              </author>
+            </observation>
+          </entry>
 
 <entry>
   <observation classCode="OBS" moodCode="EVN">

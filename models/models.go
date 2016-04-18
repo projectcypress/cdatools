@@ -93,6 +93,7 @@ type Record struct {
 	Languages             []Language            `json:"languages,omitempty"`
 	ProviderPerformances  []ProviderPerformance `json:"provider_performances,omitempty"`
 	InsuranceProviders    []InsuranceProvider   `json:"insurance_providers,omitempty"`
+	Procedures            []Procedure           `json:"procedures,omitempty"`
 }
 
 // Entries returns all the entries from the Encounters, Diagnoses, and LabResults for a Record

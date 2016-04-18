@@ -28,6 +28,8 @@ func ExtractEntry(entry interface{}) Entry {
 		return t.Entry
 	case InsuranceProvider:
 		return t.Entry
+	case Procedure:
+		return t.Entry
 	default:
 		panic("We don't know how to extract an Entry from this type")
 	}
