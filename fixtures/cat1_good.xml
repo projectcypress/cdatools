@@ -607,6 +607,34 @@
               </participant>
             </encounter>
           </entry>
+          <entry>
+            <encounter classCode="ENC" moodCode="EVN">
+              <!-- Transfer To -->
+              <templateId root="2.16.840.1.113883.10.20.24.3.82" extension="2014-12-01" />
+              <id root="49d75f61-0dec-4972-9a51-e2490b18c772" />
+              <code code="77306-9"
+                    codeSystem="2.16.840.1.113883.6.1"
+                    displayName="Discharge disposition"
+                    codeSystemName="LOINC" />
+              <statusCode code="completed" />
+              <participant typeCode="DST">
+                <time>
+                  <!-- QDM Attribute: Start Datetime -->
+                    <low value="20141104103000" /> <!-- SHALL have low -->
+                    <!-- QDM Attribute: Start Datetime -->
+                    <high value="20141104103000" /> <!-- MAY have high -->
+                </time>
+                <participantRole classCode="LOCE">
+                  <!-- Transfer to location -->
+                  <code code="309911002"
+                      codeSystem="2.16.840.1.113883.6.96"
+                      codeSystemName="SNOMED-CT"
+                      displayName="Respiratory intensive care unit (environment)"
+                      sdtc:valueSet="{$QDMElementValueSetOID}" />
+                </participantRole>
+              </participant>
+            </encounter>
+          </entry>
         </section>
       </component>
     </structuredBody>

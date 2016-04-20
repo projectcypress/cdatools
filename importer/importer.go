@@ -103,6 +103,13 @@ func Read_patient(path string) string {
 		patient.Encounters = append(patient.Encounters, rawTransferFroms[i].(models.Encounter))
 	}
 
+	// transfer to
+	var transferToXPath = xpath.Compile("//cda:encounter[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.82']")
+	rawTransferTos := ExtractSection(patientElement, transferToXPath, TransferToExtractor, "2.16.840.1.113883.3.560.1.72")
+	for i := range rawTransferTos {
+		patient.Encounters = append(patient.Encounters, rawTransferTos[i].(models.Encounter))
+	}
+
 	patientJSON, err := json.Marshal(patient)
 	if err != nil {
 		fmt.Println(err)

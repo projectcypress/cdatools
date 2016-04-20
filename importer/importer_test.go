@@ -220,3 +220,20 @@ func (i *ImporterSuite) TestExtractTransferFrom(c *C) {
 	c.Assert(transferFromEncounter.TransferFrom.Time, Equals, int64(1415097000))
 	c.Assert(transferFromEncounter.TransferFrom.Codes["SNOMED-CT"][0], Equals, "309911002")
 }
+
+func (i *ImporterSuite) TestExtractTransferTo(c *C) {
+	var transferToXPath = xpath.Compile("//cda:encounter[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.82']")
+	rawTransferTos := ExtractSection(i.patientElement, transferToXPath, TransferToExtractor, "2.16.840.1.113883.3.560.1.72")
+	i.patient.Encounters = make([]models.Encounter, len(rawTransferTos))
+	for j := range rawTransferTos {
+		i.patient.Encounters[j] = rawTransferTos[j].(models.Encounter)
+	}
+
+	transferToEncounter := i.patient.Encounters[0]
+	c.Assert(len(i.patient.Encounters), Equals, 1)
+	c.Assert(transferToEncounter.ID.Root, Equals, "49d75f61-0dec-4972-9a51-e2490b18c772")
+	c.Assert(transferToEncounter.Codes["LOINC"][0], Equals, "77306-9")
+	c.Assert(transferToEncounter.StartTime, Equals, int64(1415097000))
+	c.Assert(transferToEncounter.TransferTo.Time, Equals, int64(1415097000))
+	c.Assert(transferToEncounter.TransferTo.Codes["SNOMED-CT"][0], Equals, "309911002")
+}
