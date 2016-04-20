@@ -12,7 +12,7 @@ func DiagnosticStudyOrderExtractor(entry *models.Entry, entryElement xml.Node) i
 
   // extract codes
   var codePath = xpath.Compile("cda:code")
-  ExtractCodes(&diagnosticStudyOrder.Entry, entryElement, codePath)
+  ExtractCodes(&diagnosticStudyOrder.Entry.Coded, entryElement, codePath)
 
   // extract order specific dates
   var orderTimeXPath = xpath.Compile("cda:author/cda:time/@value")

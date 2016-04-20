@@ -203,3 +203,20 @@ func (i *ImporterSuite) TestExtractDiagnosticStudyOrders(c *C) {
 	c.Assert(diagnosticStudyOrder.StartTime, Equals, int64(629709860)) // start and end time should be equal for diagnostic study orders
 	c.Assert(diagnosticStudyOrder.EndTime, Equals, int64(629709860))
 }
+
+func (i *ImporterSuite) TestExtractTransferFrom(c *C) {
+	var transferFromXPath = xpath.Compile("//cda:encounter[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.81']")
+	rawTransferFroms := ExtractSection(i.patientElement, transferFromXPath, TransferFromExtractor, "2.16.840.1.113883.3.560.1.71")
+	i.patient.Encounters = make([]models.Encounter, len(rawTransferFroms))
+	for j := range rawTransferFroms {
+		i.patient.Encounters[j] = rawTransferFroms[j].(models.Encounter)
+	}
+
+	transferFromEncounter := i.patient.Encounters[0]
+	c.Assert(len(i.patient.Encounters), Equals, 1)
+	c.Assert(transferFromEncounter.ID.Root, Equals, "49d75f61-0dec-4972-9a51-e2490b18c772")
+	c.Assert(transferFromEncounter.Codes["LOINC"][0], Equals, "77305-1")
+	c.Assert(transferFromEncounter.StartTime, Equals, int64(1415097000))
+	c.Assert(transferFromEncounter.TransferFrom.Time, Equals, int64(1415097000))
+	c.Assert(transferFromEncounter.TransferFrom.Codes["SNOMED-CT"][0], Equals, "309911002")
+}

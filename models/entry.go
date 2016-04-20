@@ -15,7 +15,7 @@ type Entry struct {
 	StatusCode     map[string][]string `json:"status_code,omitempty"`
 	Reason         Reason              `json:"reason,omitempty"`
 	TransferTo     Transfer            `json:"transferTo,omitempty"`
-	TransferFrom   Transfer            `json:"transferFrom,omitempty"`
+  TransferFrom   Transfer            `json:"transferFrom,omitempty"`
 }
 
 func ExtractEntry(entry interface{}) Entry {

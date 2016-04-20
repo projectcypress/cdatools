@@ -11,7 +11,7 @@ func InsuranceProviderExtractor(entry *models.Entry, entryElement xml.Node) inte
   insuranceProvider.Entry = *entry
 
   var codePath = xpath.Compile("cda:value")
-  ExtractCodes(&insuranceProvider.Entry, entryElement, codePath)
+  ExtractCodes(&insuranceProvider.Entry.Coded, entryElement, codePath)
 
   return insuranceProvider
 }
