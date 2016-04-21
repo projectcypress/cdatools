@@ -177,6 +177,21 @@ func ExtractDates(entry *models.Entry, entryElement xml.Node) {
 	entry.EndTime = GetTimestamp(timeHighXPath, entryElement)
 }
 
+func ExtractScalar(scalar *models.Scalar, entryElement xml.Node, scalarPath *xpath.Expression) {
+	scalarElements, err := entryElement.Search(scalarPath)
+	util.CheckErr(err)
+
+	for _, scalarElement := range scalarElements {
+		unitAttr := scalarElement.Attribute("unit")
+		valueAttr := scalarElement.Attribute("value")
+
+		if valueAttr != nil && unitAttr != nil {
+			scalar.Unit = unitAttr.String()
+			scalar.Value = strconv.ParseInt(valueAttr.String(), 10, 64)
+		}
+	}
+}
+
 func ExtractReason(encounter *models.Encounter, entryElement xml.Node) {
 	var reasonXPath = xpath.Compile("cda:entryRelationship[@typeCode='RSON']/cda:observation")
 	reasonElements, err := entryElement.Search(reasonXPath)
