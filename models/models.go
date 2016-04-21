@@ -154,17 +154,10 @@ func (r *Record) EntriesForOid(oid string) []interface{} {
 
 type ResultValue struct {
 	Coded
-	Value     string `json:"value, omitempty"`
-	Scalar    int64  `json:"scalar,omitempty"`
+	Scalar    string `json:"scalar,omitempty"`
 	Units     string `json:"units,omitempty"`
 	StartTime int64  `json:"start_time,omitempty"`
 	EndTime   int64  `json:"end_time,omitempty"`
-}
-
-type CodedConcept struct {
-	Code           string `json:"code,omitempty"`
-	CodeSystem     string `json:"code_system,omitempty"`
-	CodeSystemName string `json:"codeSystemName,omitempty"`
 }
 
 type CDAIdentifier struct {

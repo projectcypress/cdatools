@@ -750,7 +750,7 @@
                 </time>
                 <participantRole classCode="LOCE">
                   <!-- Transfer from location -->
-                  <code code="309911002"                        codeSystem="2.16.840.1.113883.6.96"                        codeSystemName="SNOMED-CT"                        displayName="Respiratory intensive care unit (environment)"                        sdtc:valueSet="{$QDMElementValueSetOID}" />
+                  <code code="309911002" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT" displayName="Respiratory intensive care unit (environment)" sdtc:valueSet="{$QDMElementValueSetOID}" />
                 </participantRole>
               </participant>
             </encounter>
@@ -760,7 +760,7 @@
               <!-- Transfer To -->
               <templateId root="2.16.840.1.113883.10.20.24.3.82" extension="2014-12-01" />
               <id root="49d75f61-0dec-4972-9a51-e2490b18c772" />
-              <code code="77306-9"                    codeSystem="2.16.840.1.113883.6.1"                    displayName="Discharge disposition"                    codeSystemName="LOINC" />
+              <code code="77306-9" codeSystem="2.16.840.1.113883.6.1" displayName="Discharge disposition" codeSystemName="LOINC" />
               <statusCode code="completed" />
               <participant typeCode="DST">
                 <time>
@@ -773,7 +773,7 @@
                 </time>
                 <participantRole classCode="LOCE">
                   <!-- Transfer to location -->
-                  <code code="309911002"                      codeSystem="2.16.840.1.113883.6.96"                      codeSystemName="SNOMED-CT"                      displayName="Respiratory intensive care unit (environment)"                      sdtc:valueSet="{$QDMElementValueSetOID}" />
+                  <code code="309911002" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT" displayName="Respiratory intensive care unit (environment)" sdtc:valueSet="{$QDMElementValueSetOID}" />
                 </participantRole>
               </participant>
             </encounter>
@@ -928,6 +928,7 @@
               </entryRelationship>
             </observation>
           </entry>
+          <!-- procedure with negationInd and no reason -->
           <entry>
             <observation classCode="OBS" moodCode="EVN" >
               <!-- Lab test performed -->
@@ -1012,6 +1013,69 @@
                 </participant>
               </act>
             </entry>
+          <entry>
+            <procedure classCode="PROC" moodCode="EVN" negationInd="true">
+              <!--  Procedure performed template -->
+              <templateId root="2.16.840.1.113883.10.20.24.3.64"/>
+              <!-- Procedure Activity Procedure-->
+              <templateId root="2.16.840.1.113883.10.20.22.4.14"/>
+              <id root="51083f0e944dfe9bd7000004"/>
+              <code code="236211007" codeSystem="2.16.840.1.113883.6.96" sdtc:valueSet="2.16.840.1.113883.3.526.3.399"><originalText>Procedure, Performed: Salvage Therapy (Code List: 2.16.840.1.113883.3.526.3.399)</originalText><translation code="55876" codeSystem="2.16.840.1.113883.6.12"/>
+              </code>
+              <text>Procedure, Performed: Salvage Therapy (Code List: 2.16.840.1.113883.3.526.3.399)</text>
+              <statusCode code="completed"/>
+              <effectiveTime>
+                <low value='19860117151405'/>
+                <high value='19860118051933'/>
+              </effectiveTime>
+              <targetSiteCode code="28273000" displayName="bile duct" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" /> <!-- used for anatimical target. found in "procedure activity procedure" example -->
+              <priorityCode code="63161005" codeSystem="2.16.840.1.113883.6.96"/>
+              <entryRelationship typeCode="REFR">
+                <procedure classCode="PROC" moodCode="EVN">
+                  <templateId root="2.16.840.1.113883.10.20.24.3.89"/>
+                  <code code="34896006" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="incision"/>
+                  <effectiveTime value="19860117151505"/>
+                </procedure>
+              </entryRelationship>          
+            </procedure>
+          </entry>
+          <!-- procedure with negationInd and reason. contains multiple values to test different xsi types -->
+          <entry>
+            <procedure classCode="PROC" moodCode="EVN" negationInd="true">
+              <!--  Procedure performed template -->
+              <templateId root="2.16.840.1.113883.10.20.24.3.64"/>
+              <!-- Procedure Activity Procedure-->
+              <templateId root="2.16.840.1.113883.10.20.22.4.14"/>
+              <id root="51083f0e944dfe9bd7001234"/>
+              <code code="236211007" codeSystem="2.16.840.1.113883.6.96" sdtc:valueSet="2.16.840.1.113883.3.526.3.399"><originalText>Procedure, Performed: Salvage Therapy (Code List: 2.16.840.1.113883.3.526.3.399)</originalText><translation code="55876" codeSystem="2.16.840.1.113883.6.12"/>
+              </code>
+              <text>Procedure, Performed: Salvage Therapy (Code List: 2.16.840.1.113883.3.526.3.399)</text>
+              <statusCode code="completed"/>
+              <effectiveTime>
+                <low value='19860117151405'/>
+                <high value='19860118051933'/>
+              </effectiveTime>
+              <targetSiteCode code="28273000" displayName="bile duct" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" /> <!-- used for anatimical target. found in "procedure activity procedure" example. added by Jesse -->
+              <priorityCode code="63161005" codeSystem="2.16.840.1.113883.6.96"/>
+              <entryRelationship typeCode="REFR">
+                <procedure classCode="PROC" moodCode="EVN">
+                  <templateId root="2.16.840.1.113883.10.20.24.3.89"/>
+                  <code code="34896006" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="incision"/>
+                  <effectiveTime value="19860117151505"/>
+                </procedure>
+              </entryRelationship>
+              <entryRelationship typeCode="RSON">
+                <act classCode="ACT" moodCode="EVN">
+                  <templateId root="2.16.840.1.113883.10.20.1.27"/> <!-- added template id to identify negation reason -->
+                  <code code="308292007" codeSystem="2.16.840.1.113883.6.96" displayName="Transfer of care" codeSystemName="SNOMED CT"/>
+                  <statusCode code="completed"/>
+                </act>
+              </entryRelationship>
+              <value xsi:type="PQ" value="6" unit="m[IU]/L"/> <!-- added to test values tags with different formats -->
+              <value xsi:type="BL" value="true"/>
+              <value xsi:type="ST">my_string_value</value>
+            </procedure>
+          </entry>
         </section>
       </component>
     </structuredBody>

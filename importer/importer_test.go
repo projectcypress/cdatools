@@ -9,6 +9,7 @@ import (
 	"github.com/pebbe/util"
 	"github.com/projectcypress/cdatools/models"
 	. "gopkg.in/check.v1"
+	"strconv"
 )
 
 type ImporterSuite struct {
@@ -155,7 +156,7 @@ func (i *ImporterSuite) TestExtractLabResults(c *C) {
 	c.Assert(labResult.Codes["LOINC"][0], Equals, "11268-0")
 	c.Assert(labResult.StartTime, Equals, int64(674670276))
 	c.Assert(len(labResult.Entry.Values), Equals, 1)
-	c.Assert(labResult.Entry.Values[0].Value, Equals, "positive")
+	c.Assert(labResult.Entry.Values[0].Scalar, Equals, "positive")
 }
 
 func (i *ImporterSuite) TestExtractLabOrders(c *C) {
@@ -335,7 +336,7 @@ func (i *ImporterSuite) TestGestationalAge(c *C) {
 	c.Assert(gestationalAge.ID.Root, Equals, "50f6c6da7042f9cdd0000233")
 	c.Assert(gestationalAge.Oid, Equals, "2.16.840.1.113883.3.560.1.1001")
 	c.Assert(gestationalAge.Codes["SNOMED-CT"][0], Equals, "931004")
-	c.Assert(gestationalAge.Values[0].Scalar, Equals, int64(36))
+	c.Assert(gestationalAge.Values[0].Scalar, Equals, strconv.Itoa(int(36)))
 	c.Assert(gestationalAge.Values[0].Units, Equals, "wk")
 }
 
@@ -434,4 +435,50 @@ func (i *ImporterSuite) TestMedicalEquipmentApplied(c *C) {
 	c.Assert(medEquipApplied.AnatomicalStructure.Code, Equals, "thigh")
 	c.Assert(medEquipApplied.AnatomicalStructure.CodeSystem, Equals, "2.16.840.1.113883.6.96")
 	c.Assert(medEquipApplied.AnatomicalStructure.CodeSystemName, Equals, "SNOMED-CT")
+}
+
+func (i *ImporterSuite) TestExtractProcedurePerformed(c *C) {
+	var procedurePerformedXPath = xpath.Compile("//cda:entry/cda:procedure[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.64']")
+	rawProcedurePerformed := ExtractSection(i.patientElement, procedurePerformedXPath, ProcedurePerformedExtractor, "2.16.840.1.113883.3.560.1.6")
+	i.patient.Procedures = make([]models.Procedure, len(rawProcedurePerformed))
+	for j := range rawProcedurePerformed {
+		i.patient.Procedures[j] = rawProcedurePerformed[j].(models.Procedure)
+	}
+
+	procedurePerformed := i.patient.Procedures[0]
+	c.Assert(len(i.patient.Procedures), Equals, 2) // there are two procedure performed in cat1_good.xml
+	c.Assert(procedurePerformed.ID.Root, Equals, "51083f0e944dfe9bd7000004")
+	c.Assert(procedurePerformed.Oid, Equals, "2.16.840.1.113883.3.560.1.6") // hqmf oid
+	c.Assert(procedurePerformed.Codes["SNOMED-CT"][0], Equals, "236211007")
+	c.Assert(procedurePerformed.Ordinality.Codes["SNOMED-CT"][0], Equals, "63161005")
+	c.Assert(procedurePerformed.StartTime, Equals, int64(506358845))
+	c.Assert(procedurePerformed.EndTime, Equals, int64(506409573))
+	c.Assert(procedurePerformed.IncisionTime, Equals, int64(506358905))
+	c.Assert(procedurePerformed.NegationInd, Equals, true)
+	c.Assert(procedurePerformed.NegationReason, Equals, models.CodedConcept{}) // no negation reason
+
+	// tests not included in health data standards
+	c.Assert(procedurePerformed.AnatomicalTarget.Code, Equals, "28273000")
+	c.Assert(procedurePerformed.AnatomicalTarget.CodeSystem, Equals, "SNOMED-CT")
+	c.Assert(procedurePerformed.AnatomicalTarget.CodeSystemOid, Equals, "2.16.840.1.113883.6.96")
+
+	// find second procedurePerformed
+	for j, procedure := range i.patient.Procedures {
+		if procedure.ID.Root == "51083f0e944dfe9bd7001234" {
+			procedurePerformed = i.patient.Procedures[j]
+		}
+	}
+	// second procedure performed has negation reasons (not just negation indicator with no reason)
+	c.Assert(procedurePerformed.ID.Root, Equals, "51083f0e944dfe9bd7001234")
+	c.Assert(procedurePerformed.NegationInd, Equals, true)
+	c.Assert(procedurePerformed.NegationReason.Code, Equals, "308292007")
+	c.Assert(procedurePerformed.NegationReason.CodeSystem, Equals, "SNOMED-CT")
+
+	// second procedure performed also has values tags with different formats
+	c.Assert(procedurePerformed.Values[0].Scalar, Equals, "6")
+	c.Assert(procedurePerformed.Values[0].Units, Equals, "m[IU]/L")
+	c.Assert(procedurePerformed.Values[1].Scalar, Equals, "true")
+	c.Assert(procedurePerformed.Values[1].Units, Equals, "")
+	c.Assert(procedurePerformed.Values[2].Scalar, Equals, "my_string_value")
+	c.Assert(procedurePerformed.Values[2].Units, Equals, "")
 }

@@ -44,16 +44,9 @@ func ExtractEntry(entry interface{}) Entry {
 	}
 }
 
-func (e *Entry) AddScalarValue(value int64, units string) {
+func (e *Entry) AddScalarValue(value string, units string) {
 	val := ResultValue{}
 	val.Scalar = value
-	val.Units = units
-	e.Values = append(e.Values, val)
-}
-
-func (e *Entry) AddStringValue(value string, units string) {
-	val := ResultValue{}
-	val.Value = value
 	val.Units = units
 	e.Values = append(e.Values, val)
 }

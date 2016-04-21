@@ -273,6 +273,13 @@ func Read_patient(path string) string {
 		patient.MedicalEquipment = append(patient.MedicalEquipment, rawMedEquipNotOrdered[i].(models.MedicalEquipment))
 	}
 
+	// procedure performed
+	var procedurePerformedXPath = xpath.Compile("//cda:entry/cda:procedure[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.64']")
+	rawProcedurePerformed := ExtractSection(patientElement, procedurePerformedXPath, ProcedurePerformedExtractor, "2.16.840.1.113883.3.560.1.6")
+	for i := range rawProcedurePerformed {
+		patient.Procedures = append(patient.Procedures, rawProcedurePerformed[i].(models.Procedure))
+	}
+
 	patientJSON, err := json.Marshal(patient)
 	if err != nil {
 		fmt.Println(err)
@@ -333,6 +340,14 @@ func ExtractCodes(coded *models.Coded, entryElement xml.Node, codePath *xpath.Ex
 	}
 }
 
+func ExtractCodedConcept(concept *models.CodedConcept, entryElement xml.Node, codePath *xpath.Expression) {
+	conceptElements, err := entryElement.Search(codePath)
+	util.CheckErr(err)
+	for _, conceptElement := range conceptElements {
+		concept.AddCodeIfPresent(conceptElement)
+	}
+}
+
 func ExtractDates(entry *models.Entry, entryElement xml.Node) {
 	var timeLowXPath = xpath.Compile("cda:effectiveTime/cda:low/@value")
 	var timeHighXPath = xpath.Compile("cda:effectiveTime/cda:high/@value")
@@ -384,10 +399,7 @@ func ExtractValues(entry *models.Entry, entryElement xml.Node, valuePath *xpath.
 			value := valueElement.Attribute("value")
 			code := valueElement.Attribute("code")
 			if value != nil {
-				unit := valueElement.Attribute("unit").String()
-				scalar, err := strconv.ParseInt(value.String(), 10, 64)
-				util.CheckErr(err)
-				entry.AddScalarValue(scalar, unit)
+				extractValueAndUnit(entry, valueElement, value.String())
 			} else if code != nil {
 				val := models.ResultValue{}
 				val.Codes = map[string][]string{}
@@ -398,13 +410,7 @@ func ExtractValues(entry *models.Entry, entryElement xml.Node, valuePath *xpath.
 				val.EndTime = GetTimestamp(timeHighXPath, entryElement)
 				entry.Values = append(entry.Values, val)
 			} else {
-				unit := valueElement.Attribute("unit")
-				valString := valueElement.Content()
-				if unit == nil {
-					entry.AddStringValue(valString, "")
-				} else {
-					entry.AddStringValue(valString, unit.String())
-				}
+				extractValueAndUnit(entry, valueElement, valueElement.Content())
 			}
 		}
 	}
@@ -435,6 +441,10 @@ func ExtractReasonOrNegation(entry *models.Entry, entryElement xml.Node) {
 			entry.Reason.CodeSystem = codeSystem
 		}
 	}
+	// negation indicator without a reason
+	if len(reasonElements) == 0 {
+		extractNegation(entry, entryElement)
+	}
 }
 
 func FirstElementContent(xpath *xpath.Expression, xmlNode xml.Node) string {
@@ -464,4 +474,22 @@ func TimestampToSeconds(timestamp string) int64 {
 	second, _ := strconv.ParseInt(timestamp[12:14], 10, 32)
 	desiredDate := time.Date(int(year), time.Month(month), int(day), int(hour), int(minute), int(second), 0, time.UTC)
 	return desiredDate.Unix()
+}
+
+// private
+
+func extractValueAndUnit(entry *models.Entry, valueElement xml.Node, valString string) {
+	if unit := valueElement.Attribute("unit"); unit == nil {
+		entry.AddScalarValue(valString, "")
+	} else {
+		entry.AddScalarValue(valString, unit.String())
+	}
+}
+
+func extractNegation(entry *models.Entry, entryElement xml.Node) {
+	if negationAttr := entryElement.Attribute("negationInd"); negationAttr != nil {
+		if negationInd := negationAttr.String(); negationInd == "true" { // if the negationInd attribute exists and is "true"
+			entry.NegationInd = true
+		}
+	}
 }
