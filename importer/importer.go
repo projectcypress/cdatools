@@ -96,6 +96,20 @@ func Read_patient(path string) string {
 		patient.Procedures[i] = rawDiagnosticStudyOrders[i].(models.Procedure)
 	}
 
+	// transfer from
+	var transferFromXPath = xpath.Compile("//cda:encounter[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.81']")
+	rawTransferFroms := ExtractSection(patientElement, transferFromXPath, TransferFromExtractor, "2.16.840.1.113883.3.560.1.71")
+	for i := range rawTransferFroms {
+		patient.Encounters = append(patient.Encounters, rawTransferFroms[i].(models.Encounter))
+	}
+
+	// transfer to
+	var transferToXPath = xpath.Compile("//cda:encounter[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.82']")
+	rawTransferTos := ExtractSection(patientElement, transferToXPath, TransferToExtractor, "2.16.840.1.113883.3.560.1.72")
+	for i := range rawTransferTos {
+		patient.Encounters = append(patient.Encounters, rawTransferTos[i].(models.Encounter))
+	}
+
 	patientJSON, err := json.Marshal(patient)
 	if err != nil {
 		fmt.Println(err)
@@ -143,15 +157,15 @@ func ExtractEntry(entryElement xml.Node, oid string, extractor EntryExtractor) i
 	return fullEntry
 }
 
-func ExtractCodes(entry *models.Entry, entryElement xml.Node, codePath *xpath.Expression) {
+func ExtractCodes(coded *models.Coded, entryElement xml.Node, codePath *xpath.Expression) {
 	codeElements, err := entryElement.Search(codePath)
 	util.CheckErr(err)
 	for _, codeElement := range codeElements {
-		entry.Coded.AddCodeIfPresent(codeElement)
+		coded.AddCodeIfPresent(codeElement)
 		translationElements, err := codeElement.Search("cda:translation")
 		util.CheckErr(err)
 		for _, translationElement := range translationElements {
-			entry.Coded.AddCodeIfPresent(translationElement)
+			coded.AddCodeIfPresent(translationElement)
 		}
 	}
 }

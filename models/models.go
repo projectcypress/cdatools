@@ -147,11 +147,6 @@ type Reason struct {
 	CodeSystemName string `json:"codeSystemName,omitempty"`
 }
 
-type Transfer struct {
-	Reason
-	Coded
-}
-
 type CDAIdentifier struct {
 	Root      string `json:"root,omitempty"`
 	Extension string `json:"extension,omitempty"`

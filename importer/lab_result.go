@@ -12,7 +12,7 @@ func LabResultExtractor(entry *models.Entry, entryElement xml.Node) interface{} 
 
 	//extract codes
 	var codePath = xpath.Compile("cda:code")
-	ExtractCodes(&labResult.Entry, entryElement, codePath)
+	ExtractCodes(&labResult.Entry.Coded, entryElement, codePath)
 
 	//extract values
 	var valuePath = xpath.Compile("cda:value")
@@ -27,7 +27,7 @@ func LabOrderExtractor(entry *models.Entry, entryElement xml.Node) interface{} {
 
 	//extract codes
 	var codePath = xpath.Compile("cda:code")
-	ExtractCodes(&labOrder.Entry, entryElement, codePath)
+	ExtractCodes(&labOrder.Entry.Coded, entryElement, codePath)
 
 	//extract order specific dates
 	var orderTimeXPath = xpath.Compile("cda:author/cda:time/@value")
