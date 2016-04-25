@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"html/template"
+	"text/template"
 	"time"
 
 	"github.com/pborman/uuid"
@@ -111,6 +111,7 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 		"timeToFormat":        timeToFormat,
 		"identifierForInt":    identifierForInt,
 		"identifierForString": identifierForString,
+		"escape":              escape,
 	}
 
 	cat1Template := template.New("cat1").Funcs(funcMap)
@@ -284,5 +285,4 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 	}
 
 	return b.String()
-	// return ""
 }

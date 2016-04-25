@@ -1,6 +1,6 @@
 <!-- SHALL have 1..* author. MAY be device or person. -->
 <author>
-  <time value="{{.Time}}" />
+  <time value="{{ escape .Time}}" />
   <assignedAuthor>
   {{range .Ids}}
     {{template "_id.xml" .}}
@@ -15,14 +15,14 @@
   {{if .Person.First}}
     <assignedPerson>
       <name>
-        <given>{{.Person.First}}</given>
-        <family>{{.Person.Last}}</family>
+        <given>{{escape .Person.First}}</given>
+        <family>{{escape .Person.Last}}</family>
       </name>
     </assignedPerson>
   {{else if .Device.Model}}
     <assignedAuthoringDevice>
-       <manufacturerModelName>{{.Device.Model}}</manufacturerModelName>
-       <softwareName>{{.Device.Name}}</softwareName>
+       <manufacturerModelName>{{escape .Device.Model}}</manufacturerModelName>
+       <softwareName>{{escape .Device.Name}}</softwareName>
      </assignedAuthoringDevice>
   {{end}}
 

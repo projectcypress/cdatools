@@ -2,7 +2,7 @@
   <patientRole>
     {{if .MedicalRecordNumber}}
       {{if .MedicalRecordAssigner}}
-        <id extension="{{.MedicalRecordNumber}}" root="{{.MedicalRecordAssigner}}" />
+        <id extension="{{escape .MedicalRecordNumber}}" root="{{escape .MedicalRecordAssigner}}" />
       {{else}}
         <id extension="12345" root="PlaceholderOrganization" />
       {{end}}
@@ -13,12 +13,12 @@
       {{if .Addresses}}
         {{range .Addresses}}
           {{range .Street}}
-            <streetAddressLine>{{.}}</streetAddressLine>
+            <streetAddressLine>{{escape .}}</streetAddressLine>
           {{end}}
-          <city>{{.City}}</city>
-          <state>{{.State}}</state>
-          <postalCode>{{.Zip}}</postalCode>
-          <country>{{.Country }}</country>
+          <city>{{escape .City}}</city>
+          <state>{{escape .State}}</state>
+          <postalCode>{{escape .Zip}}</postalCode>
+          <country>{{escape .Country }}</country>
         {{end}}
       {{else}}
         <streetAddressLine>202 Burlington Rd.</streetAddressLine>
@@ -31,16 +31,16 @@
     <telecom use="WP" value="tel:+1-781-271-3000"/>
     <patient>
       <name>
-        <given>{{.First}}</given>
-        <family>{{.Last}}</family>
+        <given>{{escape .First}}</given>
+        <family>{{escape .Last}}</family>
       </name>
-      <administrativeGenderCode code="{{.Gender}}" codeSystem="2.16.840.1.113883.5.1" codeSystemName="HL7 AdministrativeGender"/>
+      <administrativeGenderCode code="{{escape .Gender}}" codeSystem="2.16.840.1.113883.5.1" codeSystemName="HL7 AdministrativeGender"/>
       <birthTime value="{{timeToFormat .Birthdate "20060102"}}"/>
       {{if .Race}}
-        <raceCode code="{{.Race.Code}}" {{if .Race.Name }}displayName="{{.Race.Name}}"{{end}} codeSystemName="CDC Race and Ethnicity" codeSystem="2.16.840.1.113883.6.238"/>
+        <raceCode code="{{escape .Race.Code}}" {{if .Race.Name }}displayName="{{escape .Race.Name}}"{{end}} codeSystemName="CDC Race and Ethnicity" codeSystem="2.16.840.1.113883.6.238"/>
       {{end}}
       {{if .Ethnicity }}
-        <ethnicGroupCode code="{{.Ethnicity.Code}}" {{ if .Ethnicity.Name }}displayName="{{.Ethnicity.Name }}"{{end}} codeSystemName="CDC Race and Ethnicity" codeSystem="2.16.840.1.113883.6.238"/>
+        <ethnicGroupCode code="{{escape .Ethnicity.Code}}" {{ if .Ethnicity.Name }}displayName="{{escape .Ethnicity.Name }}"{{end}} codeSystemName="CDC Race and Ethnicity" codeSystem="2.16.840.1.113883.6.238"/>
       {{end}}
       {{if .Languages}}
         {{range .Languages}}

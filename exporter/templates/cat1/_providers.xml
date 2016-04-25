@@ -15,13 +15,13 @@
         <assignedEntity>
           {{range .Provider.CDAIdentidiers}}
             {{if ne .Root "2.16.840.1.113883.4.2"}}
-              <id root="{{.Root}}" extension="{{.Extension}}" />
+              <id root="{{ escape .Root}}" extension="{{ escape .Extension}}" />
             {{end}}
           {{end}}
           <representedOrganization>
             {{range .Provider.CDAIdentidiers}}
               {{if eq .Root "2.16.840.1.113883.4.2"}}
-                <id root="2.16.840.1.113883.4.2" extension="{{.Extension}}" />
+                <id root="2.16.840.1.113883.4.2" extension="{{ escape .Extension}}" />
               {{end}}
             {{end}}
           </representedOrganization>

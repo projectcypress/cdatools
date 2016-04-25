@@ -45,7 +45,7 @@
     <!-- SHALL -->
     <legalAuthenticator>
       <!-- SHALL -->
-      <time value="{{.Header.Authenticator.Time}}"/>
+      <time value="{{escape .Header.Authenticator.Time}}"/>
       <!-- SHALL -->
       <signatureCode code="S"/>
       <assignedEntity>
@@ -61,8 +61,8 @@
         {{end}}
         <assignedPerson>
           <name>
-             <given>{{.Header.Authenticator.Person.First}}</given>
-             <family>{{.Header.Authenticator.Person.Last}}</family>
+             <given>{{escape .Header.Authenticator.Person.First}}</given>
+             <family>{{escape .Header.Authenticator.Person.Last}}</family>
           </name>
        </assignedPerson>
         {{template "_organization.xml" .Header.Authenticator.Organization}}

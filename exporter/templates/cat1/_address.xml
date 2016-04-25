@@ -1,9 +1,9 @@
-<addr use="{{ .Use }}">
+<addr use="{{ escape  .Use }}">
     {{range .Street}}
-      <streetAddressLine>{{.}}</streetAddressLine>
+      <streetAddressLine>{{escape .}}</streetAddressLine>
     {{end}}
-    <city>{{ .City }}</city>
-    <state>{{ .State }}</state>
-    <postalCode>{{ .Zip }}</postalCode>
-    <country>{{ .Country }}</country>
+    <city>{{escape .City}}</city>
+    <state>{{escape .State}}</state>
+    <postalCode>{{escape .Zip}}</postalCode>
+    <country>{{escape .Country}}</country>
 </addr>
