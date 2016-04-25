@@ -237,3 +237,51 @@ func (i *ImporterSuite) TestExtractTransferTo(c *C) {
 	c.Assert(transferToEncounter.TransferTo.Time, Equals, int64(1415097000))
 	c.Assert(transferToEncounter.TransferTo.Codes["SNOMED-CT"][0], Equals, "309911002")
 }
+
+func (i *ImporterSuite) TestMedicationActive(c *C) {
+	var medicationActiveXPath = xpath.Compile("//cda:substanceAdministration[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.41']")
+	rawMedicationActives := ExtractSection(i.patientElement, medicationActiveXPath, MedicationActiveExtractor, "2.16.840.1.113883.3.560.1.13")
+	i.patient.Medications = make([]models.Medication, len(rawMedicationActives))
+	for j := range rawMedicationActives {
+		i.patient.Medications[j] = rawMedicationActives[j].(models.Medication)
+	}
+
+	medicationActive := i.patient.Medications[0]
+	c.Assert(len(i.patient.Medications), Equals, 1)
+	c.Assert(medicationActive.ID.Root, Equals, "c0ea7bf3-50e7-4e7a-83a3-e5a9ccbb8541")
+	c.Assert(medicationActive.Codes["RxNorm"][0], Equals, "105152")
+	c.Assert(medicationActive.AdministrationTiming.InstitutionSpecified, Equals, true)
+	c.Assert(medicationActive.AdministrationTiming.Period.Unit, Equals, "h")
+	c.Assert(medicationActive.AdministrationTiming.Period.Value, Equals, int64(6))
+	c.Assert(medicationActive.StartTime, Equals, int64(1092658739))
+	c.Assert(medicationActive.EndTime, Equals, int64(1092676026))
+	c.Assert(medicationActive.Oid, Equals, "2.16.840.1.113883.3.560.1.13")
+	c.Assert(medicationActive.Route.Codes["NCI Thesaurus"][0], Equals, "C38288")
+	c.Assert(medicationActive.ProductForm.Codes["NCI Thesaurus"][0], Equals, "C42944")
+	c.Assert(medicationActive.DoseRestriction.Numerator.Unit, Equals, "oz")
+	c.Assert(medicationActive.DoseRestriction.Numerator.Value, Equals, int64(42))
+	c.Assert(medicationActive.DoseRestriction.Denominator.Unit, Equals, "oz")
+	c.Assert(medicationActive.DoseRestriction.Denominator.Value, Equals, int64(100))
+	c.Assert(medicationActive.OrderInformation[0].OrderNumber, Equals, "12345")
+	c.Assert(medicationActive.OrderInformation[0].Fills, Equals, int64(1))
+	c.Assert(medicationActive.OrderInformation[0].QuantityOrdered.Value, Equals, int64(75))
+	c.Assert(medicationActive.OrderInformation[0].OrderNumber, Equals, "12345")
+	c.Assert(medicationActive.OrderInformation[0].OrderDate, Equals, int64(1092676026))
+
+}
+
+func (i *ImporterSuite) TestMedicationDispensed(c *C) {
+	var medicationDispensedXPath = xpath.Compile("//cda:supply[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.45']")
+	rawMedicationDispenseds := ExtractSection(i.patientElement, medicationDispensedXPath, MedicationDispensedExtractor, "2.16.840.1.113883.3.560.1.8")
+	i.patient.Medications = make([]models.Medication, len(rawMedicationDispenseds))
+	for j := range rawMedicationDispenseds {
+		i.patient.Medications[j] = rawMedicationDispenseds[j].(models.Medication)
+	}
+
+	medicationDispensed := i.patient.Medications[0]
+	c.Assert(len(i.patient.Medications), Equals, 1)
+	c.Assert(medicationDispensed.ID.Root, Equals, "50f84c1b7042f9877500023e")
+	c.Assert(medicationDispensed.Codes["RxNorm"][0], Equals, "977869")
+	c.Assert(medicationDispensed.StartTime, Equals, int64(822072083))
+	c.Assert(medicationDispensed.EndTime, Equals, int64(822089605))
+}

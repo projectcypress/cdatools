@@ -94,6 +94,7 @@ type Record struct {
 	ProviderPerformances  []ProviderPerformance `json:"provider_performances,omitempty"`
 	InsuranceProviders    []InsuranceProvider   `json:"insurance_providers,omitempty"`
 	Procedures            []Procedure           `json:"procedures,omitempty"`
+	Medications           []Medication          `json:"medications, omitempty"`
 }
 
 // Entries returns all the entries from the Encounters, Diagnoses, and LabResults for a Record
@@ -143,7 +144,7 @@ type ResultValue struct {
 
 type Reason struct {
 	Code           string `json:"code,omitempty"`
-	CodeSystem     string `json:"code_system,omitempty"`
+	CodeSystem     string `json:"codeSystem,omitempty"`
 	CodeSystemName string `json:"codeSystemName,omitempty"`
 }
 
@@ -156,4 +157,9 @@ type ProviderPerformance struct {
 	Entry     `bson:",inline"`
 	StartDate int64 `json:"startDate,omitempty"`
 	EndDate   int64 `json:"endDate,omitempty"`
+}
+
+type Scalar struct {
+	Unit  string `json:"unit,omitempty"`
+	Value int64  `json:"value,omitempty"`
 }

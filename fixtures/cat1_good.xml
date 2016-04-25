@@ -1,9 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="cda.xsl"?>
-<ClinicalDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xmlns="urn:hl7-org:v3"
- xmlns:voc="urn:hl7-org:v3/voc"
- xmlns:sdtc="urn:hl7-org:sdtc">
+<ClinicalDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:hl7-org:v3" xmlns:voc="urn:hl7-org:v3/voc" xmlns:sdtc="urn:hl7-org:sdtc">
   <!-- QRDA Header -->
   <realmCode code="US"/>
   <typeId root="2.16.840.1.113883.1.3" extension="POCD_HD000040"/>
@@ -43,13 +40,13 @@
         </name>
         <administrativeGenderCode code="M" codeSystem="2.16.840.1.113883.5.1" codeSystemName="HL7 AdministrativeGender"/>
         <birthTime value="19890101083000"/>
-          <raceCode code="1002-5" displayName="American Indian or Alaska Native" codeSystemName="CDC Race and Ethnicity" codeSystem="2.16.840.1.113883.6.238"/>
-          <ethnicGroupCode code="2186-5" displayName="Not Hispanic or Latino" codeSystemName="CDC Race and Ethnicity" codeSystem="2.16.840.1.113883.6.238"/>
-          <languageCommunication>
-            <templateId root="2.16.840.1.113883.3.88.11.83.2" assigningAuthorityName="HITSP/C83"/>
-            <templateId root="1.3.6.1.4.1.19376.1.5.3.1.2.1" assigningAuthorityName="IHE/PCC"/>
-            <languageCode code="eng"/>
-          </languageCommunication>
+        <raceCode code="1002-5" displayName="American Indian or Alaska Native" codeSystemName="CDC Race and Ethnicity" codeSystem="2.16.840.1.113883.6.238"/>
+        <ethnicGroupCode code="2186-5" displayName="Not Hispanic or Latino" codeSystemName="CDC Race and Ethnicity" codeSystem="2.16.840.1.113883.6.238"/>
+        <languageCommunication>
+          <templateId root="2.16.840.1.113883.3.88.11.83.2" assigningAuthorityName="HITSP/C83"/>
+          <templateId root="1.3.6.1.4.1.19376.1.5.3.1.2.1" assigningAuthorityName="IHE/PCC"/>
+          <languageCode code="eng"/>
+        </languageCommunication>
       </patient>
     </patientRole>
   </recordTarget>
@@ -105,22 +102,20 @@
       <telecom use="WP" value="tel:(781)271-3000"/>
       <assignedPerson>
         <name>
-           <given>Henry</given>
-           <family>Seven</family>
+          <given>Henry</given>
+          <family>Seven</family>
         </name>
-     </assignedPerson>
+      </assignedPerson>
       <representedOrganization>
         <id root="2.16.840.1.113883.19.5"/>
         <name>Cypress</name>
       </representedOrganization>
     </assignedEntity>
   </legalAuthenticator>
-
-  <!-- TODO: This is where the provider information will go.
-       It is currently hard coded, but should be replaced with the providers
-       and the time over which they are performing. -->
+  <!-- TODO: This is where the provider information will go.       It is currently hard coded, but should be replaced with the providers       and the time over which they are performing. -->
   <documentationOf typeCode="DOC">
-    <serviceEvent classCode="PCPR"> <!-- care provision -->
+    <serviceEvent classCode="PCPR">
+      <!-- care provision -->
       <effectiveTime>
         <low value="20100601"/>
         <high value="20100915"/>
@@ -146,13 +141,9 @@
   </documentationOf>
   <component>
     <structuredBody>
-            <component>
+      <component>
         <section>
-          <!--
-            *****************************************************************
-            Measure Section
-            *****************************************************************
-          -->
+          <!--            *****************************************************************            Measure Section            *****************************************************************          -->
           <!-- This is the templateId for Measure Section -->
           <templateId root="2.16.840.1.113883.10.20.24.2.2"/>
           <!-- This is the templateId for Measure Section QDM -->
@@ -178,7 +169,8 @@
                   <td>1</td>
                   <td>50d3a284da5fe6e140000039</td>
                   <td>8A4D92B2-3946-CDAE-0139-7944ACB700BD</td>
-                  <td></td>
+                  <td>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -209,8 +201,7 @@
           </entry>
         </section>
       </component>
-
-            <component>
+      <component>
         <section>
           <!-- This is the templateId for Reporting Parameters section -->
           <templateId root="2.16.840.1.113883.10.20.17.2.1"/>
@@ -235,7 +226,7 @@
           </entry>
         </section>
       </component>
-            <component>
+      <component>
         <section>
           <!-- This is the templateId for Patient Data section -->
           <templateId root="2.16.840.1.113883.10.20.17.2.4"/>
@@ -244,7 +235,6 @@
           <code code="55188-7" codeSystem="2.16.840.1.113883.6.1"/>
           <title>Patient Data</title>
           <text>
-
           </text>
           <entry>
             <!-- Patient Characteristic Payer -->
@@ -256,18 +246,22 @@
               <effectiveTime>
                 <low value="20050326153000"/>
               </effectiveTime>
-              <value code="349" codeSystem="2.16.840.1.113883.3.221.5" xsi:type="CD" sdtc:valueSet="2.16.840.1.114222.4.11.3591"><originalText></originalText></value>
+              <value code="349" codeSystem="2.16.840.1.113883.3.221.5" xsi:type="CD" sdtc:valueSet="2.16.840.1.114222.4.11.3591">
+                <originalText>
+                </originalText>
+              </value>
             </observation>
           </entry>
           <entry>
             <observation classCode="OBS" moodCode="RQO">
-              <!-- Consolidated Plan of Care Activity Observation 
-                   templateId (Implied Template) -->
+              <!-- Consolidated Plan of Care Activity Observation                   templateId (Implied Template) -->
               <templateId root="2.16.840.1.113883.10.20.22.4.44"/>
               <!-- Diagnostic Study, Order template -->
               <templateId root="2.16.840.1.113883.10.20.24.3.17"/>
               <id root="50f84dbb7042f9366f00014c"/>
-              <code code="69399-4" codeSystem="2.16.840.1.113883.6.1" sdtc:valueSet="2.16.840.1.113883.3.117.1.7.1.276"><originalText>Diagnostic Study, Order: VTE Diagnostic Test (Code List: 2.16.840.1.113883.3.117.1.7.1.276)</originalText></code>
+              <code code="69399-4" codeSystem="2.16.840.1.113883.6.1" sdtc:valueSet="2.16.840.1.113883.3.117.1.7.1.276">
+                <originalText>Diagnostic Study, Order: VTE Diagnostic Test (Code List: 2.16.840.1.113883.3.117.1.7.1.276)</originalText>
+              </code>
               <text>Diagnostic Study, Order: VTE Diagnostic Test (Code List: 2.16.840.1.113883.3.117.1.7.1.276)</text>
               <statusCode code="new"/>
               <!-- Attribute: datetime -->
@@ -279,282 +273,355 @@
               </author>
             </observation>
           </entry>
-
-<entry>
-  <observation classCode="OBS" moodCode="EVN">
-    <!--  Problem observation template -->
-    <templateId root="2.16.840.1.113883.10.20.22.4.4"/>
-    <!--  Diagnosis active template -->
-    <templateId root="2.16.840.1.113883.10.20.24.3.11"/>
-    <id root="1.3.6.1.4.1.115" extension="54c1142869702d2cd2520100"/>
-    <code code="282291009" displayName="diagnosis" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT"/>
-    <text>Diagnosis, Active: Atrial Fibrillation/Flutter</text>
-    <statusCode code="completed"/>
-    <effectiveTime>
-      <!-- Attribute: admission datetime -->
-      <low value='20120326153000'/>
-      <!-- Attribute: discharge datetime -->
-      <high nullFlavor='UNK'/>
-    </effectiveTime>
-
-
-    <value code="195080001" codeSystem="2.16.840.1.113883.6.96" xsi:type="CD" sdtc:valueSet="2.16.840.1.113883.3.117.1.7.1.202"><originalText>Diagnosis, Active: Atrial Fibrillation/Flutter</originalText><translation code="427.31" codeSystem="2.16.840.1.113883.6.103"/>
-<translation code="I48.0" codeSystem="2.16.840.1.113883.6.90"/>
-</value>
-
-    <entryRelationship typeCode="REFR">
-      <observation classCode="OBS" moodCode="EVN">
-        <!-- Problem Status (consolidation) template -->
-        <templateId root="2.16.840.1.113883.10.20.22.4.6"/>
-        <!-- Problem Status, Active template -->
-        <templateId root="2.16.840.1.113883.10.20.24.3.94"/>
-        <id root="7db522a0-19c6-0133-26ad-1274d76bdb3b"/>
-        <code code="33999-4"
-          codeSystem="2.16.840.1.113883.6.1"
-          codeSystemName="LOINC"
-          displayName="status"/>
-        <statusCode code="completed"/>
-        <value xsi:type="CD" code="55561003"
-           displayName="active"
-           codeSystem="2.16.840.1.113883.6.96"
-           codeSystemName="SNOMED CT"/>
-      </observation>
-    </entryRelationship>
-    <entryRelationship typeCode="REFR">
-               <observation classCode="OBS" moodCode="EVN">
-                  <templateId root="2.16.840.1.113883.10.20.22.4.8"/>
-                  <code code="SEV"
-                        codeSystem="2.16.840.1.113883.5.4"/>
-                   <statusCode code="completed"/>
-                   <value xsi:type="CD" code="55561003" displayName="active" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+          <entry>
+            <observation classCode="OBS" moodCode="EVN">
+              <!--  Problem observation template -->
+              <templateId root="2.16.840.1.113883.10.20.22.4.4"/>
+              <!--  Diagnosis active template -->
+              <templateId root="2.16.840.1.113883.10.20.24.3.11"/>
+              <id root="1.3.6.1.4.1.115" extension="54c1142869702d2cd2520100"/>
+              <code code="282291009" displayName="diagnosis" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT"/>
+              <text>Diagnosis, Active: Atrial Fibrillation/Flutter</text>
+              <statusCode code="completed"/>
+              <effectiveTime>
+                <!-- Attribute: admission datetime -->
+                <low value='20120326153000'/>
+                <!-- Attribute: discharge datetime -->
+                <high nullFlavor='UNK'/>
+              </effectiveTime>
+              <value code="195080001" codeSystem="2.16.840.1.113883.6.96" xsi:type="CD" sdtc:valueSet="2.16.840.1.113883.3.117.1.7.1.202">
+                <originalText>Diagnosis, Active: Atrial Fibrillation/Flutter</originalText>
+                <translation code="427.31" codeSystem="2.16.840.1.113883.6.103"/>
+                <translation code="I48.0" codeSystem="2.16.840.1.113883.6.90"/>
+              </value>
+              <entryRelationship typeCode="REFR">
+                <observation classCode="OBS" moodCode="EVN">
+                  <!-- Problem Status (consolidation) template -->
+                  <templateId root="2.16.840.1.113883.10.20.22.4.6"/>
+                  <!-- Problem Status, Active template -->
+                  <templateId root="2.16.840.1.113883.10.20.24.3.94"/>
+                  <id root="7db522a0-19c6-0133-26ad-1274d76bdb3b"/>
+                  <code code="33999-4"          codeSystem="2.16.840.1.113883.6.1"          codeSystemName="LOINC"          displayName="status"/>
+                  <statusCode code="completed"/>
+                  <value xsi:type="CD" code="55561003"           displayName="active"           codeSystem="2.16.840.1.113883.6.96"           codeSystemName="SNOMED CT"/>
                 </observation>
-
-               </entryRelationship>
-  </observation>
-</entry>
-
-<entry>
-  <observation classCode="OBS" moodCode="EVN">
-    <!--  Problem observation template -->
-    <templateId root="2.16.840.1.113883.10.20.22.4.4"/>
-    <!--  Diagnosis active template -->
-    <templateId root="2.16.840.1.113883.10.20.24.3.11"/>
-    <id root="1.3.6.1.4.1.115" extension="54c1142969702d2cd2cd0200"/>
-    <code code="282291009" displayName="diagnosis" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT"/>
-    <text>Diagnosis, Active: Pregnancy Dx</text>
-    <statusCode code="completed"/>
-    <effectiveTime>
-      <!-- Attribute: admission datetime -->
-      <low value='20130301150000'/>
-      <!-- Attribute: discharge datetime -->
-      <high value='20131020160000'/>
-    </effectiveTime>
-
-
-    <value code="237244005" codeSystem="2.16.840.1.113883.6.96" xsi:type="CD" sdtc:valueSet="2.16.840.1.113883.3.526.3.378"><originalText>Diagnosis, Active: Pregnancy Dx</originalText><translation code="V22.0" codeSystem="2.16.840.1.113883.6.103"/>
-<translation code="Z34.00" codeSystem="2.16.840.1.113883.6.90"/>
-</value>
-
-    <entryRelationship typeCode="REFR">
-      <observation classCode="OBS" moodCode="EVN">
-        <!-- Problem Status (consolidation) template -->
-        <templateId root="2.16.840.1.113883.10.20.22.4.6"/>
-        <!-- Problem Status, Active template -->
-        <templateId root="2.16.840.1.113883.10.20.24.3.94"/>
-        <id root="82ba54c0-19c6-0133-26ad-1274d76bdb3b"/>
-        <code code="33999-4"
-          codeSystem="2.16.840.1.113883.6.1"
-          codeSystemName="LOINC"
-          displayName="status"/>
-        <statusCode code="completed"/>
-        <value xsi:type="CD" code="55561003"
-           displayName="active"
-           codeSystem="2.16.840.1.113883.6.96"
-           codeSystemName="SNOMED CT"/>
-      </observation>
-    </entryRelationship>
-  </observation>
-</entry>
-
-<entry>
-  <observation classCode="OBS" moodCode="EVN">
-    <!--  Problem observation template -->
-    <templateId root="2.16.840.1.113883.10.20.22.4.4"/>
-    <!--  Diagnosis active template -->
-    <templateId root="2.16.840.1.113883.10.20.24.3.11"/>
-    <id root="1.3.6.1.4.1.115" extension="54c1142869702d2cd2760100"/>
-    <code code="282291009" displayName="diagnosis" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT"/>
-    <text>Diagnosis, Active: Diabetes</text>
-    <statusCode code="completed"/>
-    <effectiveTime>
-      <!-- Attribute: admission datetime -->
-      <low value='20130226150000'/>
-      <!-- Attribute: discharge datetime -->
-      <high nullFlavor='UNK'/>
-    </effectiveTime>
-
-
-    <value code="46635009" codeSystem="2.16.840.1.113883.6.96" xsi:type="CD" sdtc:valueSet="2.16.840.1.113883.3.464.1003.103.12.1001"><originalText>Diagnosis, Active: Diabetes</originalText><translation code="250.01" codeSystem="2.16.840.1.113883.6.103"/>
-<translation code="E10.9" codeSystem="2.16.840.1.113883.6.90"/>
-</value>
-
-    <entryRelationship typeCode="REFR">
-      <observation classCode="OBS" moodCode="EVN">
-        <!-- Problem Status (consolidation) template -->
-        <templateId root="2.16.840.1.113883.10.20.22.4.6"/>
-        <!-- Problem Status, Active template -->
-        <templateId root="2.16.840.1.113883.10.20.24.3.94"/>
-        <id root="77791110-19c6-0133-26ad-1274d76bdb3b"/>
-        <code code="33999-4"
-          codeSystem="2.16.840.1.113883.6.1"
-          codeSystemName="LOINC"
-          displayName="status"/>
-        <statusCode code="completed"/>
-        <value xsi:type="CD" code="55561003"
-           displayName="active"
-           codeSystem="2.16.840.1.113883.6.96"
-           codeSystemName="SNOMED CT"/>
-      </observation>
-    </entryRelationship>
-  </observation>
-</entry>
-
-
-<entry>
-  <encounter classCode="ENC" moodCode="EVN">
-    <!--  Encounter activities template -->
-    <templateId root="2.16.840.1.113883.10.20.22.4.49"/>
-    <!-- Encounter performed template -->
-    <templateId root="2.16.840.1.113883.10.20.24.3.23"/>
-    <id root="1.3.6.1.4.1.115" extension="50d3a288da5fe6e14000016c"/>
-    <code code="99201" codeSystem="2.16.840.1.113883.6.12" sdtc:valueSet="2.16.840.1.113883.3.464.1003.101.12.1001"><originalText>Encounter, Performed: Psych Visit - Individual Outpatient Psychotherapy (Code List: 2.16.840.1.113883.3.526.3.1014)</originalText></code>
-    <text>Encounter, Performed: Psych Visit - Individual Outpatient Psychotherapy (Code List: 2.16.840.1.113883.3.526.3.1014)</text>
-    <statusCode code="completed"/>
-    <effectiveTime>
-      <!-- We try to look for the admit/discharge times on the encounter if they are
-           there. If not, we fall back to the typical start/end date. -->
-      <low value='20101101120000'/>
-      <high value='20101101130000'/>
-    </effectiveTime>
-  </encounter>
-</entry>
-
-<entry>
-  <encounter classCode="ENC" moodCode="RQO">
-    <!--  Plan of Care Activity Encounter template -->
-    <templateId root="2.16.840.1.113883.10.20.22.4.40"/>
-    <!-- Encounter order template -->
-    <templateId root="2.16.840.1.113883.10.20.24.3.22"/>
-    <id root="50f84c1b7042f9877500025e"/>
-    <code nullFlavor="UNK" ><originalText>Encounter, Order: BH Outpatient psychotherapy (Code List: 2.16.840.1.113883.3.1257.1.973)</originalText><translation code="76168009" codeSystem="2.16.840.1.113883.6.96"/>
-<translation code="90815" codeSystem="2.16.840.1.113883.6.12"/>
-<translation code="94.49" codeSystem="2.16.840.1.113883.6.103"/>
-<translation code="GZHZZZZ" codeSystem="2.16.840.1.113883.6.4"/>
-</code>
-    <text>Encounter, Order: BH Outpatient psychotherapy (Code List: 2.16.840.1.113883.3.1257.1.973)</text>
-    <statusCode code="new"/>
-
-    <!-- Attribute: datetime -->
-    <author>
-      <time value='20051226144034'/>
-      <assignedAuthor>
-        <id root="292627f0-4307-0130-0add-680688cbd736"/>
-      </assignedAuthor>
-    </author>
-
-  </encounter>
-</entry>
-
-<entry>
-  <encounter classCode="ENC" moodCode="EVN">
-    <!--  Encounter activities template -->
-    <templateId root="2.16.840.1.113883.10.20.22.4.49"/>
-    <!-- Encounter performed template -->
-    <templateId root="2.16.840.1.113883.10.20.24.3.23"/>
-    <id root="1.3.6.1.4.1.115" extension="50d3a288da5fe6e14000016a"/>
-    <code code="99201" codeSystem="2.16.840.1.113883.6.12" sdtc:valueSet="2.16.840.1.113883.3.464.1003.101.12.1001"><originalText>Encounter, Performed: Office Visit (Code List: 2.16.840.1.113883.3.464.1003.101.12.1001)</originalText></code>
-    <text>Encounter, Performed: Office Visit (Code List: 2.16.840.1.113883.3.464.1003.101.12.1001)</text>
-    <statusCode code="completed"/>
-    <effectiveTime>
-      <!-- We try to look for the admit/discharge times on the encounter if they are
-           there. If not, we fall back to the typical start/end date. -->
-      <low value='20091101000000'/>
-      <high value='20091101000000'/>
-    </effectiveTime>
-  </encounter>
-</entry>
-<entry>
-  <encounter classCode="ENC" moodCode="EVN">
-    <!--  Encounter activities template -->
-    <templateId root="2.16.840.1.113883.10.20.22.4.49"/>
-    <!-- Encounter performed template -->
-    <templateId root="2.16.840.1.113883.10.20.24.3.23"/>
-    <id root="1.3.6.1.4.1.115" extension="50d3a288da5fe6e14000016b"/>
-    <code code="99201" codeSystem="2.16.840.1.113883.6.12" sdtc:valueSet="2.16.840.1.113883.3.464.1003.101.12.1001"><originalText>Encounter, Performed: Office Visit (Code List: 2.16.840.1.113883.3.464.1003.101.12.1001)</originalText></code>
-    <text>Encounter, Performed: Office Visit (Code List: 2.16.840.1.113883.3.464.1003.101.12.1001)</text>
-    <statusCode code="completed"/>
-    <effectiveTime>
-      <!-- We try to look for the admit/discharge times on the encounter if they are
-           there. If not, we fall back to the typical start/end date. -->
-      <low value='20101001120000'/>
-      <high value='20101001130000'/>
-    </effectiveTime>
-  </encounter>
-</entry>
-
-<entry>
-    <observation classCode="OBS" moodCode="EVN">
-    <!--  Problem observation template -->
-    <templateId root="2.16.840.1.113883.10.20.22.4.4"/>
-    <!-- Diagnosis, inactive template -->
-    <templateId root="2.16.840.1.113883.10.20.24.3.13"/>
-    <id root="50f84c1d7042f98775000352"/>
-    <code code="282291009" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="diagnosis"/>
-
-    <statusCode code="completed"/>
-
-    <effectiveTime>
-      <!-- Attribute: Start Datetime -->
-      <low value='20040816121859'/>
-      <!-- Attribute: Stop Datetime -->
-      <high value='20040816200929'/>
-    </effectiveTime>
-
-
-    <value code="76795007" codeSystem="2.16.840.1.113883.6.96" xsi:type="CD" sdtc:valueSet="2.16.840.1.113883.3.67.1.101.1.269"><originalText>Diagnosis, Inactive: Hepatitis B (Code List: 2.16.840.1.113883.3.67.1.101.1.269)</originalText><translation code="V02.61" codeSystem="2.16.840.1.113883.6.103"/>
-  <translation code="Z22.51" codeSystem="2.16.840.1.113883.6.90"/>
-  </value>
-    <!-- Status -->
-    <entryRelationship typeCode="REFR">
-      <observation classCode="OBS" moodCode="EVN">
-        <!-- Problem Status (consolidation) template -->
-        <templateId root="2.16.840.1.113883.10.20.22.4.6"/>
-        <!-- Problem Status, Inactive template -->
-        <templateId root="2.16.840.1.113883.10.20.24.3.95"/>
-        <id root="2a0bd200-4307-0130-0add-680688cbd736"/>
-        <code code="33999-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="status"/>
-        <statusCode code="completed"/>
-        <value code="73425007" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="inactive" xsi:type="CD"/>
-      </observation>
-
-    </entryRelationship>
-
-  </observation>
-  </entry>
-
-  <entry>
+              </entryRelationship>
+              <entryRelationship typeCode="REFR">
+                <observation classCode="OBS" moodCode="EVN">
+                  <templateId root="2.16.840.1.113883.10.20.22.4.8"/>
+                  <code code="SEV"                        codeSystem="2.16.840.1.113883.5.4"/>
+                  <statusCode code="completed"/>
+                  <value xsi:type="CD" code="55561003" displayName="active" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+                </observation>
+              </entryRelationship>
+            </observation>
+          </entry>
+          <entry>
+            <observation classCode="OBS" moodCode="EVN">
+              <!--  Problem observation template -->
+              <templateId root="2.16.840.1.113883.10.20.22.4.4"/>
+              <!--  Diagnosis active template -->
+              <templateId root="2.16.840.1.113883.10.20.24.3.11"/>
+              <id root="1.3.6.1.4.1.115" extension="54c1142969702d2cd2cd0200"/>
+              <code code="282291009" displayName="diagnosis" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT"/>
+              <text>Diagnosis, Active: Pregnancy Dx</text>
+              <statusCode code="completed"/>
+              <effectiveTime>
+                <!-- Attribute: admission datetime -->
+                <low value='20130301150000'/>
+                <!-- Attribute: discharge datetime -->
+                <high value='20131020160000'/>
+              </effectiveTime>
+              <value code="237244005" codeSystem="2.16.840.1.113883.6.96" xsi:type="CD" sdtc:valueSet="2.16.840.1.113883.3.526.3.378">
+                <originalText>Diagnosis, Active: Pregnancy Dx</originalText>
+                <translation code="V22.0" codeSystem="2.16.840.1.113883.6.103"/>
+                <translation code="Z34.00" codeSystem="2.16.840.1.113883.6.90"/>
+              </value>
+              <entryRelationship typeCode="REFR">
+                <observation classCode="OBS" moodCode="EVN">
+                  <!-- Problem Status (consolidation) template -->
+                  <templateId root="2.16.840.1.113883.10.20.22.4.6"/>
+                  <!-- Problem Status, Active template -->
+                  <templateId root="2.16.840.1.113883.10.20.24.3.94"/>
+                  <id root="82ba54c0-19c6-0133-26ad-1274d76bdb3b"/>
+                  <code code="33999-4"          codeSystem="2.16.840.1.113883.6.1"          codeSystemName="LOINC"          displayName="status"/>
+                  <statusCode code="completed"/>
+                  <value xsi:type="CD" code="55561003"           displayName="active"           codeSystem="2.16.840.1.113883.6.96"           codeSystemName="SNOMED CT"/>
+                </observation>
+              </entryRelationship>
+            </observation>
+          </entry>
+          <entry>
+            <observation classCode="OBS" moodCode="EVN">
+              <!--  Problem observation template -->
+              <templateId root="2.16.840.1.113883.10.20.22.4.4"/>
+              <!--  Diagnosis active template -->
+              <templateId root="2.16.840.1.113883.10.20.24.3.11"/>
+              <id root="1.3.6.1.4.1.115" extension="54c1142869702d2cd2760100"/>
+              <code code="282291009" displayName="diagnosis" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT"/>
+              <text>Diagnosis, Active: Diabetes</text>
+              <statusCode code="completed"/>
+              <effectiveTime>
+                <!-- Attribute: admission datetime -->
+                <low value='20130226150000'/>
+                <!-- Attribute: discharge datetime -->
+                <high nullFlavor='UNK'/>
+              </effectiveTime>
+              <value code="46635009" codeSystem="2.16.840.1.113883.6.96" xsi:type="CD" sdtc:valueSet="2.16.840.1.113883.3.464.1003.103.12.1001">
+                <originalText>Diagnosis, Active: Diabetes</originalText>
+                <translation code="250.01" codeSystem="2.16.840.1.113883.6.103"/>
+                <translation code="E10.9" codeSystem="2.16.840.1.113883.6.90"/>
+              </value>
+              <entryRelationship typeCode="REFR">
+                <observation classCode="OBS" moodCode="EVN">
+                  <!-- Problem Status (consolidation) template -->
+                  <templateId root="2.16.840.1.113883.10.20.22.4.6"/>
+                  <!-- Problem Status, Active template -->
+                  <templateId root="2.16.840.1.113883.10.20.24.3.94"/>
+                  <id root="77791110-19c6-0133-26ad-1274d76bdb3b"/>
+                  <code code="33999-4"          codeSystem="2.16.840.1.113883.6.1"          codeSystemName="LOINC"          displayName="status"/>
+                  <statusCode code="completed"/>
+                  <value xsi:type="CD" code="55561003"           displayName="active"           codeSystem="2.16.840.1.113883.6.96"           codeSystemName="SNOMED CT"/>
+                </observation>
+              </entryRelationship>
+            </observation>
+          </entry>
+          <entry>
+            <encounter classCode="ENC" moodCode="EVN">
+              <!--  Encounter activities template -->
+              <templateId root="2.16.840.1.113883.10.20.22.4.49"/>
+              <!-- Encounter performed template -->
+              <templateId root="2.16.840.1.113883.10.20.24.3.23"/>
+              <id root="1.3.6.1.4.1.115" extension="50d3a288da5fe6e14000016c"/>
+              <code code="99201" codeSystem="2.16.840.1.113883.6.12" sdtc:valueSet="2.16.840.1.113883.3.464.1003.101.12.1001">
+                <originalText>Encounter, Performed: Psych Visit - Individual Outpatient Psychotherapy (Code List: 2.16.840.1.113883.3.526.3.1014)</originalText>
+              </code>
+              <text>Encounter, Performed: Psych Visit - Individual Outpatient Psychotherapy (Code List: 2.16.840.1.113883.3.526.3.1014)</text>
+              <statusCode code="completed"/>
+              <effectiveTime>
+                <!-- We try to look for the admit/discharge times on the encounter if they are           there. If not, we fall back to the typical start/end date. -->
+                <low value='20101101120000'/>
+                <high value='20101101130000'/>
+              </effectiveTime>
+            </encounter>
+          </entry>
+          <entry>
+            <encounter classCode="ENC" moodCode="RQO">
+              <!--  Plan of Care Activity Encounter template -->
+              <templateId root="2.16.840.1.113883.10.20.22.4.40"/>
+              <!-- Encounter order template -->
+              <templateId root="2.16.840.1.113883.10.20.24.3.22"/>
+              <id root="50f84c1b7042f9877500025e"/>
+              <code nullFlavor="UNK" >
+                <originalText>Encounter, Order: BH Outpatient psychotherapy (Code List: 2.16.840.1.113883.3.1257.1.973)</originalText>
+                <translation code="76168009" codeSystem="2.16.840.1.113883.6.96"/>
+                <translation code="90815" codeSystem="2.16.840.1.113883.6.12"/>
+                <translation code="94.49" codeSystem="2.16.840.1.113883.6.103"/>
+                <translation code="GZHZZZZ" codeSystem="2.16.840.1.113883.6.4"/>
+              </code>
+              <text>Encounter, Order: BH Outpatient psychotherapy (Code List: 2.16.840.1.113883.3.1257.1.973)</text>
+              <statusCode code="new"/>
+              <!-- Attribute: datetime -->
+              <author>
+                <time value='20051226144034'/>
+                <assignedAuthor>
+                  <id root="292627f0-4307-0130-0add-680688cbd736"/>
+                </assignedAuthor>
+              </author>
+            </encounter>
+          </entry>
+          <entry>
+            <encounter classCode="ENC" moodCode="EVN">
+              <!--  Encounter activities template -->
+              <templateId root="2.16.840.1.113883.10.20.22.4.49"/>
+              <!-- Encounter performed template -->
+              <templateId root="2.16.840.1.113883.10.20.24.3.23"/>
+              <id root="1.3.6.1.4.1.115" extension="50d3a288da5fe6e14000016a"/>
+              <code code="99201" codeSystem="2.16.840.1.113883.6.12" sdtc:valueSet="2.16.840.1.113883.3.464.1003.101.12.1001">
+                <originalText>Encounter, Performed: Office Visit (Code List: 2.16.840.1.113883.3.464.1003.101.12.1001)</originalText>
+              </code>
+              <text>Encounter, Performed: Office Visit (Code List: 2.16.840.1.113883.3.464.1003.101.12.1001)</text>
+              <statusCode code="completed"/>
+              <effectiveTime>
+                <!-- We try to look for the admit/discharge times on the encounter if they are           there. If not, we fall back to the typical start/end date. -->
+                <low value='20091101000000'/>
+                <high value='20091101000000'/>
+              </effectiveTime>
+            </encounter>
+          </entry>
+          <entry>
+            <encounter classCode="ENC" moodCode="EVN">
+              <!--  Encounter activities template -->
+              <templateId root="2.16.840.1.113883.10.20.22.4.49"/>
+              <!-- Encounter performed template -->
+              <templateId root="2.16.840.1.113883.10.20.24.3.23"/>
+              <id root="1.3.6.1.4.1.115" extension="50d3a288da5fe6e14000016b"/>
+              <code code="99201" codeSystem="2.16.840.1.113883.6.12" sdtc:valueSet="2.16.840.1.113883.3.464.1003.101.12.1001">
+                <originalText>Encounter, Performed: Office Visit (Code List: 2.16.840.1.113883.3.464.1003.101.12.1001)</originalText>
+              </code>
+              <text>Encounter, Performed: Office Visit (Code List: 2.16.840.1.113883.3.464.1003.101.12.1001)</text>
+              <statusCode code="completed"/>
+              <effectiveTime>
+                <!-- We try to look for the admit/discharge times on the encounter if they are           there. If not, we fall back to the typical start/end date. -->
+                <low value='20101001120000'/>
+                <high value='20101001130000'/>
+              </effectiveTime>
+            </encounter>
+          </entry>
+          <entry>
+            <substanceAdministration classCode="SBADM" moodCode="EVN">
+              <!-- Conforms to C-CDA R2 Medication Activity (V2) -->
+              <templateId root="2.16.840.1.113883.10.20.22.4.16" extension="2014-06-09" />
+              <!-- Medication Active (V2) template -->
+              <templateId root="2.16.840.1.113883.10.20.24.3.41" extension="2014-12-01" />
+              <id root="c0ea7bf3-50e7-4e7a-83a3-e5a9ccbb8541" />
+              <statusCode code="active" />
+              <effectiveTime xsi:type="IVL_TS">
+                <!-- QDM Attribute: Start datetime -->
+                <low value="20040816121859" />
+                <!-- QDM Attribute: Stop datetime -->
+                <high value="20040816166666" />
+              </effectiveTime>
+              <!-- QDM Attribute: Frequency -->
+              <effectiveTime xsi:type="PIVL_TS" institutionSpecified="true" operator="A">
+                <period value="6" unit="h" />
+              </effectiveTime>
+              <maxDoseQuantity nullFlavor="UNK">
+                <numerator value="42" unit="oz" />
+                <denominator value="100" unit="oz" />
+              </maxDoseQuantity>
+              <administrationUnitCode code="C42944" displayName="INHALANT" codeSystem="2.16.840.1.113883.3.26.1.1" codeSystemName="NCI Thesaurus"/>
+              <!-- QDM Attribute: Route -->
+              <routeCode code="C38288"        codeSystem="2.16.840.1.113883.3.26.1.1"        codeSystemName="NCI Thesaurus"        displayName="ORAL" />
+              <!-- QDM Attribute: Dose -->
+              <doseQuantity value="1"/>
+              <consumable>
+                <manufacturedProduct classCode="MANU">
+                  <!-- Conforms to C-CDA R2 Medication Information (V2) -->
+                  <templateId root="2.16.840.1.113883.10.20.22.4.23" extension="2014-06-09" />
+                  <id root="37bfe02a-3e97-4bd6-9197-bbd0ed0de79e" />
+                  <manufacturedMaterial>
+                    <code code="105152" codeSystem="2.16.840.1.113883.6.88"           codeSystemName="RxNorm"           displayName="Amoxicillin 60 MG/ML Oral Suspension"           sdtc:valueSet="{$QDMElementValueSetOID}" />
+                  </manufacturedMaterial>
+                </manufacturedProduct>
+              </consumable>
+              <entryRelationship typeCode="REFR">
+                <supply classCode="SPLY" moodCode="INT">
+                  <templateId root="2.16.840.1.113883.10.20.22.4.17"/>
+                  <id root="12345"/>
+                  <statusCode code="completed"/>
+                  <effectiveTime xsi:type="IVL_TS">
+                    <low value="20040816166666"/>
+                    <high nullFlavor="UNK"/>
+                  </effectiveTime>
+                  <repeatNumber value="1"/>
+                  <quantity value="75"/>
+                  <author>
+                    <time nullFlavor="UNK"/>
+                    <assignedAuthor>
+                      <id/>
+                      <addr nullFlavor="UNK"/>
+                      <telecom nullFlavor="UNK"/>
+                      <assignedPerson>
+                        <name>
+                          <prefix>Dr.</prefix>
+                          <given>Robert</given>
+                          <family>Michaels</family>
+                        </name>
+                      </assignedPerson>
+                    </assignedAuthor>
+                  </author>
+                  <entryRelationship typeCode="SUBJ" inversionInd="true">
+                    <act classCode="ACT" moodCode="INT">
+                      <templateId root="2.16.840.1.113883.10.20.22.4.20"/>
+                      <!-- ** Instructions Template ** -->
+                      <code code="409073007" codeSystem="2.16.840.1.113883.6.96" displayName="instruction"/>
+                      <text>label in spanish</text>
+                      <statusCode code="completed"/>
+                    </act>
+                  </entryRelationship>
+                </supply>
+              </entryRelationship>
+            </substanceAdministration>
+          </entry>
+          <entry>
+            <!--Medication dispensed -->
+            <supply classCode="SPLY" moodCode="EVN">
+              <!--  Medication Dispensed template -->
+              <templateId root="2.16.840.1.113883.10.20.24.3.45"/>
+              <!-- Medication Dispense template -->
+              <templateId root="2.16.840.1.113883.10.20.22.4.18"/>
+              <id root="50f84c1b7042f9877500023e"/>
+              <text>Medication, Dispensed: ADHD Medications (Code List: 2.16.840.1.113883.3.464.1003.196.12.1171)</text>
+              <statusCode code="completed"/>
+              <effectiveTime xsi:type="IVL_TS">
+                <low value='19960119172123'/>
+                <high value='19960119221325'/>
+              </effectiveTime>
+              <product>
+                <manufacturedProduct classCode="MANU">
+                  <!-- Medication Information (consolidation) template -->
+                  <templateId root="2.16.840.1.113883.10.20.22.4.23"/>
+                  <id root="2914e300-4307-0130-0add-680688cbd736"/>
+                  <manufacturedMaterial>
+                    <code nullFlavor="UNK" >
+                      <originalText>Medication, Dispensed: ADHD Medications (Code List: 2.16.840.1.113883.3.464.1003.196.12.1171)</originalText>
+                      <translation code="977869" codeSystem="2.16.840.1.113883.6.88"/>
+                    </code>
+                  </manufacturedMaterial>
+                </manufacturedProduct>
+              </product>
+            </supply>
+          </entry>
+          <entry>
+            <observation classCode="OBS" moodCode="EVN">
+              <!--  Problem observation template -->
+              <templateId root="2.16.840.1.113883.10.20.22.4.4"/>
+              <!-- Diagnosis, inactive template -->
+              <templateId root="2.16.840.1.113883.10.20.24.3.13"/>
+              <id root="50f84c1d7042f98775000352"/>
+              <code code="282291009" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="diagnosis"/>
+              <statusCode code="completed"/>
+              <effectiveTime>
+                <!-- Attribute: Start Datetime -->
+                <low value='20040816121859'/>
+                <!-- Attribute: Stop Datetime -->
+                <high value='20040816200929'/>
+              </effectiveTime>
+              <value code="76795007" codeSystem="2.16.840.1.113883.6.96" xsi:type="CD" sdtc:valueSet="2.16.840.1.113883.3.67.1.101.1.269">
+                <originalText>Diagnosis, Inactive: Hepatitis B (Code List: 2.16.840.1.113883.3.67.1.101.1.269)</originalText>
+                <translation code="V02.61" codeSystem="2.16.840.1.113883.6.103"/>
+                <translation code="Z22.51" codeSystem="2.16.840.1.113883.6.90"/>
+              </value>
+              <!-- Status -->
+              <entryRelationship typeCode="REFR">
+                <observation classCode="OBS" moodCode="EVN">
+                  <!-- Problem Status (consolidation) template -->
+                  <templateId root="2.16.840.1.113883.10.20.22.4.6"/>
+                  <!-- Problem Status, Inactive template -->
+                  <templateId root="2.16.840.1.113883.10.20.24.3.95"/>
+                  <id root="2a0bd200-4307-0130-0add-680688cbd736"/>
+                  <code code="33999-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="status"/>
+                  <statusCode code="completed"/>
+                  <value code="73425007" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="inactive" xsi:type="CD"/>
+                </observation>
+              </entryRelationship>
+            </observation>
+          </entry>
+          <entry>
             <observation classCode="OBS" moodCode="RQO">
               <!-- Consolidation Plan of Care Activity Observation -->
               <templateId root="2.16.840.1.113883.10.20.22.4.44"/>
               <!-- Lab Test Order -->
               <templateId root="2.16.840.1.113883.10.20.24.3.37"/>
               <id root="50f84c1d7042f9877500039e"/>
-              <code nullFlavor="UNK" sdtc:valueSet="2.16.840.1.113883.3.600.1482"><originalText>Laboratory Test, Order: Laboratory Tests for Hypertension (Code List: 2.16.840.1.113883.3.600.1482)</originalText><translation code="8879006" codeSystem="2.16.840.1.113883.6.96"/>
-          <translation code="80069" codeSystem="2.16.840.1.113883.6.12"/>
-          </code>
+              <code nullFlavor="UNK" sdtc:valueSet="2.16.840.1.113883.3.600.1482">
+                <originalText>Laboratory Test, Order: Laboratory Tests for Hypertension (Code List: 2.16.840.1.113883.3.600.1482)</originalText>
+                <translation code="8879006" codeSystem="2.16.840.1.113883.6.96"/>
+                <translation code="80069" codeSystem="2.16.840.1.113883.6.12"/>
+              </code>
               <text>Laboratory Test, Order: Laboratory Tests for Hypertension (Code List: 2.16.840.1.113883.3.600.1482)</text>
               <statusCode code="new"/>
-
               <!-- Attribute: datetime -->
               <author>
                 <time value='19910519162436'/>
@@ -564,7 +631,6 @@
               </author>
             </observation>
           </entry>
-
           <entry>
             <!--Laboratory test, result -->
             <observation classCode="OBS" moodCode="EVN">
@@ -573,7 +639,9 @@
               <!-- Laboratory Test, Result template -->
               <templateId root="2.16.840.1.113883.10.20.24.3.40"/>
               <id root="1.3.6.1.4.1.115" extension="50d3a288da5fe6e1400002a9"/>
-              <code code="11268-0" codeSystem="2.16.840.1.113883.6.1" sdtc:valueSet="2.16.840.1.113883.3.464.1003.198.12.1012"><originalText>Laboratory Test, Result: Group A Streptococcus Test (Code List: 2.16.840.1.113883.3.464.1003.198.12.1012)</originalText></code>
+              <code code="11268-0" codeSystem="2.16.840.1.113883.6.1" sdtc:valueSet="2.16.840.1.113883.3.464.1003.198.12.1012">
+                <originalText>Laboratory Test, Result: Group A Streptococcus Test (Code List: 2.16.840.1.113883.3.464.1003.198.12.1012)</originalText>
+              </code>
               <text>Laboratory Test, Result: Group A Streptococcus Test (Code List: 2.16.840.1.113883.3.464.1003.198.12.1012)</text>
               <statusCode code="completed"/>
               <effectiveTime>
@@ -592,17 +660,15 @@
               <participant typeCode="ORG">
                 <time>
                   <!-- QDM Attribute: Start Datetime -->
-                  <low value="20141104103000" /> <!-- SHALL have low -->
+                  <low value="20141104103000" />
+                  <!-- SHALL have low -->
                   <!-- QDM Attribute: Start Datetime -->
-                  <high value="20141104103000" /> <!-- MAY have high -->
+                  <high value="20141104103000" />
+                  <!-- MAY have high -->
                 </time>
                 <participantRole classCode="LOCE">
                   <!-- Transfer from location -->
-                  <code code="309911002"
-                        codeSystem="2.16.840.1.113883.6.96"
-                        codeSystemName="SNOMED-CT"
-                        displayName="Respiratory intensive care unit (environment)"
-                        sdtc:valueSet="{$QDMElementValueSetOID}" />
+                  <code code="309911002"                        codeSystem="2.16.840.1.113883.6.96"                        codeSystemName="SNOMED-CT"                        displayName="Respiratory intensive care unit (environment)"                        sdtc:valueSet="{$QDMElementValueSetOID}" />
                 </participantRole>
               </participant>
             </encounter>
@@ -612,25 +678,20 @@
               <!-- Transfer To -->
               <templateId root="2.16.840.1.113883.10.20.24.3.82" extension="2014-12-01" />
               <id root="49d75f61-0dec-4972-9a51-e2490b18c772" />
-              <code code="77306-9"
-                    codeSystem="2.16.840.1.113883.6.1"
-                    displayName="Discharge disposition"
-                    codeSystemName="LOINC" />
+              <code code="77306-9"                    codeSystem="2.16.840.1.113883.6.1"                    displayName="Discharge disposition"                    codeSystemName="LOINC" />
               <statusCode code="completed" />
               <participant typeCode="DST">
                 <time>
                   <!-- QDM Attribute: Start Datetime -->
-                    <low value="20141104103000" /> <!-- SHALL have low -->
-                    <!-- QDM Attribute: Start Datetime -->
-                    <high value="20141104103000" /> <!-- MAY have high -->
+                  <low value="20141104103000" />
+                  <!-- SHALL have low -->
+                  <!-- QDM Attribute: Start Datetime -->
+                  <high value="20141104103000" />
+                  <!-- MAY have high -->
                 </time>
                 <participantRole classCode="LOCE">
                   <!-- Transfer to location -->
-                  <code code="309911002"
-                      codeSystem="2.16.840.1.113883.6.96"
-                      codeSystemName="SNOMED-CT"
-                      displayName="Respiratory intensive care unit (environment)"
-                      sdtc:valueSet="{$QDMElementValueSetOID}" />
+                  <code code="309911002"                      codeSystem="2.16.840.1.113883.6.96"                      codeSystemName="SNOMED-CT"                      displayName="Respiratory intensive care unit (environment)"                      sdtc:valueSet="{$QDMElementValueSetOID}" />
                 </participantRole>
               </participant>
             </encounter>
