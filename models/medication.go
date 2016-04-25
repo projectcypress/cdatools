@@ -12,8 +12,8 @@ type Medication struct {
 	TypeOfMedication     Coded                `json:"type_of_medication,omitempty"`
 	Indication           Coded                `json:"indication,omitempty"`
 	Vehicle              Coded                `json:"vehicle,omitempty"`
-	FulfillmentHistory   []fulfillmentHistory `json:"fulfillmentHistory,omitempty"`
-	OrderInformation     []orderInformation   `json:"orderInformation,omitempty"`
+	FulfillmentHistory   []FulfillmentHistory `json:"fulfillmentHistory,omitempty"`
+	OrderInformation     []OrderInformation   `json:"orderInformation,omitempty"`
 }
 
 type administrationTiming struct {
@@ -26,7 +26,7 @@ type doseRestriction struct {
 	Denominator Scalar `json:"denominator,omitempty"`
 }
 
-type fulfillmentHistory struct {
+type FulfillmentHistory struct {
 	PrescriptionNumber string `json:"prescription_number,omitempty"`
 	DispenseDate       int64  `json:"dispense_date,omitempty"`
 	QuantityDispensed  Scalar `json,"quantity_dispensed,omitempty"`

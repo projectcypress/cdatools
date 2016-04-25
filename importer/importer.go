@@ -110,6 +110,42 @@ func Read_patient(path string) string {
 		patient.Encounters = append(patient.Encounters, rawTransferTos[i].(models.Encounter))
 	}
 
+	//medication active
+	var medicationActiveXPath = xpath.Compile("./cda:entry/cda:substanceAdministration[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.41']")
+	rawMedicationActives := ExtractSection(patientElement, medicationActiveXPath, MedicationActiveExtractor, "2.16.840.1.113883.3.560.1.13")
+	patient.Medications = make([]models.Medication, len(rawMedicationActives))
+	for i := range rawMedicationActives {
+		patient.Medications[i] = rawMedicationActives[i].(models.Medication)
+	}
+
+	//medication dispensed
+	var medicationDispensedXPath = xpath.Compile("./cda:entry/cda:supply[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.45']")
+	rawMedicationDispenseds := ExtractSection(patientElement, medicationDispensedXPath, MedicationDispensedExtractor, "2.16.840.1.113883.3.560.1.8")
+	for i := range rawMedicationDispenseds {
+		patient.Medications = append(patient.Medications, rawMedicationDispenseds[i].(models.Medication))
+	}
+
+	//medication administered
+	var medicationAdministeredXPath = xpath.Compile("./cda:entry/cda:act[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.42']/cda:entryRelationship/cda:substanceAdministration[cda:templateId/@root='2.16.840.1.113883.10.20.22.4.16']")
+	rawMedicationAdministereds := ExtractSection(patientElement, medicationAdministeredXPath, MedicationExtractor, "2.16.840.1.113883.3.560.1.14")
+	for i := range rawMedicationAdministereds {
+		patient.Medications = append(patient.Medications, rawMedicationAdministereds[i].(models.Medication))
+	}
+
+	//medication ordered
+	var medicationOrderedXPath = xpath.Compile("./cda:entry/cda:substanceAdministration[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.47']")
+	rawMedicationOrdereds := ExtractSection(patientElement, medicationOrderedXPath, MedicationExtractor, "2.16.840.1.113883.3.560.1.17")
+	for i := range rawMedicationOrdereds {
+		patient.Medications = append(patient.Medications, rawMedicationOrdereds[i].(models.Medication))
+	}
+
+	//discharge medication active
+	var medicationDischargeActiveXPath = xpath.Compile("./cda:entry/cda:act[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.105']/cda:entryRelationship/cda:substanceAdministration[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.41']")
+	rawMedicationDischargeActives := ExtractSection(patientElement, medicationDischargeActiveXPath, MedicationExtractor, "2.16.840.1.113883.3.560.1.199")
+	for i := range rawMedicationDischargeActives {
+		patient.Medications = append(patient.Medications, rawMedicationDischargeActives[i].(models.Medication))
+	}
+
 	patientJSON, err := json.Marshal(patient)
 	if err != nil {
 		fmt.Println(err)
@@ -185,9 +221,12 @@ func ExtractScalar(scalar *models.Scalar, entryElement xml.Node, scalarPath *xpa
 		unitAttr := scalarElement.Attribute("unit")
 		valueAttr := scalarElement.Attribute("value")
 
-		if valueAttr != nil && unitAttr != nil {
-			scalar.Unit = unitAttr.String()
-			scalar.Value = strconv.ParseInt(valueAttr.String(), 10, 64)
+		if valueAttr != nil {
+			if unitAttr != nil {
+				scalar.Unit = unitAttr.String()
+			}
+			scalar.Value, err = strconv.ParseInt(valueAttr.String(), 10, 64)
+			util.CheckErr(err)
 		}
 	}
 }
@@ -239,6 +278,33 @@ func ExtractValues(entry *models.Entry, entryElement xml.Node, valuePath *xpath.
 					entry.AddStringValue(valString, unit.String())
 				}
 			}
+		}
+	}
+}
+
+func ExtractReasonOrNegation(entry *models.Entry, entryElement xml.Node) {
+	reasonXPath := xpath.Compile("./cda:entryRelationship[@typeCode='RSON']/cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.88']/cda:value | ./cda:entryRelationship[@typeCode='RSON']/cda:act[cda:templateId/@root='2.16.840.1.113883.10.20.1.27']/cda:code")
+	reasonElements, err := entryElement.Search(reasonXPath)
+	util.CheckErr(err)
+
+	for _, reasonElement := range reasonElements {
+		codeSystemOidAttr := reasonElement.Attribute("codeSystem")
+		codeAttr := reasonElement.Attribute("code")
+		if codeSystemOidAttr != nil && codeAttr != nil {
+			codeSystem := models.CodeSystemFor(codeSystemOidAttr.String())
+			code := codeAttr.String()
+			negationAttr := entryElement.Attribute("negationInd")
+			if negationAttr != nil {
+				negationInd := negationAttr.String()
+				if negationInd == "true" {
+					entry.NegationInd = true
+					entry.NegationReason.Code = code
+					entry.NegationReason.CodeSystem = codeSystem
+					return
+				}
+			}
+			entry.Reason.Code = code
+			entry.Reason.CodeSystem = codeSystem
 		}
 	}
 }

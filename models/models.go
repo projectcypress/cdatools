@@ -144,7 +144,7 @@ type ResultValue struct {
 
 type Reason struct {
 	Code           string `json:"code,omitempty"`
-	CodeSystem     string `json:"code_system,omitempty"`
+	CodeSystem     string `json:"codeSystem,omitempty"`
 	CodeSystemName string `json:"codeSystemName,omitempty"`
 }
 

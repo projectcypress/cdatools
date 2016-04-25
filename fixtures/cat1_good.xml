@@ -261,7 +261,7 @@
           </entry>
           <entry>
             <observation classCode="OBS" moodCode="RQO">
-              <!-- Consolidated Plan of Care Activity Observation 
+              <!-- Consolidated Plan of Care Activity Observation
                    templateId (Implied Template) -->
               <templateId root="2.16.840.1.113883.10.20.22.4.44"/>
               <!-- Diagnostic Study, Order template -->
@@ -501,6 +501,117 @@
     </effectiveTime>
   </encounter>
 </entry>
+
+<entry>
+            <substanceAdministration classCode="SBADM" moodCode="EVN">
+   <!-- Conforms to C-CDA R2 Medication Activity (V2) -->
+   <templateId root="2.16.840.1.113883.10.20.22.4.16" extension="2014-06-09" />
+   <!-- Medication Active (V2) template -->
+   <templateId root="2.16.840.1.113883.10.20.24.3.41" extension="2014-12-01" />
+   <id root="c0ea7bf3-50e7-4e7a-83a3-e5a9ccbb8541" />
+   <statusCode code="active" />
+   <effectiveTime xsi:type="IVL_TS">
+     <!-- QDM Attribute: Start datetime -->
+     <low value="20040816121859" />
+     <!-- QDM Attribute: Stop datetime -->
+     <high value="20040816166666" />
+   </effectiveTime>
+   <!-- QDM Attribute: Frequency -->
+   <effectiveTime xsi:type="PIVL_TS" institutionSpecified="true" operator="A">
+     <period value="6" unit="h" />
+   </effectiveTime>
+   <maxDoseQuantity nullFlavor="UNK">
+		<numerator value="42" unit="oz" />
+		<denominator value="100" unit="oz" />
+	</maxDoseQuantity>
+  <administrationUnitCode code="C42944" displayName="INHALANT" codeSystem="2.16.840.1.113883.3.26.1.1" codeSystemName="NCI Thesaurus"/>
+   <!-- QDM Attribute: Route -->
+   <routeCode code="C38288"
+        codeSystem="2.16.840.1.113883.3.26.1.1"
+        codeSystemName="NCI Thesaurus"
+        displayName="ORAL" />
+   <!-- QDM Attribute: Dose -->
+   <doseQuantity value="1"/>
+   <consumable>
+     <manufacturedProduct classCode="MANU">
+       <!-- Conforms to C-CDA R2 Medication Information (V2) -->
+       <templateId root="2.16.840.1.113883.10.20.22.4.23" extension="2014-06-09" />
+       <id root="37bfe02a-3e97-4bd6-9197-bbd0ed0de79e" />
+       <manufacturedMaterial>
+         <code code="105152" codeSystem="2.16.840.1.113883.6.88"
+           codeSystemName="RxNorm"
+           displayName="Amoxicillin 60 MG/ML Oral Suspension"
+           sdtc:valueSet="{$QDMElementValueSetOID}" />
+       </manufacturedMaterial>
+     </manufacturedProduct>
+   </consumable>
+   <entryRelationship typeCode="REFR">
+			<supply classCode="SPLY" moodCode="INT">
+				<templateId root="2.16.840.1.113883.10.20.22.4.17"/>
+				<id root="12345"/>
+				<statusCode code="completed"/>
+				<effectiveTime xsi:type="IVL_TS">
+					<low value="20040816166666"/>
+					<high nullFlavor="UNK"/>
+				</effectiveTime>
+				<repeatNumber value="1"/>
+				<quantity value="75"/>
+				<author>
+					<time nullFlavor="UNK"/>
+					<assignedAuthor>
+						<id/>
+						<addr nullFlavor="UNK"/>
+						<telecom nullFlavor="UNK"/>
+						<assignedPerson>
+							<name>
+								<prefix>Dr.</prefix>
+								<given>Robert</given>
+								<family>Michaels</family>
+							</name>
+						</assignedPerson>
+					</assignedAuthor>
+				</author>
+				<entryRelationship typeCode="SUBJ" inversionInd="true">
+					<act classCode="ACT" moodCode="INT">
+						<templateId root="2.16.840.1.113883.10.20.22.4.20"/>
+						<!-- ** Instructions Template ** -->
+						<code code="409073007" codeSystem="2.16.840.1.113883.6.96" displayName="instruction"/>
+						<text>label in spanish</text>
+						<statusCode code="completed"/>
+					</act>
+				</entryRelationship>
+			</supply>
+		</entryRelationship>
+ </substanceAdministration>
+          </entry>
+
+  <entry>
+    <!--Medication dispensed -->
+    <supply classCode="SPLY" moodCode="EVN">
+      <!--  Medication Dispensed template -->
+      <templateId root="2.16.840.1.113883.10.20.24.3.45"/>
+      <!-- Medication Dispense template -->
+      <templateId root="2.16.840.1.113883.10.20.22.4.18"/>
+      <id root="50f84c1b7042f9877500023e"/>
+      <text>Medication, Dispensed: ADHD Medications (Code List: 2.16.840.1.113883.3.464.1003.196.12.1171)</text>
+      <statusCode code="completed"/>
+      <effectiveTime xsi:type="IVL_TS">
+        <low value='19960119172123'/>
+        <high value='19960119221325'/>
+      </effectiveTime>
+      <product>
+        <manufacturedProduct classCode="MANU">
+          <!-- Medication Information (consolidation) template -->
+          <templateId root="2.16.840.1.113883.10.20.22.4.23"/>
+          <id root="2914e300-4307-0130-0add-680688cbd736"/>
+          <manufacturedMaterial>
+            <code nullFlavor="UNK" ><originalText>Medication, Dispensed: ADHD Medications (Code List: 2.16.840.1.113883.3.464.1003.196.12.1171)</originalText><translation code="977869" codeSystem="2.16.840.1.113883.6.88"/>
+  </code>
+          </manufacturedMaterial>
+        </manufacturedProduct>
+      </product>
+    </supply>
+  </entry>
 
 <entry>
     <observation classCode="OBS" moodCode="EVN">
