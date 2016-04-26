@@ -11,6 +11,7 @@ var oidMap = map[string]string{
 	"2.16.840.1.113883.6.90":     "ICD-10-CM",
 	"2.16.840.1.113883.3.221.5":  "SOP",
 	"2.16.840.1.113883.3.26.1.1": "NCI Thesaurus",
+	"2.16.840.1.113883.5.4":      "ActCode",
 }
 
 func CodeSystemFor(oid string) string {

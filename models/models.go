@@ -95,6 +95,7 @@ type Record struct {
 	InsuranceProviders    []InsuranceProvider   `json:"insurance_providers,omitempty"`
 	Procedures            []Procedure           `json:"procedures,omitempty"`
 	Medications           []Medication          `json:"medications, omitempty"`
+	Allergies             []Allergy             `json:"allergies,omitempty"`
 }
 
 // Entries returns all the entries from the Encounters, Diagnoses, and LabResults for a Record
