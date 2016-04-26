@@ -146,6 +146,30 @@ func Read_patient(path string) string {
 		patient.Medications = append(patient.Medications, rawMedicationDischargeActives[i].(models.Medication))
 	}
 
+	var medicationIntoleranceXPath = xpath.Compile("./cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.46']")
+	rawMedicationIntolerances := ExtractSection(patientElement, medicationIntoleranceXPath, AllergyExtractor, "2.16.840.1.113883.3.560.1.67")
+	for i := range rawMedicationIntolerances {
+		patient.Allergies = append(patient.Allergies, rawMedicationIntolerances[i].(models.Allergy))
+	}
+
+	var medicationAdverseEventXPath = xpath.Compile("./cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.43']")
+	rawMedicationAdverseEvents := ExtractSection(patientElement, medicationAdverseEventXPath, AllergyExtractor, "2.16.840.1.113883.3.560.1.7")
+	for i := range rawMedicationAdverseEvents {
+		patient.Allergies = append(patient.Allergies, rawMedicationAdverseEvents[i].(models.Allergy))
+	}
+
+	var medicationAllergyXPath = xpath.Compile("./cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.44']")
+	rawMedicationAllergies := ExtractSection(patientElement, medicationAllergyXPath, AllergyExtractor, "2.16.840.1.113883.3.560.1.1")
+	for i := range rawMedicationAllergies {
+		patient.Allergies = append(patient.Allergies, rawMedicationAllergies[i].(models.Allergy))
+	}
+
+	var procedureIntoleranceXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.62']/cda:entryRelationship/cda:procedure[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.64']")
+	rawProcedureIntolerances := ExtractSection(patientElement, procedureIntoleranceXPath, ProcedureIntoleranceExtractor, "2.16.840.1.113883.3.560.1.61")
+	for i := range rawProcedureIntolerances {
+		patient.Allergies = append(patient.Allergies, rawProcedureIntolerances[i].(models.Allergy))
+	}
+
 	patientJSON, err := json.Marshal(patient)
 	if err != nil {
 		fmt.Println(err)
@@ -263,6 +287,7 @@ func ExtractValues(entry *models.Entry, entryElement xml.Node, valuePath *xpath.
 				entry.AddScalarValue(scalar, unit)
 			} else if code != nil {
 				val := models.ResultValue{}
+				val.Codes = map[string][]string{}
 				val.AddCodeIfPresent(valueElement)
 				var timeLowXPath = xpath.Compile("cda:effectiveTime/cda:low/@value")
 				var timeHighXPath = xpath.Compile("cda:effectiveTime/cda:high/@value")

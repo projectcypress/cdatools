@@ -15,7 +15,7 @@ type Entry struct {
 	StatusCode     map[string][]string `json:"status_code,omitempty"`
 	Reason         Reason              `json:"reason,omitempty"`
 	TransferTo     Transfer            `json:"transferTo,omitempty"`
-  TransferFrom   Transfer            `json:"transferFrom,omitempty"`
+	TransferFrom   Transfer            `json:"transferFrom,omitempty"`
 }
 
 func ExtractEntry(entry interface{}) Entry {
@@ -29,6 +29,8 @@ func ExtractEntry(entry interface{}) Entry {
 	case InsuranceProvider:
 		return t.Entry
 	case Procedure:
+		return t.Entry
+	case Allergy:
 		return t.Entry
 	default:
 		panic("We don't know how to extract an Entry from this type")

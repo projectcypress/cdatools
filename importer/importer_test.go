@@ -285,3 +285,40 @@ func (i *ImporterSuite) TestMedicationDispensed(c *C) {
 	c.Assert(medicationDispensed.StartTime, Equals, int64(822072083))
 	c.Assert(medicationDispensed.EndTime, Equals, int64(822089605))
 }
+
+func (i *ImporterSuite) TestAllergy(c *C) {
+	var allergyXpath = xpath.Compile("//cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.43']")
+	rawAllergies := ExtractSection(i.patientElement, allergyXpath, AllergyExtractor, "2.16.840.1.113883.3.560.1.7")
+
+	i.patient.Allergies = make([]models.Allergy, len(rawAllergies))
+	for j := range rawAllergies {
+		i.patient.Allergies[j] = rawAllergies[j].(models.Allergy)
+	}
+
+	medAllergy := i.patient.Allergies[0]
+	c.Assert(len(i.patient.Allergies), Equals, 1)
+	c.Assert(medAllergy.ID.Root, Equals, "50f84db97042f9366f00000e")
+	c.Assert(medAllergy.Codes["RxNorm"][0], Equals, "996994")
+	c.Assert(medAllergy.StartTime, Equals, int64(303055256))
+	c.Assert(medAllergy.Type.Codes["ActCode"][0], Equals, "ASSERTION")
+	c.Assert(medAllergy.Reaction.Codes["SNOMED-CT"][0], Equals, "422587007")
+	c.Assert(medAllergy.Severity.Codes["SNOMED-CT"][0], Equals, "371924009")
+}
+
+func (i *ImporterSuite) TestProcedureIntolerance(c *C) {
+	var procedureIntoleranceXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.62']/cda:entryRelationship/cda:procedure[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.64']")
+	rawProcedureIntolerances := ExtractSection(i.patientElement, procedureIntoleranceXPath, ProcedureIntoleranceExtractor, "2.16.840.1.113883.3.560.1.61")
+
+	i.patient.Allergies = make([]models.Allergy, len(rawProcedureIntolerances))
+	for j := range rawProcedureIntolerances {
+		i.patient.Allergies[j] = rawProcedureIntolerances[j].(models.Allergy)
+	}
+	procedureIntolerance := i.patient.Allergies[0]
+	c.Assert(procedureIntolerance.ID.Root, Equals, "5102936b944dfe3db4000016")
+	c.Assert(procedureIntolerance.Codes["CPT"][0], Equals, "90668")
+	c.Assert(procedureIntolerance.Codes["SNOMED-CT"][0], Equals, "86198006")
+	c.Assert(procedureIntolerance.StartTime, Equals, int64(1094992715))
+	c.Assert(procedureIntolerance.EndTime, Equals, int64(1095042729))
+	c.Assert(procedureIntolerance.Oid, Equals, "2.16.840.1.113883.3.560.1.61")
+	c.Assert(procedureIntolerance.Values[0].Codes["SNOMED-CT"][0], Equals, "102460003")
+}

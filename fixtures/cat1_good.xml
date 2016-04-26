@@ -575,6 +575,88 @@
           </entry>
           <entry>
             <observation classCode="OBS" moodCode="EVN">
+              <!-- consolidation CDA Allergy observation template -->
+              <templateId root="2.16.840.1.113883.10.20.22.4.7"/>
+              <!--  Medication Allergy -->
+              <templateId root="2.16.840.1.113883.10.20.24.3.43"/>
+              <id root="50f84db97042f9366f00000e"/>
+              <code code="ASSERTION" displayName="Assertion" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+              <statusCode code="completed"/>
+              <effectiveTime>
+                <low value='19790809140056'/>
+              </effectiveTime>
+              <value code="62014003" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Adverse drug effect" xsi:type="CD"/>
+
+              <participant typeCode="CSM">
+                <participantRole classCode="MANU">
+                  <playingEntity classCode="MMAT">
+                    <code code="996994" codeSystem="2.16.840.1.113883.6.88" sdtc:valueSet="2.16.840.1.113883.3.666.5.626"><originalText>Medication, Adverse Effects: Hospital Measures-Aspirin (Code List: 2.16.840.1.113883.3.666.5.626)</originalText></code>
+                    <name>Medication, Adverse Effects: Hospital Measures-Aspirin (Code List: 2.16.840.1.113883.3.666.5.626)</name>
+                  </playingEntity>
+                </participantRole>
+              </participant>
+              <!-- QDM Attribute: Reaction -->
+              <entryRelationship typeCode="MFST" inversionInd="true">
+                <observation classCode="OBS" moodCode="EVN">
+                  <!-- Conforms to C-CDA R2 Reaction Observation (V2) -->
+                  <templateId root="2.16.840.1.113883.10.20.22.4.9" extension="2014-06-09" />
+                  <!-- Reaction (QRDA I V2) -->
+                  <templateId root="2.16.840.1.113883.10.20.24.3.85" extension="2014-12-01" />
+                  <value xsi:type="CD" code="422587007" codeSystem="2.16.840.1.113883.6.96" displayName="Nausea" />
+                </observation>
+              </entryRelationship>
+              <entryRelationship typeCode="SUBJ">
+                <observation classCode="OBS" moodCode="EVN">
+                  <templateId root="2.16.840.1.113883.10.20.22.4.8" extension="2014-06-09" />
+                  <code code="SEV" displayName="Severity Observation" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode" />
+                  <text>
+                      <reference value="#allergyseverity1" />
+                  </text>
+                  <statusCode code="completed" />
+                  <value xsi:type="CD" code="371924009" displayName="Moderate to severe" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" />
+              </observation>
+              </entryRelationship>
+            </observation>
+          </entry>
+          <entry>
+            <observation classCode="OBS" moodCode="EVN">
+              <templateId root="2.16.840.1.113883.10.20.24.3.62" extension="2014-12-01"/>
+              <templateId root="2.16.840.1.113883.10.20.24.3.104" extension="2014-12-01"/>
+              <id root="5102936b944dfe3db4000016"/>
+              <code code="ASSERTION"
+                codeSystem="2.16.840.1.113883.5.4"
+                codeSystemName="ActCode"
+                displayName="Assertion"/>
+              <statusCode code="completed"/>
+              <effectiveTime>
+                <low value="20040912123835"/>
+              </effectiveTime>
+              <value xsi:type="CD"
+              code="102460003"
+              codeSystem="2.16.840.1.113883.6.96"
+              codeSystemName="SNOMED CT"
+              displayName="Decreased tolerance"/>
+              <entryRelationship typeCode="CAUS" inversionInd="true">
+                <procedure classCode="PROC" moodCode="EVN">
+                  <!--  Procedure performed template -->
+                  <templateId root="2.16.840.1.113883.10.20.24.3.64" extension="2014-12-01"/>
+                  <!-- Procedure Activity Procedure-->
+                  <templateId root="2.16.840.1.113883.10.20.22.4.14" extension="2014-12-01"/>
+                  <id root="5102936b944dfe3db4000016"/>
+                  <code code="86198006" codeSystem="2.16.840.1.113883.6.96" sdtc:valueSet="2.16.840.1.113883.3.526.3.402"><originalText>Procedure, Intolerance: Influenza Vaccination (Code List: 2.16.840.1.113883.3.526.3.402)</originalText><translation code="90668" codeSystem="2.16.840.1.113883.6.12"/>
+                  </code>
+                  <text>Procedure, Intolerance: Influenza Vaccination (Code List: 2.16.840.1.113883.3.526.3.402)</text>
+                  <statusCode code="completed"/>
+                  <effectiveTime>
+                    <low value='20040912123835'/>
+                    <high value='20040913023209'/>
+                  </effectiveTime>
+                </procedure>
+              </entryRelationship>
+            </observation>
+          </entry>
+          <entry>
+            <observation classCode="OBS" moodCode="EVN">
               <!--  Problem observation template -->
               <templateId root="2.16.840.1.113883.10.20.22.4.4"/>
               <!-- Diagnosis, inactive template -->
