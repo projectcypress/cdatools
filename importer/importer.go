@@ -146,28 +146,39 @@ func Read_patient(path string) string {
 		patient.Medications = append(patient.Medications, rawMedicationDischargeActives[i].(models.Medication))
 	}
 
+	// medication intolerance
 	var medicationIntoleranceXPath = xpath.Compile("./cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.46']")
 	rawMedicationIntolerances := ExtractSection(patientElement, medicationIntoleranceXPath, AllergyExtractor, "2.16.840.1.113883.3.560.1.67")
 	for i := range rawMedicationIntolerances {
 		patient.Allergies = append(patient.Allergies, rawMedicationIntolerances[i].(models.Allergy))
 	}
 
+	// medication adverse event
 	var medicationAdverseEventXPath = xpath.Compile("./cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.43']")
 	rawMedicationAdverseEvents := ExtractSection(patientElement, medicationAdverseEventXPath, AllergyExtractor, "2.16.840.1.113883.3.560.1.7")
 	for i := range rawMedicationAdverseEvents {
 		patient.Allergies = append(patient.Allergies, rawMedicationAdverseEvents[i].(models.Allergy))
 	}
 
+	// medication allergy
 	var medicationAllergyXPath = xpath.Compile("./cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.44']")
 	rawMedicationAllergies := ExtractSection(patientElement, medicationAllergyXPath, AllergyExtractor, "2.16.840.1.113883.3.560.1.1")
 	for i := range rawMedicationAllergies {
 		patient.Allergies = append(patient.Allergies, rawMedicationAllergies[i].(models.Allergy))
 	}
 
+	// procedure intolerance (such as flu shot intolerance)
 	var procedureIntoleranceXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.62']/cda:entryRelationship/cda:procedure[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.64']")
 	rawProcedureIntolerances := ExtractSection(patientElement, procedureIntoleranceXPath, ProcedureIntoleranceExtractor, "2.16.840.1.113883.3.560.1.61")
 	for i := range rawProcedureIntolerances {
 		patient.Allergies = append(patient.Allergies, rawProcedureIntolerances[i].(models.Allergy))
+	}
+
+	// Gestational Age (technically a condition)
+	var gestationalAgeXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.101']")
+	rawGestationalAges := ExtractSection(patientElement, gestationalAgeXPath, GestationalAgeExtractor, "2.16.840.1.113883.3.560.1.1001")
+	for i := range rawGestationalAges {
+		patient.Conditions = append(patient.Conditions, rawGestationalAges[i].(models.Entry))
 	}
 
 	patientJSON, err := json.Marshal(patient)

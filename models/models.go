@@ -96,6 +96,7 @@ type Record struct {
 	Procedures            []Procedure           `json:"procedures,omitempty"`
 	Medications           []Medication          `json:"medications, omitempty"`
 	Allergies             []Allergy             `json:"allergies,omitempty"`
+	Conditions            []Entry               `json:"conditions,omitempty"`
 }
 
 // Entries returns all the entries from the Encounters, Diagnoses, and LabResults for a Record
@@ -117,6 +118,26 @@ func (r *Record) Entries() []interface{} {
 
 	for _, ip := range r.InsuranceProviders {
 		entries = append(entries, ip)
+	}
+
+	for _, pp := range r.ProviderPerformances {
+		entries = append(entries, pp)
+	}
+
+	for _, pr := range r.Procedures {
+		entries = append(entries, pr)
+	}
+
+	for _, md := range r.Medications {
+		entries = append(entries, md)
+	}
+
+	for _, al := range r.Allergies {
+		entries = append(entries, al)
+	}
+
+	for _, cn := range r.Conditions {
+		entries = append(entries, cn)
 	}
 
 	return entries
