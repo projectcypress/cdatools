@@ -35,8 +35,8 @@ func EncounterPerformedExtractor(entry *models.Entry, entryElement xml.Node) int
 	encounter.DischargeTime = encounter.Entry.EndTime
 
 	//extract discharge disposition
-	var dischargeDispositionCodeXPath = xpath.Compile("stdc:dischargeDispositionCode/@code")
-	var dischargeDispositionCodeSystemXPath = xpath.Compile("stdc:dischargeDispositionCode/@codeSystem")
+	var dischargeDispositionCodeXPath = xpath.Compile("sdtc:dischargeDispositionCode/@code")
+	var dischargeDispositionCodeSystemXPath = xpath.Compile("sdtc:dischargeDispositionCode/@codeSystem")
 	dischargeDispositionCode := FirstElementContent(dischargeDispositionCodeXPath, entryElement)
 	dischargeDispositionCodeSystemOid := FirstElementContent(dischargeDispositionCodeSystemXPath, entryElement)
 	dischargeDispositionCodeSystem := models.CodeSystemFor(dischargeDispositionCodeSystemOid)

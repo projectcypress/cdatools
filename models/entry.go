@@ -16,6 +16,7 @@ type Entry struct {
 	Reason         Reason              `json:"reason,omitempty"`
 	TransferTo     Transfer            `json:"transferTo,omitempty"`
 	TransferFrom   Transfer            `json:"transferFrom,omitempty"`
+	References     []Reference         `json:"references,omitempty"`
 }
 
 func ExtractEntry(entry interface{}) Entry {
@@ -33,6 +34,8 @@ func ExtractEntry(entry interface{}) Entry {
 	case Allergy:
 		return t.Entry
 	case Medication:
+		return t.Entry
+	case Communication:
 		return t.Entry
 	case Entry:
 		return t
