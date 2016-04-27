@@ -25,10 +25,10 @@
         <tbody>
           {{range .}}
           <tr>
-            <td>{{.Name}}</td>
-            <td>{{.HQMFSetID}}</td>
-            <td>{{.HQMFVersionNumber}}</td>
-            <td>{{.HQMFID}}</td>
+            <td>{{escape .Name}}</td>
+            <td>{{escape .HQMFSetID}}</td>
+            <td>{{escape .HQMFVersionNumber}}</td>
+            <td>{{escape .HQMFID}}</td>
             <td></td>
           </tr>
           {{end}}
@@ -43,19 +43,19 @@
         <templateId root="2.16.840.1.113883.10.20.24.3.98"/>
         <!-- This is the templateId for eMeasure Reference QDM -->
         <templateId root="2.16.840.1.113883.10.20.24.3.97"/>
-        <id extension="{{.ID}}"/>
+        <id extension="{{escape .ID}}"/>
         <statusCode code="completed"/>
         <!-- Containing isBranch external references -->
         <reference typeCode="REFR">
           <externalDocument classCode="DOC" moodCode="EVN">
             <!-- SHALL: This is the version specific identifier for eMeasure: QualityMeasureDocument/id it is a GUID-->
-            <id root="2.16.840.1.113883.4.738" extension="{{.HQMFID}}"/>
+            <id root="2.16.840.1.113883.4.738" extension="{{escape .HQMFID}}"/>
             <!-- SHOULD This is the title of the eMeasure -->
-            <text>{{.Name}}</text>
+            <text>{{escape .Name}}</text>
             <!-- SHOULD: setId is the eMeasure version neutral id  -->
-            <setId root="{{.HQMFSetID}}"/>
+            <setId root="{{escape .HQMFSetID}}"/>
             <!-- This is the sequential eMeasure Version number -->
-            <versionNumber value="{{.HQMFVersionNumber}}"/>
+            <versionNumber value="{{escape .HQMFVersionNumber}}"/>
           </externalDocument>
         </reference>
       </organizer>

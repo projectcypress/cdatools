@@ -1,1 +1,1 @@
-<id {{if .Root}}root="{{.Root}}"{{end}} extension="{{.Extension}}" />
+<id {{if .Root}}root="{{escape .Root}}"{{end}} extension="{{escape .Extension}}" />
