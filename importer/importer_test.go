@@ -29,7 +29,7 @@ func (i *ImporterSuite) SetUpSuite(c *C) {
 
 	xp := doc.DocXPathCtx()
 	xp.RegisterNamespace("cda", "urn:hl7-org:v3")
-	xp.RegisterNamespace("stdc", "urn:hl7-org:sdtc")
+	xp.RegisterNamespace("sdtc", "urn:hl7-org:sdtc")
 
 	var patientXPath = xpath.Compile("/cda:ClinicalDocument/cda:recordTarget/cda:patientRole/cda:patient")
 	patientElements, err := doc.Root().Search(patientXPath)
@@ -337,4 +337,26 @@ func (i *ImporterSuite) TestGestationalAge(c *C) {
 	c.Assert(gestationalAge.Codes["SNOMED-CT"][0], Equals, "931004")
 	c.Assert(gestationalAge.Values[0].Scalar, Equals, int64(36))
 	c.Assert(gestationalAge.Values[0].Units, Equals, "wk")
+}
+
+func (i *ImporterSuite) TestCommunication(c *C) {
+	var communicationXPath = xpath.Compile("//cda:entry/cda:act[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.2']")
+	rawCommunications := ExtractSection(i.patientElement, communicationXPath, CommunicationExtractor, "2.16.840.1.113883.3.560.1.30")
+
+	i.patient.Communications = make([]models.Communication, len(rawCommunications))
+	for j := range rawCommunications {
+		i.patient.Communications[j] = rawCommunications[j].(models.Communication)
+	}
+	communication := i.patient.Communications[0]
+	c.Assert(communication.ID.Root, Equals, "50f84c187042f987750000e5")
+	c.Assert(communication.Oid, Equals, "2.16.840.1.113883.3.560.1.30")
+	c.Assert(communication.Direction, Equals, "communication_from_patient_to_provider")
+	c.Assert(communication.Codes["SNOMED-CT"][0], Equals, "315640000")
+	c.Assert(communication.NegationInd, Equals, false)
+	c.Assert(communication.Reason.Code, Equals, "105480006")
+	c.Assert(communication.Reason.CodeSystem, Equals, "SNOMED-CT")
+	reference := communication.References[0]
+	c.Assert(reference.ReferencedID, Equals, "56c237ee02d40565bb00030e")
+	c.Assert(reference.ReferencedType, Equals, "Procedure")
+	c.Assert(reference.Type, Equals, "fulfills")
 }

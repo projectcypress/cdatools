@@ -26,7 +26,7 @@ func Read_patient(path string) string {
 
 	xp := doc.DocXPathCtx()
 	xp.RegisterNamespace("cda", "urn:hl7-org:v3")
-	xp.RegisterNamespace("stdc", "urn:hl7-org:sdtc")
+	xp.RegisterNamespace("sdtc", "urn:hl7-org:sdtc")
 
 	var patientXPath = xpath.Compile("/cda:ClinicalDocument/cda:recordTarget/cda:patientRole/cda:patient")
 	patientElements, err := doc.Root().Search(patientXPath)
@@ -179,6 +179,27 @@ func Read_patient(path string) string {
 	rawGestationalAges := ExtractSection(patientElement, gestationalAgeXPath, GestationalAgeExtractor, "2.16.840.1.113883.3.560.1.1001")
 	for i := range rawGestationalAges {
 		patient.Conditions = append(patient.Conditions, rawGestationalAges[i].(models.Entry))
+	}
+
+	// Communication: patient to provider
+	var communicationPatientToProviderXPath = xpath.Compile("//cda:entry/cda:act[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.2']")
+	rawCommunicationsPatientToProvider := ExtractSection(patientElement, communicationPatientToProviderXPath, CommunicationExtractor, "2.16.840.1.113883.3.560.1.30")
+	for i := range rawCommunicationsPatientToProvider {
+		patient.Communications = append(patient.Communications, rawCommunicationsPatientToProvider[i].(models.Communication))
+	}
+
+	// Communication: provider to provider
+	var communicationProviderToProviderXPath = xpath.Compile("//cda:entry/cda:act[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.4']")
+	rawCommunicationsProviderToProvider := ExtractSection(patientElement, communicationProviderToProviderXPath, CommunicationExtractor, "2.16.840.1.113883.3.560.1.129")
+	for i := range rawCommunicationsProviderToProvider {
+		patient.Communications = append(patient.Communications, rawCommunicationsProviderToProvider[i].(models.Communication))
+	}
+
+	// Communication: provider to patient: not done
+	var communicationProviderToPatientXPath = xpath.Compile("//cda:entry/cda:act[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.3']")
+	rawCommunicationsProviderToPatient := ExtractSection(patientElement, communicationProviderToPatientXPath, CommunicationExtractor, "2.16.840.1.113883.3.560.1.31")
+	for i := range rawCommunicationsProviderToPatient {
+		patient.Communications = append(patient.Communications, rawCommunicationsProviderToPatient[i].(models.Communication))
 	}
 
 	patientJSON, err := json.Marshal(patient)
