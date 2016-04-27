@@ -322,3 +322,19 @@ func (i *ImporterSuite) TestProcedureIntolerance(c *C) {
 	c.Assert(procedureIntolerance.Oid, Equals, "2.16.840.1.113883.3.560.1.61")
 	c.Assert(procedureIntolerance.Values[0].Codes["SNOMED-CT"][0], Equals, "102460003")
 }
+
+func (i *ImporterSuite) TestGestationalAge(c *C) {
+	var gestationalAgeXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.101']")
+	rawGestationalAges := ExtractSection(i.patientElement, gestationalAgeXPath, GestationalAgeExtractor, "2.16.840.1.113883.3.560.1.1001")
+
+	i.patient.Conditions = make([]models.Entry, len(rawGestationalAges))
+	for j := range rawGestationalAges {
+		i.patient.Conditions[j] = rawGestationalAges[j].(models.Entry)
+	}
+	gestationalAge := i.patient.Conditions[0]
+	c.Assert(gestationalAge.ID.Root, Equals, "50f6c6da7042f9cdd0000233")
+	c.Assert(gestationalAge.Oid, Equals, "2.16.840.1.113883.3.560.1.1001")
+	c.Assert(gestationalAge.Codes["SNOMED-CT"][0], Equals, "931004")
+	c.Assert(gestationalAge.Values[0].Scalar, Equals, int64(36))
+	c.Assert(gestationalAge.Values[0].Units, Equals, "wk")
+}

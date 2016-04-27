@@ -778,6 +778,18 @@
               </participant>
             </encounter>
           </entry>
+          <entry>
+            <observation classCode="OBS" moodCode="EVN">
+              <templateId root="2.16.840.1.113883.10.20.24.3.101"/>
+              <id root="50f6c6da7042f9cdd0000233"/>
+              <code code="57036006" codeSystem="2.16.840.1.113883.6.96"
+                    codeSystemName="SNOMED-CT" displayName="length of gestation"/>
+              <statusCode code="completed"/>
+              <effectiveTime value="19920812064214"/>
+              <!-- Note: valueSet of PQ "d" and "wk"-->
+              <value xsi:type="PQ" value="36" unit="wk"/>
+            </observation>
+          </entry>
         </section>
       </component>
     </structuredBody>
