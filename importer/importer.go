@@ -180,18 +180,21 @@ func Read_patient(path string) string {
 	for i := range rawGestationalAges {
 		patient.Conditions = append(patient.Conditions, rawGestationalAges[i].(models.Entry))
 
+	// Communication: patient to provider
 	var communicationPatientToProviderXPath = xpath.Compile("//cda:entry/cda:act[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.2']")
 	rawCommunicationsPatientToProvider := ExtractSection(patientElement, communicationPatientToProviderXPath, CommunicationExtractor, "2.16.840.1.113883.3.560.1.30")
 	for i := range rawCommunicationsPatientToProvider {
 		patient.Communications = append(patient.Communications, rawCommunicationsPatientToProvider[i].(models.Communication))
 	}
 
+	// Communication: provider to provider
 	var communicationProviderToProviderXPath = xpath.Compile("//cda:entry/cda:act[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.4']")
 	rawCommunicationsProviderToProvider := ExtractSection(patientElement, communicationProviderToProviderXPath, CommunicationExtractor, "2.16.840.1.113883.3.560.1.129")
 	for i := range rawCommunicationsProviderToProvider {
 		patient.Communications = append(patient.Communications, rawCommunicationsProviderToProvider[i].(models.Communication))
 	}
 
+	// Communication: provider to patient: not done
 	var communicationProviderToPatientXPath = xpath.Compile("//cda:entry/cda:act[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.3']")
 	rawCommunicationsProviderToPatient := ExtractSection(patientElement, communicationProviderToPatientXPath, CommunicationExtractor, "2.16.840.1.113883.3.560.1.31")
 	for i := range rawCommunicationsProviderToPatient {
