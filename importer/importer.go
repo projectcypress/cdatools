@@ -179,6 +179,7 @@ func Read_patient(path string) string {
 	rawGestationalAges := ExtractSection(patientElement, gestationalAgeXPath, GestationalAgeExtractor, "2.16.840.1.113883.3.560.1.1001")
 	for i := range rawGestationalAges {
 		patient.Conditions = append(patient.Conditions, rawGestationalAges[i].(models.Entry))
+	}
 
 	// Communication: patient to provider
 	var communicationPatientToProviderXPath = xpath.Compile("//cda:entry/cda:act[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.2']")
