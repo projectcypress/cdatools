@@ -32,6 +32,8 @@ func ExtractEntry(entry interface{}) Entry {
 		return t.Entry
 	case Allergy:
 		return t.Entry
+	case Medication:
+		return t.Entry
 	case Entry:
 		return t
 	default:
