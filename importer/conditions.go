@@ -30,30 +30,20 @@ func GestationalAgeExtractor(entry *models.Entry, entryElement xml.Node) interfa
 	return gestationalAge
 }
 
-func EcogStatusExtractor(entry *models.Entry, entryElement xml.Node) interface{} {
-	ecogStatus := models.Condition{}
-	ecogStatus.Entry = *entry
-
-	codeXPath := xpath.Compile("./cda:value")
-	ExtractCodes(&ecogStatus.Entry.Coded, entryElement, codeXPath)
-
-	return ecogStatus
-}
-
-func DiagnosisActiveExtractor(entry *models.Entry, entryElement xml.Node) interface{} {
-	diagnosisActive := models.Condition{}
-	diagnosisActive.Entry = *entry
+func ConditionExtractor(entry *models.Entry, entryElement xml.Node) interface{} {
+	condition := models.Condition{}
+	condition.Entry = *entry
 
 	//extract codes
 	var codePath = xpath.Compile("cda:value")
-	ExtractCodes(&diagnosisActive.Entry.Coded, entryElement, codePath)
+	ExtractCodes(&condition.Entry.Coded, entryElement, codePath)
 
 	//extract severity
 	var severityCodeXPath = xpath.Compile("cda:entryRelationship/cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.22.4.8']/cda:value/@code")
 	var severityCodeSetXPath = xpath.Compile("cda:entryRelationship/cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.22.4.8']/cda:value/@codeSystem")
-	ExtractSeverity(&diagnosisActive, entryElement, severityCodeXPath, severityCodeSetXPath)
+	ExtractSeverity(&condition, entryElement, severityCodeXPath, severityCodeSetXPath)
 
-	return diagnosisActive
+	return condition
 }
 
 func DiagnosisInactiveExtractor(entry *models.Entry, entryElement xml.Node) interface{} {
@@ -70,7 +60,9 @@ func DiagnosisInactiveExtractor(entry *models.Entry, entryElement xml.Node) inte
 func ExtractSeverity(diagnosis *models.Condition, entryElement xml.Node, severityCodeXPath *xpath.Expression, severityCodeSetXPath *xpath.Expression) {
 	severityCode := FirstElementContent(severityCodeXPath, entryElement)
 	severityCodeSystem := models.CodeSystemFor(FirstElementContent(severityCodeSetXPath, entryElement))
-	diagnosis.Severity = map[string][]string{
-		severityCodeSystem: []string{severityCode},
+	if severityCode != "" && severityCodeSystem != "" {
+		diagnosis.Severity = map[string][]string{
+			severityCodeSystem: []string{severityCode},
+		}
 	}
 }

@@ -4,7 +4,6 @@ import (
 	"io/ioutil"
 	"testing"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/moovweb/gokogiri/xml"
 	"github.com/moovweb/gokogiri/xpath"
 	"github.com/pebbe/util"
@@ -90,7 +89,7 @@ func (i *ImporterSuite) TestExtractEncounterOrdered(c *C) {
 
 func (i *ImporterSuite) TestExtractDiagnosesActive(c *C) {
 	var diagnosisXPath = xpath.Compile("//cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.11']")
-	rawDiagnoses := ExtractSection(i.patientElement, diagnosisXPath, DiagnosisActiveExtractor, "2.16.840.1.113883.3.560.1.2")
+	rawDiagnoses := ExtractSection(i.patientElement, diagnosisXPath, ConditionExtractor, "2.16.840.1.113883.3.560.1.2")
 	i.patient.Conditions = make([]models.Condition, len(rawDiagnoses))
 	for j := range rawDiagnoses {
 		i.patient.Conditions[j] = rawDiagnoses[j].(models.Condition)
@@ -364,14 +363,28 @@ func (i *ImporterSuite) TestCommunication(c *C) {
 
 func (i *ImporterSuite) TestEcogStatus(c *C) {
 	var ecogStatusXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.103']")
-	rawEcogStatuses := ExtractSection(i.patientElement, ecogStatusXPath, EcogStatusExtractor, "2.16.840.1.113883.3.560.1.1001")
+	rawEcogStatuses := ExtractSection(i.patientElement, ecogStatusXPath, ConditionExtractor, "2.16.840.1.113883.3.560.1.1001")
 	i.patient.Conditions = make([]models.Condition, len(rawEcogStatuses))
 	for j := range rawEcogStatuses {
 		i.patient.Conditions[j] = rawEcogStatuses[j].(models.Condition)
 	}
-	spew.Dump(rawEcogStatuses)
 	ecogStatus := i.patient.Conditions[0]
 	c.Assert(ecogStatus.ID.Root, Equals, "50f6c6067042f91c7c000272")
 	c.Assert(ecogStatus.Oid, Equals, "2.16.840.1.113883.3.560.1.1001")
 	c.Assert(ecogStatus.Codes["SNOMED-CT"][0], Equals, "423237006")
+}
+
+func (i *ImporterSuite) TestSymptomActive(c *C) {
+	var symptomActiveXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.76']")
+	rawActiveSymptoms := ExtractSection(i.patientElement, symptomActiveXPath, ConditionExtractor, "2.16.840.1.113883.3.560.1.69")
+	i.patient.Conditions = make([]models.Condition, len(rawActiveSymptoms))
+	for j := range rawActiveSymptoms {
+		i.patient.Conditions[j] = rawActiveSymptoms[j].(models.Condition)
+	}
+	activeSymptom := i.patient.Conditions[0]
+	c.Assert(activeSymptom.Codes["SNOMED-CT"][0], Equals, "95815000")
+	c.Assert(activeSymptom.StartTime, Equals, int64(729814935))
+	c.Assert(activeSymptom.EndTime, Equals, int64(729867188))
+	c.Assert(activeSymptom.ID.Root, Equals, "50f84dbb7042f9366f0001ac")
+	c.Assert(activeSymptom.Oid, Equals, "2.16.840.1.113883.3.560.1.69")
 }
