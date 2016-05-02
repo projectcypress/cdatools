@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"testing"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/moovweb/gokogiri/xml"
 	"github.com/moovweb/gokogiri/xpath"
 	"github.com/pebbe/util"
@@ -90,13 +91,13 @@ func (i *ImporterSuite) TestExtractEncounterOrdered(c *C) {
 func (i *ImporterSuite) TestExtractDiagnosesActive(c *C) {
 	var diagnosisXPath = xpath.Compile("//cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.11']")
 	rawDiagnoses := ExtractSection(i.patientElement, diagnosisXPath, DiagnosisActiveExtractor, "2.16.840.1.113883.3.560.1.2")
-	i.patient.Diagnoses = make([]models.Diagnosis, len(rawDiagnoses))
+	i.patient.Conditions = make([]models.Condition, len(rawDiagnoses))
 	for j := range rawDiagnoses {
-		i.patient.Diagnoses[j] = rawDiagnoses[j].(models.Diagnosis)
+		i.patient.Conditions[j] = rawDiagnoses[j].(models.Condition)
 	}
 
-	c.Assert(len(i.patient.Diagnoses), Equals, 3)
-	firstDiagnosis := i.patient.Diagnoses[0]
+	c.Assert(len(i.patient.Conditions), Equals, 3)
+	firstDiagnosis := i.patient.Conditions[0]
 	c.Assert(firstDiagnosis.ID.Root, Equals, "1.3.6.1.4.1.115")
 	c.Assert(firstDiagnosis.ID.Extension, Equals, "54c1142869702d2cd2520100")
 	c.Assert(firstDiagnosis.Codes["SNOMED-CT"][0], Equals, "195080001")
@@ -105,7 +106,7 @@ func (i *ImporterSuite) TestExtractDiagnosesActive(c *C) {
 	c.Assert(firstDiagnosis.EndTime, Equals, int64(0))
 	c.Assert(firstDiagnosis.Severity["SNOMED-CT"][0], Equals, "55561003")
 
-	secondDiagnosis := i.patient.Diagnoses[1]
+	secondDiagnosis := i.patient.Conditions[1]
 	c.Assert(secondDiagnosis.ID.Root, Equals, "1.3.6.1.4.1.115")
 	c.Assert(secondDiagnosis.ID.Extension, Equals, "54c1142969702d2cd2cd0200")
 	c.Assert(secondDiagnosis.Codes["SNOMED-CT"][0], Equals, "237244005")
@@ -113,7 +114,7 @@ func (i *ImporterSuite) TestExtractDiagnosesActive(c *C) {
 	c.Assert(secondDiagnosis.StartTime, Equals, int64(1362150000))
 	c.Assert(secondDiagnosis.EndTime, Equals, int64(1382284800))
 
-	thirdDiagnosis := i.patient.Diagnoses[2]
+	thirdDiagnosis := i.patient.Conditions[2]
 	c.Assert(thirdDiagnosis.ID.Root, Equals, "1.3.6.1.4.1.115")
 	c.Assert(thirdDiagnosis.ID.Extension, Equals, "54c1142869702d2cd2760100")
 	c.Assert(thirdDiagnosis.Codes["SNOMED-CT"][0], Equals, "46635009")
@@ -125,13 +126,13 @@ func (i *ImporterSuite) TestExtractDiagnosesActive(c *C) {
 func (i *ImporterSuite) TestExtractDiagnosesInactive(c *C) {
 	var diagnosisInactiveXPath = xpath.Compile("//cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.13']")
 	rawDiagnosesInactive := ExtractSection(i.patientElement, diagnosisInactiveXPath, DiagnosisInactiveExtractor, "2.16.840.1.113883.3.560.1.2")
-	i.patient.Diagnoses = make([]models.Diagnosis, len(rawDiagnosesInactive))
+	i.patient.Conditions = make([]models.Condition, len(rawDiagnosesInactive))
 	for j := range rawDiagnosesInactive {
-		i.patient.Diagnoses[j] = rawDiagnosesInactive[j].(models.Diagnosis)
+		i.patient.Conditions[j] = rawDiagnosesInactive[j].(models.Condition)
 	}
 
-	diagnosis := i.patient.Diagnoses[0]
-	c.Assert(len(i.patient.Diagnoses), Equals, 1)
+	diagnosis := i.patient.Conditions[0]
+	c.Assert(len(i.patient.Conditions), Equals, 1)
 	c.Assert(diagnosis.ID.Root, Equals, "50f84c1d7042f98775000352")
 	c.Assert(diagnosis.Codes["SNOMED-CT"][0], Equals, "76795007")
 	c.Assert(diagnosis.Codes["ICD-9-CM"][0], Equals, "V02.61")
@@ -327,9 +328,9 @@ func (i *ImporterSuite) TestGestationalAge(c *C) {
 	var gestationalAgeXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.101']")
 	rawGestationalAges := ExtractSection(i.patientElement, gestationalAgeXPath, GestationalAgeExtractor, "2.16.840.1.113883.3.560.1.1001")
 
-	i.patient.Conditions = make([]models.Entry, len(rawGestationalAges))
+	i.patient.Conditions = make([]models.Condition, len(rawGestationalAges))
 	for j := range rawGestationalAges {
-		i.patient.Conditions[j] = rawGestationalAges[j].(models.Entry)
+		i.patient.Conditions[j] = rawGestationalAges[j].(models.Condition)
 	}
 	gestationalAge := i.patient.Conditions[0]
 	c.Assert(gestationalAge.ID.Root, Equals, "50f6c6da7042f9cdd0000233")
@@ -359,4 +360,18 @@ func (i *ImporterSuite) TestCommunication(c *C) {
 	c.Assert(reference.ReferencedID, Equals, "56c237ee02d40565bb00030e")
 	c.Assert(reference.ReferencedType, Equals, "Procedure")
 	c.Assert(reference.Type, Equals, "fulfills")
+}
+
+func (i *ImporterSuite) TestEcogStatus(c *C) {
+	var ecogStatusXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.103']")
+	rawEcogStatuses := ExtractSection(i.patientElement, ecogStatusXPath, EcogStatusExtractor, "2.16.840.1.113883.3.560.1.1001")
+	i.patient.Conditions = make([]models.Condition, len(rawEcogStatuses))
+	for j := range rawEcogStatuses {
+		i.patient.Conditions[j] = rawEcogStatuses[j].(models.Condition)
+	}
+	spew.Dump(rawEcogStatuses)
+	ecogStatus := i.patient.Conditions[0]
+	c.Assert(ecogStatus.ID.Root, Equals, "50f6c6067042f91c7c000272")
+	c.Assert(ecogStatus.Oid, Equals, "2.16.840.1.113883.3.560.1.1001")
+	c.Assert(ecogStatus.Codes["SNOMED-CT"][0], Equals, "423237006")
 }

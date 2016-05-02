@@ -6,8 +6,42 @@ import (
 	"github.com/projectcypress/cdatools/models"
 )
 
+func GestationalAgeExtractor(entry *models.Entry, entryElement xml.Node) interface{} {
+	gestationalAge := models.Condition{}
+	gestationalAge.Entry = *entry
+	codeXPath := xpath.Compile("./cda:code")
+	ExtractCodes(&gestationalAge.Entry.Coded, entryElement, codeXPath)
+
+	valueXPath := xpath.Compile("./cda:value")
+	entry.Values = make([]models.ResultValue, 0)
+	ExtractValues(&gestationalAge.Entry, entryElement, valueXPath)
+
+	switch gestationalAge.Entry.Values[0].Scalar {
+	case 39:
+		entry.Codes["SNOMED-CT"] = []string{"80487005"}
+	case 38:
+		entry.Codes["SNOMED-CT"] = []string{"13798002"}
+	case 37:
+		entry.Codes["SNOMED-CT"] = []string{"43697006"}
+	case 36:
+		entry.Codes["SNOMED-CT"] = []string{"931004"}
+	}
+
+	return gestationalAge
+}
+
+func EcogStatusExtractor(entry *models.Entry, entryElement xml.Node) interface{} {
+	ecogStatus := models.Condition{}
+	ecogStatus.Entry = *entry
+
+	codeXPath := xpath.Compile("./cda:value")
+	ExtractCodes(&ecogStatus.Entry.Coded, entryElement, codeXPath)
+
+	return ecogStatus
+}
+
 func DiagnosisActiveExtractor(entry *models.Entry, entryElement xml.Node) interface{} {
-	diagnosisActive := models.Diagnosis{}
+	diagnosisActive := models.Condition{}
 	diagnosisActive.Entry = *entry
 
 	//extract codes
@@ -23,7 +57,7 @@ func DiagnosisActiveExtractor(entry *models.Entry, entryElement xml.Node) interf
 }
 
 func DiagnosisInactiveExtractor(entry *models.Entry, entryElement xml.Node) interface{} {
-	diagnosisInactive := models.Diagnosis{}
+	diagnosisInactive := models.Condition{}
 	diagnosisInactive.Entry = *entry
 
 	//extract codes
@@ -33,7 +67,7 @@ func DiagnosisInactiveExtractor(entry *models.Entry, entryElement xml.Node) inte
 	return diagnosisInactive
 }
 
-func ExtractSeverity(diagnosis *models.Diagnosis, entryElement xml.Node, severityCodeXPath *xpath.Expression, severityCodeSetXPath *xpath.Expression) {
+func ExtractSeverity(diagnosis *models.Condition, entryElement xml.Node, severityCodeXPath *xpath.Expression, severityCodeSetXPath *xpath.Expression) {
 	severityCode := FirstElementContent(severityCodeXPath, entryElement)
 	severityCodeSystem := models.CodeSystemFor(FirstElementContent(severityCodeSetXPath, entryElement))
 	diagnosis.Severity = map[string][]string{
