@@ -88,7 +88,6 @@ type Record struct {
 	DeathDate             int64                 `json:"deathdate,omitempty"`
 	Expired               bool                  `json:"expired,omitempty"`
 	Encounters            []Encounter           `json:"encounters,omitempty"`
-	Diagnoses             []Diagnosis           `json:"conditions,omitempty"`
 	LabResults            []LabResult           `json:"results,omitempty"`
 	Languages             []Language            `json:"languages,omitempty"`
 	ProviderPerformances  []ProviderPerformance `json:"provider_performances,omitempty"`
@@ -96,7 +95,7 @@ type Record struct {
 	Procedures            []Procedure           `json:"procedures,omitempty"`
 	Medications           []Medication          `json:"medications, omitempty"`
 	Allergies             []Allergy             `json:"allergies,omitempty"`
-	Conditions            []Entry               `json:"conditions,omitempty"`
+	Conditions            []Condition           `json:"conditions,omitempty"`
 	Communications        []Communication       `json:"communications,omitempty"`
 }
 
@@ -107,10 +106,6 @@ func (r *Record) Entries() []interface{} {
 	// This whole "for loop for each of these things" is unavoidable, because elements must be copied individually to a []interface{}
 	for _, en := range r.Encounters {
 		entries = append(entries, en)
-	}
-
-	for _, di := range r.Diagnoses {
-		entries = append(entries, di)
 	}
 
 	for _, lr := range r.LabResults {

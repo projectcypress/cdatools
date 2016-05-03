@@ -852,6 +852,82 @@
               </effectiveTime>
             </act>
           </entry>
+          <entry>
+            <observation classCode="OBS" moodCode="EVN">
+              <templateId root="2.16.840.1.113883.10.20.24.3.103"/>
+              <id root="50f6c6067042f91c7c000272"/>
+              <code code="ASSERTION" codeSystem="2.16.840.1.113883.5.4"/>
+              <statusCode code="completed"/>
+              <effectiveTime value="20120619085355"/>
+              <value code="423237006" codeSystem="2.16.840.1.113883.6.96" xsi:type="CD" sdtc:valueSet="2.16.840.1.113883.3.526.3.1279">
+                <originalText>Patient Characteristic: ECOG Performance Status-Poor (Code List: 2.16.840.1.113883.3.526.3.1279)</originalText>
+              </value>
+            </observation>
+          </entry>
+          <entry>
+            <observation classCode="OBS" moodCode="EVN">
+              <!--  Problem observation template -->
+              <templateId root="2.16.840.1.113883.10.20.22.4.4"/>
+              <!-- Symptom, active template -->
+              <templateId root="2.16.840.1.113883.10.20.24.3.76"/>  
+              <id root="50f84dbb7042f9366f0001ac"/>
+              <code code="418799008" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Symptom"/>
+              <text>Symptom, Active: Neurologic Symptoms of Stroke (Code List: 2.16.840.1.113883.3.117.1.7.1.399)</text>
+              <statusCode code="completed"/> 
+              <value code="95815000" codeSystem="2.16.840.1.113883.6.96" xsi:type="CD" sdtc:valueSet="2.16.840.1.113883.3.117.1.7.1.399"><originalText>Symptom, Active: Neurologic Symptoms of Stroke (Code List: 2.16.840.1.113883.3.117.1.7.1.399)</originalText></value>
+              <effectiveTime>
+                <low value='19930215222215'/>
+                <high value='19930216125308'/>
+              </effectiveTime>
+              <!-- Status -->
+              <entryRelationship typeCode="REFR">
+                <observation classCode="OBS" moodCode="EVN">
+                  <!-- Problem Status (consolidation) template -->
+                  <templateId root="2.16.840.1.113883.10.20.22.4.6"/>
+                  <!-- Problem Status, Active template -->
+                  <templateId root="2.16.840.1.113883.10.20.24.3.94"/>
+                  <id root="213a6870-4308-0130-0ade-680688cbd736"/>  
+                  <code code="33999-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="status"/>
+                  <statusCode code="completed"/>
+                  <value code="55561003" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="active" xsi:type="CD"/>
+                </observation>
+              </entryRelationship>
+            </observation>
+          </entry>
+          <entry>
+            <observation classCode="OBS" moodCode="EVN">
+              <!--  Problem observation template -->
+              <templateId root="2.16.840.1.113883.10.20.22.4.4"/>
+              <!-- Diagnosis, resolved template -->
+              <templateId root="2.16.840.1.113883.10.20.24.3.14"/>
+              <id root="50f84c187042f98775000089"/>
+              <code code="282291009" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="diagnosis"/>
+              
+              <statusCode code="completed"/>
+              <effectiveTime>
+                <!-- Attribute: Start Datetime -->
+                <low value='20030403010254'/>
+                <!-- Attribute: Stop Datetime -->
+                <high value='20030403121452'/>
+              </effectiveTime>
+              <value code="94643001" codeSystem="2.16.840.1.113883.6.96" xsi:type="CD" sdtc:valueSet="2.16.840.1.113883.3.464.1003.108.12.1001"><originalText>Diagnosis, Resolved: Malignant Neoplasm of Colon (Code List: 2.16.840.1.113883.3.464.1003.108.12.1001)</originalText><translation code="197.5" codeSystem="2.16.840.1.113883.6.103"/>
+              <translation code="C21.8" codeSystem="2.16.840.1.113883.6.90"/>
+              </value>
+              <!-- Status -->
+              <entryRelationship typeCode="REFR">
+                <observation classCode="OBS" moodCode="EVN">
+                  <!-- Problem Status (consolidation) template -->
+                  <templateId root="2.16.840.1.113883.10.20.22.4.6"/>
+                  <!-- Problem Status, Resolved template -->
+                  <templateId root="2.16.840.1.113883.10.20.24.3.96"/>
+                  <id root="272e2b20-4307-0130-0add-680688cbd736"/>
+                  <code code="33999-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="status"/>
+                  <statusCode code="completed"/>
+                  <value code="413322009" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="resolved" xsi:type="CD"/>
+                </observation>
+              </entryRelationship>
+            </observation>
+          </entry>
         </section>
       </component>
     </structuredBody>

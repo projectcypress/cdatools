@@ -52,17 +52,17 @@ func Read_patient(path string) string {
 
 	//diagnosis active
 	var diagnosisActiveXPath = xpath.Compile("//cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.11']")
-	rawDiagnosesActive := ExtractSection(patientElement, diagnosisActiveXPath, DiagnosisActiveExtractor, "2.16.840.1.113883.3.560.1.2")
-	patient.Diagnoses = make([]models.Diagnosis, len(rawDiagnosesActive))
+	rawDiagnosesActive := ExtractSection(patientElement, diagnosisActiveXPath, ConditionExtractor, "2.16.840.1.113883.3.560.1.2")
+	patient.Conditions = make([]models.Condition, len(rawDiagnosesActive))
 	for i := range rawDiagnosesActive {
-		patient.Diagnoses[i] = rawDiagnosesActive[i].(models.Diagnosis)
+		patient.Conditions[i] = rawDiagnosesActive[i].(models.Condition)
 	}
 
 	//diagnosis inactive
 	var diagnosisInactiveXPath = xpath.Compile("//cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.13']")
 	rawDiagnosesInactive := ExtractSection(patientElement, diagnosisInactiveXPath, DiagnosisInactiveExtractor, "2.16.840.1.113883.3.560.1.2")
 	for i := range rawDiagnosesInactive {
-		patient.Diagnoses = append(patient.Diagnoses, rawDiagnosesInactive[i].(models.Diagnosis))
+		patient.Conditions = append(patient.Conditions, rawDiagnosesInactive[i].(models.Condition))
 	}
 
 	//lab results
@@ -178,7 +178,7 @@ func Read_patient(path string) string {
 	var gestationalAgeXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.101']")
 	rawGestationalAges := ExtractSection(patientElement, gestationalAgeXPath, GestationalAgeExtractor, "2.16.840.1.113883.3.560.1.1001")
 	for i := range rawGestationalAges {
-		patient.Conditions = append(patient.Conditions, rawGestationalAges[i].(models.Entry))
+		patient.Conditions = append(patient.Conditions, rawGestationalAges[i].(models.Condition))
 	}
 
 	// Communication: patient to provider
@@ -200,6 +200,29 @@ func Read_patient(path string) string {
 	rawCommunicationsProviderToPatient := ExtractSection(patientElement, communicationProviderToPatientXPath, CommunicationExtractor, "2.16.840.1.113883.3.560.1.31")
 	for i := range rawCommunicationsProviderToPatient {
 		patient.Communications = append(patient.Communications, rawCommunicationsProviderToPatient[i].(models.Communication))
+	}
+
+	// ECOG Status
+	var ecogStatusXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.103']")
+	rawEcogStatuses := ExtractSection(patientElement, ecogStatusXPath, ConditionExtractor, "2.16.840.1.113883.3.560.1.1001")
+	for i := range rawEcogStatuses {
+		patient.Conditions = append(patient.Conditions, rawEcogStatuses[i].(models.Condition))
+	}
+
+	// Symptom, active
+	var symptomActiveXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.76']")
+	rawActiveSymptoms := ExtractSection(patientElement, symptomActiveXPath, ConditionExtractor, "2.16.840.1.113883.3.560.1.69")
+	patient.Conditions = make([]models.Condition, len(rawActiveSymptoms))
+	for i := range rawActiveSymptoms {
+		patient.Conditions = append(patient.Conditions, rawActiveSymptoms[i].(models.Condition))
+	}
+
+	// Diagnosis, Resolved
+	var diagonsisResolvedXPath = xpath.Compile("//cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.14']")
+	rawDiagnosesResolved := ExtractSection(patientElement, diagonsisResolvedXPath, ConditionExtractor, "2.16.840.1.113883.3.560.1.24")
+	patient.Conditions = make([]models.Condition, len(rawDiagnosesResolved))
+	for i := range rawDiagnosesResolved {
+		patient.Conditions = append(patient.Conditions, rawDiagnosesResolved[i].(models.Condition))
 	}
 
 	patientJSON, err := json.Marshal(patient)

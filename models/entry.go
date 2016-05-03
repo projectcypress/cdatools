@@ -23,8 +23,6 @@ func ExtractEntry(entry interface{}) Entry {
 	switch t := entry.(type) {
 	case Encounter:
 		return t.Entry
-	case Diagnosis:
-		return t.Entry
 	case LabResult:
 		return t.Entry
 	case InsuranceProvider:
@@ -36,6 +34,8 @@ func ExtractEntry(entry interface{}) Entry {
 	case Medication:
 		return t.Entry
 	case Communication:
+		return t.Entry
+	case Condition:
 		return t.Entry
 	case Entry:
 		return t
