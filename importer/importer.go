@@ -212,7 +212,6 @@ func Read_patient(path string) string {
 	// Symptom, active
 	var symptomActiveXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.76']")
 	rawActiveSymptoms := ExtractSection(patientElement, symptomActiveXPath, ConditionExtractor, "2.16.840.1.113883.3.560.1.69")
-	patient.Conditions = make([]models.Condition, len(rawActiveSymptoms))
 	for i := range rawActiveSymptoms {
 		patient.Conditions = append(patient.Conditions, rawActiveSymptoms[i].(models.Condition))
 	}
@@ -220,7 +219,6 @@ func Read_patient(path string) string {
 	// Diagnosis, Resolved
 	var diagonsisResolvedXPath = xpath.Compile("//cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.14']")
 	rawDiagnosesResolved := ExtractSection(patientElement, diagonsisResolvedXPath, ConditionExtractor, "2.16.840.1.113883.3.560.1.24")
-	patient.Conditions = make([]models.Condition, len(rawDiagnosesResolved))
 	for i := range rawDiagnosesResolved {
 		patient.Conditions = append(patient.Conditions, rawDiagnosesResolved[i].(models.Condition))
 	}
