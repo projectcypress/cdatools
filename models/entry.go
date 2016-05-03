@@ -10,10 +10,10 @@ type Entry struct {
 	Oid            string              `json:"oid,omitempty"`
 	Description    string              `json:"description,omitempty"`
 	NegationInd    bool                `json:"negationInd,omitempty"`
-	NegationReason Reason              `json:"negationReason,omitempty"`
+	NegationReason CodedConcept        `json:"negationReason,omitempty"`
 	Values         []ResultValue       `bson:"values,omitempty"`
 	StatusCode     map[string][]string `json:"status_code,omitempty"`
-	Reason         Reason              `json:"reason,omitempty"`
+	Reason         CodedConcept        `json:"reason,omitempty"`
 	TransferTo     Transfer            `json:"transferTo,omitempty"`
 	TransferFrom   Transfer            `json:"transferFrom,omitempty"`
 	References     []Reference         `json:"references,omitempty"`
