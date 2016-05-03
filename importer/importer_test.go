@@ -388,3 +388,18 @@ func (i *ImporterSuite) TestSymptomActive(c *C) {
 	c.Assert(activeSymptom.ID.Root, Equals, "50f84dbb7042f9366f0001ac")
 	c.Assert(activeSymptom.Oid, Equals, "2.16.840.1.113883.3.560.1.69")
 }
+
+func (i *ImporterSuite) TestDiagnosisResolved(c *C) {
+	var diagonsisResolvedXPath = xpath.Compile("//cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.14']")
+	rawDiagnosesResolved := ExtractSection(i.patientElement, diagonsisResolvedXPath, ConditionExtractor, "2.16.840.1.113883.3.560.1.24")
+	i.patient.Conditions = make([]models.Condition, len(rawDiagnosesResolved))
+	for j := range rawDiagnosesResolved {
+		i.patient.Conditions[j] = rawDiagnosesResolved[j].(models.Condition)
+	}
+	diagnosisResolved := i.patient.Conditions[0]
+	c.Assert(diagnosisResolved.ID.Root, Equals, "50f84c187042f98775000089")
+	c.Assert(diagnosisResolved.Oid, Equals, "2.16.840.1.113883.3.560.1.24")
+	c.Assert(diagnosisResolved.Codes["SNOMED-CT"][0], Equals, "94643001")
+	c.Assert(diagnosisResolved.Codes["ICD-10-CM"][0], Equals, "C21.8")
+	c.Assert(diagnosisResolved.Codes["ICD-9-CM"][0], Equals, "197.5")
+}
