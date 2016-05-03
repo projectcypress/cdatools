@@ -165,9 +165,9 @@ type ResultValue struct {
 	EndTime   int64  `json:"end_time,omitempty"`
 }
 
-type Reason struct {
+type CodedConcept struct {
 	Code           string `json:"code,omitempty"`
-	CodeSystem     string `json:"codeSystem,omitempty"`
+	CodeSystem     string `json:"code_system,omitempty"`
 	CodeSystemName string `json:"codeSystemName,omitempty"`
 }
 

@@ -126,7 +126,7 @@ func entriesForDataCriteria(dataCriteria models.DataCriteria, patient models.Rec
 	return filteredEntries
 }
 
-func reasonInCodes(code models.CodeSet, reason models.Reason) bool {
+func reasonInCodes(code models.CodeSet, reason models.CodedConcept) bool {
 	for _, value := range code.Values {
 		if reason.Code == value.Code && reason.CodeSystem == value.CodeSystem {
 			return true
