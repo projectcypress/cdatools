@@ -13,7 +13,12 @@ func MedicalEquipmentExtractor(entry *models.Entry, entryElement xml.Node) inter
 	medicalEquipment := models.MedicalEquipment{}
 	medicalEquipment.Entry = *entry
 
+	codeXPath := xpath.Compile("./cda:participant/cda:participantRole/cda:playingDevice/cda:code")
+	ExtractCodes(&medicalEquipment.Entry.Coded, entryElement, codeXPath)
+
 	extractManufacturer(&medicalEquipment, entryElement)
+	extractAnatomicalStructure(&medicalEquipment, entryElement)
+	extractRemovalTime(&medicalEquipment, entryElement)
 
 	return medicalEquipment
 }

@@ -794,7 +794,7 @@
             <act classCode="ACT" moodCode="EVN">
               <!-- Communication from patient to provider -->
               <templateId root="2.16.840.1.113883.10.20.24.3.2"/>
-              <id root="50f84c187042f987750000e5"/>  
+              <id root="50f84c187042f987750000e5"/>
               <code nullFlavor="UNK" ><originalText>Communication: From Patient to Provider: Influenza Vaccination Declined (Code List: 2.16.840.1.113883.3.526.3.1255)</originalText><translation code="315640000" codeSystem="2.16.840.1.113883.6.96"/>
               </code>
               <text>
@@ -827,7 +827,7 @@
                   <value xsi:type="CD" code="105480006" codeSystem="2.16.840.1.113883.6.96"/>
                 </observation>
               </entryRelationship>
-              
+
               <sdtc:inFulfillmentOf1 typeCode="FLFS">
                 <sdtc:templateId root="2.16.840.1.113883.10.20.24.3.126" extension="2014-12-01" />
                 <sdtc:actReference classCode="ACT" moodCode="EVN">
@@ -869,11 +869,11 @@
               <!--  Problem observation template -->
               <templateId root="2.16.840.1.113883.10.20.22.4.4"/>
               <!-- Symptom, active template -->
-              <templateId root="2.16.840.1.113883.10.20.24.3.76"/>  
+              <templateId root="2.16.840.1.113883.10.20.24.3.76"/>
               <id root="50f84dbb7042f9366f0001ac"/>
               <code code="418799008" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Symptom"/>
               <text>Symptom, Active: Neurologic Symptoms of Stroke (Code List: 2.16.840.1.113883.3.117.1.7.1.399)</text>
-              <statusCode code="completed"/> 
+              <statusCode code="completed"/>
               <value code="95815000" codeSystem="2.16.840.1.113883.6.96" xsi:type="CD" sdtc:valueSet="2.16.840.1.113883.3.117.1.7.1.399"><originalText>Symptom, Active: Neurologic Symptoms of Stroke (Code List: 2.16.840.1.113883.3.117.1.7.1.399)</originalText></value>
               <effectiveTime>
                 <low value='19930215222215'/>
@@ -886,7 +886,7 @@
                   <templateId root="2.16.840.1.113883.10.20.22.4.6"/>
                   <!-- Problem Status, Active template -->
                   <templateId root="2.16.840.1.113883.10.20.24.3.94"/>
-                  <id root="213a6870-4308-0130-0ade-680688cbd736"/>  
+                  <id root="213a6870-4308-0130-0ade-680688cbd736"/>
                   <code code="33999-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="status"/>
                   <statusCode code="completed"/>
                   <value code="55561003" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="active" xsi:type="CD"/>
@@ -902,7 +902,7 @@
               <templateId root="2.16.840.1.113883.10.20.24.3.14"/>
               <id root="50f84c187042f98775000089"/>
               <code code="282291009" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="diagnosis"/>
-              
+
               <statusCode code="completed"/>
               <effectiveTime>
                 <!-- Attribute: Start Datetime -->
@@ -927,6 +927,31 @@
                 </observation>
               </entryRelationship>
             </observation>
+          </entry>
+          <entry>
+            <procedure classCode="PROC" moodCode="EVN" >
+              <!-- Procedure Activity Procedure -->
+              <templateId root="2.16.840.1.113883.10.20.22.4.14"/>
+              <!-- Device Applied -->
+              <templateId root="2.16.840.1.113883.10.20.24.3.7"/>
+              <id root="510969b3944dfe9bd7000056"/>
+              <code code="360030002" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="application of device"/>
+              <text>Device, Applied</text>
+              <statusCode code="completed"/>
+              <effectiveTime>
+                <low value='19850331043808'/>
+              </effectiveTime>
+              <targetSiteCode code="thigh"
+                    codeSystem="2.16.840.1.113883.6.96"/>
+              <participant typeCode="DEV">
+                <participantRole classCode="MANU">
+                  <playingDevice classCode="DEV">
+                    <code nullFlavor="UNK" sdtc:valueSet="2.16.840.1.113883.3.666.5.1086"><originalText>Device, Applied: Hospital measures-Pacemaker or implantable defibrillator device (Code List: 2.16.840.1.113883.3.666.5.1086)</originalText><translation code="37.98" codeSystem="2.16.840.1.113883.6.103"/>
+                    </code>
+                  </playingDevice>
+                </participantRole>
+              </participant>
+            </procedure>
           </entry>
         </section>
       </component>

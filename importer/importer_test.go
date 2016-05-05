@@ -405,11 +405,17 @@ func (i *ImporterSuite) TestDiagnosisResolved(c *C) {
 }
 
 func (i *ImporterSuite) TestMedicalEquipmentApplied(c *C) {
-	var medEquipAppliedXPath = xpath.Compile("./cda:entry/cda:procedure[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.7']")
+	var medEquipAppliedXPath = xpath.Compile("//cda:procedure[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.7']")
 	rawMedEquipApplied := ExtractSection(i.patientElement, medEquipAppliedXPath, MedicalEquipmentExtractor, "2.16.840.1.113883.3.560.1.110")
 	i.patient.MedicalEquipment = make([]models.MedicalEquipment, len(rawMedEquipApplied))
 	for j := range rawMedEquipApplied {
 		i.patient.MedicalEquipment[j] = rawMedEquipApplied[j].(models.MedicalEquipment)
 	}
 	medEquipApplied := i.patient.MedicalEquipment[0]
+	c.Assert(medEquipApplied.ID.Root, Equals, "510969b3944dfe9bd7000056")
+	c.Assert(medEquipApplied.StartTime, Equals, int64(481091888))
+	c.Assert(medEquipApplied.Codes["ICD-9-CM"][0], Equals, "37.98")
+	c.Assert(medEquipApplied.AnatomicalStructure.Code, Equals, "thigh")
+	c.Assert(medEquipApplied.AnatomicalStructure.CodeSystem, Equals, "2.16.840.1.113883.6.96")
+	c.Assert(medEquipApplied.AnatomicalStructure.CodeSystemName, Equals, "SNOMED-CT")
 }
