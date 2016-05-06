@@ -1,6 +1,9 @@
 package exporter
 
-import . "gopkg.in/check.v1"
+import (
+	"github.com/projectcypress/cdatools/models"
+	. "gopkg.in/check.v1"
+)
 
 func (s *MySuite) TestValueOrNullFlavor(c *C) {
 	c.Assert(valueOrNullFlavor(nil), Equals, "nullFlavor='UNK'")
@@ -21,7 +24,10 @@ func (s *MySuite) TestValueOrDefault(c *C) {
 }
 
 func (s *MySuite) TestCodeDisplay(c *C) {
-
+	var entry = models.Entry{}
+	var m = make(map[string]interface{})
+	m["preferred_code_sets"] = []string{"*"}
+	c.Assert(codeDisplay(entry, m), Equals, "<code code='1234' codeSystem='2.16.840.1.113883.6.96' ><originalText></originalText> </code>")
 }
 
 func (s *MySuite) TestOidForCode(c *C) {
