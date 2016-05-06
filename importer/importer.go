@@ -223,6 +223,13 @@ func Read_patient(path string) string {
 		patient.Conditions = append(patient.Conditions, rawDiagnosesResolved[i].(models.Condition))
 	}
 
+	// Lab Test, Performed
+	var labResultPerformedXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.38']")
+	rawLabResults = ExtractSection(patientElement, labResultPerformedXPath, ResultExtractor, "2.16.840.1.113883.3.560.1.5")
+	for i := range rawLabResults {
+		patient.LabResults = append(patient.LabResults, rawLabResults[i].(models.LabResult))
+	}
+
 	patientJSON, err := json.Marshal(patient)
 	if err != nil {
 		fmt.Println(err)
