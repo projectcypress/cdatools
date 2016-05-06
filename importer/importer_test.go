@@ -4,7 +4,6 @@ import (
 	"io/ioutil"
 	"testing"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/moovweb/gokogiri/xml"
 	"github.com/moovweb/gokogiri/xpath"
 	"github.com/pebbe/util"
@@ -405,22 +404,6 @@ func (i *ImporterSuite) TestDiagnosisResolved(c *C) {
 	c.Assert(diagnosisResolved.Codes["ICD-9-CM"][0], Equals, "197.5")
 }
 
-func (i *ImporterSuite) TestLabResultPerformed(c *C) {
-	var labResultPerformedXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.38']")
-	rawLabResults := ExtractSection(i.patientElement, labResultPerformedXPath, ResultExtractor, "2.16.840.1.113883.3.560.1.5")
-	i.patient.LabResults = make([]models.LabResult, len(rawLabResults))
-	for j := range rawLabResults {
-		i.patient.LabResults[j] = rawLabResults[j].(models.LabResult)
-	}
-	labResult := i.patient.LabResults[0]
-	c.Assert(labResult.ID.Root, Equals, "50f84c1d7042f98775000353")
-	c.Assert(labResult.Oid, Equals, "2.16.840.1.113883.3.560.1.5")
-	// These are commented out until the CodeSystems get added to the Codesystemmap
-	// c.Assert(labResult.Interpretation.Code, Equals, "N")
-	// c.Assert(labResult.Interpretation.CodeSystem, Equals, "HITSP C80 Observation Status")
-	c.Assert(labResult.ReferenceRange, Equals, "M 13-18 g/dl; F 12-16 g/dl")
-}
-
 func (i *ImporterSuite) TestMedicalEquipmentApplied(c *C) {
 	var medEquipAppliedXPath = xpath.Compile("//cda:procedure[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.7']")
 	rawMedEquipApplied := ExtractSection(i.patientElement, medEquipAppliedXPath, MedicalEquipmentExtractor, "2.16.840.1.113883.3.560.1.110")
@@ -435,21 +418,4 @@ func (i *ImporterSuite) TestMedicalEquipmentApplied(c *C) {
 	c.Assert(medEquipApplied.AnatomicalStructure.Code, Equals, "thigh")
 	c.Assert(medEquipApplied.AnatomicalStructure.CodeSystem, Equals, "2.16.840.1.113883.6.96")
 	c.Assert(medEquipApplied.AnatomicalStructure.CodeSystemName, Equals, "SNOMED-CT")
-}
-
-func (i *ImporterSuite) TestMedicalEquipmentNotOrdered(c *C) {
-	var medEquipNotOrderedXPath = xpath.Compile("//cda:act[cda:code/@code = 'SPLY']")
-	rawMedEquipNotOrdered := ExtractSection(i.patientElement, medEquipNotOrderedXPath, MedicalEquipmentExtractor, "2.16.840.1.113883.3.560.1.137")
-	i.patient.MedicalEquipment = make([]models.MedicalEquipment, len(rawMedEquipNotOrdered))
-	for j := range rawMedEquipNotOrdered {
-		i.patient.MedicalEquipment[j] = rawMedEquipNotOrdered[j].(models.MedicalEquipment)
-	}
-
-	medEquipNotOrdered := i.patient.MedicalEquipment[0]
-	spew.Dump(medEquipNotOrdered)
-	c.Assert(medEquipNotOrdered.ID.Root, Equals, "1.3.6.1.4.1.115")
-	c.Assert(medEquipNotOrdered.ID.Extension, Equals, "123456")
-	c.Assert(medEquipNotOrdered.StartTime, Equals, int64(1262304000))
-	c.Assert(medEquipNotOrdered.Codes["ICD-9-CM"][0], Equals, "48.20")
-	c.Assert(medEquipNotOrdered.Oid, Equals, "2.16.840.1.113883.3.560.1.137")
 }
