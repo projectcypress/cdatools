@@ -404,6 +404,22 @@ func (i *ImporterSuite) TestDiagnosisResolved(c *C) {
 	c.Assert(diagnosisResolved.Codes["ICD-9-CM"][0], Equals, "197.5")
 }
 
+func (i *ImporterSuite) TestLabResultPerformed(c *C) {
+	var labResultPerformedXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.38']")
+	rawLabResults := ExtractSection(i.patientElement, labResultPerformedXPath, ResultExtractor, "2.16.840.1.113883.3.560.1.5")
+	i.patient.LabResults = make([]models.LabResult, len(rawLabResults))
+	for j := range rawLabResults {
+		i.patient.LabResults[j] = rawLabResults[j].(models.LabResult)
+	}
+	labResult := i.patient.LabResults[0]
+	c.Assert(labResult.ID.Root, Equals, "50f84c1d7042f98775000353")
+	c.Assert(labResult.Oid, Equals, "2.16.840.1.113883.3.560.1.5")
+	// These are commented out until the CodeSystems get added to the Codesystemmap
+	// c.Assert(labResult.Interpretation.Code, Equals, "N")
+	// c.Assert(labResult.Interpretation.CodeSystem, Equals, "HITSP C80 Observation Status")
+	c.Assert(labResult.ReferenceRange, Equals, "M 13-18 g/dl; F 12-16 g/dl")
+}
+
 func (i *ImporterSuite) TestMedicalEquipmentApplied(c *C) {
 	var medEquipAppliedXPath = xpath.Compile("//cda:procedure[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.7']")
 	rawMedEquipApplied := ExtractSection(i.patientElement, medEquipAppliedXPath, MedicalEquipmentExtractor, "2.16.840.1.113883.3.560.1.110")
