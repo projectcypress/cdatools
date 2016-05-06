@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"text/template"
 	"time"
-
 	"github.com/pborman/uuid"
 	"github.com/projectcypress/cdatools/models"
 )
