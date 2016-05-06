@@ -58,21 +58,56 @@ func identifierForString(objs ...string) string {
 	return identifierFor([]byte(b))
 }
 
+func patientData(patient models.Record) string {
+	return ""
+}
+
+func negationIndicator(entry models.Entry) string {
+	if entry.NegationInd {
+		return "negationInd='true'"
+	}
+	return ""
+}
+
+func oidForCode(codedValue models.CodedConcept, valuesetOids []string, valuesets map[string]map[string]string) string {
+	// oids := valueOrDefault(valuesetOids, []string{})
+	// code := codedValue.Code
+	// codeSystem := codedValue.CodeSystem
+	//
+	return ""
+}
+
+// def oid_for_code(codedValue, valueset_oids,  valueset)
+// 	return nil if codedValue.nil?
+// 	valueset_oids ||=[]
+// 	code = codedValue["code"]
+// 	code_system = codedValue["code_set"] || codedValue["code_system"]
+// 	vs_map = (value_set_map(bundle_id) || {})
+// 	valueset_oids.each do |vs_oid|
+// 		oid_list = (vs_map[vs_oid] || [])
+// 		oid_map = Hash[oid_list.collect{|x| [x["set"],x["values"]]}]
+// 		if (oid_map[code_system] || []).index code
+// 			return vs_oid
+// 		end
+// 	end
+// 	return nil
+// end
+
 func valueOrNullFlavor(i interface{}) string {
 	var s string
 	switch str := i.(type) {
 	case string:
 		ival, err := strconv.Atoi(str)
-		if err != nil {
+		if err == nil {
 			var t = time.Unix(int64(ival), 0)
-			s = fmt.Sprintf("value='%s'", t)
+			s = fmt.Sprintf("value='%s'", t.Format("200601021504"))
 		}
 	case int64:
 		var t = time.Unix(str, 0)
-		s = fmt.Sprintf("value='%s'", t)
+		s = fmt.Sprintf("value='%s'", t.Format("200601021504"))
 	case int:
 		var t = time.Unix(int64(str), 0)
-		s = fmt.Sprintf("value='%s'", t)
+		s = fmt.Sprintf("value='%s'", t.Format("200601021504"))
 	default:
 		s = "nullFlavor='UNK'"
 	}
