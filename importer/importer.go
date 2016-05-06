@@ -259,18 +259,18 @@ func Read_patient(path string) string {
 	}
 
 	//Medical Equipment Applied
-	var medEquipAppliedXPath = xpath.Compile("./cda:entry/cda:procedure[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.7']")
+	var medEquipAppliedXPath = xpath.Compile("//cda:procedure[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.7']")
 	rawMedEquipApplied := ExtractSection(patientElement, medEquipAppliedXPath, MedicalEquipmentExtractor, "2.16.840.1.113883.3.560.1.110")
 	patient.MedicalEquipment = make([]models.MedicalEquipment, len(rawMedEquipApplied))
 	for i := range rawMedEquipApplied {
 		patient.MedicalEquipment[i] = rawMedEquipApplied[i].(models.MedicalEquipment)
 	}
 
-	//Medical Equipment
-	var medEquipXPath = xpath.Compile("./cda:entry/cda:act[cda:code/@code = 'SPLY']")
-	rawMedEquip := ExtractSection(patientElement, medEquipXPath, MedicalEquipmentExtractor, "2.16.840.1.113883.3.560.1.137")
-	for i := range rawMedEquip {
-		patient.MedicalEquipment = append(patient.MedicalEquipment, rawMedEquipApplied[i].(models.MedicalEquipment))
+	//Medical Equipment Not Ordered
+	var medEquipNotOrderedXPath = xpath.Compile("//cda:act[cda:code/@code = 'SPLY']")
+	rawMedEquipNotOrdered := ExtractSection(patientElement, medEquipNotOrderedXPath, MedicalEquipmentExtractor, "2.16.840.1.113883.3.560.1.137")
+	for i := range rawMedEquipNotOrdered {
+		patient.MedicalEquipment = append(patient.MedicalEquipment, rawMedEquipNotOrdered[i].(models.MedicalEquipment))
 	}
 
 	patientJSON, err := json.Marshal(patient)

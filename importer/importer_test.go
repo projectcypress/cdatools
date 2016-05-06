@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"testing"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/moovweb/gokogiri/xml"
 	"github.com/moovweb/gokogiri/xpath"
 	"github.com/pebbe/util"
@@ -434,4 +435,21 @@ func (i *ImporterSuite) TestMedicalEquipmentApplied(c *C) {
 	c.Assert(medEquipApplied.AnatomicalStructure.Code, Equals, "thigh")
 	c.Assert(medEquipApplied.AnatomicalStructure.CodeSystem, Equals, "2.16.840.1.113883.6.96")
 	c.Assert(medEquipApplied.AnatomicalStructure.CodeSystemName, Equals, "SNOMED-CT")
+}
+
+func (i *ImporterSuite) TestMedicalEquipmentNotOrdered(c *C) {
+	var medEquipNotOrderedXPath = xpath.Compile("//cda:act[cda:code/@code = 'SPLY']")
+	rawMedEquipNotOrdered := ExtractSection(i.patientElement, medEquipNotOrderedXPath, MedicalEquipmentExtractor, "2.16.840.1.113883.3.560.1.137")
+	i.patient.MedicalEquipment = make([]models.MedicalEquipment, len(rawMedEquipNotOrdered))
+	for j := range rawMedEquipNotOrdered {
+		i.patient.MedicalEquipment[j] = rawMedEquipNotOrdered[j].(models.MedicalEquipment)
+	}
+
+	medEquipNotOrdered := i.patient.MedicalEquipment[0]
+	spew.Dump(medEquipNotOrdered)
+	c.Assert(medEquipNotOrdered.ID.Root, Equals, "1.3.6.1.4.1.115")
+	c.Assert(medEquipNotOrdered.ID.Extension, Equals, "123456")
+	c.Assert(medEquipNotOrdered.StartTime, Equals, int64(1262304000))
+	c.Assert(medEquipNotOrdered.Codes["ICD-9-CM"][0], Equals, "48.20")
+	c.Assert(medEquipNotOrdered.Oid, Equals, "2.16.840.1.113883.3.560.1.137")
 }
