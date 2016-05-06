@@ -97,6 +97,7 @@ type Record struct {
 	Allergies             []Allergy             `json:"allergies,omitempty"`
 	Conditions            []Condition           `json:"conditions,omitempty"`
 	Communications        []Communication       `json:"communications,omitempty"`
+	MedicalEquipment      []MedicalEquipment    `json:"medical_equipment,omitempty`
 }
 
 // Entries returns all the entries from the Encounters, Diagnoses, and LabResults for a Record
