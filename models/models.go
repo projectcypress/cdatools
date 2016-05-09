@@ -24,37 +24,23 @@ type Device struct {
 }
 
 type Entity struct {
-	Ids       []ID
-	Addresses []Address
-	Telecoms  []Telecom
+	Addresses []Address `json:"addresses,omitempty"`
+	Telecoms  []Telecom `json:"telecoms,omitempty"`
 }
 
 type Person struct {
 	Entity
-	First     string    `json:"first,omitempty"`
-	Last      string    `json:"last,omitempty"`
-	Birthdate int64     `json:"birthdate,omitempty"`
-	Gender    string    `json:"gender,omitempty"`
-	Race      Race      `json:"race,omitempty"`
-	Ethnicity Ethnicity `json:"ethnicity,omitempty"`
-}
-
-type Race struct {
-	Code    string `json:"code,omitempty"`
-	CodeSet string `json:"code_set,omitempty"`
-	Name    string `json:"name,omitempty"`
-}
-
-type Ethnicity struct {
-	Code    string `json:"code,omitempty"`
-	CodeSet string `json:"code_set,omitempty"`
-	Name    string `json:"name,omitempty"`
+	First     string        `json:"first,omitempty"`
+	Last      string        `json:"last,omitempty"`
+	Birthdate int64         `json:"birthdate,omitempty"`
+	Gender    string        `json:"gender,omitempty"`
+	Race      *CodedConcept `json:"race,omitempty"`
+	Ethnicity *CodedConcept `json:"ethnicity,omitempty"`
 }
 
 type Organization struct {
 	Entity
-	Name    string
-	TagName string
+	Name string `json:"name,omitempty"`
 }
 
 type Address struct {
@@ -75,13 +61,8 @@ type Language struct {
 	Coded
 }
 
-type ID struct {
-	Root      string
-	Extension string
-}
-
 type Record struct {
-	Person
+	Person                `json:",inline"`
 	MedicalRecordNumber   string                `json:"medical_record_number,omitempty"`
 	MedicalRecordAssigner string                `json:"medical_record_assigner,omitempty"`
 	BirthDate             int64                 `json:"birthdate,omitempty"`
