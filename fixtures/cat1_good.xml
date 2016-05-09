@@ -1036,7 +1036,7 @@
                   <code code="34896006" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="incision"/>
                   <effectiveTime value="19860117151505"/>
                 </procedure>
-              </entryRelationship>          
+              </entryRelationship>
             </procedure>
           </entry>
           <!-- procedure with negationInd and reason. contains multiple values to test different xsi types -->
