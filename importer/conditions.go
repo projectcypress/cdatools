@@ -3,7 +3,9 @@ package importer
 import (
 	"github.com/moovweb/gokogiri/xml"
 	"github.com/moovweb/gokogiri/xpath"
+	"github.com/pebbe/util"
 	"github.com/projectcypress/cdatools/models"
+	"strconv"
 )
 
 func GestationalAgeExtractor(entry *models.Entry, entryElement xml.Node) interface{} {
@@ -16,7 +18,9 @@ func GestationalAgeExtractor(entry *models.Entry, entryElement xml.Node) interfa
 	entry.Values = make([]models.ResultValue, 0)
 	ExtractValues(&gestationalAge.Entry, entryElement, valueXPath)
 
-	switch gestationalAge.Entry.Values[0].Scalar {
+	gestationalAgeScalar, err := strconv.Atoi(gestationalAge.Entry.Values[0].Scalar)
+	util.CheckErr(err)
+	switch gestationalAgeScalar {
 	case 39:
 		entry.Codes["SNOMED-CT"] = []string{"80487005"}
 	case 38:
