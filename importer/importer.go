@@ -280,6 +280,69 @@ func Read_patient(path string) string {
 		patient.Procedures = append(patient.Procedures, rawProcedurePerformed[i].(models.Procedure))
 	}
 
+	// Physical Exam, Performed
+	var physicalExamPerformedXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.59']")
+	rawPhysicalExamPerformed := ExtractSection(patientElement, physicalExamPerformedXPath, ProcedureExtractor, "2.16.840.1.113883.3.560.1.57")
+	for i := range rawPhysicalExamPerformed {
+		patient.Procedures = append(patient.Procedures, rawPhysicalExamPerformed[i].(models.Procedure))
+	}
+
+	// Intervention, Order
+	var interventionOrderXPath = xpath.Compile("//cda:entry/cda:act[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.31']")
+	rawInterventionOrder := ExtractSection(patientElement, interventionOrderXPath, ProcedureExtractor, "2.16.840.1.113883.3.560.1.45")
+	for i := range rawInterventionOrder {
+		patient.Procedures = append(patient.Procedures, rawInterventionOrder[i].(models.Procedure))
+	}
+
+	// Intervention, Performed
+	var interventionPerformedXPath = xpath.Compile("//cda:entry/cda:act[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.32']")
+	rawInterventionPerformed := ExtractSection(patientElement, interventionPerformedXPath, ProcedureExtractor, "2.16.840.1.113883.3.560.1.46")
+	for i := range rawInterventionPerformed {
+		patient.Procedures = append(patient.Procedures, rawInterventionPerformed[i].(models.Procedure))
+	}
+
+	// Intervention, Results (procedure). this is different from Intervention, Performed (results)
+	var procedureInterventionResultXPath = xpath.Compile("//cda:entry/cda:act[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.34']")
+	rawProcedureInterventionResults := ExtractSection(patientElement, procedureInterventionResultXPath, ProcedureExtractor, "2.16.840.1.113883.3.560.1.47")
+	for i := range rawProcedureInterventionResults {
+		patient.Procedures = append(patient.Procedures, rawProcedureInterventionResults[i].(models.Procedure))
+	}
+
+	// Procedure, Order
+	var procedureOrderXPath = xpath.Compile("//cda:entry/cda:procedure[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.63']")
+	rawProcedureOrders := ExtractSection(patientElement, procedureOrderXPath, ProcedureOrderExtractor, "2.16.840.1.113883.3.560.1.62")
+	for i := range rawProcedureOrders {
+		patient.Procedures = append(patient.Procedures, rawProcedureOrders[i].(models.Procedure))
+	}
+
+	// Procedure, Result
+	var procedureResultXPath = xpath.Compile("//cda:entry/cda:procedure[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.66']")
+	rawProcedureResults := ExtractSection(patientElement, procedureResultXPath, ProcedureExtractor, "2.16.840.1.113883.3.560.1.63")
+	for i := range rawProcedureResults {
+		patient.Procedures = append(patient.Procedures, rawProcedureResults[i].(models.Procedure))
+	}
+
+	// Risk Category Assessment
+	var riskCategoryAssessmentXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.69']")
+	rawRiskCategoryAssessments := ExtractSection(patientElement, riskCategoryAssessmentXPath, ProcedureExtractor, "2.16.840.1.113883.3.560.1.21")
+	for i := range rawRiskCategoryAssessments {
+		patient.Procedures = append(patient.Procedures, rawRiskCategoryAssessments[i].(models.Procedure))
+	}
+
+	// Diagnostic Study, not Performed
+	var diagnosticStudyNotPerformedXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.18']")
+	rawDiagnosticStudyNotPerformed := ExtractSection(patientElement, diagnosticStudyNotPerformedXPath, ProcedureExtractor, "2.16.840.1.113883.3.560.1.103")
+	for i := range rawDiagnosticStudyNotPerformed {
+		patient.Procedures = append(patient.Procedures, rawDiagnosticStudyNotPerformed[i].(models.Procedure))
+	}
+
+	// Diagnostic Study, Result
+	var diagnosticStudyResultXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.20']")
+	rawDiagnosticStudyResults := ExtractSection(patientElement, diagnosticStudyResultXPath, ProcedureExtractor, "2.16.840.1.113883.3.560.1.11")
+	for i := range rawDiagnosticStudyResults {
+		patient.Procedures = append(patient.Procedures, rawDiagnosticStudyResults[i].(models.Procedure))
+	}
+
 	patientJSON, err := json.Marshal(patient)
 	if err != nil {
 		fmt.Println(err)
