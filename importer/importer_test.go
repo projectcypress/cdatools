@@ -482,3 +482,165 @@ func (i *ImporterSuite) TestExtractProcedurePerformed(c *C) {
 	c.Assert(procedurePerformed.Values[2].Scalar, Equals, "my_string_value")
 	c.Assert(procedurePerformed.Values[2].Units, Equals, "")
 }
+
+func (i *ImporterSuite) TestExtractPhysicalExamPerformed(c *C) {
+	var physicalExamPerformedXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.59']")
+	rawPhysicalExamPerformed := ExtractSection(i.patientElement, physicalExamPerformedXPath, ProcedureExtractor, "2.16.840.1.113883.3.560.1.57")
+	i.patient.Procedures = make([]models.Procedure, len(rawPhysicalExamPerformed))
+	for j := range rawPhysicalExamPerformed {
+		i.patient.Procedures[j] = rawPhysicalExamPerformed[j].(models.Procedure)
+	}
+
+	physicalExamPerformed := i.patient.Procedures[0]
+	c.Assert(len(i.patient.Procedures), Equals, 1)
+	c.Assert(physicalExamPerformed.ID.Root, Equals, "5101a4f7944dfe3db4000006")
+	c.Assert(physicalExamPerformed.Oid, Equals, "2.16.840.1.113883.3.560.1.57") // hqmf oid
+	c.Assert(physicalExamPerformed.Codes["LOINC"][0], Equals, "8462-4")
+	c.Assert(physicalExamPerformed.StartTime, Equals, int64(751003636))
+	c.Assert(physicalExamPerformed.EndTime, Equals, int64(751060302))
+	c.Assert(physicalExamPerformed.NegationInd, Equals, true)
+	c.Assert(physicalExamPerformed.NegationReason, Equals, models.CodedConcept{})
+}
+
+func (i *ImporterSuite) TestExtractInterventionOrder(c *C) {
+	var interventionOrderXPath = xpath.Compile("//cda:entry/cda:act[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.31']")
+	rawInterventionOrder := ExtractSection(i.patientElement, interventionOrderXPath, ProcedureExtractor, "2.16.840.1.113883.3.560.1.45")
+	i.patient.Procedures = make([]models.Procedure, len(rawInterventionOrder))
+	for j := range rawInterventionOrder {
+		i.patient.Procedures[j] = rawInterventionOrder[j].(models.Procedure)
+	}
+
+	interventionOrder := i.patient.Procedures[0]
+	c.Assert(len(i.patient.Procedures), Equals, 1)
+	c.Assert(interventionOrder.ID.Root, Equals, "510831719eae47faed000150")
+	c.Assert(interventionOrder.Oid, Equals, "2.16.840.1.113883.3.560.1.45")
+	c.Assert(interventionOrder.Codes["CPT"][0], Equals, "43644")
+	c.Assert(interventionOrder.Codes["ICD-9-CM"][0], Equals, "V65.3")
+	c.Assert(interventionOrder.Codes["ICD-10-CM"][0], Equals, "Z71.3")
+	c.Assert(interventionOrder.Codes["SNOMED-CT"][0], Equals, "304549008")
+	c.Assert(interventionOrder.StartTime, Equals, int64(1277424000))
+}
+
+func (i *ImporterSuite) TestExtractInterventionPerformed(c *C) {
+	var interventionPerformedXPath = xpath.Compile("//cda:entry/cda:act[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.32']")
+	rawInterventionPerformed := ExtractSection(i.patientElement, interventionPerformedXPath, ProcedureExtractor, "2.16.840.1.113883.3.560.1.46")
+	i.patient.Procedures = make([]models.Procedure, len(rawInterventionPerformed))
+	for j := range rawInterventionPerformed {
+		i.patient.Procedures[j] = rawInterventionPerformed[j].(models.Procedure)
+	}
+
+	interventionPerformed := i.patient.Procedures[0]
+	c.Assert(len(i.patient.Procedures), Equals, 1)
+	c.Assert(interventionPerformed.ID.Root, Equals, "1.3.6.1.4.1.115")
+	c.Assert(interventionPerformed.Oid, Equals, "2.16.840.1.113883.3.560.1.46")
+	c.Assert(interventionPerformed.Codes["SNOMED-CT"][0], Equals, "103699006")
+	c.Assert(interventionPerformed.StartTime, Equals, int64(1396189800))
+	c.Assert(interventionPerformed.EndTime, Equals, int64(1396189800))
+}
+
+func (i *ImporterSuite) TestExtractProcedureInterventionResults(c *C) {
+	var procedureInterventionResultXPath = xpath.Compile("//cda:entry/cda:act[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.34']")
+	rawProcedureInterventionResults := ExtractSection(i.patientElement, procedureInterventionResultXPath, ProcedureExtractor, "2.16.840.1.113883.3.560.1.47")
+	i.patient.Procedures = make([]models.Procedure, len(rawProcedureInterventionResults))
+	for j := range rawProcedureInterventionResults {
+		i.patient.Procedures[j] = rawProcedureInterventionResults[j].(models.Procedure)
+	}
+
+	interventionResults := i.patient.Procedures[0]
+	c.Assert(len(i.patient.Procedures), Equals, 1)
+	c.Assert(interventionResults.ID.Root, Equals, "50f84c1c7042f987750002d1")
+	c.Assert(interventionResults.Oid, Equals, "2.16.840.1.113883.3.560.1.47")
+	c.Assert(interventionResults.Codes["SNOMED-CT"][0], Equals, "428181000124104")
+	c.Assert(interventionResults.StartTime, Equals, int64(1097940444))
+	c.Assert(interventionResults.EndTime, Equals, int64(1097959712))
+}
+
+func (i *ImporterSuite) TestExtractProcedureOrder(c *C) {
+	var procedureOrderXPath = xpath.Compile("//cda:entry/cda:procedure[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.63']")
+	rawProcedureOrders := ExtractSection(i.patientElement, procedureOrderXPath, ProcedureOrderExtractor, "2.16.840.1.113883.3.560.1.62")
+	i.patient.Procedures = make([]models.Procedure, len(rawProcedureOrders))
+	for j := range rawProcedureOrders {
+		i.patient.Procedures[j] = rawProcedureOrders[j].(models.Procedure)
+	}
+
+	procedureOrder := i.patient.Procedures[0]
+	c.Assert(len(i.patient.Procedures), Equals, 1)
+	c.Assert(procedureOrder.ID.Root, Equals, "5106e039944dfe4d2000000d")
+	c.Assert(procedureOrder.Oid, Equals, "2.16.840.1.113883.3.560.1.62")
+	c.Assert(procedureOrder.Codes["CPT"][0], Equals, "90870") // only code tested by health data standards
+	c.Assert(procedureOrder.Codes["ICD-10-PCS"][0], Equals, "GZB4ZZZ")
+	c.Assert(procedureOrder.Codes["SNOMED-CT"][0], Equals, "313020008")
+	c.Assert(procedureOrder.Codes["ICD-9-CM"][0], Equals, "94.27")
+
+	c.Assert(procedureOrder.Time, Equals, int64(1306230203))
+	c.Assert(procedureOrder.StatusCode["HL7 ActStatus"][0], Equals, "ordered")
+}
+
+func (i *ImporterSuite) TestExtractProcedureResults(c *C) {
+	var procedureResultsXPath = xpath.Compile("//cda:entry/cda:procedure[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.66']")
+	rawProcedureResults := ExtractSection(i.patientElement, procedureResultsXPath, ProcedureExtractor, "2.16.840.1.113883.3.560.1.63")
+	i.patient.Procedures = make([]models.Procedure, len(rawProcedureResults))
+	for j := range rawProcedureResults {
+		i.patient.Procedures[j] = rawProcedureResults[j].(models.Procedure)
+	}
+
+	procedureResult := i.patient.Procedures[0]
+	c.Assert(len(i.patient.Procedures), Equals, 1)
+	c.Assert(procedureResult.ID.Root, Equals, "51095fc3944dfe9bd7000012")
+	c.Assert(procedureResult.Oid, Equals, "2.16.840.1.113883.3.560.1.63")
+	c.Assert(procedureResult.Codes["SNOMED-CT"][0], Equals, "116783008")
+	c.Assert(procedureResult.StartTime, Equals, int64(1007264866))
+	c.Assert(procedureResult.EndTime, Equals, int64(1007316283))
+}
+
+func (i *ImporterSuite) TestExtractRiskCategoryAssessment(c *C) {
+	var riskCategoryAssessmentXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.69']")
+	rawRiskCategoryAssessments := ExtractSection(i.patientElement, riskCategoryAssessmentXPath, ProcedureExtractor, "2.16.840.1.113883.3.560.1.21")
+	i.patient.Procedures = make([]models.Procedure, len(rawRiskCategoryAssessments))
+	for j := range rawRiskCategoryAssessments {
+		i.patient.Procedures[j] = rawRiskCategoryAssessments[j].(models.Procedure)
+	}
+
+	riskCategoryAssessment := i.patient.Procedures[0]
+	c.Assert(len(i.patient.Procedures), Equals, 1)
+	c.Assert(riskCategoryAssessment.ID.Root, Equals, "510963e9944dfe9bd7000047")
+	c.Assert(riskCategoryAssessment.Oid, Equals, "2.16.840.1.113883.3.560.1.21")
+	c.Assert(riskCategoryAssessment.Codes["LOINC"][0], Equals, "72136-5")
+	c.Assert(riskCategoryAssessment.StartTime, Equals, int64(744555728))
+}
+
+func (i *ImporterSuite) TestExtractDiagnosticStudyNotPerformed(c *C) {
+	var diagnosticStudyNotPerformedXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.18']")
+	rawDiagnosticStudyNotPerformed := ExtractSection(i.patientElement, diagnosticStudyNotPerformedXPath, ProcedureExtractor, "2.16.840.1.113883.3.560.1.103")
+	i.patient.Procedures = make([]models.Procedure, len(rawDiagnosticStudyNotPerformed))
+	for j := range rawDiagnosticStudyNotPerformed {
+		i.patient.Procedures[j] = rawDiagnosticStudyNotPerformed[j].(models.Procedure)
+	}
+
+	diagnosticStudyNotPerformed := i.patient.Procedures[0]
+	c.Assert(len(i.patient.Procedures), Equals, 1)
+	c.Assert(diagnosticStudyNotPerformed.ID.Root, Equals, "50f84dbb7042f9366f000143")
+	c.Assert(diagnosticStudyNotPerformed.Oid, Equals, "2.16.840.1.113883.3.560.1.103")
+	c.Assert(diagnosticStudyNotPerformed.Codes["LOINC"][0], Equals, "69399-4")
+	c.Assert(diagnosticStudyNotPerformed.StartTime, Equals, int64(1225314966))
+	c.Assert(diagnosticStudyNotPerformed.EndTime, Equals, int64(1225321540))
+}
+
+func (i *ImporterSuite) TestExtractDiagnosticStudyResult(c *C) {
+	var diagnosticStudyResultXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.20']")
+	rawDiagnosticStudyResults := ExtractSection(i.patientElement, diagnosticStudyResultXPath, ProcedureExtractor, "2.16.840.1.113883.3.560.1.11")
+	i.patient.Procedures = make([]models.Procedure, len(rawDiagnosticStudyResults))
+	for j := range rawDiagnosticStudyResults {
+		i.patient.Procedures[j] = rawDiagnosticStudyResults[j].(models.Procedure)
+	}
+
+	diagnosticStudyResult := i.patient.Procedures[0]
+	c.Assert(len(i.patient.Procedures), Equals, 1)
+	c.Assert(diagnosticStudyResult.ID.Root, Equals, "50f84c1b7042f987750001e7")
+	c.Assert(diagnosticStudyResult.Oid, Equals, "2.16.840.1.113883.3.560.1.11")
+	c.Assert(diagnosticStudyResult.Codes["LOINC"][0], Equals, "71485-7")
+	c.Assert(diagnosticStudyResult.StartTime, Equals, int64(622535563))
+	c.Assert(diagnosticStudyResult.EndTime, Equals, int64(622548751))
+	c.Assert(diagnosticStudyResult.NegationInd, Equals, true)
+	c.Assert(diagnosticStudyResult.NegationReason, Equals, models.CodedConcept{Code: "79899007"})
+}

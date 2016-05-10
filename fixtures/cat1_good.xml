@@ -1076,6 +1076,218 @@
               <value xsi:type="ST">my_string_value</value>
             </procedure>
           </entry>
+          <entry>
+            <observation classCode="OBS" moodCode="EVN" negationInd="true">
+              <!-- Procedure Activity Procedure (Consolidation) template -->
+              <templateId root="2.16.840.1.113883.10.20.22.4.13"/>
+              <!-- Physical Exam, Performed template -->
+              <templateId root="2.16.840.1.113883.10.20.24.3.59"/>
+              <id root="5101a4f7944dfe3db4000006"/>
+              <code nullFlavor="UNK" sdtc:valueSet="2.16.840.1.113883.3.526.3.1033"><originalText>Physical Exam, Performed: Diastolic Blood Pressure (Code List: 2.16.840.1.113883.3.526.3.1033)</originalText><translation code="8462-4" codeSystem="2.16.840.1.113883.6.1"/>
+              </code>
+              <text>Physical Exam, Performed: Diastolic Blood Pressure (Code List: 2.16.840.1.113883.3.526.3.1033)</text>
+              <statusCode code="completed"/>
+              <effectiveTime>
+              <low value='19931019040716'/>
+              <high value='19931019195142'/>
+              </effectiveTime>
+              <value xsi:type="CD" nullFlavor="UNK"/>
+            </observation>
+          </entry>
+          <entry>
+            <act classCode="ACT" moodCode="RQO">
+              <!-- Plan of Care Activity Act template -->
+              <templateId root="2.16.840.1.113883.10.20.22.4.39"/>
+              <!-- Intervention Order template -->
+              <templateId root="2.16.840.1.113883.10.20.24.3.31"/>
+              <id root="510831719eae47faed000150"/>
+              <code code="304549008" codeSystem="2.16.840.1.113883.6.96" sdtc:valueSet="2.16.840.1.113883.3.600.1.1525">
+                <originalText>Intervention, Order: Above Normal Follow-up (Code List: 2.16.840.1.113883.3.600.1.1525)</originalText>
+                <translation code="43644" codeSystem="2.16.840.1.113883.6.12"/>
+                <translation code="G8417" codeSystem="2.16.840.1.113883.6.14"/>
+                <translation code="V65.3" codeSystem="2.16.840.1.113883.6.103"/>
+                <translation code="Z71.3" codeSystem="2.16.840.1.113883.6.90"/>
+              </code>
+              <statusCode code="completed"/>
+              <author>
+                <time value='20100625000000'/>
+                <assignedAuthor>
+                  <id root="56c10b90-4d39-0130-5b7f-0017f2071af4"/>
+                </assignedAuthor>
+              </author>
+              <effectiveTime>
+                <low value='20100625000000'/>
+              </effectiveTime>
+            </act>
+          </entry>
+          <entry>
+            <act classCode="ACT" moodCode="EVN">
+              <!-- Consolidation CDA: Procedure Activity Act template -->
+              <templateId root="2.16.840.1.113883.10.20.22.4.12"/>
+              <templateId root="2.16.840.1.113883.10.20.24.3.34"/>
+              <id root="50f84c1c7042f987750002d1"/>
+              <code code="428181000124104" codeSystem="2.16.840.1.113883.6.96" sdtc:valueSet="2.16.840.1.113883.3.600.793"><originalText>Intervention, Result: Positive Depression Screening (Code List: 2.16.840.1.113883.3.600.793)</originalText></code>
+              <statusCode code="completed"/>
+              <effectiveTime>
+                <low value='20041016152724'/>
+                <high value='20041016204832'/>
+              </effectiveTime>
+              <entryRelationship typeCode="REFR">
+                <observation classCode="OBS" moodCode="EVN">
+                  <!-- Result Observation template (consolidation) -->
+                  <templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+                  <!-- Result template -->
+                  <templateId root="2.16.840.1.113883.10.20.24.3.87"/>
+                  <id root="2994ccb0-4307-0130-0add-680688cbd736"/>
+                  <code code="428181000124104" codeSystem="2.16.840.1.113883.6.96" sdtc:valueSet="2.16.840.1.113883.3.600.793"><originalText>Intervention, Result: Positive Depression Screening (Code List: 2.16.840.1.113883.3.600.793)</originalText></code>
+                  <statusCode code="completed"/>
+                  <effectiveTime value='20041016152724'/>
+                  <value xsi:type="PQ" nullFlavor="UNK"/>
+
+                  <!-- Attribute: Status -->
+                  <entryRelationship typeCode="REFR">
+                    <observation classCode="OBS" moodCode="EVN">
+                      <templateId root="2.16.840.1.113883.10.20.24.3.93"/>
+                      <id root="2994d3b0-4307-0130-0add-680688cbd736"/>
+                      <code code="33999-4" 
+                            codeSystem="2.16.840.1.113883.6.1"
+                            codeSystemName="LOINC"
+                            displayName="Status"/>
+                      <value xsi:type="CD" 
+                            code="33999-4"
+                            codeSystem="2.16.840.1.113883.6.1"
+                            displayName="Final Report"/>
+                    </observation>
+                  </entryRelationship>
+                </observation>
+              </entryRelationship>
+            </act>
+          </entry>
+          <entry>
+            <procedure classCode="PROC" moodCode="EVN">
+              <!-- Consolidated Procedure Activity Procedure TemplateId 
+                   (Implied Template) -->
+              <templateId root="2.16.840.1.113883.10.20.22.4.14"/>
+              <!-- QRDA Procedure, Result TemplateId -->
+              <templateId root="2.16.840.1.113883.10.20.24.3.66"/>
+              <id root="51095fc3944dfe9bd7000012"/>
+              <code code="116783008" codeSystem="2.16.840.1.113883.6.96" sdtc:valueSet="2.16.840.1.113883.3.526.3.1098"><originalText>Procedure, Result: Clinical Staging Procedure (Code List: 2.16.840.1.113883.3.526.3.1098)</originalText></code>
+              <text>Procedure, Result: Clinical Staging Procedure (Code List: 2.16.840.1.113883.3.526.3.1098)</text>
+              <statusCode code="completed"/>
+              <effectiveTime>
+                <low value='20011202034746'/>
+                <high value='20011202180443'/>
+              </effectiveTime>
+              <entryRelationship typeCode="REFR">
+                <observation classCode="OBS" moodCode="EVN">
+                  <!-- Result Observation template (consolidation) -->
+                  <templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+                  <!-- Result template -->
+                  <templateId root="2.16.840.1.113883.10.20.24.3.87"/>
+                  <id root="e10b5470-4d34-0130-07fd-406c8f2fb681"/>
+                  <code code="116783008" codeSystem="2.16.840.1.113883.6.96" sdtc:valueSet="2.16.840.1.113883.3.526.3.1098"><originalText>Procedure, Result: Clinical Staging Procedure (Code List: 2.16.840.1.113883.3.526.3.1098)</originalText></code>
+                  <statusCode code="completed"/>
+                  <effectiveTime value='20011202034746'/>
+                  <value xsi:type="CD" nullFlavor="UNK"/>
+                </observation>
+              </entryRelationship>
+            </procedure>
+          </entry>
+          <entry>
+            <observation classCode="OBS" moodCode="EVN" >
+              <!-- Consolidation Assessment Scale Observation templateId -->
+              <templateId root="2.16.840.1.113883.10.20.22.4.69"/>
+              <!-- Risk Category Assessment -->
+              <templateId root="2.16.840.1.113883.10.20.24.3.69"/>
+              <id root="510963e9944dfe9bd7000047"/>
+              <code code="72136-5" codeSystem="2.16.840.1.113883.6.1" sdtc:valueSet="2.16.840.1.113883.3.117.1.7.1.357"><originalText>Risk Category Assessment: VTE Risk Assessment (Code List: 2.16.840.1.113883.3.117.1.7.1.357)</originalText></code>
+              <statusCode code="completed"/>
+              <effectiveTime>
+                <low value='19930805130208'/>
+              </effectiveTime>
+              <value xsi:type="INT" value="7"/>
+            </observation>
+          </entry>
+          <entry>
+            <observation classCode="OBS" moodCode="EVN" >
+              <!-- Consolidated Procedure Activity Observation templateId 
+                 (Implied Template) -->
+              <templateId root="2.16.840.1.113883.10.20.22.4.13"/>
+              <!-- Diagnostic Study, Performed template -->
+              <templateId root="2.16.840.1.113883.10.20.24.3.18"/>
+              <id root="50f84dbb7042f9366f000143"/>
+              <code nullFlavor="UNK" sdtc:valueSet="2.16.840.1.113883.3.117.1.7.1.276">
+                <originalText>Diagnostic Study, Performed: VTE Diagnostic Test (Code List: 2.16.840.1.113883.3.117.1.7.1.276)</originalText>
+                <translation code="69399-4" codeSystem="2.16.840.1.113883.6.1"/>
+              </code>
+              <text>Diagnostic Study, Performed: VTE Diagnostic Test (Code List: 2.16.840.1.113883.3.117.1.7.1.276)</text>
+              <statusCode code="completed"/>
+              <effectiveTime>
+                <!-- Attribute: Start Datetime -->
+                <low value='20081029211606'/>
+                <!-- Attribute: End Datetime -->
+                <high value='20081029230540'/>
+              </effectiveTime>
+              <value xsi:type="CD" nullFlavor="UNK"/>
+            </observation>
+          </entry>
+          <entry>
+            <observation classCode="OBS" moodCode="EVN" negationInd="true">
+              <!-- Consolidated Result Observation templateId (Implied Template) -->
+              <templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+              <!-- Diagnostic Study, Result template -->
+              <templateId root="2.16.840.1.113883.10.20.24.3.20"/>
+              <id root="50f84c1b7042f987750001e7"/>
+              <code code="71485-7" codeSystem="2.16.840.1.113883.6.1" xsi:type="CD" sdtc:valueSet="2.16.840.1.113883.3.526.3.1333"><originalText>Diagnostic Study, Result: Cup to Disc Ratio (Code List: 2.16.840.1.113883.3.526.3.1333)</originalText></code>
+              <text>Diagnostic Study, Result: Cup to Disc Ratio (Code List: 2.16.840.1.113883.3.526.3.1333)</text>  
+              <statusCode code="completed"/>
+
+              <effectiveTime>
+                <low value='19890923063243'/>
+                <high value='19890923101231'/>
+              </effectiveTime>
+              <value xsi:type="CD" nullFlavor="UNK"/>
+
+              <entryRelationship typeCode="RSON">
+                <observation classCode="OBS" moodCode="EVN">
+                  <templateId root="2.16.840.1.113883.10.20.24.3.88"/>  
+                  <code code="410666004" 
+                        codeSystem="2.16.840.1.113883.6.96"
+                        displayName="reason" 
+                        codeSystemName="SNOMED CT"/>
+                  <statusCode code="completed"/>
+                  <effectiveTime value='19890923063243'/>
+                  <value xsi:type="CD" 
+                       code="79899007" 
+                       codeSystem=""/>
+                </observation>
+              </entryRelationship>
+            </observation>
+          </entry>
+          <entry>
+            <procedure classCode="PROC" moodCode="RQO" >
+            <!-- Consolidated Plan of Care Activity Procedure TemplateId (Implied Template) -->
+              <templateId root="2.16.840.1.113883.10.20.22.4.41"/> 
+              <!-- QRDA Procedure, Order TemplateId --> 
+              <templateId root="2.16.840.1.113883.10.20.24.3.63"/> 
+              <id root="5106e039944dfe4d2000000d"/>
+              <code code="313020008" codeSystem="2.16.840.1.113883.6.96" sdtc:valueSet="2.16.840.1.113883.3.1257.1.1533"><originalText>Procedure, Order: BH Electroconvulsive therapy (Code List: 2.16.840.1.113883.3.1257.1.1533)</originalText><translation code="90870" codeSystem="2.16.840.1.113883.6.12"/>
+                <translation code="94.27" codeSystem="2.16.840.1.113883.6.103"/>
+                <translation code="GZB4ZZZ" codeSystem="2.16.840.1.113883.6.4"/>
+              </code>
+              <text>Procedure, Order: BH Electroconvulsive therapy (Code List: 2.16.840.1.113883.3.1257.1.1533)</text>
+              <statusCode code="new"/>
+              <!-- Attribute: method--> 
+              <methodCode nullFlavor="UNK"/>
+              <!-- Attribute: datetime --> 
+              <author>
+                <time value='20110524094323'/> 
+                <assignedAuthor>
+                 <id nullFlavor="NA"/>
+                </assignedAuthor>
+              </author>
+            </procedure>
+          </entry>
         </section>
       </component>
     </structuredBody>
