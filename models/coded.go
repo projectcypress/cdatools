@@ -69,3 +69,19 @@ func doSetsIntersect(a []Concept, b []string) bool {
 	}
 	return false
 }
+
+func computeIntersection(a []string, b []string) []string {
+	var intersect = make([]string, 0)
+	// We start with making a map of one of the lists
+	var m = make(map[string]int, len(a))
+	for _, el := range a {
+		m[el] = 1
+	}
+	// Now iterate over B to check each element is in the map
+	for _, checkEl := range b {
+		if m[checkEl] == 1 {
+			intersect = append(intersect, checkEl)
+		}
+	}
+	return intersect
+}

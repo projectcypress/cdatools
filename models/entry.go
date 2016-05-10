@@ -1,5 +1,7 @@
 package models
 
+import "github.com/davecgh/go-spew/spew"
+
 type Entry struct {
 	Coded
 	StartTime      int64               `json:"start_time,omitempty"`
@@ -56,4 +58,14 @@ func (e *Entry) AddStringValue(value string, units string) {
 	val.Value = value
 	val.Units = units
 	e.Values = append(e.Values, val)
+}
+
+func (e *Entry) PreferredCode(preferredCodeSets []string) {
+	codeTypes := make([]string, len(e.Coded.Codes))
+	i := 0
+	for k := range e.Coded.Codes {
+		codeTypes[i] = k
+		i++
+	}
+	spew.Dump(computeIntersection(preferredCodeSets, codeTypes))
 }
