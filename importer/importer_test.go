@@ -531,11 +531,11 @@ func (i *ImporterSuite) TestExtractInterventionPerformed(c *C) {
 
 	interventionPerformed := i.patient.Procedures[0]
 	c.Assert(len(i.patient.Procedures), Equals, 1)
-	c.Assert(interventionPerformed.ID.Root, Equals, "1.3.6.1.4.1.115")
+	c.Assert(interventionPerformed.ID.Root, Equals, "510831719eae47faed00019f")
 	c.Assert(interventionPerformed.Oid, Equals, "2.16.840.1.113883.3.560.1.46")
-	c.Assert(interventionPerformed.Codes["SNOMED-CT"][0], Equals, "103699006")
-	c.Assert(interventionPerformed.StartTime, Equals, int64(1396189800))
-	c.Assert(interventionPerformed.EndTime, Equals, int64(1396189800))
+	c.Assert(interventionPerformed.Codes["SNOMED-CT"][0], Equals, "171207006")
+	c.Assert(interventionPerformed.StartTime, Equals, int64(1265371200))
+	c.Assert(interventionPerformed.EndTime, Equals, int64(1265371200))
 }
 
 func (i *ImporterSuite) TestExtractProcedureInterventionResults(c *C) {
@@ -607,6 +607,7 @@ func (i *ImporterSuite) TestExtractRiskCategoryAssessment(c *C) {
 	c.Assert(riskCategoryAssessment.Oid, Equals, "2.16.840.1.113883.3.560.1.21")
 	c.Assert(riskCategoryAssessment.Codes["LOINC"][0], Equals, "72136-5")
 	c.Assert(riskCategoryAssessment.StartTime, Equals, int64(744555728))
+	c.Assert(riskCategoryAssessment.Values[0].Scalar, Equals, "7")
 }
 
 func (i *ImporterSuite) TestExtractDiagnosticStudyNotPerformed(c *C) {
