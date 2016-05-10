@@ -98,6 +98,7 @@ type Record struct {
 	Conditions            []Condition           `json:"conditions,omitempty"`
 	Communications        []Communication       `json:"communications,omitempty"`
 	MedicalEquipment      []MedicalEquipment    `json:"medical_equipment,omitempty`
+	CareGoals             []CareGoal            `json:"care_goals,omitempty"`
 }
 
 // Entries returns all the entries from the Encounters, Diagnoses, and LabResults for a Record
