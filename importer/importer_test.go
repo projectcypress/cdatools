@@ -644,3 +644,18 @@ func (i *ImporterSuite) TestExtractDiagnosticStudyResult(c *C) {
 	c.Assert(diagnosticStudyResult.NegationInd, Equals, true)
 	c.Assert(diagnosticStudyResult.NegationReason, Equals, models.CodedConcept{Code: "79899007"})
 }
+
+func (i *ImporterSuite) TestExtractCareGoal(c *C) {
+	var careGoalXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.1']")
+	rawCareGoals := ExtractSection(i.patientElement, careGoalXPath, CareGoalExtractor, "2.16.840.1.113883.3.560.1.9")
+	i.patient.CareGoals = make([]models.CareGoal, len(rawCareGoals))
+	for j := range rawCareGoals {
+		i.patient.CareGoals[j] = rawCareGoals[j].(models.CareGoal)
+	}
+
+	careGoal := i.patient.CareGoals[0]
+	c.Assert(len(i.patient.CareGoals), Equals, 1)
+	c.Assert(careGoal.Codes["SNOMED-CT"][0], Equals, "252465000")
+	c.Assert(careGoal.Oid, Equals, "2.16.840.1.113883.3.560.1.9")
+	c.Assert(careGoal.StartTime, Equals, int64(1293890400))
+}
