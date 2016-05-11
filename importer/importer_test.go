@@ -659,3 +659,28 @@ func (i *ImporterSuite) TestExtractCareGoal(c *C) {
 	c.Assert(careGoal.Oid, Equals, "2.16.840.1.113883.3.560.1.9")
 	c.Assert(careGoal.StartTime, Equals, int64(1293890400))
 }
+
+func (i *ImporterSuite) TestExtractPatientCharacteristicExpired(c *C) {
+
+	var patientExpiredXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.54']")
+	rawPatientExpireds := ExtractSection(i.patientElement, patientExpiredXPath, ConditionExtractor, "2.16.840.1.113883.3.560.1.404")
+	i.patient.Conditions = make([]models.Condition, len(rawPatientExpireds))
+	for j := range rawPatientExpireds {
+		i.patient.Conditions[j] = rawPatientExpireds[j].(models.Condition)
+	}
+
+	// before extracting patient characteristic expired, patient should not be dead
+	c.Assert(false, Equals, i.patient.Expired)
+
+	// set Expired and DeathDate if patient is dead
+	set_patient_expired(i.patient, i.patientElement)
+
+	// after extracting patient characteristic expired, patient should be dead
+	c.Assert(true, Equals, i.patient.Expired)
+
+	patientExpired := i.patient.Conditions[0]
+	c.Assert(len(i.patient.Conditions), Equals, 1)
+	c.Assert(patientExpired.ID.Root, Equals, "22aeb750-4308-0130-0ade-680688cbd736")
+	c.Assert(patientExpired.Oid, Equals, "2.16.840.1.113883.3.560.1.404")
+	c.Assert(i.patient.DeathDate, Equals, int64(1450141290))
+}
