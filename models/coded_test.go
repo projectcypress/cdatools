@@ -20,5 +20,8 @@ func TestPreferredCode(t *testing.T) {
 	codes["b"] = []string{"ba", "bb"}
 	coded := Coded{Codes: codes}
 	entry := Entry{Coded: coded}
-	entry.PreferredCode([]string{"b", "a"})
+	prefCode := entry.PreferredCode([]string{"b"})
+	if prefCode.Code != "ba" {
+		t.Error("Returned incorrect code, expected", "ba", "got", prefCode.Code)
+	}
 }
