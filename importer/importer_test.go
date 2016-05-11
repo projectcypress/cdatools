@@ -70,7 +70,7 @@ func (i *ImporterSuite) TestExtractEncountersPerformed(c *C) {
 
 func (i *ImporterSuite) TestExtractEncounterOrdered(c *C) {
 	var encounterOrderXPath = xpath.Compile("//cda:encounter[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.22']")
-	rawEncounterOrders := ExtractSection(i.patientElement, encounterOrderXPath, EncounterOrderExtractor, "")
+	rawEncounterOrders := ExtractSection(i.patientElement, encounterOrderXPath, EncounterOrderExtractor, "2.16.840.1.113883.3.560.1.83")
 	i.patient.Encounters = make([]models.Encounter, len(rawEncounterOrders))
 	for j := range rawEncounterOrders {
 		i.patient.Encounters[j] = rawEncounterOrders[j].(models.Encounter)
@@ -80,6 +80,7 @@ func (i *ImporterSuite) TestExtractEncounterOrdered(c *C) {
 
 	encounter := i.patient.Encounters[0]
 	c.Assert(encounter.ID.Root, Equals, "50f84c1b7042f9877500025e")
+	c.Assert(encounter.Oid, Equals, "2.16.840.1.113883.3.560.1.83")
 	c.Assert(encounter.Codes["SNOMED-CT"][0], Equals, "76168009")
 	c.Assert(encounter.Codes["CPT"][0], Equals, "90815")
 	c.Assert(encounter.Codes["ICD-9-CM"][0], Equals, "94.49")
@@ -143,7 +144,7 @@ func (i *ImporterSuite) TestExtractDiagnosesInactive(c *C) {
 
 func (i *ImporterSuite) TestExtractLabResults(c *C) {
 	var labResultXPath = xpath.Compile("//cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.40']")
-	rawLabResults := ExtractSection(i.patientElement, labResultXPath, LabResultExtractor, "")
+	rawLabResults := ExtractSection(i.patientElement, labResultXPath, LabResultExtractor, "2.16.840.1.113883.3.560.1.12")
 	i.patient.LabResults = make([]models.LabResult, len(rawLabResults))
 	for j := range rawLabResults {
 		i.patient.LabResults[j] = rawLabResults[j].(models.LabResult)
@@ -152,6 +153,7 @@ func (i *ImporterSuite) TestExtractLabResults(c *C) {
 	labResult := i.patient.LabResults[0]
 	c.Assert(len(i.patient.LabResults), Equals, 1)
 	c.Assert(labResult.ID.Root, Equals, "1.3.6.1.4.1.115")
+	c.Assert(labResult.Oid, Equals, "2.16.840.1.113883.3.560.1.12")
 	c.Assert(labResult.ID.Extension, Equals, "50d3a288da5fe6e1400002a9")
 	c.Assert(labResult.Codes["LOINC"][0], Equals, "11268-0")
 	c.Assert(labResult.StartTime, Equals, int64(674670276))

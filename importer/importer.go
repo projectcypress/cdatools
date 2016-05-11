@@ -45,7 +45,7 @@ func Read_patient(path string) string {
 
 	//encounter ordered
 	var encounterOrderXPath = xpath.Compile("//cda:encounter[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.22']")
-	rawEncounterOrders := ExtractSection(patientElement, encounterOrderXPath, EncounterOrderExtractor, "")
+	rawEncounterOrders := ExtractSection(patientElement, encounterOrderXPath, EncounterOrderExtractor, "2.16.840.1.113883.3.560.1.83")
 	for i := range rawEncounterOrders {
 		patient.Encounters = append(patient.Encounters, rawEncounterOrders[i].(models.Encounter))
 	}
@@ -67,7 +67,7 @@ func Read_patient(path string) string {
 
 	//lab results
 	var labResultXPath = xpath.Compile("//cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.40']")
-	rawLabResults := ExtractSection(patientElement, labResultXPath, LabResultExtractor, "")
+	rawLabResults := ExtractSection(patientElement, labResultXPath, LabResultExtractor, "2.16.840.1.113883.3.560.1.12")
 	patient.LabResults = make([]models.LabResult, len(rawLabResults))
 	for i := range rawLabResults {
 		patient.LabResults[i] = rawLabResults[i].(models.LabResult)
