@@ -351,6 +351,23 @@ func Read_patient(path string) string {
 		patient.CareGoals[i] = rawCareGoals[i].(models.CareGoal)
 	}
 
+	// Patient Characteristic Clinical Trial Participant
+	var clinicalTrialParticipantXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.51']")
+	rawClinicalTrialParticipants := ExtractSection(patientElement, clinicalTrialParticipantXPath, ConditionExtractor, "2.16.840.1.113883.3.560.1.401")
+	for i := range rawClinicalTrialParticipants {
+		patient.Conditions = append(patient.Conditions, rawClinicalTrialParticipants[i].(models.Condition))
+	}
+
+	// Patient Characteristic Expired
+	var patientExpiredXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.54']")
+	rawPatientExpireds := ExtractSection(patientElement, patientExpiredXPath, ConditionExtractor, "2.16.840.1.113883.3.560.1.404")
+	for i := range rawPatientExpireds {
+		patient.Conditions = append(patient.Conditions, rawPatientExpireds[i].(models.Condition))
+	}
+
+	// set Expired and DeathDate if patient is dead
+	set_patient_expired(patient, patientElement)
+
 	patientJSON, err := json.Marshal(patient)
 	if err != nil {
 		fmt.Println(err)
@@ -561,6 +578,25 @@ func extractNegation(entry *models.Entry, entryElement xml.Node) {
 	if negationAttr := entryElement.Attribute("negationInd"); negationAttr != nil {
 		if negationInd := negationAttr.String(); negationInd == "true" { // if the negationInd attribute exists and is "true"
 			entry.NegationInd = true
+		}
+	}
+}
+
+// set patient expired if there is any expired elements. set death date if it exists
+func set_patient_expired(patient *models.Record, xmlNode xml.Node) {
+	var patientExpiredXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.54']")
+	patientExpiredElements, err := xmlNode.Search(patientExpiredXPath)
+	util.CheckErr(err)
+
+	for _, patientExpiredElement := range patientExpiredElements { // if patient is dead
+		patient.Expired = true
+		deathDateXPath := xpath.Compile("cda:effectiveTime/cda:low")
+		deathDateElements, err := patientExpiredElement.Search(deathDateXPath)
+		util.CheckErr(err)
+		for _, deathDateElement := range deathDateElements { // if patient death date exists
+			if value := deathDateElement.Attribute("value"); value != nil {
+				patient.DeathDate = TimestampToSeconds(value.String())
+			}
 		}
 	}
 }
