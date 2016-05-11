@@ -660,6 +660,21 @@ func (i *ImporterSuite) TestExtractCareGoal(c *C) {
 	c.Assert(careGoal.StartTime, Equals, int64(1293890400))
 }
 
+func (i *ImporterSuite) TestExtractClinicalTrialParticipants(c *C) {
+	var clinicalTrialParticipantXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.51']")
+	rawClinicalTrialParticipants := ExtractSection(i.patientElement, clinicalTrialParticipantXPath, ConditionExtractor, "2.16.840.1.113883.3.560.1.401")
+	i.patient.Conditions = make([]models.Condition, len(rawClinicalTrialParticipants))
+	for j := range rawClinicalTrialParticipants {
+		i.patient.Conditions[j] = rawClinicalTrialParticipants[j].(models.Condition)
+	}
+
+	clincalTrialParticipant := i.patient.Conditions[0]
+	c.Assert(clincalTrialParticipant.ID.Root, Equals, "22ab92c0-4308-0130-0ade-680688cbd736")
+	c.Assert(clincalTrialParticipant.Oid, Equals, "2.16.840.1.113883.3.560.1.401")
+	c.Assert(clincalTrialParticipant.Codes["SNOMED-CT"][0], Equals, "428024001")
+	c.Assert(clincalTrialParticipant.StartTime, Equals, int64(1262304000))
+}
+
 func (i *ImporterSuite) TestExtractPatientCharacteristicExpired(c *C) {
 
 	var patientExpiredXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.54']")

@@ -351,6 +351,13 @@ func Read_patient(path string) string {
 		patient.CareGoals[i] = rawCareGoals[i].(models.CareGoal)
 	}
 
+	// Patient Characteristic Clinical Trial Participant
+	var clinicalTrialParticipantXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.51']")
+	rawClinicalTrialParticipants := ExtractSection(patientElement, clinicalTrialParticipantXPath, ConditionExtractor, "2.16.840.1.113883.3.560.1.401")
+	for i := range rawClinicalTrialParticipants {
+		patient.Conditions = append(patient.Conditions, rawClinicalTrialParticipants[i].(models.Condition))
+	}
+
 	// Patient Characteristic Expired
 	var patientExpiredXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.54']")
 	rawPatientExpireds := ExtractSection(patientElement, patientExpiredXPath, ConditionExtractor, "2.16.840.1.113883.3.560.1.404")
