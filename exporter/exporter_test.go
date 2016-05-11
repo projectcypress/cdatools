@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"testing"
 
-	"github.com/davecgh/go-spew/spew"
+	"fmt"
 	"github.com/pebbe/util"
 	"github.com/projectcypress/cdatools/models"
 	. "gopkg.in/check.v1"
@@ -34,7 +34,7 @@ func (s *MySuite) TestExport(c *C) {
 	startDate := int64(1451606400)
 	endDate := int64(1483228799)
 
-	spew.Dump(GenerateCat1(patientData, measureData, valueSetData, startDate, endDate))
+	fmt.Print(GenerateCat1(patientData, measureData, valueSetData, startDate, endDate))
 }
 
 func (s *MySuite) TestGetEntriesForDataCriteria(c *C) {

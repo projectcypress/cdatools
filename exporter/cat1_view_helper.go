@@ -62,6 +62,15 @@ func patientData(patient models.Record) string {
 	return ""
 }
 
+func entriesForPatient(patient models.Record, measures []models.Measure) []interface{} {
+	udcs := uniqueDataCriteria(allDataCriteria(measures))
+	var entries []interface{}
+	for _, udc := range udcs {
+		entries = append(entries, entriesForDataCriteria(udc.DataCriteria, patient))
+	}
+	return entries
+}
+
 func negationIndicator(entry models.Entry) string {
 	if entry.NegationInd {
 		return "negationInd='true'"

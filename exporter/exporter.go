@@ -111,6 +111,7 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 		"identifierForInt":    identifierForInt,
 		"identifierForString": identifierForString,
 		"escape":              escape,
+		"entriesForPatient":   entriesForPatient,
 	}
 
 	cat1Template := template.New("cat1").Funcs(funcMap)
