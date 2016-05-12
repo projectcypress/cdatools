@@ -52,7 +52,7 @@ func (i *ImporterSuite) TestExtractDemograpics(c *C) {
 
 func (i *ImporterSuite) TestExtractEncountersPerformed(c *C) {
 	var encounterXPath = xpath.Compile("//cda:encounter[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.23']")
-	rawEncounters := ExtractSection(i.patientElement, encounterXPath, EncounterPerformedExtractor, "2.16.840.1.113883.3.560.1.79")
+	rawEncounters := ExtractSection(i.patientElement, encounterXPath, EncounterPerformedExtractor, "2.16.840.1.113883.3.560.1.79", "performed")
 	i.patient.Encounters = make([]models.Encounter, len(rawEncounters))
 	for j := range rawEncounters {
 		i.patient.Encounters[j] = rawEncounters[j].(models.Encounter)
@@ -66,11 +66,12 @@ func (i *ImporterSuite) TestExtractEncountersPerformed(c *C) {
 	c.Assert(encounter.Codes["CPT"][0], Equals, "99201")
 	c.Assert(encounter.StartTime, Equals, int64(1288612800))
 	c.Assert(encounter.EndTime, Equals, int64(1288616400))
+	c.Assert(encounter.StatusCode["HL7 ActStatus"][0], Equals, "performed")
 }
 
 func (i *ImporterSuite) TestExtractEncounterOrdered(c *C) {
 	var encounterOrderXPath = xpath.Compile("//cda:encounter[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.22']")
-	rawEncounterOrders := ExtractSection(i.patientElement, encounterOrderXPath, EncounterOrderExtractor, "2.16.840.1.113883.3.560.1.83")
+	rawEncounterOrders := ExtractSection(i.patientElement, encounterOrderXPath, EncounterOrderExtractor, "2.16.840.1.113883.3.560.1.83", "ordered")
 	i.patient.Encounters = make([]models.Encounter, len(rawEncounterOrders))
 	for j := range rawEncounterOrders {
 		i.patient.Encounters[j] = rawEncounterOrders[j].(models.Encounter)
@@ -87,11 +88,12 @@ func (i *ImporterSuite) TestExtractEncounterOrdered(c *C) {
 	c.Assert(encounter.Codes["ICD-10-PCS"][0], Equals, "GZHZZZZ")
 	c.Assert(encounter.StartTime, Equals, int64(1135608034))
 	c.Assert(encounter.EndTime, Equals, int64(1135608034))
+	c.Assert(encounter.StatusCode["HL7 ActStatus"][0], Equals, "ordered")
 }
 
 func (i *ImporterSuite) TestExtractDiagnosesActive(c *C) {
 	var diagnosisXPath = xpath.Compile("//cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.11']")
-	rawDiagnoses := ExtractSection(i.patientElement, diagnosisXPath, ConditionExtractor, "2.16.840.1.113883.3.560.1.2")
+	rawDiagnoses := ExtractSection(i.patientElement, diagnosisXPath, ConditionExtractor, "2.16.840.1.113883.3.560.1.2", "active")
 	i.patient.Conditions = make([]models.Condition, len(rawDiagnoses))
 	for j := range rawDiagnoses {
 		i.patient.Conditions[j] = rawDiagnoses[j].(models.Condition)
@@ -106,6 +108,8 @@ func (i *ImporterSuite) TestExtractDiagnosesActive(c *C) {
 	c.Assert(firstDiagnosis.StartTime, Equals, int64(1332775800))
 	c.Assert(firstDiagnosis.EndTime, Equals, int64(0))
 	c.Assert(firstDiagnosis.Severity["SNOMED-CT"][0], Equals, "55561003")
+	c.Assert(firstDiagnosis.StatusCode["SNOMED-CT"][0], Equals, "55561003")
+	c.Assert(firstDiagnosis.StatusCode["HL7 ActStatus"][0], Equals, "active")
 
 	secondDiagnosis := i.patient.Conditions[1]
 	c.Assert(secondDiagnosis.ID.Root, Equals, "1.3.6.1.4.1.115")
@@ -114,6 +118,8 @@ func (i *ImporterSuite) TestExtractDiagnosesActive(c *C) {
 	c.Assert(secondDiagnosis.Description, Equals, "Diagnosis, Active: Pregnancy Dx")
 	c.Assert(secondDiagnosis.StartTime, Equals, int64(1362150000))
 	c.Assert(secondDiagnosis.EndTime, Equals, int64(1382284800))
+	c.Assert(secondDiagnosis.StatusCode["SNOMED-CT"][0], Equals, "55561003")
+	c.Assert(secondDiagnosis.StatusCode["HL7 ActStatus"][0], Equals, "active")
 
 	thirdDiagnosis := i.patient.Conditions[2]
 	c.Assert(thirdDiagnosis.ID.Root, Equals, "1.3.6.1.4.1.115")
@@ -122,11 +128,13 @@ func (i *ImporterSuite) TestExtractDiagnosesActive(c *C) {
 	c.Assert(thirdDiagnosis.Description, Equals, "Diagnosis, Active: Diabetes")
 	c.Assert(thirdDiagnosis.StartTime, Equals, int64(1361890800))
 	c.Assert(thirdDiagnosis.EndTime, Equals, int64(0))
+	c.Assert(thirdDiagnosis.StatusCode["SNOMED-CT"][0], Equals, "55561003")
+	c.Assert(thirdDiagnosis.StatusCode["HL7 ActStatus"][0], Equals, "active")
 }
 
 func (i *ImporterSuite) TestExtractDiagnosesInactive(c *C) {
 	var diagnosisInactiveXPath = xpath.Compile("//cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.13']")
-	rawDiagnosesInactive := ExtractSection(i.patientElement, diagnosisInactiveXPath, DiagnosisInactiveExtractor, "2.16.840.1.113883.3.560.1.2")
+	rawDiagnosesInactive := ExtractSection(i.patientElement, diagnosisInactiveXPath, DiagnosisInactiveExtractor, "2.16.840.1.113883.3.560.1.23", "inactive")
 	i.patient.Conditions = make([]models.Condition, len(rawDiagnosesInactive))
 	for j := range rawDiagnosesInactive {
 		i.patient.Conditions[j] = rawDiagnosesInactive[j].(models.Condition)
@@ -140,11 +148,12 @@ func (i *ImporterSuite) TestExtractDiagnosesInactive(c *C) {
 	c.Assert(diagnosis.Codes["ICD-10-CM"][0], Equals, "Z22.51")
 	c.Assert(diagnosis.StartTime, Equals, int64(1092658739))
 	c.Assert(diagnosis.EndTime, Equals, int64(1092686969))
+	c.Assert(diagnosis.StatusCode["SNOMED-CT"][0], Equals, "73425007")
 }
 
 func (i *ImporterSuite) TestExtractLabResults(c *C) {
 	var labResultXPath = xpath.Compile("//cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.40']")
-	rawLabResults := ExtractSection(i.patientElement, labResultXPath, LabResultExtractor, "2.16.840.1.113883.3.560.1.12")
+	rawLabResults := ExtractSection(i.patientElement, labResultXPath, LabResultExtractor, "2.16.840.1.113883.3.560.1.12", "")
 	i.patient.LabResults = make([]models.LabResult, len(rawLabResults))
 	for j := range rawLabResults {
 		i.patient.LabResults[j] = rawLabResults[j].(models.LabResult)
@@ -163,7 +172,7 @@ func (i *ImporterSuite) TestExtractLabResults(c *C) {
 
 func (i *ImporterSuite) TestExtractLabOrders(c *C) {
 	var labOrderXPath = xpath.Compile("//cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.37']")
-	rawLabOrders := ExtractSection(i.patientElement, labOrderXPath, LabOrderExtractor, "")
+	rawLabOrders := ExtractSection(i.patientElement, labOrderXPath, LabOrderExtractor, "2.16.840.1.113883.3.560.1.50", "ordered")
 	i.patient.LabResults = make([]models.LabResult, len(rawLabOrders))
 	for j := range rawLabOrders {
 		i.patient.LabResults[j] = rawLabOrders[j].(models.LabResult)
@@ -172,13 +181,15 @@ func (i *ImporterSuite) TestExtractLabOrders(c *C) {
 	labOrder := i.patient.LabResults[0]
 	c.Assert(len(i.patient.LabResults), Equals, 1)
 	c.Assert(labOrder.ID.Root, Equals, "50f84c1d7042f9877500039e")
+	c.Assert(labOrder.Oid, Equals, "2.16.840.1.113883.3.560.1.50")
 	c.Assert(labOrder.Codes["SNOMED-CT"][0], Equals, "8879006")
 	c.Assert(labOrder.StartTime, Equals, int64(674670276))
+	c.Assert(labOrder.StatusCode["HL7 ActStatus"][0], Equals, "ordered")
 }
 
 func (i *ImporterSuite) TestExtractInsuranceProviders(c *C) {
 	var insuranceProviderXPath = xpath.Compile("//cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.55']")
-	rawInsuranceProviders := ExtractSection(i.patientElement, insuranceProviderXPath, InsuranceProviderExtractor, "2.16.840.1.113883.3.560.1.405")
+	rawInsuranceProviders := ExtractSection(i.patientElement, insuranceProviderXPath, InsuranceProviderExtractor, "2.16.840.1.113883.3.560.1.405", "")
 	i.patient.InsuranceProviders = make([]models.InsuranceProvider, len(rawInsuranceProviders))
 	for j := range rawInsuranceProviders {
 		i.patient.InsuranceProviders[j] = rawInsuranceProviders[j].(models.InsuranceProvider)
@@ -193,7 +204,7 @@ func (i *ImporterSuite) TestExtractInsuranceProviders(c *C) {
 
 func (i *ImporterSuite) TestExtractDiagnosticStudyOrders(c *C) {
 	var diagnosticStudyOrderXPath = xpath.Compile("//cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.17']")
-	rawDiagnosticStudyOrders := ExtractSection(i.patientElement, diagnosticStudyOrderXPath, DiagnosticStudyOrderExtractor, "2.16.840.1.113883.3.560.1.40")
+	rawDiagnosticStudyOrders := ExtractSection(i.patientElement, diagnosticStudyOrderXPath, DiagnosticStudyOrderExtractor, "2.16.840.1.113883.3.560.1.40", "ordered")
 	i.patient.Procedures = make([]models.Procedure, len(rawDiagnosticStudyOrders))
 	for j := range rawDiagnosticStudyOrders {
 		i.patient.Procedures[j] = rawDiagnosticStudyOrders[j].(models.Procedure)
@@ -205,11 +216,12 @@ func (i *ImporterSuite) TestExtractDiagnosticStudyOrders(c *C) {
 	c.Assert(diagnosticStudyOrder.Codes["LOINC"][0], Equals, "69399-4")
 	c.Assert(diagnosticStudyOrder.StartTime, Equals, int64(629709860)) // start and end time should be equal for diagnostic study orders
 	c.Assert(diagnosticStudyOrder.EndTime, Equals, int64(629709860))
+	c.Assert(diagnosticStudyOrder.StatusCode["HL7 ActStatus"][0], Equals, "ordered")
 }
 
 func (i *ImporterSuite) TestExtractTransferFrom(c *C) {
 	var transferFromXPath = xpath.Compile("//cda:encounter[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.81']")
-	rawTransferFroms := ExtractSection(i.patientElement, transferFromXPath, TransferFromExtractor, "2.16.840.1.113883.3.560.1.71")
+	rawTransferFroms := ExtractSection(i.patientElement, transferFromXPath, TransferFromExtractor, "2.16.840.1.113883.3.560.1.71", "")
 	i.patient.Encounters = make([]models.Encounter, len(rawTransferFroms))
 	for j := range rawTransferFroms {
 		i.patient.Encounters[j] = rawTransferFroms[j].(models.Encounter)
@@ -226,7 +238,7 @@ func (i *ImporterSuite) TestExtractTransferFrom(c *C) {
 
 func (i *ImporterSuite) TestExtractTransferTo(c *C) {
 	var transferToXPath = xpath.Compile("//cda:encounter[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.82']")
-	rawTransferTos := ExtractSection(i.patientElement, transferToXPath, TransferToExtractor, "2.16.840.1.113883.3.560.1.72")
+	rawTransferTos := ExtractSection(i.patientElement, transferToXPath, TransferToExtractor, "2.16.840.1.113883.3.560.1.72", "")
 	i.patient.Encounters = make([]models.Encounter, len(rawTransferTos))
 	for j := range rawTransferTos {
 		i.patient.Encounters[j] = rawTransferTos[j].(models.Encounter)
@@ -243,7 +255,7 @@ func (i *ImporterSuite) TestExtractTransferTo(c *C) {
 
 func (i *ImporterSuite) TestMedicationActive(c *C) {
 	var medicationActiveXPath = xpath.Compile("//cda:substanceAdministration[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.41']")
-	rawMedicationActives := ExtractSection(i.patientElement, medicationActiveXPath, MedicationActiveExtractor, "2.16.840.1.113883.3.560.1.13")
+	rawMedicationActives := ExtractSection(i.patientElement, medicationActiveXPath, MedicationActiveExtractor, "2.16.840.1.113883.3.560.1.13", "active")
 	i.patient.Medications = make([]models.Medication, len(rawMedicationActives))
 	for j := range rawMedicationActives {
 		i.patient.Medications[j] = rawMedicationActives[j].(models.Medication)
@@ -270,12 +282,14 @@ func (i *ImporterSuite) TestMedicationActive(c *C) {
 	c.Assert(medicationActive.OrderInformation[0].QuantityOrdered.Value, Equals, int64(75))
 	c.Assert(medicationActive.OrderInformation[0].OrderNumber, Equals, "12345")
 	c.Assert(medicationActive.OrderInformation[0].OrderDate, Equals, int64(1092676026))
+	c.Assert(medicationActive.StatusCode["SNOMED-CT"][0], Equals, "55561003")
+	c.Assert(medicationActive.StatusCode["HL7 ActStatus"][0], Equals, "active")
 
 }
 
 func (i *ImporterSuite) TestMedicationDispensed(c *C) {
 	var medicationDispensedXPath = xpath.Compile("//cda:supply[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.45']")
-	rawMedicationDispenseds := ExtractSection(i.patientElement, medicationDispensedXPath, MedicationDispensedExtractor, "2.16.840.1.113883.3.560.1.8")
+	rawMedicationDispenseds := ExtractSection(i.patientElement, medicationDispensedXPath, MedicationDispensedExtractor, "2.16.840.1.113883.3.560.1.8", "dispensed")
 	i.patient.Medications = make([]models.Medication, len(rawMedicationDispenseds))
 	for j := range rawMedicationDispenseds {
 		i.patient.Medications[j] = rawMedicationDispenseds[j].(models.Medication)
@@ -287,11 +301,12 @@ func (i *ImporterSuite) TestMedicationDispensed(c *C) {
 	c.Assert(medicationDispensed.Codes["RxNorm"][0], Equals, "977869")
 	c.Assert(medicationDispensed.StartTime, Equals, int64(822072083))
 	c.Assert(medicationDispensed.EndTime, Equals, int64(822089605))
+	c.Assert(medicationDispensed.StatusCode["HL7 ActStatus"][0], Equals, "dispensed")
 }
 
 func (i *ImporterSuite) TestAllergy(c *C) {
 	var allergyXpath = xpath.Compile("//cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.43']")
-	rawAllergies := ExtractSection(i.patientElement, allergyXpath, AllergyExtractor, "2.16.840.1.113883.3.560.1.7")
+	rawAllergies := ExtractSection(i.patientElement, allergyXpath, AllergyExtractor, "2.16.840.1.113883.3.560.1.7", "")
 
 	i.patient.Allergies = make([]models.Allergy, len(rawAllergies))
 	for j := range rawAllergies {
@@ -310,7 +325,7 @@ func (i *ImporterSuite) TestAllergy(c *C) {
 
 func (i *ImporterSuite) TestProcedureIntolerance(c *C) {
 	var procedureIntoleranceXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.62']/cda:entryRelationship/cda:procedure[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.64']")
-	rawProcedureIntolerances := ExtractSection(i.patientElement, procedureIntoleranceXPath, ProcedureIntoleranceExtractor, "2.16.840.1.113883.3.560.1.61")
+	rawProcedureIntolerances := ExtractSection(i.patientElement, procedureIntoleranceXPath, ProcedureIntoleranceExtractor, "2.16.840.1.113883.3.560.1.61", "")
 
 	i.patient.Allergies = make([]models.Allergy, len(rawProcedureIntolerances))
 	for j := range rawProcedureIntolerances {
@@ -328,7 +343,7 @@ func (i *ImporterSuite) TestProcedureIntolerance(c *C) {
 
 func (i *ImporterSuite) TestGestationalAge(c *C) {
 	var gestationalAgeXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.101']")
-	rawGestationalAges := ExtractSection(i.patientElement, gestationalAgeXPath, GestationalAgeExtractor, "2.16.840.1.113883.3.560.1.1001")
+	rawGestationalAges := ExtractSection(i.patientElement, gestationalAgeXPath, GestationalAgeExtractor, "2.16.840.1.113883.3.560.1.1001", "")
 
 	i.patient.Conditions = make([]models.Condition, len(rawGestationalAges))
 	for j := range rawGestationalAges {
@@ -344,7 +359,7 @@ func (i *ImporterSuite) TestGestationalAge(c *C) {
 
 func (i *ImporterSuite) TestCommunication(c *C) {
 	var communicationXPath = xpath.Compile("//cda:entry/cda:act[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.2']")
-	rawCommunications := ExtractSection(i.patientElement, communicationXPath, CommunicationExtractor, "2.16.840.1.113883.3.560.1.30")
+	rawCommunications := ExtractSection(i.patientElement, communicationXPath, CommunicationExtractor, "2.16.840.1.113883.3.560.1.30", "")
 
 	i.patient.Communications = make([]models.Communication, len(rawCommunications))
 	for j := range rawCommunications {
@@ -366,7 +381,7 @@ func (i *ImporterSuite) TestCommunication(c *C) {
 
 func (i *ImporterSuite) TestEcogStatus(c *C) {
 	var ecogStatusXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.103']")
-	rawEcogStatuses := ExtractSection(i.patientElement, ecogStatusXPath, ConditionExtractor, "2.16.840.1.113883.3.560.1.1001")
+	rawEcogStatuses := ExtractSection(i.patientElement, ecogStatusXPath, ConditionExtractor, "2.16.840.1.113883.3.560.1.1001", "")
 	i.patient.Conditions = make([]models.Condition, len(rawEcogStatuses))
 	for j := range rawEcogStatuses {
 		i.patient.Conditions[j] = rawEcogStatuses[j].(models.Condition)
@@ -379,7 +394,7 @@ func (i *ImporterSuite) TestEcogStatus(c *C) {
 
 func (i *ImporterSuite) TestSymptomActive(c *C) {
 	var symptomActiveXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.76']")
-	rawActiveSymptoms := ExtractSection(i.patientElement, symptomActiveXPath, ConditionExtractor, "2.16.840.1.113883.3.560.1.69")
+	rawActiveSymptoms := ExtractSection(i.patientElement, symptomActiveXPath, ConditionExtractor, "2.16.840.1.113883.3.560.1.69", "active")
 	i.patient.Conditions = make([]models.Condition, len(rawActiveSymptoms))
 	for j := range rawActiveSymptoms {
 		i.patient.Conditions[j] = rawActiveSymptoms[j].(models.Condition)
@@ -390,11 +405,13 @@ func (i *ImporterSuite) TestSymptomActive(c *C) {
 	c.Assert(activeSymptom.EndTime, Equals, int64(729867188))
 	c.Assert(activeSymptom.ID.Root, Equals, "50f84dbb7042f9366f0001ac")
 	c.Assert(activeSymptom.Oid, Equals, "2.16.840.1.113883.3.560.1.69")
+	c.Assert(activeSymptom.StatusCode["SNOMED-CT"][0], Equals, "55561003")
+	c.Assert(activeSymptom.StatusCode["HL7 ActStatus"][0], Equals, "active")
 }
 
 func (i *ImporterSuite) TestDiagnosisResolved(c *C) {
 	var diagonsisResolvedXPath = xpath.Compile("//cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.14']")
-	rawDiagnosesResolved := ExtractSection(i.patientElement, diagonsisResolvedXPath, ConditionExtractor, "2.16.840.1.113883.3.560.1.24")
+	rawDiagnosesResolved := ExtractSection(i.patientElement, diagonsisResolvedXPath, ConditionExtractor, "2.16.840.1.113883.3.560.1.24", "resolved")
 	i.patient.Conditions = make([]models.Condition, len(rawDiagnosesResolved))
 	for j := range rawDiagnosesResolved {
 		i.patient.Conditions[j] = rawDiagnosesResolved[j].(models.Condition)
@@ -405,11 +422,12 @@ func (i *ImporterSuite) TestDiagnosisResolved(c *C) {
 	c.Assert(diagnosisResolved.Codes["SNOMED-CT"][0], Equals, "94643001")
 	c.Assert(diagnosisResolved.Codes["ICD-10-CM"][0], Equals, "C21.8")
 	c.Assert(diagnosisResolved.Codes["ICD-9-CM"][0], Equals, "197.5")
+	c.Assert(diagnosisResolved.StatusCode["SNOMED-CT"][0], Equals, "413322009")
 }
 
 func (i *ImporterSuite) TestLabResultPerformed(c *C) {
 	var labResultPerformedXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.38']")
-	rawLabResults := ExtractSection(i.patientElement, labResultPerformedXPath, ResultExtractor, "2.16.840.1.113883.3.560.1.5")
+	rawLabResults := ExtractSection(i.patientElement, labResultPerformedXPath, ResultExtractor, "2.16.840.1.113883.3.560.1.5", "performed")
 	i.patient.LabResults = make([]models.LabResult, len(rawLabResults))
 	for j := range rawLabResults {
 		i.patient.LabResults[j] = rawLabResults[j].(models.LabResult)
@@ -421,11 +439,12 @@ func (i *ImporterSuite) TestLabResultPerformed(c *C) {
 	// c.Assert(labResult.Interpretation.Code, Equals, "N")
 	// c.Assert(labResult.Interpretation.CodeSystem, Equals, "HITSP C80 Observation Status")
 	c.Assert(labResult.ReferenceRange, Equals, "M 13-18 g/dl; F 12-16 g/dl")
+	c.Assert(labResult.StatusCode["HL7 ActStatus"][0], Equals, "performed")
 }
 
 func (i *ImporterSuite) TestMedicalEquipmentApplied(c *C) {
 	var medEquipAppliedXPath = xpath.Compile("//cda:procedure[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.7']")
-	rawMedEquipApplied := ExtractSection(i.patientElement, medEquipAppliedXPath, MedicalEquipmentExtractor, "2.16.840.1.113883.3.560.1.110")
+	rawMedEquipApplied := ExtractSection(i.patientElement, medEquipAppliedXPath, MedicalEquipmentExtractor, "2.16.840.1.113883.3.560.1.110", "applied")
 	i.patient.MedicalEquipment = make([]models.MedicalEquipment, len(rawMedEquipApplied))
 	for j := range rawMedEquipApplied {
 		i.patient.MedicalEquipment[j] = rawMedEquipApplied[j].(models.MedicalEquipment)
@@ -437,11 +456,12 @@ func (i *ImporterSuite) TestMedicalEquipmentApplied(c *C) {
 	c.Assert(medEquipApplied.AnatomicalStructure.Code, Equals, "thigh")
 	c.Assert(medEquipApplied.AnatomicalStructure.CodeSystem, Equals, "2.16.840.1.113883.6.96")
 	c.Assert(medEquipApplied.AnatomicalStructure.CodeSystemName, Equals, "SNOMED-CT")
+	c.Assert(medEquipApplied.StatusCode["HL7 ActStatus"][0], Equals, "applied")
 }
 
 func (i *ImporterSuite) TestExtractProcedurePerformed(c *C) {
 	var procedurePerformedXPath = xpath.Compile("//cda:entry/cda:procedure[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.64']")
-	rawProcedurePerformed := ExtractSection(i.patientElement, procedurePerformedXPath, ProcedurePerformedExtractor, "2.16.840.1.113883.3.560.1.6")
+	rawProcedurePerformed := ExtractSection(i.patientElement, procedurePerformedXPath, ProcedurePerformedExtractor, "2.16.840.1.113883.3.560.1.6", "")
 	i.patient.Procedures = make([]models.Procedure, len(rawProcedurePerformed))
 	for j := range rawProcedurePerformed {
 		i.patient.Procedures[j] = rawProcedurePerformed[j].(models.Procedure)
@@ -487,7 +507,7 @@ func (i *ImporterSuite) TestExtractProcedurePerformed(c *C) {
 
 func (i *ImporterSuite) TestExtractPhysicalExamPerformed(c *C) {
 	var physicalExamPerformedXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.59']")
-	rawPhysicalExamPerformed := ExtractSection(i.patientElement, physicalExamPerformedXPath, ProcedureExtractor, "2.16.840.1.113883.3.560.1.57")
+	rawPhysicalExamPerformed := ExtractSection(i.patientElement, physicalExamPerformedXPath, ProcedureExtractor, "2.16.840.1.113883.3.560.1.57", "performed")
 	i.patient.Procedures = make([]models.Procedure, len(rawPhysicalExamPerformed))
 	for j := range rawPhysicalExamPerformed {
 		i.patient.Procedures[j] = rawPhysicalExamPerformed[j].(models.Procedure)
@@ -502,11 +522,12 @@ func (i *ImporterSuite) TestExtractPhysicalExamPerformed(c *C) {
 	c.Assert(physicalExamPerformed.EndTime, Equals, int64(751060302))
 	c.Assert(physicalExamPerformed.NegationInd, Equals, true)
 	c.Assert(physicalExamPerformed.NegationReason, Equals, models.CodedConcept{})
+	c.Assert(physicalExamPerformed.StatusCode["HL7 ActStatus"][0], Equals, "performed")
 }
 
 func (i *ImporterSuite) TestExtractInterventionOrder(c *C) {
 	var interventionOrderXPath = xpath.Compile("//cda:entry/cda:act[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.31']")
-	rawInterventionOrder := ExtractSection(i.patientElement, interventionOrderXPath, ProcedureExtractor, "2.16.840.1.113883.3.560.1.45")
+	rawInterventionOrder := ExtractSection(i.patientElement, interventionOrderXPath, ProcedureExtractor, "2.16.840.1.113883.3.560.1.45", "ordered")
 	i.patient.Procedures = make([]models.Procedure, len(rawInterventionOrder))
 	for j := range rawInterventionOrder {
 		i.patient.Procedures[j] = rawInterventionOrder[j].(models.Procedure)
@@ -521,11 +542,12 @@ func (i *ImporterSuite) TestExtractInterventionOrder(c *C) {
 	c.Assert(interventionOrder.Codes["ICD-10-CM"][0], Equals, "Z71.3")
 	c.Assert(interventionOrder.Codes["SNOMED-CT"][0], Equals, "304549008")
 	c.Assert(interventionOrder.StartTime, Equals, int64(1277424000))
+	c.Assert(interventionOrder.StatusCode["HL7 ActStatus"][0], Equals, "ordered")
 }
 
 func (i *ImporterSuite) TestExtractInterventionPerformed(c *C) {
 	var interventionPerformedXPath = xpath.Compile("//cda:entry/cda:act[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.32']")
-	rawInterventionPerformed := ExtractSection(i.patientElement, interventionPerformedXPath, ProcedureExtractor, "2.16.840.1.113883.3.560.1.46")
+	rawInterventionPerformed := ExtractSection(i.patientElement, interventionPerformedXPath, ProcedureExtractor, "2.16.840.1.113883.3.560.1.46", "performed")
 	i.patient.Procedures = make([]models.Procedure, len(rawInterventionPerformed))
 	for j := range rawInterventionPerformed {
 		i.patient.Procedures[j] = rawInterventionPerformed[j].(models.Procedure)
@@ -538,11 +560,12 @@ func (i *ImporterSuite) TestExtractInterventionPerformed(c *C) {
 	c.Assert(interventionPerformed.Codes["SNOMED-CT"][0], Equals, "171207006")
 	c.Assert(interventionPerformed.StartTime, Equals, int64(1265371200))
 	c.Assert(interventionPerformed.EndTime, Equals, int64(1265371200))
+	c.Assert(interventionPerformed.StatusCode["HL7 ActStatus"][0], Equals, "performed")
 }
 
 func (i *ImporterSuite) TestExtractProcedureInterventionResults(c *C) {
 	var procedureInterventionResultXPath = xpath.Compile("//cda:entry/cda:act[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.34']")
-	rawProcedureInterventionResults := ExtractSection(i.patientElement, procedureInterventionResultXPath, ProcedureExtractor, "2.16.840.1.113883.3.560.1.47")
+	rawProcedureInterventionResults := ExtractSection(i.patientElement, procedureInterventionResultXPath, ProcedureExtractor, "2.16.840.1.113883.3.560.1.47", "")
 	i.patient.Procedures = make([]models.Procedure, len(rawProcedureInterventionResults))
 	for j := range rawProcedureInterventionResults {
 		i.patient.Procedures[j] = rawProcedureInterventionResults[j].(models.Procedure)
@@ -559,7 +582,7 @@ func (i *ImporterSuite) TestExtractProcedureInterventionResults(c *C) {
 
 func (i *ImporterSuite) TestExtractProcedureOrder(c *C) {
 	var procedureOrderXPath = xpath.Compile("//cda:entry/cda:procedure[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.63']")
-	rawProcedureOrders := ExtractSection(i.patientElement, procedureOrderXPath, ProcedureOrderExtractor, "2.16.840.1.113883.3.560.1.62")
+	rawProcedureOrders := ExtractSection(i.patientElement, procedureOrderXPath, ProcedureOrderExtractor, "2.16.840.1.113883.3.560.1.62", "ordered")
 	i.patient.Procedures = make([]models.Procedure, len(rawProcedureOrders))
 	for j := range rawProcedureOrders {
 		i.patient.Procedures[j] = rawProcedureOrders[j].(models.Procedure)
@@ -580,7 +603,7 @@ func (i *ImporterSuite) TestExtractProcedureOrder(c *C) {
 
 func (i *ImporterSuite) TestExtractProcedureResults(c *C) {
 	var procedureResultsXPath = xpath.Compile("//cda:entry/cda:procedure[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.66']")
-	rawProcedureResults := ExtractSection(i.patientElement, procedureResultsXPath, ProcedureExtractor, "2.16.840.1.113883.3.560.1.63")
+	rawProcedureResults := ExtractSection(i.patientElement, procedureResultsXPath, ProcedureExtractor, "2.16.840.1.113883.3.560.1.63", "")
 	i.patient.Procedures = make([]models.Procedure, len(rawProcedureResults))
 	for j := range rawProcedureResults {
 		i.patient.Procedures[j] = rawProcedureResults[j].(models.Procedure)
@@ -597,7 +620,7 @@ func (i *ImporterSuite) TestExtractProcedureResults(c *C) {
 
 func (i *ImporterSuite) TestExtractRiskCategoryAssessment(c *C) {
 	var riskCategoryAssessmentXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.69']")
-	rawRiskCategoryAssessments := ExtractSection(i.patientElement, riskCategoryAssessmentXPath, ProcedureExtractor, "2.16.840.1.113883.3.560.1.21")
+	rawRiskCategoryAssessments := ExtractSection(i.patientElement, riskCategoryAssessmentXPath, ProcedureExtractor, "2.16.840.1.113883.3.560.1.21", "")
 	i.patient.Procedures = make([]models.Procedure, len(rawRiskCategoryAssessments))
 	for j := range rawRiskCategoryAssessments {
 		i.patient.Procedures[j] = rawRiskCategoryAssessments[j].(models.Procedure)
@@ -614,7 +637,7 @@ func (i *ImporterSuite) TestExtractRiskCategoryAssessment(c *C) {
 
 func (i *ImporterSuite) TestExtractDiagnosticStudyNotPerformed(c *C) {
 	var diagnosticStudyNotPerformedXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.18']")
-	rawDiagnosticStudyNotPerformed := ExtractSection(i.patientElement, diagnosticStudyNotPerformedXPath, ProcedureExtractor, "2.16.840.1.113883.3.560.1.103")
+	rawDiagnosticStudyNotPerformed := ExtractSection(i.patientElement, diagnosticStudyNotPerformedXPath, ProcedureExtractor, "2.16.840.1.113883.3.560.1.103", "performed")
 	i.patient.Procedures = make([]models.Procedure, len(rawDiagnosticStudyNotPerformed))
 	for j := range rawDiagnosticStudyNotPerformed {
 		i.patient.Procedures[j] = rawDiagnosticStudyNotPerformed[j].(models.Procedure)
@@ -627,11 +650,12 @@ func (i *ImporterSuite) TestExtractDiagnosticStudyNotPerformed(c *C) {
 	c.Assert(diagnosticStudyNotPerformed.Codes["LOINC"][0], Equals, "69399-4")
 	c.Assert(diagnosticStudyNotPerformed.StartTime, Equals, int64(1225314966))
 	c.Assert(diagnosticStudyNotPerformed.EndTime, Equals, int64(1225321540))
+	c.Assert(diagnosticStudyNotPerformed.StatusCode["HL7 ActStatus"][0], Equals, "performed")
 }
 
 func (i *ImporterSuite) TestExtractDiagnosticStudyResult(c *C) {
 	var diagnosticStudyResultXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.20']")
-	rawDiagnosticStudyResults := ExtractSection(i.patientElement, diagnosticStudyResultXPath, ProcedureExtractor, "2.16.840.1.113883.3.560.1.11")
+	rawDiagnosticStudyResults := ExtractSection(i.patientElement, diagnosticStudyResultXPath, ProcedureExtractor, "2.16.840.1.113883.3.560.1.11", "")
 	i.patient.Procedures = make([]models.Procedure, len(rawDiagnosticStudyResults))
 	for j := range rawDiagnosticStudyResults {
 		i.patient.Procedures[j] = rawDiagnosticStudyResults[j].(models.Procedure)
@@ -650,7 +674,7 @@ func (i *ImporterSuite) TestExtractDiagnosticStudyResult(c *C) {
 
 func (i *ImporterSuite) TestExtractCareGoal(c *C) {
 	var careGoalXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.1']")
-	rawCareGoals := ExtractSection(i.patientElement, careGoalXPath, CareGoalExtractor, "2.16.840.1.113883.3.560.1.9")
+	rawCareGoals := ExtractSection(i.patientElement, careGoalXPath, CareGoalExtractor, "2.16.840.1.113883.3.560.1.9", "")
 	i.patient.CareGoals = make([]models.CareGoal, len(rawCareGoals))
 	for j := range rawCareGoals {
 		i.patient.CareGoals[j] = rawCareGoals[j].(models.CareGoal)
@@ -665,7 +689,7 @@ func (i *ImporterSuite) TestExtractCareGoal(c *C) {
 
 func (i *ImporterSuite) TestExtractClinicalTrialParticipants(c *C) {
 	var clinicalTrialParticipantXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.51']")
-	rawClinicalTrialParticipants := ExtractSection(i.patientElement, clinicalTrialParticipantXPath, ConditionExtractor, "2.16.840.1.113883.3.560.1.401")
+	rawClinicalTrialParticipants := ExtractSection(i.patientElement, clinicalTrialParticipantXPath, ConditionExtractor, "2.16.840.1.113883.3.560.1.401", "")
 	i.patient.Conditions = make([]models.Condition, len(rawClinicalTrialParticipants))
 	for j := range rawClinicalTrialParticipants {
 		i.patient.Conditions[j] = rawClinicalTrialParticipants[j].(models.Condition)
@@ -681,7 +705,7 @@ func (i *ImporterSuite) TestExtractClinicalTrialParticipants(c *C) {
 func (i *ImporterSuite) TestExtractPatientCharacteristicExpired(c *C) {
 
 	var patientExpiredXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.54']")
-	rawPatientExpireds := ExtractSection(i.patientElement, patientExpiredXPath, ConditionExtractor, "2.16.840.1.113883.3.560.1.404")
+	rawPatientExpireds := ExtractSection(i.patientElement, patientExpiredXPath, ConditionExtractor, "2.16.840.1.113883.3.560.1.404", "")
 	i.patient.Conditions = make([]models.Condition, len(rawPatientExpireds))
 	for j := range rawPatientExpireds {
 		i.patient.Conditions[j] = rawPatientExpireds[j].(models.Condition)
