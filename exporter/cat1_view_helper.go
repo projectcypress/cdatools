@@ -78,12 +78,27 @@ func negationIndicator(entry models.Entry) string {
 	return ""
 }
 
-func oidForCode(codedValue models.CodedConcept, valuesetOids []string, valuesets map[string]map[string]string) string {
-	// oids := valueOrDefault(valuesetOids, []string{})
-	// code := codedValue.Code
-	// codeSystem := codedValue.CodeSystem
-	//
+func oidForCode(codedValue models.CodedConcept, valuesetOids []string) string {
+
+	for _, vsoid := range valuesetOids {
+		oidlist := vsMap[vsoid]
+		if codeSetContainsCode(oidlist, codedValue) {
+			return vsoid
+		}
+
+	}
 	return ""
+}
+
+func codeSetContainsCode(sets []models.CodeSet, codedValue models.CodedConcept) bool {
+	for _, cs := range sets {
+		for _, val := range cs.Values {
+			if val.CodeSystem == codedValue.CodeSystem && val.Code == codedValue.Code {
+				return true
+			}
+		}
+	}
+	return false
 }
 
 // def oid_for_code(codedValue, valueset_oids,  valueset)
@@ -164,35 +179,13 @@ func codeDisplay(entry models.Entry, options map[string]interface{}) string {
 		codeString += fmt.Sprintf("<originalText>%s</originalText>", entry.Description)
 		// add a bunch of translation codes if they exist
 	}
-	// pcs = if options['preferred_code_sets'] && options['preferred_code_sets'].index("*")
-	// 			# all of the code_systems that we know about
-	// 			HealthDataStandards::Util::CodeSystemHelper::CODE_SYSTEMS.values | HealthDataStandards::Util::CodeSystemHelper::CODE_SYSTEM_ALIASES.keys
-	// 		else
-	// 			options['preferred_code_sets']
-	// 		end
-	// preferred_code = entry.preferred_code(pcs, options['attribute'], options['value_set_map'])
-	//       if preferred_code
-	//         code_system_oid = HealthDataStandards::Util::CodeSystemHelper.oid_for_code_system(preferred_code['code_set'])
-	//         code_string = "<#{options['tag_name']} code=\"#{preferred_code['code']}\" codeSystem=\"#{code_system_oid}\" #{options['extra_content']}>"
-	//       else
-	//         code_string = "<#{options['tag_name']} "
-	//         code_string += "nullFlavor=\"UNK\" " unless options["exclude_null_flavor"]
-	//         code_string += "#{options['extra_content']}>"
-	//       end
-	//
-	//
-	//
+
 	//       if options["attribute"] == :codes && entry.respond_to?(:translation_codes)
 	//         code_string += "<originalText>#{ERB::Util.html_escape entry.description}</originalText>" if entry.respond_to?(:description)
 	//         entry.translation_codes(options['preferred_code_sets'], options['value_set_map']).each do |translation|
 	//           code_string += "<translation code=\"#{translation['code']}\" codeSystem=\"#{HealthDataStandards::Util::CodeSystemHelper.oid_for_code_system(translation['code_set'])}\"/>\n"
 	//         end
 	//       end
-	//
-	//       code_string += "</#{options['tag_name']}>"
-	//
-	//       code_string
-	//     end
 
 	return fmt.Sprintf("%s </%s>", codeString, tagName)
 }

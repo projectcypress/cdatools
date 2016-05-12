@@ -1,6 +1,9 @@
 package exporter
 
 import (
+	"encoding/json"
+	"io/ioutil"
+
 	"github.com/projectcypress/cdatools/models"
 	. "gopkg.in/check.v1"
 )
@@ -31,5 +34,14 @@ func (s *MySuite) TestCodeDisplay(c *C) {
 }
 
 func (s *MySuite) TestOidForCode(c *C) {
+	valueSets, _ := ioutil.ReadFile("../fixtures/value_sets/CMS9_26.json")
+	vs := []models.ValueSet{}
+	json.Unmarshal(valueSets, &vs)
+	initializeVsMap(vs)
+	coded := models.CodedConcept{Code: "3950001", CodeSystem: "2.16.840.1.113883.6.96"}
+	coded2 := models.CodedConcept{Code: "3950001222", CodeSystem: "2.16.840.1.113883.6.96"}
+	vsoids := []string{"2.16.840.1.113883.3.117.1.7.1.70", "2.16.840.1.113883.3.117.1.7.1.27", "2.16.840.1.113883.3.117.1.7.1.26", "2.16.840.1.113883.3.117.1.7.1.25"}
 
+	c.Assert(oidForCode(coded, vsoids), Equals, "2.16.840.1.113883.3.117.1.7.1.70")
+	c.Assert(oidForCode(coded2, vsoids), Equals, "")
 }
