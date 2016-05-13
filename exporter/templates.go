@@ -195,7 +195,7 @@ func templatesCat1_patient_dataXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/_patient_data.xml", size: 669, mode: os.FileMode(420), modTime: time.Unix(1463150910, 0)}
+	info := bindataFileInfo{name: "templates/cat1/_patient_data.xml", size: 669, mode: os.FileMode(420), modTime: time.Unix(1463164904, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }

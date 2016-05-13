@@ -10,7 +10,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/projectcypress/cdatools/models"
 )
 
@@ -59,17 +58,12 @@ func identifierForString(objs ...string) string {
 	return identifierFor([]byte(b))
 }
 
-func patientData(patient models.Record) string {
-	return ""
-}
-
 func entriesForPatient(patient models.Record, measures []models.Measure) []interface{} {
 	udcs := uniqueDataCriteria(allDataCriteria(measures))
 	var entries []interface{}
 	for _, udc := range udcs {
-		entries = append(entries, entriesForDataCriteria(udc.DataCriteria, patient))
+		entries = append(entries, entriesForDataCriteria(udc.DataCriteria, patient)...)
 	}
-	spew.Dump(entries)
 	return entries
 }
 
