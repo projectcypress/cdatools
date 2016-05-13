@@ -40,6 +40,9 @@ func extractMedication(entry *models.Entry, entryElement xml.Node) models.Medica
 
 	extractAdministrationTiming(&medication, entryElement)
 
+	codeXPath := xpath.Compile("./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code")
+	ExtractCodes(&medication.Entry.Coded, entryElement, codeXPath)
+
 	routeXPath := xpath.Compile("./cda:routeCode")
 	medication.Route.Codes = map[string][]string{}
 	ExtractCodes(&medication.Route, entryElement, routeXPath)
