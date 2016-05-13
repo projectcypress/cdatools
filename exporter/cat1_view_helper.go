@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/projectcypress/cdatools/models"
 )
 
@@ -68,7 +69,12 @@ func entriesForPatient(patient models.Record, measures []models.Measure) []inter
 	for _, udc := range udcs {
 		entries = append(entries, entriesForDataCriteria(udc.DataCriteria, patient))
 	}
+	spew.Dump(entries)
 	return entries
+}
+
+func templateForEntry(e interface{}) string {
+	return models.ExtractEntry(e).Oid
 }
 
 func negationIndicator(entry models.Entry) string {

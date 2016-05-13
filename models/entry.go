@@ -20,6 +20,7 @@ type Entry struct {
 }
 
 func ExtractEntry(entry interface{}) Entry {
+
 	switch t := entry.(type) {
 	case Encounter:
 		return t.Entry
@@ -40,7 +41,9 @@ func ExtractEntry(entry interface{}) Entry {
 	case Entry:
 		return t
 	default:
-		panic("We don't know how to extract an Entry from this type")
+		return Entry{}
+		// spew.Dump(reflect.TypeOf(entry))
+		// panic("We don't know how to extract an Entry from this type")
 	}
 }
 

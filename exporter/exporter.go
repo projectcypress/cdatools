@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"text/template"
 	"time"
+
 	"github.com/pborman/uuid"
 	"github.com/projectcypress/cdatools/models"
 )
@@ -112,6 +113,7 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 		"identifierForString": identifierForString,
 		"escape":              escape,
 		"entriesForPatient":   entriesForPatient,
+		"templateForEntry":    templateForEntry,
 	}
 
 	cat1Template := template.New("cat1").Funcs(funcMap)

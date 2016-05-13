@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"fmt"
+
 	"github.com/pebbe/util"
 	"github.com/projectcypress/cdatools/models"
 	. "gopkg.in/check.v1"
@@ -22,7 +23,7 @@ var _ = Suite(&MySuite{})
 // More functional tests are in the go-cda-repo where we run the exports through
 //  HDS validation.
 func (s *MySuite) TestExport(c *C) {
-	patientData, err := ioutil.ReadFile("../fixtures/records/barry_berry.json")
+	patientData, err := ioutil.ReadFile("../fixtures/records/1_n_n_ami.json")
 	util.CheckErr(err)
 
 	measureData, err := ioutil.ReadFile("../fixtures/measures/CMS9v4a.json")

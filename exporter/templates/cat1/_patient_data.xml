@@ -12,8 +12,9 @@
     <text>
 
     </text>
-    {{range entriesForPatient .Patient .Measures}}
-        foo
+    {{range entriesForPatient .Record .Measures}}
+      OID For Entry {{templateForEntry .}}
     {{end}}
+
 </section>
 </component>
