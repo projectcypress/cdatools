@@ -111,7 +111,7 @@ func Read_patient(path string) string {
 	}
 
 	//medication active
-	var medicationActiveXPath = xpath.Compile("./cda:entry/cda:substanceAdministration[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.41']")
+	var medicationActiveXPath = xpath.Compile("//cda:entry/cda:substanceAdministration[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.41']")
 	rawMedicationActives := ExtractSection(patientElement, medicationActiveXPath, MedicationActiveExtractor, "2.16.840.1.113883.3.560.1.13", "active")
 	patient.Medications = make([]models.Medication, len(rawMedicationActives))
 	for i := range rawMedicationActives {
@@ -119,49 +119,49 @@ func Read_patient(path string) string {
 	}
 
 	//medication dispensed
-	var medicationDispensedXPath = xpath.Compile("./cda:entry/cda:supply[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.45']")
+	var medicationDispensedXPath = xpath.Compile("//cda:entry/cda:supply[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.45']")
 	rawMedicationDispenseds := ExtractSection(patientElement, medicationDispensedXPath, MedicationDispensedExtractor, "2.16.840.1.113883.3.560.1.8", "dispensed")
 	for i := range rawMedicationDispenseds {
 		patient.Medications = append(patient.Medications, rawMedicationDispenseds[i].(models.Medication))
 	}
 
 	//medication administered
-	var medicationAdministeredXPath = xpath.Compile("./cda:entry/cda:act[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.42']/cda:entryRelationship/cda:substanceAdministration[cda:templateId/@root='2.16.840.1.113883.10.20.22.4.16']")
+	var medicationAdministeredXPath = xpath.Compile("//cda:entry/cda:act[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.42']/cda:entryRelationship/cda:substanceAdministration[cda:templateId/@root='2.16.840.1.113883.10.20.22.4.16']")
 	rawMedicationAdministereds := ExtractSection(patientElement, medicationAdministeredXPath, MedicationExtractor, "2.16.840.1.113883.3.560.1.14", "administered")
 	for i := range rawMedicationAdministereds {
 		patient.Medications = append(patient.Medications, rawMedicationAdministereds[i].(models.Medication))
 	}
 
 	//medication ordered
-	var medicationOrderedXPath = xpath.Compile("./cda:entry/cda:substanceAdministration[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.47']")
+	var medicationOrderedXPath = xpath.Compile("//cda:entry/cda:substanceAdministration[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.47']")
 	rawMedicationOrdereds := ExtractSection(patientElement, medicationOrderedXPath, MedicationExtractor, "2.16.840.1.113883.3.560.1.17", "ordered")
 	for i := range rawMedicationOrdereds {
 		patient.Medications = append(patient.Medications, rawMedicationOrdereds[i].(models.Medication))
 	}
 
 	//discharge medication active
-	var medicationDischargeActiveXPath = xpath.Compile("./cda:entry/cda:act[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.105']/cda:entryRelationship/cda:substanceAdministration[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.41']")
+	var medicationDischargeActiveXPath = xpath.Compile("//cda:entry/cda:act[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.105']/cda:entryRelationship/cda:substanceAdministration[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.41']")
 	rawMedicationDischargeActives := ExtractSection(patientElement, medicationDischargeActiveXPath, MedicationExtractor, "2.16.840.1.113883.3.560.1.199", "discharge")
 	for i := range rawMedicationDischargeActives {
 		patient.Medications = append(patient.Medications, rawMedicationDischargeActives[i].(models.Medication))
 	}
 
 	// medication intolerance
-	var medicationIntoleranceXPath = xpath.Compile("./cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.46']")
+	var medicationIntoleranceXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.46']")
 	rawMedicationIntolerances := ExtractSection(patientElement, medicationIntoleranceXPath, AllergyExtractor, "2.16.840.1.113883.3.560.1.67", "")
 	for i := range rawMedicationIntolerances {
 		patient.Allergies = append(patient.Allergies, rawMedicationIntolerances[i].(models.Allergy))
 	}
 
 	// medication adverse event
-	var medicationAdverseEventXPath = xpath.Compile("./cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.43']")
+	var medicationAdverseEventXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.43']")
 	rawMedicationAdverseEvents := ExtractSection(patientElement, medicationAdverseEventXPath, AllergyExtractor, "2.16.840.1.113883.3.560.1.7", "")
 	for i := range rawMedicationAdverseEvents {
 		patient.Allergies = append(patient.Allergies, rawMedicationAdverseEvents[i].(models.Allergy))
 	}
 
 	// medication allergy
-	var medicationAllergyXPath = xpath.Compile("./cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.44']")
+	var medicationAllergyXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.44']")
 	rawMedicationAllergies := ExtractSection(patientElement, medicationAllergyXPath, AllergyExtractor, "2.16.840.1.113883.3.560.1.1", "")
 	for i := range rawMedicationAllergies {
 		patient.Allergies = append(patient.Allergies, rawMedicationAllergies[i].(models.Allergy))

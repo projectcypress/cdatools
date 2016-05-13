@@ -262,7 +262,7 @@ func (i *ImporterSuite) TestMedicationActive(c *C) {
 	}
 
 	medicationActive := i.patient.Medications[0]
-	c.Assert(len(i.patient.Medications), Equals, 1)
+	c.Assert(len(i.patient.Medications), Equals, 2) // there is a second medication active for medication discharge active
 	c.Assert(medicationActive.ID.Root, Equals, "c0ea7bf3-50e7-4e7a-83a3-e5a9ccbb8541")
 	c.Assert(medicationActive.Codes["RxNorm"][0], Equals, "105152")
 	c.Assert(medicationActive.AdministrationTiming.InstitutionSpecified, Equals, true)
@@ -302,6 +302,139 @@ func (i *ImporterSuite) TestMedicationDispensed(c *C) {
 	c.Assert(medicationDispensed.StartTime, Equals, int64(822072083))
 	c.Assert(medicationDispensed.EndTime, Equals, int64(822089605))
 	c.Assert(medicationDispensed.StatusCode["HL7 ActStatus"][0], Equals, "dispensed")
+}
+
+func (i *ImporterSuite) TestMedicationAdministered(c *C) {
+	var medicationAdministeredXPath = xpath.Compile("//cda:entry/cda:act[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.42']/cda:entryRelationship/cda:substanceAdministration[cda:templateId/@root='2.16.840.1.113883.10.20.22.4.16']")
+	rawMedicationAdministereds := ExtractSection(i.patientElement, medicationAdministeredXPath, MedicationExtractor, "2.16.840.1.113883.3.560.1.14", "administered")
+	i.patient.Medications = make([]models.Medication, len(rawMedicationAdministereds))
+	for j := range rawMedicationAdministereds {
+		i.patient.Medications[j] = rawMedicationAdministereds[j].(models.Medication)
+	}
+
+	medicationAdministered := i.patient.Medications[0]
+	c.Assert(len(i.patient.Medications), Equals, 1)
+	c.Assert(medicationAdministered.ID.Root, Equals, "278dade0-4307-0130-0add-680688cbd736")
+	c.Assert(medicationAdministered.Oid, Equals, "2.16.840.1.113883.3.560.1.14")
+	c.Assert(medicationAdministered.Codes["CVX"][0], Equals, "33")
+	c.Assert(medicationAdministered.StartTime, Equals, int64(1165177036))
+	c.Assert(medicationAdministered.EndTime, Equals, int64(1165217102))
+	c.Assert(medicationAdministered.StatusCode["HL7 ActStatus"][0], Equals, "administered")
+}
+
+func (i *ImporterSuite) TestMedicationOrdered(c *C) {
+	var medicationOrderedXPath = xpath.Compile("//cda:entry/cda:substanceAdministration[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.47']")
+	rawMedicationOrdereds := ExtractSection(i.patientElement, medicationOrderedXPath, MedicationExtractor, "2.16.840.1.113883.3.560.1.17", "ordered")
+	i.patient.Medications = make([]models.Medication, len(rawMedicationOrdereds))
+	for j := range rawMedicationOrdereds {
+		i.patient.Medications[j] = rawMedicationOrdereds[j].(models.Medication)
+	}
+
+	medicationOrdered := i.patient.Medications[0]
+	c.Assert(len(i.patient.Medications), Equals, 1)
+	c.Assert(medicationOrdered.ID.Root, Equals, "50f84c1a7042f987750001d2")
+	c.Assert(medicationOrdered.Oid, Equals, "2.16.840.1.113883.3.560.1.17")
+	c.Assert(medicationOrdered.Codes["RxNorm"][0], Equals, "866439")
+	c.Assert(medicationOrdered.StartTime, Equals, int64(954202441))
+	c.Assert(medicationOrdered.EndTime, Equals, int64(954206964))
+	c.Assert(medicationOrdered.StatusCode["HL7 ActStatus"][0], Equals, "ordered")
+}
+
+func (i *ImporterSuite) TestMedicationDischargeActive(c *C) {
+	var medicationDischargeActiveXPath = xpath.Compile("//cda:entry/cda:act[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.105']/cda:entryRelationship/cda:substanceAdministration[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.41']")
+	rawMedicationDischargeActives := ExtractSection(i.patientElement, medicationDischargeActiveXPath, MedicationExtractor, "2.16.840.1.113883.3.560.1.199", "discharge")
+	i.patient.Medications = make([]models.Medication, len(rawMedicationDischargeActives))
+	for j := range rawMedicationDischargeActives {
+		i.patient.Medications[j] = rawMedicationDischargeActives[j].(models.Medication)
+	}
+
+	medicationDischargeActive := i.patient.Medications[0]
+	c.Assert(len(i.patient.Medications), Equals, 1)
+	c.Assert(medicationDischargeActive.ID.Root, Equals, "21305e00-4308-0130-0ade-680688cbd736")
+	c.Assert(medicationDischargeActive.Oid, Equals, "2.16.840.1.113883.3.560.1.199")
+	c.Assert(medicationDischargeActive.Codes["RxNorm"][0], Equals, "994435")
+	c.Assert(medicationDischargeActive.StartTime, Equals, int64(1114859893))
+	c.Assert(medicationDischargeActive.EndTime, Equals, int64(1114914106))
+	c.Assert(medicationDischargeActive.StatusCode["HL7 ActStatus"][0], Equals, "discharge")
+}
+
+func (i *ImporterSuite) TestMedicationIntolerance(c *C) {
+	var medicationIntoleranceXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.46']")
+	rawMedicationIntolerances := ExtractSection(i.patientElement, medicationIntoleranceXPath, AllergyExtractor, "2.16.840.1.113883.3.560.1.67", "")
+	i.patient.Allergies = make([]models.Allergy, len(rawMedicationIntolerances))
+	for j := range rawMedicationIntolerances {
+		i.patient.Allergies[j] = rawMedicationIntolerances[j].(models.Allergy)
+	}
+
+	medicationIntolerance := i.patient.Allergies[0]
+	c.Assert(len(i.patient.Allergies), Equals, 1)
+	c.Assert(medicationIntolerance.ID.Root, Equals, "50f84c1a7042f987750001db")
+	c.Assert(medicationIntolerance.Oid, Equals, "2.16.840.1.113883.3.560.1.67")
+	c.Assert(medicationIntolerance.Codes["RxNorm"][0], Equals, "998695")
+	c.Assert(medicationIntolerance.StartTime, Equals, int64(1165177036))
+}
+
+func (i *ImporterSuite) TestMedicationAllergy(c *C) {
+	var medicationAllergyXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.44']")
+	rawMedicationAllergies := ExtractSection(i.patientElement, medicationAllergyXPath, AllergyExtractor, "2.16.840.1.113883.3.560.1.1", "")
+	i.patient.Allergies = make([]models.Allergy, len(rawMedicationAllergies))
+	for j := range rawMedicationAllergies {
+		i.patient.Allergies[j] = rawMedicationAllergies[j].(models.Allergy)
+	}
+
+	medicationAllergy := i.patient.Allergies[0]
+	c.Assert(len(i.patient.Allergies), Equals, 1)
+	c.Assert(medicationAllergy.ID.Root, Equals, "50f84db97042f9366f00000e")
+	c.Assert(medicationAllergy.Oid, Equals, "2.16.840.1.113883.3.560.1.1")
+	c.Assert(medicationAllergy.Codes["RxNorm"][0], Equals, "996994")
+	c.Assert(medicationAllergy.StartTime, Equals, int64(303055256))
+}
+
+func (i *ImporterSuite) TestMedEquipNotOrdered(c *C) {
+	var medEquipNotOrderedXPath = xpath.Compile("//cda:act[cda:code/@code = 'SPLY']")
+	rawMedEquipNotOrdered := ExtractSection(i.patientElement, medEquipNotOrderedXPath, MedicalEquipmentExtractor, "2.16.840.1.113883.3.560.1.137", "")
+	i.patient.MedicalEquipment = make([]models.MedicalEquipment, len(rawMedEquipNotOrdered))
+	for j := range rawMedEquipNotOrdered {
+		i.patient.MedicalEquipment[j] = rawMedEquipNotOrdered[j].(models.MedicalEquipment)
+	}
+
+	medEquipNotOrdered := i.patient.MedicalEquipment[0]
+	c.Assert(len(i.patient.MedicalEquipment), Equals, 1)
+	c.Assert(medEquipNotOrdered.ID.Root, Equals, "1.3.6.1.4.1.115")
+	c.Assert(medEquipNotOrdered.Oid, Equals, "2.16.840.1.113883.3.560.1.137")
+	c.Assert(medEquipNotOrdered.Codes["ICD-9-CM"][0], Equals, "48.20")
+}
+
+func (i *ImporterSuite) TestCommunicationsProviderToProvider(c *C) {
+	var communicationProviderToProviderXPath = xpath.Compile("//cda:entry/cda:act[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.4']")
+	rawCommunicationsProviderToProvider := ExtractSection(i.patientElement, communicationProviderToProviderXPath, CommunicationExtractor, "2.16.840.1.113883.3.560.1.129", "")
+	i.patient.Communications = make([]models.Communication, len(rawCommunicationsProviderToProvider))
+	for j := range rawCommunicationsProviderToProvider {
+		i.patient.Communications[j] = rawCommunicationsProviderToProvider[j].(models.Communication)
+	}
+
+	communicationsProviderToProvider := i.patient.Communications[0]
+	c.Assert(len(i.patient.Communications), Equals, 1)
+	c.Assert(communicationsProviderToProvider.ID.Root, Equals, "50f84c1d7042f987750003bf")
+	c.Assert(communicationsProviderToProvider.Oid, Equals, "2.16.840.1.113883.3.560.1.129")
+	c.Assert(communicationsProviderToProvider.Codes["SNOMED-CT"][0], Equals, "371545006")
+	c.Assert(communicationsProviderToProvider.StartTime, Equals, int64(362499961))
+}
+
+func (i *ImporterSuite) TestCommunicationsProviderToPatient(c *C) {
+	var communicationProviderToPatientXPath = xpath.Compile("//cda:entry/cda:act[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.3']")
+	rawCommunicationsProviderToPatient := ExtractSection(i.patientElement, communicationProviderToPatientXPath, CommunicationExtractor, "2.16.840.1.113883.3.560.1.31", "")
+	i.patient.Communications = make([]models.Communication, len(rawCommunicationsProviderToPatient))
+	for j := range rawCommunicationsProviderToPatient {
+		i.patient.Communications[j] = rawCommunicationsProviderToPatient[j].(models.Communication)
+	}
+
+	communicationProviderToPatient := i.patient.Communications[0]
+	c.Assert(len(i.patient.Communications), Equals, 1)
+	c.Assert(communicationProviderToPatient.ID.Root, Equals, "50cf48409eae47465700008f")
+	c.Assert(communicationProviderToPatient.Oid, Equals, "2.16.840.1.113883.3.560.1.31")
+	c.Assert(communicationProviderToPatient.Codes["LOINC"][0], Equals, "69981-9")
+	c.Assert(communicationProviderToPatient.StartTime, Equals, int64(1275775200))
 }
 
 func (i *ImporterSuite) TestAllergy(c *C) {
