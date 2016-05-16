@@ -8,4 +8,13 @@ debug:
 clean:
 install:
 
+coverage:
+	go test -coverprofile=exporter.out ./exporter
+	go tool cover -html=exporter.out
+	#go test -coverprofile=importer.out ./importer
+	#go tool cover -html=importer.out
+	#go test -coverprofile=models.out ./models
+	#go tool cover -html=models.out
+	rm exporter.out importer.out models.out
+
 .PHONY: build
