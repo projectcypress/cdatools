@@ -99,5 +99,5 @@ func (s *MySuite) TestGetUniqueDataCriteriaForOneMeasure(c *C) {
 	util.CheckErr(err)
 	measureData = append([]byte("["), append(measureData, []byte("]")...)...)
 	json.Unmarshal(measureData, &mes)
-	c.Assert(len(uniqueDataCriteria(allDataCriteria(mes))), Equals, 15)
+	c.Assert(len(uniqueDataCriteria(allDataCriteria(mes))), Equals, 14)
 }

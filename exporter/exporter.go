@@ -30,7 +30,7 @@ func allDataCriteria(measures []models.Measure) []models.DataCriteria {
 	return dc
 }
 
-type dc struct {
+type dcKey struct {
 	DataCriteriaOid string
 	ValueSetOid     string
 }
@@ -39,16 +39,22 @@ type mdc struct {
 	FieldOids    map[string][]string
 	ResultOids   []string
 	DataCriteria models.DataCriteria
-	dc
+	dcKey
 }
 
 func uniqueDataCriteria(allDataCriteria []models.DataCriteria) []mdc {
-	mappedDataCriteria := map[dc]mdc{}
+	mappedDataCriteria := map[dcKey]mdc{}
 	for _, dataCriteria := range allDataCriteria {
-		// Based on the data criteria, get the HQMF oid associated with it
-		oid := GetID(dataCriteria, false)
+		// Based on the data criteria, get the HQMF oid associated with it]
+		oid := dataCriteria.HQMFOid
 		if oid == "" {
-			oid = GetID(dataCriteria, true)
+			oid = GetID(dataCriteria, false)
+			if oid == "" {
+				oid = GetID(dataCriteria, true)
+			}
+			if oid != "" {
+				dataCriteria.HQMFOid = oid
+			}
 		}
 		vsOid := dataCriteria.CodeListID
 
@@ -60,7 +66,7 @@ func uniqueDataCriteria(allDataCriteria []models.DataCriteria) []mdc {
 		}
 
 		// Generate the key for the mappedDataCriteria
-		dc := dc{DataCriteriaOid: oid, ValueSetOid: vsOid}
+		dc := dcKey{DataCriteriaOid: oid, ValueSetOid: vsOid}
 
 		var mappedDc = mappedDataCriteria[dc]
 		if mappedDc.FieldOids == nil {
@@ -84,7 +90,9 @@ func uniqueDataCriteria(allDataCriteria []models.DataCriteria) []mdc {
 			mappedDc.ResultOids = append(mappedDc.ResultOids, dataCriteria.CodeListID)
 		}
 
-		mappedDataCriteria[dc] = mappedDc
+		if dc.DataCriteriaOid != "" {
+			mappedDataCriteria[dc] = mappedDc
+		}
 	}
 
 	// Add the key to the value to get what HDS would have returned

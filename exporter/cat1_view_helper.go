@@ -64,7 +64,13 @@ func entriesForPatient(patient models.Record, measures []models.Measure) []inter
 	for _, udc := range udcs {
 		entries = append(entries, entriesForDataCriteria(udc.DataCriteria, patient)...)
 	}
-	return entries
+	var retEntries []interface{}
+	for _, entry := range entries {
+		if entry != nil {
+			retEntries = append(retEntries, entry)
+		}
+	}
+	return retEntries
 }
 
 func templateForEntry(e interface{}) string {

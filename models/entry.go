@@ -1,5 +1,11 @@
 package models
 
+import (
+	"reflect"
+
+	"github.com/davecgh/go-spew/spew"
+)
+
 type Entry struct {
 	Coded
 	StartTime      int64               `json:"start_time,omitempty"`
@@ -38,12 +44,13 @@ func ExtractEntry(entry interface{}) Entry {
 		return t.Entry
 	case Condition:
 		return t.Entry
+	case ProviderPerformance:
+		return t.Entry
 	case Entry:
 		return t
 	default:
-		return Entry{}
-		// spew.Dump(reflect.TypeOf(entry))
-		// panic("We don't know how to extract an Entry from this type")
+		spew.Dump(reflect.TypeOf(entry))
+		panic("We don't know how to extract an Entry from this type")
 	}
 }
 
