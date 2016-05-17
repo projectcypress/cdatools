@@ -3,37 +3,38 @@ package exporter
 import (
 	"encoding/json"
 	"io/ioutil"
+	"testing"
 
 	"github.com/projectcypress/cdatools/models"
-	. "gopkg.in/check.v1"
+	"github.com/stretchr/testify/assert"
 )
 
-func (s *MySuite) TestValueOrNullFlavor(c *C) {
-	c.Assert(valueOrNullFlavor(nil), Equals, "nullFlavor='UNK'")
-	c.Assert(valueOrNullFlavor(0), Equals, "value='196912311900'")
-	c.Assert(valueOrNullFlavor(int64(0)), Equals, "value='196912311900'")
-	c.Assert(valueOrNullFlavor("0"), Equals, "value='196912311900'")
+func TestValueOrNullFlavor(t *testing.T) {
+	assert.Equal(t, valueOrNullFlavor(nil), "nullFlavor='UNK'")
+	assert.Equal(t, valueOrNullFlavor(0), "value='196912311900'")
+	assert.Equal(t, valueOrNullFlavor(int64(0)), "value='196912311900'")
+	assert.Equal(t, valueOrNullFlavor("0"), "value='196912311900'")
 }
 
-func (s *MySuite) TestEscape(c *C) {
-	c.Assert(escape("&"), Equals, "&amp;")
-	c.Assert(escape(1), Equals, "1")
-	c.Assert(escape(nil), Equals, "")
+func TestEscape(t *testing.T) {
+	assert.Equal(t, escape("&"), "&amp;")
+	assert.Equal(t, escape(1), "1")
+	assert.Equal(t, escape(nil), "")
 }
 
-func (s *MySuite) TestValueOrDefault(c *C) {
-	c.Assert(valueOrDefault(nil, "hey"), Equals, "hey")
-	c.Assert(valueOrDefault("hey", "hey thar"), Equals, "hey")
+func TestValueOrDefault(t *testing.T) {
+	assert.Equal(t, valueOrDefault(nil, "hey"), "hey")
+	assert.Equal(t, valueOrDefault("hey", "hey thar"), "hey")
 }
 
-func (s *MySuite) TestCodeDisplay(c *C) {
+func TestCodeDisplay(t *testing.T) {
 	var entry = models.Entry{}
 	var m = make(map[string]interface{})
 	m["preferred_code_sets"] = []string{"*"}
-	c.Assert(codeDisplay(entry, m), Equals, "<code code='1234' codeSystem='2.16.840.1.113883.6.96' ><originalText></originalText> </code>")
+	assert.Equal(t, codeDisplay(entry, m), "<code code='1234' codeSystem='2.16.840.1.113883.6.96' ><originalText></originalText> </code>")
 }
 
-func (s *MySuite) TestOidForCode(c *C) {
+func TestOidForCode(t *testing.T) {
 	valueSets, _ := ioutil.ReadFile("../fixtures/value_sets/CMS9_26.json")
 	vs := []models.ValueSet{}
 	json.Unmarshal(valueSets, &vs)
@@ -42,6 +43,6 @@ func (s *MySuite) TestOidForCode(c *C) {
 	coded2 := models.CodedConcept{Code: "3950001222", CodeSystem: "2.16.840.1.113883.6.96"}
 	vsoids := []string{"2.16.840.1.113883.3.117.1.7.1.70", "2.16.840.1.113883.3.117.1.7.1.27", "2.16.840.1.113883.3.117.1.7.1.26", "2.16.840.1.113883.3.117.1.7.1.25"}
 
-	c.Assert(oidForCode(coded, vsoids), Equals, "2.16.840.1.113883.3.117.1.7.1.70")
-	c.Assert(oidForCode(coded2, vsoids), Equals, "")
+	assert.Equal(t, oidForCode(coded, vsoids), "2.16.840.1.113883.3.117.1.7.1.70")
+	assert.Equal(t, oidForCode(coded2, vsoids), "")
 }

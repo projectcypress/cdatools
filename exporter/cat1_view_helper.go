@@ -212,5 +212,5 @@ func codeDisplay(entry models.Entry, options map[string]interface{}) string {
 }
 
 func isR2Compatable(i interface{}) bool {
-
+	return false
 }
