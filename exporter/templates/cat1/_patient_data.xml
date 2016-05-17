@@ -13,8 +13,7 @@
 
     </text>
     {{range entriesForPatient .Record .Measures}}
-      OID For Entry {{templateForEntry .}}
+      {{executeTemplateForEntry .}}
     {{end}}
-
 </section>
 </component>

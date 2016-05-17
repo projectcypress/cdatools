@@ -113,18 +113,20 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 		fmt.Println(err)
 	}
 
+	cat1Template := template.New("cat1")
 	funcMap := template.FuncMap{
-		"timeNow":             time.Now().UTC().Unix,
-		"newRandom":           uuid.NewRandom,
-		"timeToFormat":        timeToFormat,
-		"identifierForInt":    identifierForInt,
-		"identifierForString": identifierForString,
-		"escape":              escape,
-		"entriesForPatient":   entriesForPatient,
-		"templateForEntry":    templateForEntry,
+		"timeNow":                 time.Now().UTC().Unix,
+		"newRandom":               uuid.NewRandom,
+		"timeToFormat":            timeToFormat,
+		"identifierForInt":        identifierForInt,
+		"identifierForString":     identifierForString,
+		"escape":                  escape,
+		"entriesForPatient":       entriesForPatient,
+		"executeTemplateForEntry": generateExecuteTemplateForEntry(cat1Template),
+		"isR2": isR2Compatable,
 	}
 
-	cat1Template := template.New("cat1").Funcs(funcMap)
+	cat1Template.Funcs(funcMap)
 
 	for _, d := range data {
 		asset, _ := Asset("templates/cat1/" + d)

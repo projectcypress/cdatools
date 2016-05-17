@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"text/template"
 	"time"
 
 	"github.com/projectcypress/cdatools/models"
@@ -73,8 +74,22 @@ func entriesForPatient(patient models.Record, measures []models.Measure) []inter
 	return retEntries
 }
 
-func templateForEntry(e interface{}) string {
-	return models.ExtractEntry(e).Oid
+// git blame schreiber
+// returns a function for executing a template based on the qrda oid
+//   this is done so we have access to cat1Template when calling this function from _patient_data.xml
+func generateExecuteTemplateForEntry(cat1Template *template.Template) func(interface{}) string {
+	return func(e interface{}) string {
+		entry := models.ExtractEntry(e)
+		qrdaOid := HqmfToQrdaOid(entry.Oid)
+
+		templateName := fmt.Sprintf("_%v.xml", qrdaOid)
+		var b bytes.Buffer
+		if err := cat1Template.ExecuteTemplate(&b, templateName, entry); err != nil {
+			panic(err)
+		}
+
+		return b.String()
+	}
 }
 
 func negationIndicator(entry models.Entry) string {
@@ -194,4 +209,8 @@ func codeDisplay(entry models.Entry, options map[string]interface{}) string {
 	//       end
 
 	return fmt.Sprintf("%s </%s>", codeString, tagName)
+}
+
+func isR2Compatable(i interface{}) bool {
+
 }
