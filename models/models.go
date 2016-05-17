@@ -24,8 +24,9 @@ type Device struct {
 }
 
 type Entity struct {
-	Addresses []Address `json:"addresses,omitempty"`
-	Telecoms  []Telecom `json:"telecoms,omitempty"`
+	Ids       []CDAIdentifier `json:"omitempty"`
+	Addresses []Address       `json:"addresses,omitempty"`
+	Telecoms  []Telecom       `json:"telecoms,omitempty"`
 }
 
 type Person struct {
@@ -40,7 +41,8 @@ type Person struct {
 
 type Organization struct {
 	Entity
-	Name string `json:"name,omitempty"`
+	Name    string `json:"name,omitempty"`
+	TagName string `json:"tag_name,omitempty"`
 }
 
 type Address struct {
