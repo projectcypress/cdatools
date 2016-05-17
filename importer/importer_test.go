@@ -4,12 +4,13 @@ import (
 	"io/ioutil"
 	"testing"
 
+	"strconv"
+
 	"github.com/moovweb/gokogiri/xml"
 	"github.com/moovweb/gokogiri/xpath"
 	"github.com/pebbe/util"
 	"github.com/projectcypress/cdatools/models"
 	. "gopkg.in/check.v1"
-	"strconv"
 )
 
 type ImporterSuite struct {
@@ -45,9 +46,9 @@ func (i *ImporterSuite) TestExtractDemograpics(c *C) {
 	c.Assert(i.patient.Last, Equals, "Flores")
 	c.Assert(i.patient.Birthdate, Equals, int64(599646600))
 	c.Assert(i.patient.Race.Code, Equals, "1002-5")
-	c.Assert(i.patient.Race.CodeSet, Equals, "CDC Race and Ethnicity")
+	c.Assert(i.patient.Race.CodeSystem, Equals, "CDC Race and Ethnicity")
 	c.Assert(i.patient.Ethnicity.Code, Equals, "2186-5")
-	c.Assert(i.patient.Ethnicity.CodeSet, Equals, "CDC Race and Ethnicity")
+	c.Assert(i.patient.Ethnicity.CodeSystem, Equals, "CDC Race and Ethnicity")
 }
 
 func (i *ImporterSuite) TestExtractEncountersPerformed(c *C) {

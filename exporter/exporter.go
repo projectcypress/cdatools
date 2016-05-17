@@ -165,8 +165,8 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 			models.Author{
 				Time: 1449686219,
 				Entity: models.Entity{
-					Ids: []models.ID{
-						models.ID{
+					Ids: []models.CDAIdentifier{
+						models.CDAIdentifier{
 							Root:      "authorRoot",
 							Extension: "authorExtension",
 						},
@@ -197,8 +197,8 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 				},
 				Organization: models.Organization{
 					Entity: models.Entity{
-						Ids: []models.ID{
-							models.ID{
+						Ids: []models.CDAIdentifier{
+							models.CDAIdentifier{
 								Root:      "authorsOrganizationRoot",
 								Extension: "authorsOrganizationExt",
 							},
@@ -211,8 +211,8 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 		},
 		Custodian: models.Author{
 			Entity: models.Entity{
-				Ids: []models.ID{
-					models.ID{
+				Ids: []models.CDAIdentifier{
+					models.CDAIdentifier{
 						Root:      "custodianRoot",
 						Extension: "custodianExtension",
 					},
@@ -224,8 +224,8 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 			},
 			Organization: models.Organization{
 				Entity: models.Entity{
-					Ids: []models.ID{
-						models.ID{
+					Ids: []models.CDAIdentifier{
+						models.CDAIdentifier{
 							Root:      "custodianOrganizationRoot",
 							Extension: "custodianOrganzationExt",
 						},
@@ -257,8 +257,8 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 		Authenticator: models.Authenticator{
 			Author: models.Author{
 				Entity: models.Entity{
-					Ids: []models.ID{
-						models.ID{
+					Ids: []models.CDAIdentifier{
+						models.CDAIdentifier{
 							Root:      "legalAuthenticatorRoot",
 							Extension: "legalAuthenticatorExt",
 						},
@@ -290,8 +290,8 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 				},
 				Organization: models.Organization{
 					Entity: models.Entity{
-						Ids: []models.ID{
-							models.ID{
+						Ids: []models.CDAIdentifier{
+							models.CDAIdentifier{
 								Root:      "legalAuthenticatorOrgRoot",
 								Extension: "legalAuthenticatorOrgExt",
 							},
