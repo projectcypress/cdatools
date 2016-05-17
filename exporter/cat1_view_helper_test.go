@@ -19,6 +19,7 @@ func TestValueOrNullFlavor(t *testing.T) {
 func TestEscape(t *testing.T) {
 	assert.Equal(t, escape("&"), "&amp;")
 	assert.Equal(t, escape(1), "1")
+	assert.Equal(t, "42", escape(int64(42)))
 	assert.Equal(t, escape(nil), "")
 }
 
@@ -45,4 +46,21 @@ func TestOidForCode(t *testing.T) {
 
 	assert.Equal(t, oidForCode(coded, vsoids), "2.16.840.1.113883.3.117.1.7.1.70")
 	assert.Equal(t, oidForCode(coded2, vsoids), "")
+}
+
+func TestIdentifierForString(t *testing.T) {
+	assert.Equal(t, "ACBD18DB4CC2F85CEDEF654FCCC4A4D8", identifierForString("foo"))
+}
+
+func TestIdentifierForInt(t *testing.T) {
+	assert.Equal(t, "0C34B280850AF1B31ED2973D71ED43DA", identifierForInt(42))
+}
+
+func TestTimeToFormat(t *testing.T) {
+	assert.Equal(t, "20151231", timeToFormat(1451606400, "20060102"))
+}
+
+func TestNegationIndicator(t *testing.T) {
+	assert.Equal(t, "", negationIndicator(models.Entry{}))
+	assert.Equal(t, "negationInd='true'", negationIndicator(models.Entry{NegationInd: true}))
 }
