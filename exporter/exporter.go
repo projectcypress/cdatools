@@ -123,7 +123,8 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 		"escape":                  escape,
 		"entriesForPatient":       entriesForPatient,
 		"executeTemplateForEntry": generateExecuteTemplateForEntry(cat1Template),
-		"isR2": isR2Compatable,
+		"isR2":        IsR2Compatible,
+		"codeDisplay": codeDisplay,
 	}
 
 	cat1Template.Funcs(funcMap)

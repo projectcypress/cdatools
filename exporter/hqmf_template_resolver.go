@@ -97,7 +97,6 @@ func GetMap(r2Compat bool) map[string]models.DataCriteria {
 func HqmfToQrdaOid(hqmfOid string) string {
 	initializeMap()
 	var qrdaOidToReturn string
-	fmt.Printf(" -> hqmfQrdaMap is %v long\n", len(hqmfQrdaMap))
 	for curHqmfOid, hqmfQrdaMapVal := range hqmfQrdaMap {
 		if hqmfOid == curHqmfOid {
 			if qrdaOidToReturn != "" {
@@ -107,4 +106,10 @@ func HqmfToQrdaOid(hqmfOid string) string {
 		}
 	}
 	return qrdaOidToReturn
+}
+
+func IsR2Compatible(i interface{}) bool {
+	initializeMap()
+	entry := models.ExtractEntry(i)
+	return hqmfQrdaMap[entry.Oid] != nil
 }

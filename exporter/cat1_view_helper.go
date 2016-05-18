@@ -210,7 +210,3 @@ func codeDisplay(entry models.Entry, options map[string]interface{}) string {
 
 	return fmt.Sprintf("%s </%s>", codeString, tagName)
 }
-
-func isR2Compatable(i interface{}) bool {
-	return false
-}
