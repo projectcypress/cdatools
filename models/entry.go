@@ -16,7 +16,7 @@ type Entry struct {
 	Description    string              `json:"description,omitempty"`
 	NegationInd    bool                `json:"negationInd,omitempty"`
 	NegationReason CodedConcept        `json:"negationReason,omitempty"`
-	Values         []ResultValue       `bson:"values,omitempty"`
+	Values         []ResultValue       `json:"values,omitempty"`
 	StatusCode     map[string][]string `json:"status_code,omitempty"`
 	Reason         CodedConcept        `json:"reason,omitempty"`
 	TransferTo     Transfer            `json:"transferTo,omitempty"`
