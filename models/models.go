@@ -24,7 +24,7 @@ type Device struct {
 }
 
 type Entity struct {
-	Ids       []CDAIdentifier `json:"omitempty"`
+	Ids       []CDAIdentifier `json:"ids,omitempty"`
 	Addresses []Address       `json:"addresses,omitempty"`
 	Telecoms  []Telecom       `json:"telecoms,omitempty"`
 }
@@ -67,7 +67,6 @@ type Record struct {
 	Person                `json:",inline"`
 	MedicalRecordNumber   string                `json:"medical_record_number,omitempty"`
 	MedicalRecordAssigner string                `json:"medical_record_assigner,omitempty"`
-	BirthDate             int64                 `json:"birthdate,omitempty"`
 	DeathDate             int64                 `json:"deathdate,omitempty"`
 	Expired               bool                  `json:"expired,omitempty"`
 	Encounters            []Encounter           `json:"encounters,omitempty"`
@@ -76,11 +75,11 @@ type Record struct {
 	ProviderPerformances  []ProviderPerformance `json:"provider_performances,omitempty"`
 	InsuranceProviders    []InsuranceProvider   `json:"insurance_providers,omitempty"`
 	Procedures            []Procedure           `json:"procedures,omitempty"`
-	Medications           []Medication          `json:"medications, omitempty"`
+	Medications           []Medication          `json:"medications,omitempty"`
 	Allergies             []Allergy             `json:"allergies,omitempty"`
 	Conditions            []Condition           `json:"conditions,omitempty"`
 	Communications        []Communication       `json:"communications,omitempty"`
-	MedicalEquipment      []MedicalEquipment    `json:"medical_equipment,omitempty`
+	MedicalEquipment      []MedicalEquipment    `json:"medical_equipment,omitempty"`
 	CareGoals             []CareGoal            `json:"care_goals,omitempty"`
 }
 
