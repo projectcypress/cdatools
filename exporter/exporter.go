@@ -42,6 +42,12 @@ type mdc struct {
 	dcKey
 }
 
+// passed into each qrda oid (entry) template
+type entryInfo struct {
+	EntrySection    interface{}
+	MapDataCriteria mdc
+}
+
 func uniqueDataCriteria(allDataCriteria []models.DataCriteria) []mdc {
 	mappedDataCriteria := map[dcKey]mdc{}
 	for _, dataCriteria := range allDataCriteria {
@@ -121,10 +127,16 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 		"identifierForInt":        identifierForInt,
 		"identifierForString":     identifierForString,
 		"escape":                  escape,
-		"entriesForPatient":       entriesForPatient,
+		"entryInfosForPatient":    entryInfosForPatient,
 		"executeTemplateForEntry": generateExecuteTemplateForEntry(cat1Template),
-		"isR2":        IsR2Compatible,
-		"codeDisplay": codeDisplay,
+		"isR2":                        IsR2Compatible,
+		"codeDisplay":                 codeDisplay,
+		"toMap":                       toMap,
+		"toStringSlice":               toStringSlice,
+		"condAssign":                  condAssign,
+		"valueOrNullFlavor":           valueOrNullFlavor,
+		"dischargeDispositionDisplay": dischargeDispositionDisplay,
+		"sdtcValueSetAttribute":       sdtcValueSetAttribute,
 	}
 
 	cat1Template.Funcs(funcMap)

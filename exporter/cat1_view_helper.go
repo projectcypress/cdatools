@@ -5,6 +5,7 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"encoding/xml"
+	"errors"
 	"fmt"
 	"strconv"
 	"strings"
@@ -59,32 +60,39 @@ func identifierForString(objs ...string) string {
 	return identifierFor([]byte(b))
 }
 
-func entriesForPatient(patient models.Record, measures []models.Measure) []interface{} {
-	udcs := uniqueDataCriteria(allDataCriteria(measures))
-	var entries []interface{}
-	for _, udc := range udcs {
-		entries = append(entries, entriesForDataCriteria(udc.DataCriteria, patient)...)
+// create entryInfos for each entry. entryInfos have mapped data criteria (mdc) recieved from the uniqueDataCriteria() function
+func entryInfosForPatient(patient models.Record, measures []models.Measure) []interface{} {
+	mappedDataCriterias := uniqueDataCriteria(allDataCriteria(measures))
+	var entryInfos []interface{}
+	for _, mappedDataCriteria := range mappedDataCriterias {
+		entries := entriesForDataCriteria(mappedDataCriteria.DataCriteria, patient)
+		entryInfos = appendEntryInfos(entryInfos, entries, mappedDataCriteria)
 	}
-	var retEntries []interface{}
+	return entryInfos
+}
+
+// append an entryInfo to entryInfos for each entry
+func appendEntryInfos(entryInfos []interface{}, entries []interface{}, mappedDataCriteria mdc) []interface{} {
 	for _, entry := range entries {
 		if entry != nil {
-			retEntries = append(retEntries, entry)
+			entryInfo := entryInfo{EntrySection: entry, MapDataCriteria: mappedDataCriteria}
+			entryInfos = append(entryInfos, entryInfo)
 		}
 	}
-	return retEntries
+	return entryInfos
 }
 
 // git blame schreiber
 // returns a function for executing a template based on the qrda oid
 //   this is done so we have access to cat1Template when calling this function from _patient_data.xml
-func generateExecuteTemplateForEntry(cat1Template *template.Template) func(interface{}) string {
-	return func(e interface{}) string {
-		entry := models.ExtractEntry(e)
+func generateExecuteTemplateForEntry(cat1Template *template.Template) func(entryInfo) string {
+	return func(ei entryInfo) string {
+		entry := models.ExtractEntry(ei.EntrySection) //
 		qrdaOid := HqmfToQrdaOid(entry.Oid)
 
 		templateName := fmt.Sprintf("_%v.xml", qrdaOid)
 		var b bytes.Buffer
-		if err := cat1Template.ExecuteTemplate(&b, templateName, entry); err != nil {
+		if err := cat1Template.ExecuteTemplate(&b, templateName, ei); err != nil {
 			panic(err)
 		}
 
@@ -166,27 +174,37 @@ func valueOrDefault(val interface{}, def interface{}) interface{} {
 	return def
 }
 
-func codeDisplay(entry models.Entry, options map[string]interface{}) string {
+// conditional assignment. returns the second value only if the first value is zero
+// TODO: make arguments and return type interface{}. add "value is empty, zero, or nil" to description
+func condAssign(first int64, second int64) int64 {
+	if first != 0 {
+		return first
+	}
+	return second
+}
+
+func codeDisplay(i interface{}, options map[string]interface{}) string {
+	entry := models.ExtractEntry(i)
 	tagName := valueOrDefault(options["tag_name"], "code")
 	attribute := valueOrDefault(options["attribute"], "codes")
 	excludeNullFlavor := valueOrDefault(options["exclude_null_flavor"], false)
 	extraContent := valueOrDefault(options["extra_content"], "")
 	var codeString string
-	var pcs []string
-	if options["preferred_code_sets"] == "*" {
-		pcs = models.CodeSystemNames()
-	} else {
-		pcs = options["preferred_code_sets"].([]string)
+
+	// preferred code sets should get all code system names if "*" is included in options["preferred_code_sets"]
+	preferredCodeSets := make([]string, len(options["preferred_code_sets"].([]string)))
+	for j, codeSet := range options["preferred_code_sets"].([]string) {
+		preferredCodeSets[j] = codeSet
+	}
+	if stringInSlice("*", preferredCodeSets) {
+		preferredCodeSets = models.CodeSystemNames()
 	}
 
-	if pcs != nil {
-	}
 	// need to replace this with actual call to entry.perferredCode once implmented
-	preferredCode := map[string]string{"code": "1234",
-		"code_set": "SNOMED-CT"}
+	preferredCode := map[string]string{"code": "1234", "code_set": "SNOMED-CT"}
 	if preferredCode != nil {
 		oid := models.OidForCodeSystem(preferredCode["code_set"])
-		codeString = fmt.Sprintf("<%s code='%s' codeSystem='%s' %s>", tagName, preferredCode["code"], oid, extraContent)
+		codeString = fmt.Sprintf("<%s code='%s' codeSystem='%s' %s>", tagName.(string), preferredCode["code"], oid, extraContent.(string))
 	} else {
 		var buffer bytes.Buffer
 		buffer.WriteString(fmt.Sprintf("<%s ", tagName))
@@ -207,6 +225,47 @@ func codeDisplay(entry models.Entry, options map[string]interface{}) string {
 	//           code_string += "<translation code=\"#{translation['code']}\" codeSystem=\"#{HealthDataStandards::Util::CodeSystemHelper.oid_for_code_system(translation['code_set'])}\"/>\n"
 	//         end
 	//       end
+	return fmt.Sprintf("%s </%s>", codeString, tagName.(string))
+}
 
-	return fmt.Sprintf("%s </%s>", codeString, tagName)
+// dd stands for discharge disposition
+func dischargeDispositionDisplay(dd map[string]string) string {
+	// set code system
+	codeSystem := models.OidForCodeSystem(dd["code_system"])
+	if codeSystem == "" {
+		codeSystem = dd["code_system"]
+	}
+	return fmt.Sprintf("<sdtc:dischargeDispositionCode code=\"%s\" codeSystem=\"%s\"/>", dd["code"], codeSystem)
+}
+
+func sdtcValueSetAttribute(oid string) string {
+	return "sdtc:valueSet=\"" + oid + "\""
+}
+
+func toMap(values ...interface{}) (map[string]interface{}, error) {
+	if len(values)%2 != 0 { // if there are not values for each key (uneven number of arguments for this function)
+		return nil, errors.New("number of arguments must be even")
+	}
+	dic := make(map[string]interface{}, len(values)/2)
+	for i := 0; i < len(values); i += 2 {
+		if key, ok := values[i].(string); ok {
+			dic[key] = values[i+1] // add key-value pair to dic if key can be converted to string
+		} else {
+			return nil, errors.New("dic keys must be strings")
+		}
+	}
+	return dic, nil
+}
+
+func toStringSlice(values ...string) []string {
+	return values
+}
+
+func stringInSlice(str string, list []string) bool {
+	for _, elem := range list {
+		if elem == str {
+			return true
+		}
+	}
+	return false
 }

@@ -108,6 +108,7 @@ func HqmfToQrdaOid(hqmfOid string) string {
 	return qrdaOidToReturn
 }
 
+// input interface should be an entry
 func IsR2Compatible(i interface{}) bool {
 	initializeMap()
 	entry := models.ExtractEntry(i)
