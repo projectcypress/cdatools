@@ -9,6 +9,14 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+// {"field_oids" : {"REASON" : [], "ORDINAL" : [], "SEVERITY": [], "ROUTE":[]}}
+ var fieldOids = map[string][]string{"REASON" : []string{"1.2.3.4.5.6.7.8.9.11"},
+																	   "ORDINAL" :  []string{"1.2.3.4.5.6.7.8.9.10"},
+																	   "SEVERITY":  []string{"1.2.3.4.5.6.7.8.9.13"},
+																		 "ROUTE":  []string{"1.2.3.4.5.6.7.8.9.12"}}
+ var resultOids = []string{"1.2.3.4.5.6.7.8.9.14"}
+ var vsOid = "1.2.3.4.5.6.7.8.9"
+
 func TestValueOrNullFlavor(t *testing.T) {
 	assert.Equal(t, valueOrNullFlavor(nil), "nullFlavor='UNK'")
 	assert.Equal(t, valueOrNullFlavor(0), "value='196912311900'")
