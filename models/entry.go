@@ -60,3 +60,17 @@ func (e *Entry) AddScalarValue(value string, units string) {
 	val.Units = units
 	e.Values = append(e.Values, val)
 }
+
+func (e *Entry) PreferredCode(preferredCodeSets []string) Concept {
+	codeTypes := make([]string, len(e.Coded.Codes))
+	i := 0
+	for k := range e.Coded.Codes {
+		codeTypes[i] = k
+		i++
+	}
+	codes := computeIntersection(preferredCodeSets, codeTypes)
+	if len(codes) > 0 {
+		return Concept{CodeSystem: codes[0], Code: e.Coded.Codes[codes[0]][0]}
+	}
+	return Concept{}
+}
