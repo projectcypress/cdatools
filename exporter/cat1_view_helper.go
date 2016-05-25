@@ -45,6 +45,19 @@ func identifierFor(b []byte) string {
 	return escapeString(strings.ToUpper(hex.EncodeToString(md[:])))
 }
 
+func identifierForInterface(objs ...interface{}) string {
+	b := make([]byte, len(objs))
+	for _, obj := range objs {
+		switch obj.(type) {
+		case int64:
+			b = append(b, []byte(strconv.FormatInt(obj.(int64), 10))...)
+		case string:
+			b = append(b, []byte(obj.(string))...)
+		}
+	}
+	return identifierFor(b)
+}
+
 // IdentifierForInt generates an MD5 representation of a set of int64s
 func identifierForInt(objs ...int64) string {
 	b := make([]byte, len(objs))
@@ -61,18 +74,45 @@ func identifierForString(objs ...string) string {
 }
 
 // create entryInfos for each entry. entryInfos have mapped data criteria (mdc) recieved from the uniqueDataCriteria() function
-func entryInfosForPatient(patient models.Record, measures []models.Measure) []interface{} {
+// also adds code displays struct to each entry
+func entryInfosForPatient(patient models.Record, measures []models.Measure) []entryInfo {
 	mappedDataCriterias := uniqueDataCriteria(allDataCriteria(measures))
-	var entryInfos []interface{}
+	var entryInfos []entryInfo
 	for _, mappedDataCriteria := range mappedDataCriterias {
-		entries := entriesForDataCriteria(mappedDataCriteria.DataCriteria, patient)
-		entryInfos = appendEntryInfos(entryInfos, entries, mappedDataCriteria)
+		entrySections := entriesForDataCriteria(mappedDataCriteria.DataCriteria, patient)
+		// add code displays struct to each entry
+		for i, entrySection := range entrySections {
+			if entrySection != nil {
+				entry := models.ExtractEntry(&entrySections[i])
+				entry.CodeDisplays = codeDisplayForQrdaOid(HqmfToQrdaOid(entry.Oid))
+				allPerferredCodeSetsIfNeeded(entry.CodeDisplays)
+				setPreferredCodes(entry.CodeDisplays)
+			}
+		}
+		entryInfos = appendEntryInfos(entryInfos, entrySections, mappedDataCriteria)
 	}
 	return entryInfos
 }
 
+// adds all code system names to preferred code sets if "*" is present in the existant preferred code sets
+func allPerferredCodeSetsIfNeeded(cds []models.CodeDisplay) {
+	for i, _ := range cds {
+		if stringInSlice("*", cds[i].PreferredCodeSets) {
+			cds[i].PreferredCodeSets = models.CodeSystemNames()
+		}
+	}
+}
+
+// CURRENTLY NOT IMPLEMENTED CORRECTLY
+func setPreferredCodes(cds []models.CodeDisplay) {
+	for i, _ := range cds {
+		cds[i].PreferredCode.Code = ""
+		cds[i].PreferredCode.CodeSet = "SNOMED-CT"
+	}
+}
+
 // append an entryInfo to entryInfos for each entry
-func appendEntryInfos(entryInfos []interface{}, entries []interface{}, mappedDataCriteria mdc) []interface{} {
+func appendEntryInfos(entryInfos []entryInfo, entries []interface{}, mappedDataCriteria mdc) []entryInfo {
 	for _, entry := range entries {
 		if entry != nil {
 			entryInfo := entryInfo{EntrySection: entry, MapDataCriteria: mappedDataCriteria}
@@ -87,7 +127,7 @@ func appendEntryInfos(entryInfos []interface{}, entries []interface{}, mappedDat
 //   this is done so we have access to cat1Template when calling this function from _patient_data.xml
 func generateExecuteTemplateForEntry(cat1Template *template.Template) func(entryInfo) string {
 	return func(ei entryInfo) string {
-		entry := models.ExtractEntry(ei.EntrySection) //
+		entry := models.ExtractEntry(&ei.EntrySection)
 		qrdaOid := HqmfToQrdaOid(entry.Oid)
 
 		templateName := fmt.Sprintf("_%v.xml", qrdaOid)
@@ -183,17 +223,30 @@ func condAssign(first int64, second int64) int64 {
 	return second
 }
 
-func codeDisplay(i interface{}, options map[string]interface{}) string {
-	entry := models.ExtractEntry(i)
-	tagName := valueOrDefault(options["tag_name"], "code")
-	attribute := valueOrDefault(options["attribute"], "codes")
-	excludeNullFlavor := valueOrDefault(options["exclude_null_flavor"], false)
-	extraContent := valueOrDefault(options["extra_content"], "")
+func codeToDisplay(i interface{}, codeType string) (models.CodeDisplay, error) {
+	entry := models.ExtractEntry(&i)
+	return entry.GetCodeDisplay(codeType)
+}
+
+func codeDisplay(i interface{}, codeType string) string {
+	entry := models.ExtractEntry(&i)
+
+	// var found bool
+	codeDisplayInfo, err := entry.GetCodeDisplay(codeType)
+	if err != nil {
+		return ""
+	}
+
+	// get code display information from codeDisplayInfo
+	tagName := valueOrDefault(codeDisplayInfo.TagName, "code")
+	attribute := valueOrDefault(codeDisplayInfo.Attribute, "codes")
+	excludeNullFlavor := valueOrDefault(codeDisplayInfo.ExcludeNullFlavor, false)
+	extraContent := valueOrDefault(codeDisplayInfo.ExtraContent, "")
 	var codeString string
 
 	// preferred code sets should get all code system names if "*" is included in options["preferred_code_sets"]
-	preferredCodeSets := make([]string, len(options["preferred_code_sets"].([]string)))
-	for j, codeSet := range options["preferred_code_sets"].([]string) {
+	preferredCodeSets := make([]string, len(codeDisplayInfo.PreferredCodeSets))
+	for j, codeSet := range codeDisplayInfo.PreferredCodeSets {
 		preferredCodeSets[j] = codeSet
 	}
 	if stringInSlice("*", preferredCodeSets) {
@@ -225,6 +278,7 @@ func codeDisplay(i interface{}, options map[string]interface{}) string {
 	//           code_string += "<translation code=\"#{translation['code']}\" codeSystem=\"#{HealthDataStandards::Util::CodeSystemHelper.oid_for_code_system(translation['code_set'])}\"/>\n"
 	//         end
 	//       end
+
 	return fmt.Sprintf("%s </%s>", codeString, tagName.(string))
 }
 
@@ -239,7 +293,36 @@ func dischargeDispositionDisplay(dd map[string]string) string {
 }
 
 func sdtcValueSetAttribute(oid string) string {
+	if oid == "" {
+		return ""
+	}
 	return "sdtc:valueSet=\"" + oid + "\""
+}
+
+func getTransferOid(dc models.DataCriteria, key string) string {
+	if fieldValue := dc.FieldValues[key]; fieldValue != (models.FieldValue{}) {
+		return fieldValue.CodeListID
+	}
+	return ""
+}
+
+func oidForCodeSystem(codeSystem string) string {
+	return models.OidForCodeSystem(codeSystem)
+}
+
+func hasReason(entry models.Entry) bool {
+	if entry.NegationReason != (models.CodedConcept{}) || entry.Reason != (models.CodedConcept{}) {
+		return true
+	}
+	return false
+}
+
+func hasPreferredCode(pc models.PreferredCode) bool {
+	return pc.Code != "" && pc.CodeSet != ""
+}
+
+func codeDisplayAttributeIsCodes(attribute string) bool {
+	return attribute == "codes"
 }
 
 func toMap(values ...interface{}) (map[string]interface{}, error) {

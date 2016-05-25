@@ -147,7 +147,17 @@
     "hqmf_name": "Encounter, Performed",
     "hqmf_oid": "2.16.840.1.113883.3.560.1.79",
     "qrda_name": "Encounter Performed",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.23"
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.23",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": true,
+        "extra_content": "my_extra_content",
+        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "CPT"]
+      }
+    ]
   },
   {
     "hqmf_name": "Encounter, Recommended",

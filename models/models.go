@@ -146,7 +146,7 @@ func (r *Record) EntriesForOid(oid string) []interface{} {
 	var matchedEntries []interface{}
 	for _, entry := range r.Entries() {
 
-		if ExtractEntry(entry).Oid == oid {
+		if ExtractEntry(&entry).Oid == oid {
 			matchedEntries = append(matchedEntries, entry)
 		}
 	}

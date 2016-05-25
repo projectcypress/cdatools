@@ -13,8 +13,17 @@ var hqmfR2Map map[string]models.DataCriteria
 var hqmfMap map[string]models.DataCriteria
 var idMap map[string]string
 var idR2Map map[string]string
-var hqmfQrdaMap map[string]map[string]string
+var hqmfQrdaMap map[string]map[string]string           // maps qrda oids to hqmf oids
+var qrdaCodeDisplayMap map[string][]models.CodeDisplay // maps qrda oids to maps containing code display information
 var hqmfMapInit sync.Once
+
+type HqmfQrdaOidsWithCodeDisplays struct {
+	HqmfName     string               `json:"hqmf_name,omitempty"`
+	HqmfOid      string               `json:"hqmf_oid,omitempty"`
+	QrdaName     string               `json:"qrda_name,omitempty"`
+	QrdaOid      string               `json:"qrda_oid,omitempty"`
+	CodeDisplays []models.CodeDisplay `json:"code_displays,omitempty"`
+}
 
 func initializeMap() {
 	hqmfMapInit.Do(func() {
@@ -55,15 +64,26 @@ func importHqmfQrdaJSON() {
 	}
 
 	// unmarshal from "hqmf_qrda_oids.json" to hqmfQrdaOids variable
-	var hqmfQrdaOids []map[string]string
+	var hqmfQrdaOids []HqmfQrdaOidsWithCodeDisplays
 	if err := json.Unmarshal(data, &hqmfQrdaOids); err != nil {
 		util.CheckErr(err)
 	}
 
-	// create hqmfQrdaMap from hqmfQrdaOids variable
+	// create qrdaCodeDisplayMap
+	qrdaCodeDisplayMap = make(map[string][]models.CodeDisplay)
+	for _, oidsElem := range hqmfQrdaOids {
+		qrdaCodeDisplayMap[oidsElem.QrdaOid] = oidsElem.CodeDisplays
+	}
+
+	// create hqmfQrdaMap (map) from hqmfQrdaOids (array of HqmfQrdaOidsWithCodeDisplays structs)
 	hqmfQrdaMap = map[string]map[string]string{}
-	for _, hqmfQrdaOidElement := range hqmfQrdaOids {
-		hqmfQrdaMap[hqmfQrdaOidElement["hqmf_oid"]] = hqmfQrdaOidElement
+	for _, oidsElem := range hqmfQrdaOids {
+		hqmfQrdaMapElem := make(map[string]string)
+		hqmfQrdaMapElem["hqmf_name"] = oidsElem.HqmfName
+		hqmfQrdaMapElem["hqmf_oid"] = oidsElem.HqmfOid
+		hqmfQrdaMapElem["qrda_name"] = oidsElem.QrdaName
+		hqmfQrdaMapElem["qrda_oid"] = oidsElem.QrdaOid
+		hqmfQrdaMap[oidsElem.HqmfOid] = hqmfQrdaMapElem
 	}
 }
 
@@ -108,9 +128,16 @@ func HqmfToQrdaOid(hqmfOid string) string {
 	return qrdaOidToReturn
 }
 
+func codeDisplayForQrdaOid(oid string) []models.CodeDisplay {
+	if codeDisplays, ok := qrdaCodeDisplayMap[oid]; ok {
+		return codeDisplays
+	}
+	return []models.CodeDisplay{}
+}
+
 // input interface should be an entry
 func IsR2Compatible(i interface{}) bool {
 	initializeMap()
-	entry := models.ExtractEntry(i)
+	entry := models.ExtractEntry(&i)
 	return hqmfQrdaMap[entry.Oid] != nil
 }

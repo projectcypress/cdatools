@@ -12,7 +12,7 @@
     <text>
 
     </text>
-    {{range entryInfosForPatient .Record .Measures}}
+    {{range .EntryInfos}}
       {{executeTemplateForEntry .}}
     {{end}}
 </section>

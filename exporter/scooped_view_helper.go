@@ -97,7 +97,7 @@ func entriesForDataCriteria(dataCriteria models.DataCriteria, patient models.Rec
 		var negationRegexp = regexp.MustCompile(`2\.16\.840\.1\.113883\.3\.526\.3\.100[7-9]`)
 		for _, entry := range uniqueEntries {
 
-			entryData := models.ExtractEntry(entry)
+			entryData := models.ExtractEntry(&entry)
 
 			if negationRegexp.FindStringIndex(dataCriteria.CodeListID) != nil {
 				// Add the entry to FilteredEntries if entry.negation_reason['code'] is in codes

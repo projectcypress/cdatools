@@ -12,12 +12,13 @@ import (
 )
 
 type cat1data struct {
-	Record    models.Record
-	Header    models.Header
-	Measures  []models.Measure
-	ValueSets []models.ValueSet
-	StartDate int64
-	EndDate   int64
+	EntryInfos []entryInfo
+	Record     models.Record
+	Header     models.Header
+	Measures   []models.Measure
+	ValueSets  []models.ValueSet
+	StartDate  int64
+	EndDate    int64
 }
 
 func allDataCriteria(measures []models.Measure) []models.DataCriteria {
@@ -43,6 +44,7 @@ type mdc struct {
 }
 
 // passed into each qrda oid (entry) template
+// EntrySection should be a struct that includes entry attributes (ex. Procedure, Medication, ...)
 type entryInfo struct {
 	EntrySection    interface{}
 	MapDataCriteria mdc
@@ -111,16 +113,8 @@ func uniqueDataCriteria(allDataCriteria []models.DataCriteria) []mdc {
 	return retDataCriteria
 }
 
-//export GenerateCat1
-func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate int64, endDate int64) string {
-
-	data, err := AssetDir("templates/cat1")
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	cat1Template := template.New("cat1")
-	funcMap := template.FuncMap{
+func exporterFuncMap(cat1Template *template.Template) template.FuncMap {
+	return template.FuncMap{
 		"timeNow":                 time.Now().UTC().Unix,
 		"newRandom":               uuid.NewRandom,
 		"timeToFormat":            timeToFormat,
@@ -130,16 +124,33 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 		"entryInfosForPatient":    entryInfosForPatient,
 		"executeTemplateForEntry": generateExecuteTemplateForEntry(cat1Template),
 		"isR2":                        IsR2Compatible,
-		"codeDisplay":                 codeDisplay,
 		"toMap":                       toMap,
 		"toStringSlice":               toStringSlice,
 		"condAssign":                  condAssign,
 		"valueOrNullFlavor":           valueOrNullFlavor,
 		"dischargeDispositionDisplay": dischargeDispositionDisplay,
 		"sdtcValueSetAttribute":       sdtcValueSetAttribute,
+		"getTransferOid":              getTransferOid,
+		"hasReason":                   hasReason,
+		"identifierForInterface":      identifierForInterface,
+		"codeToDisplay":               codeToDisplay,
+		"valueOrDefault":              valueOrDefault,
+		"oidForCodeSystem":            oidForCodeSystem,
+		"codeDisplayAttributeIsCodes": codeDisplayAttributeIsCodes,
+		"hasPreferredCode":            hasPreferredCode,
+	}
+}
+
+//export GenerateCat1
+func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate int64, endDate int64) string {
+
+	data, err := AssetDir("templates/cat1")
+	if err != nil {
+		fmt.Println(err)
 	}
 
-	cat1Template.Funcs(funcMap)
+	cat1Template := template.New("cat1")
+	cat1Template.Funcs(exporterFuncMap(cat1Template))
 
 	for _, d := range data {
 		asset, _ := Asset("templates/cat1/" + d)
@@ -299,7 +310,7 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 
 	initializeVsMap(vs)
 
-	c1d := cat1data{Record: *p, Header: *h, Measures: m, ValueSets: vs, StartDate: startDate, EndDate: endDate}
+	c1d := cat1data{Record: *p, Header: *h, Measures: m, ValueSets: vs, StartDate: startDate, EndDate: endDate, EntryInfos: entryInfosForPatient(*p, m)}
 
 	var b bytes.Buffer
 

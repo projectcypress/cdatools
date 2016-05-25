@@ -36,12 +36,17 @@ func TestValueOrDefault(t *testing.T) {
 	assert.Equal(t, valueOrDefault("hey", "hey thar"), "hey")
 }
 
-func TestCodeDisplay(t *testing.T) {
-	var entry = models.Entry{}
-	var m = make(map[string]interface{})
-	m["preferred_code_sets"] = []string{"*"}
-	assert.Equal(t, codeDisplay(entry, m), "<code code='1234' codeSystem='2.16.840.1.113883.6.96' ><originalText></originalText> </code>")
-}
+// func TestCodeDisplay(t *testing.T) {
+// 	var entry = models.Entry{}
+// 	cds := make([]models.CodeDisplay, 1)
+// 	cd := models.CodeDisplay{}
+// 	cd.PreferredCodeSets = make([]string, 1)
+// 	cd.PreferredCodeSets[0] = "*"
+// 	cd.CodeType = "codeDisplayTest"
+// 	cds = append(cds, cd)
+// 	entry.CodeDisplays = cds
+// 	assert.Equal(t, codeDisplay(entry, "codeDisplayTest"), "<code code='1234' codeSystem='2.16.840.1.113883.6.96' ><originalText></originalText> </code>")
+// }
 
 func TestOidForCode(t *testing.T) {
 	valueSets, _ := ioutil.ReadFile("../fixtures/value_sets/CMS9_26.json")
@@ -71,4 +76,11 @@ func TestTimeToFormat(t *testing.T) {
 func TestNegationIndicator(t *testing.T) {
 	assert.Equal(t, "", negationIndicator(models.Entry{}))
 	assert.Equal(t, "negationInd='true'", negationIndicator(models.Entry{NegationInd: true}))
+}
+
+func TestIdentifierForInterface(t *testing.T) {
+	str1 := "first string"
+	str2 := "second string"
+	myInt := int64(5)
+	assert.NotEqual(t, identifierForInterface(str1, myInt), identifierForInterface(str2, myInt), "identifiers should not be equal for unequal strings")
 }
