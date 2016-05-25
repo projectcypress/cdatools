@@ -208,6 +208,13 @@ func valueOrNullFlavor(i interface{}) string {
 }
 
 func valueOrDefault(val interface{}, def interface{}) interface{} {
+	switch val.(type) {
+	case string:
+		if val != "" {
+			return val
+		}
+		return def
+	}
 	if val != nil {
 		return val
 	}

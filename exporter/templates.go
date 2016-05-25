@@ -120,7 +120,7 @@ func templatesCat1_2168401113883102024323Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/_2.16.840.1.113883.10.20.24.3.23.xml", size: 3455, mode: os.FileMode(420), modTime: time.Unix(1464119631, 0)}
+	info := bindataFileInfo{name: "templates/cat1/_2.16.840.1.113883.10.20.24.3.23.xml", size: 3455, mode: os.FileMode(420), modTime: time.Unix(1464192008, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -180,7 +180,7 @@ func templatesCat1_codeXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/_code.xml", size: 775, mode: os.FileMode(420), modTime: time.Unix(1464121133, 0)}
+	info := bindataFileInfo{name: "templates/cat1/_code.xml", size: 775, mode: os.FileMode(420), modTime: time.Unix(1464192008, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -260,7 +260,7 @@ func templatesCat1_patient_dataXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/_patient_data.xml", size: 641, mode: os.FileMode(420), modTime: time.Unix(1464032634, 0)}
+	info := bindataFileInfo{name: "templates/cat1/_patient_data.xml", size: 641, mode: os.FileMode(420), modTime: time.Unix(1464192008, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -300,7 +300,7 @@ func templatesCat1_reasonXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/_reason.xml", size: 394, mode: os.FileMode(420), modTime: time.Unix(1463760568, 0)}
+	info := bindataFileInfo{name: "templates/cat1/_reason.xml", size: 394, mode: os.FileMode(420), modTime: time.Unix(1464192008, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -440,7 +440,7 @@ func hqmf_qrda_oidsJson() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "hqmf_qrda_oids.json", size: 22227, mode: os.FileMode(420), modTime: time.Unix(1464118752, 0)}
+	info := bindataFileInfo{name: "hqmf_qrda_oids.json", size: 22227, mode: os.FileMode(420), modTime: time.Unix(1464192008, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
