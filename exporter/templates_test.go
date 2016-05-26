@@ -16,8 +16,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestCode(t *testing.T) {
-	t.Skip()
+func TestCodeTemplate(t *testing.T) {
 	// tag name is "code", has preferred code, attribute is not "codes"
 	preferredCode := models.Concept{Code: "my_code", CodeSystem: "SNOMED-CT"}
 	codeDisplay := models.CodeDisplay{CodeType: "my_code_type", TagName: "code", Attribute: "my_attr", PreferredCode: preferredCode, ExtraContent: "my_extra_content=\"extra_content_value\""}
@@ -45,9 +44,9 @@ func TestCode(t *testing.T) {
 }
 
 func xmlCodeRootNode(codeDisplay models.CodeDisplay) *xml.ElementNode {
-	entryInfo := entryInfoWithCodeDisplay(codeDisplay)
-	data, err := toMap("entryInfo", *entryInfo, "codeType", codeDisplay.CodeType)
-	util.CheckErr(err)
+	entry := &models.Entry{CodeDisplays: []models.CodeDisplay{codeDisplay}, Description: "my lil description"}
+	data := codeDisplayWithPreferredCode(entry, &entry.Coded, codeDisplay.CodeType)
+	data.Description = entry.Description
 	xmlString := generateXML("_code.xml", data)
 	// printXmlString(xmlString)
 	doc, err := xml.Parse([]byte(xmlString), nil, nil, 0, xml.DefaultEncodingBytes)
@@ -57,16 +56,9 @@ func xmlCodeRootNode(codeDisplay models.CodeDisplay) *xml.ElementNode {
 
 // just for debugging. remove later
 func printXmlString(xmlString string) {
-	fmt.Printf("\n====================")
+	fmt.Printf("\n====================\n")
 	fmt.Printf(xmlString)
 	fmt.Printf("\n====================\n\n")
-}
-
-func entryInfoWithCodeDisplay(codeDisplay models.CodeDisplay) *entryInfo {
-	encounter := models.Encounter{}
-	encounter.Entry = &models.Entry{CodeDisplays: []models.CodeDisplay{codeDisplay}, Description: "my lil description"}
-	entryInfo := entryInfo{EntrySection: encounter}
-	return &entryInfo
 }
 
 // test _2.16.840.1.113883.10.20.24.3.23.xml

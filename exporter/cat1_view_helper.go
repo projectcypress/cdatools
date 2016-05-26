@@ -85,12 +85,21 @@ func entryInfosForPatient(patient models.Record, measures []models.Measure) []en
 		for i, entrySection := range entrySections {
 			if entrySection != nil {
 				entry := models.ExtractEntry(&entrySections[i])
-				entry.CodeDisplays = codeDisplaysForEntry(entry)
+				SetCodeDisplaysForEntry(entry)
 			}
 		}
 		entryInfos = appendEntryInfos(entryInfos, entrySections, mappedDataCriteria)
 	}
 	return entryInfos
+}
+
+func SetCodeDisplaysForEntry(e *models.Entry) {
+	codeDisplays := codeDisplayForQrdaOid(HqmfToQrdaOid(e.Oid))
+	allPerferredCodeSetsIfNeeded(codeDisplays)
+	for i, _ := range codeDisplays {
+		codeDisplays[i].Description = e.Description
+	}
+	e.CodeDisplays = codeDisplays
 }
 
 // adds all code system names to preferred code sets if "*" is present in the existant preferred code sets
