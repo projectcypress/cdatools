@@ -30,19 +30,21 @@ type Entry struct {
 
 // used by exporter template to display a code. ex. (if TagName is priorityCode) <priorityCode code="1234"></priorityCode>
 type CodeDisplay struct {
-	CodeType          string        `json:"code_type,omitempty"`
-	TagName           string        `json:"tag_name,omitempty"`
-	Attribute         string        `json:"attribute,omitempty"`
-	ExcludeNullFlavor bool          `json:"exclude_null_flavor,omitempty"`
-	ExtraContent      string        `json:"extra_content,omitempty"`
-	PreferredCodeSets []string      `json:"preferred_code_sets,omitempty"`
-	PreferredCode     PreferredCode `json:"preferred_code,omitempty"`
+	CodeType               string   `json:"code_type,omitempty"`
+	TagName                string   `json:"tag_name,omitempty"`
+	Attribute              string   `json:"attribute,omitempty"`
+	ExcludeNullFlavor      bool     `json:"exclude_null_flavor,omitempty"`
+	ExtraContent           string   `json:"extra_content,omitempty"`
+	PreferredCodeSets      []string `json:"preferred_code_sets,omitempty"`
+	PreferredCode          Concept  `json:"preferred_code,omitempty"`
+	EntryFieldNameForCoded string   `json:"entry_field_name_for_coded"`
+	Description            string   `json:"description"`
 }
 
-type PreferredCode struct {
-	Code    string
-	CodeSet string
-}
+// type PreferredCode struct {
+// 	Code    string
+// 	CodeSet string
+// }
 
 func ExtractEntry(entry *interface{}) *Entry {
 
@@ -96,18 +98,4 @@ func (e *Entry) AddStringValue(value string, units string) {
 	val.Value = value
 	val.Units = units
 	e.Values = append(e.Values, val)
-}
-
-func (e *Entry) PreferredCode(preferredCodeSets []string) Concept {
-	codeTypes := make([]string, len(e.Coded.Codes))
-	i := 0
-	for k := range e.Coded.Codes {
-		codeTypes[i] = k
-		i++
-	}
-	codes := computeIntersection(preferredCodeSets, codeTypes)
-	if len(codes) > 0 {
-		return Concept{CodeSystem: codes[0], Code: e.Coded.Codes[codes[0]][0]}
-	}
-	return Concept{}
 }

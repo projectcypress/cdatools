@@ -7,6 +7,7 @@ import (
 	"encoding/xml"
 	"errors"
 	"fmt"
+	"github.com/pebbe/util"
 	"strconv"
 	"strings"
 	"text/template"
@@ -84,9 +85,7 @@ func entryInfosForPatient(patient models.Record, measures []models.Measure) []en
 		for i, entrySection := range entrySections {
 			if entrySection != nil {
 				entry := models.ExtractEntry(&entrySections[i])
-				entry.CodeDisplays = codeDisplayForQrdaOid(HqmfToQrdaOid(entry.Oid))
-				allPerferredCodeSetsIfNeeded(entry.CodeDisplays)
-				setPreferredCodes(entry.CodeDisplays)
+				entry.CodeDisplays = codeDisplaysForEntry(entry)
 			}
 		}
 		entryInfos = appendEntryInfos(entryInfos, entrySections, mappedDataCriteria)
@@ -100,14 +99,6 @@ func allPerferredCodeSetsIfNeeded(cds []models.CodeDisplay) {
 		if stringInSlice("*", cds[i].PreferredCodeSets) {
 			cds[i].PreferredCodeSets = models.CodeSystemNames()
 		}
-	}
-}
-
-// CURRENTLY NOT IMPLEMENTED CORRECTLY
-func setPreferredCodes(cds []models.CodeDisplay) {
-	for i, _ := range cds {
-		cds[i].PreferredCode.Code = ""
-		cds[i].PreferredCode.CodeSet = "SNOMED-CT"
 	}
 }
 
@@ -289,6 +280,13 @@ func codeDisplay(i interface{}, codeType string) string {
 	return fmt.Sprintf("%s </%s>", codeString, tagName.(string))
 }
 
+func codeDisplayWithPreferredCode(entry *models.Entry, coded *models.Coded, codeType string) models.CodeDisplay {
+	codeDisplay, err := entry.GetCodeDisplay(codeType)
+	util.CheckErr(err)
+	codeDisplay.PreferredCode = coded.PreferredCode(codeDisplay.PreferredCodeSets)
+	return codeDisplay
+}
+
 // dd stands for discharge disposition
 func dischargeDispositionDisplay(dd map[string]string) string {
 	// set code system
@@ -324,8 +322,8 @@ func hasReason(entry models.Entry) bool {
 	return false
 }
 
-func hasPreferredCode(pc models.PreferredCode) bool {
-	return pc.Code != "" && pc.CodeSet != ""
+func hasPreferredCode(pc models.Concept) bool {
+	return pc.Code != "" && pc.CodeSystem != ""
 }
 
 func codeDisplayAttributeIsCodes(attribute string) bool {

@@ -85,3 +85,17 @@ func computeIntersection(a []string, b []string) []string {
 	}
 	return intersect
 }
+
+func (c *Coded) PreferredCode(preferredCodeSets []string) Concept {
+	codeTypes := make([]string, len(c.Codes))
+	i := 0
+	for k := range c.Codes {
+		codeTypes[i] = k
+		i++
+	}
+	codes := computeIntersection(preferredCodeSets, codeTypes)
+	if len(codes) > 0 {
+		return Concept{CodeSystem: codes[0], Code: c.Codes[codes[0]][0]}
+	}
+	return Concept{}
+}

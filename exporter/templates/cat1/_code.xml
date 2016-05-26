@@ -1,16 +1,13 @@
-{{- $codeDisplay := codeToDisplay .entryInfo.EntrySection .codeType}}
-<{{- valueOrDefault $codeDisplay.TagName "code" -}}
-  {{- if hasPreferredCode $codeDisplay.PreferredCode}}
-    code='{{- $codeDisplay.PreferredCode.Code}}' codeSystem='{{- oidForCodeSystem $codeDisplay.PreferredCode.CodeSet}}' {{$codeDisplay.ExtraContent}}
+<{{- valueOrDefault .TagName "code" -}}
+  {{- if hasPreferredCode .PreferredCode}} code='{{- .PreferredCode.Code}}' codeSystem='{{- oidForCodeSystem .PreferredCode.CodeSystem}}' {{.ExtraContent}}
   {{- else}}
-    {{- $excludeNullFlavor := valueOrDefault $codeDisplay.ExcludeNullFlavor false}}
-    {{- if $excludeNullFlavor}}{{- else}}
-      nillFlavor='UNK'
+    {{- $excludeNullFlavor := valueOrDefault .ExcludeNullFlavor false}}
+    {{- if $excludeNullFlavor}}{{- else}} nillFlavor='UNK'
     {{- end}}
   {{- end -}}
 >
-  {{- $attribute := valueOrDefault $codeDisplay.Attribute "codes"}}
+  {{- $attribute := valueOrDefault .Attribute "codes"}}
   {{- if codeDisplayAttributeIsCodes $attribute}}
-    <originalText>{{- .entryInfo.EntrySection.Description}}</originalText>
+    <originalText>{{- .Description}}</originalText>
   {{- end}}
-</{{- valueOrDefault $codeDisplay.TagName "code"}}>
+</{{- valueOrDefault .TagName "code"}}>
