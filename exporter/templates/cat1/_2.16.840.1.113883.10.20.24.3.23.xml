@@ -33,8 +33,6 @@
             {{/* NOTE: did not add transfer_vs_map to options hash. should I do this? */}}
             {{/*$transferOid := getTransferOid .MapDataCriteria.DataCriteria "TRANSFER_FROM"*/}}
             {{/*$vsTag := sdtcValueSetAttribute $transferOid*/}}
-            {{/*codeDisplay .EntrySection $options*/}}
-            {{/*codeDisplay .EntrySection ""*/}}
             {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.TransferFrom.Coded "transferFrom"}}
           </participantRole>
         </participant>
@@ -48,8 +46,6 @@
             {{/* NOTE: did not add transfer_vs_map to options hash. should I do this? */}}
             {{/*$transferOid := getTransferOid .MapDataCriteria.DataCriteria "TRANSFER_TO"*/}}
             {{/*$vsTag := sdtcValueSetAttribute $transferOid*/}}
-            {{/*codeDisplay .EntrySection $options*/}}
-            {{/*codeDisplay .EntrySection ""*/}}
             {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.TransferTo.Coded "transferTo"}}
           </participantRole>
         </participant>

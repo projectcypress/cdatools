@@ -135,6 +135,7 @@ func exporterFuncMap(cat1Template *template.Template) template.FuncMap {
 		"identifierForInterface":       identifierForInterface,
 		"codeToDisplay":                codeToDisplay,
 		"valueOrDefault":               valueOrDefault,
+		"reasonValueSetOid":            reasonValueSetOid,
 		"oidForCodeSystem":             oidForCodeSystem,
 		"codeDisplayAttributeIsCodes":  codeDisplayAttributeIsCodes,
 		"hasPreferredCode":             hasPreferredCode,

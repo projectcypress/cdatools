@@ -15,6 +15,7 @@ var idMap map[string]string
 var idR2Map map[string]string
 var hqmfQrdaMap map[string]map[string]string           // maps qrda oids to hqmf oids
 var qrdaCodeDisplayMap map[string][]models.CodeDisplay // maps qrda oids to maps containing code display information
+var qrdaR2Oids map[string]bool                         // used to check R2 compatability
 var hqmfMapInit sync.Once
 
 type HqmfQrdaOidsWithCodeDisplays struct {
@@ -85,6 +86,14 @@ func importHqmfQrdaJSON() {
 		hqmfQrdaMapElem["qrda_oid"] = oidsElem.QrdaOid
 		hqmfQrdaMap[oidsElem.HqmfOid] = hqmfQrdaMapElem
 	}
+
+	// create qrdaR2Oids (map). qrdaR2Oids is used by IsR2Compatible() to check if an entry's qrda oid is R2 compatable
+	qrdaR2Oids = map[string]bool{}
+	for _, oidsElem := range hqmfQrdaOids {
+		if !qrdaR2Oids["not_a_key_yet"] {
+			qrdaR2Oids[oidsElem.QrdaOid] = true
+		}
+	}
 }
 
 func GetTemplateDefinition(id string, r2Compat bool) models.DataCriteria {
@@ -135,9 +144,9 @@ func codeDisplayForQrdaOid(oid string) []models.CodeDisplay {
 	return []models.CodeDisplay{}
 }
 
-// input interface should be an entry
+// input interface should be an entry section (ex. Procedure, Medication, ...)
 func IsR2Compatible(i interface{}) bool {
 	initializeMap()
 	entry := models.ExtractEntry(&i)
-	return hqmfQrdaMap[entry.Oid] != nil
+	return qrdaR2Oids[entry.Oid]
 }

@@ -99,3 +99,10 @@ func (e *Entry) AddStringValue(value string, units string) {
 	val.Units = units
 	e.Values = append(e.Values, val)
 }
+
+func (e *Entry) NegationReasonOrReason() CodedConcept {
+	if e.NegationReason != (CodedConcept{}) {
+		return e.NegationReason
+	}
+	return e.Reason
+}

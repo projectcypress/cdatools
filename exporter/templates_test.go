@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"strings"
 	"testing"
 	"text/template"
 
@@ -44,21 +45,81 @@ func TestCodeTemplate(t *testing.T) {
 }
 
 func xmlCodeRootNode(codeDisplay models.CodeDisplay) *xml.ElementNode {
-	entry := &models.Entry{CodeDisplays: []models.CodeDisplay{codeDisplay}, Description: "my lil description"}
-	data := codeDisplayWithPreferredCode(entry, &entry.Coded, codeDisplay.CodeType)
-	data.Description = entry.Description
-	xmlString := generateXML("_code.xml", data)
+	codeDisplay.Description = "my lil description"
+	xmlString := generateXML("_code.xml", codeDisplay)
 	// printXmlString(xmlString)
 	doc, err := xml.Parse([]byte(xmlString), nil, nil, 0, xml.DefaultEncodingBytes)
 	util.CheckErr(err)
 	return doc.Root()
 }
 
-// just for debugging. remove later
-func printXmlString(xmlString string) {
-	fmt.Printf("\n====================\n")
-	fmt.Printf(xmlString)
-	fmt.Printf("\n====================\n\n")
+func TestReasonTemplate(t *testing.T) {
+	// do not negate reason, r2 compatable
+	reason := models.CodedConcept{Code: "RESULT_CODE_1", CodeSystem: "2.16.840.1.113883.6.1"} // specified in cms9_26.json
+	rootNode := xmlReasonRootNode(reason, false, true)
+	assertXPath(t, rootNode, "//entryRelationship", map[string]string{"typeCode": "RSON"}, nil)
+	assertXPath(t, rootNode, "//entryRelationship/observation", map[string]string{"classCode": "OBS", "moodCode": "EVN"}, nil)
+	assertXPath(t, rootNode, "//entryRelationship/observation/templateId", map[string]string{"root": "2.16.840.1.113883.10.20.24.3.88"}, []string{"extension"})
+	assertXPath(t, rootNode, "//entryRelationship/observation/id", map[string]string{"root": "1.3.6.1.4.1.115"}, nil)
+	assertXPath(t, rootNode, "//entryRelationship/observation/code", map[string]string{"code": "410666004", "codeSystem": "2.16.840.1.113883.6.96", "displayName": "reason", "codeSystemName": "SNOMED CT"}, nil)
+	assertXPath(t, rootNode, "//entryRelationship/observation/statusCode", map[string]string{"code": "completed"}, nil)
+	assertXPath(t, rootNode, "//entryRelationship/observation/effectiveTime", map[string]string{"value": "196912311900"}, nil)
+	assertXPath(t, rootNode, "//entryRelationship/observation/value", map[string]string{"xsi:type": "CD", "code": "RESULT_CODE_1", "codeSystem": "2.16.840.1.113883.6.1", "sdtc:valueSet": "1.2.3.4.5.6.7.8.9.11"}, nil)
+
+	// do not negate reason, not r2 compatable
+	rootNode = xmlReasonRootNode(reason, false, false)
+	assertXPath(t, rootNode, "//entryRelationship/observation/templateId", map[string]string{"root": "2.16.840.1.113883.10.20.24.3.88", "extension": "2014-12-01"}, nil)
+	assertXPath(t, rootNode, "//entryRelationship/observation/code", map[string]string{"code": "77301-0", "codeSystem": "2.16.840.1.113883.6.1", "displayName": "reason", "codeSystemName": "LOINC"}, nil)
+	assertXPath(t, rootNode, "//entryRelationship/observation/effectiveTime/low", map[string]string{"value": "196912311900"}, nil)
+
+	// negate reason
+	rootNode = xmlReasonRootNode(reason, true, true)
+	assertXPath(t, rootNode, "//entryRelationship", nil, nil)
+
+	// reason that is not specifed by a measure
+	reason = models.CodedConcept{Code: "not_a_specified_code", CodeSystem: "¯\\_(ツ)_/¯"}
+	xmlString := generateXML("_reason.xml", *getReasonData(reason, false, true))
+	assert.Equal(t, "", strings.TrimSpace(xmlString))
+
+	// negate reason
+	// rootNode = xmlReasonRootNode(true)
+	assert.Equal(t, 1, 1)
+}
+
+func xmlReasonRootNode(reason models.CodedConcept, negateReason bool, r2CompatableQrdaOid bool) *xml.ElementNode {
+	data := getReasonData(reason, negateReason, r2CompatableQrdaOid)
+	setMapDataCriteria(data)
+	xmlString := generateXML("_reason.xml", *data)
+	// printXmlString(xmlString)
+	doc, err := xml.Parse([]byte(xmlString), nil, nil, 0, xml.DefaultEncodingBytes)
+	util.CheckErr(err)
+	return doc.Root()
+}
+
+func getReasonData(reason models.CodedConcept, negateReason bool, r2CompatableQrdaOid bool) *entryInfo {
+	encounter := models.Encounter{}
+	if negateReason {
+		encounter.Entry = &models.Entry{NegationReason: reason}
+	} else {
+		encounter.Entry = &models.Entry{Reason: reason}
+	}
+	encounter.StartTime = int64(0)
+	if r2CompatableQrdaOid {
+		encounter.Entry.Oid = "2.16.840.1.113883.10.20.24.3.23" // a valid qrda oid (Encounter Performed)
+	} else {
+		encounter.Entry.Oid = "invalid_qrda_oid"
+	}
+	return &entryInfo{EntrySection: encounter}
+}
+
+func setMapDataCriteria(ei *entryInfo) {
+	var fieldOids = map[string][]string{"REASON": []string{"1.2.3.4.5.6.7.8.9.11"},
+		"ORDINAL":  []string{"1.2.3.4.5.6.7.8.9.10"},
+		"SEVERITY": []string{"1.2.3.4.5.6.7.8.9.13"},
+		"ROUTE":    []string{"1.2.3.4.5.6.7.8.9.12"}}
+	var resultOids = []string{"1.2.3.4.5.6.7.8.9.14"}
+	// var vsOid = "1.2.3.4.5.6.7.8.9"
+	ei.MapDataCriteria = mdc{FieldOids: fieldOids, ResultOids: resultOids}
 }
 
 // test _2.16.840.1.113883.10.20.24.3.23.xml
@@ -84,9 +145,9 @@ func assertXPath(t *testing.T, elem *xml.ElementNode, pathString string, expecte
 	for _, node := range nodes {
 		for attr, val := range expectedAttributes {
 			if attrVal := node.Attribute(attr); attrVal != nil {
-				assert.Equal(t, attrVal.String(), val)
+				assert.Equal(t, val, attrVal.String())
 			} else {
-				assert.NotEqual(t, attrVal, nil)
+				assert.Fail(t, fmt.Sprintf("expected xml attribute %s was not found at xml path \"%s\"", attr, pathString))
 			}
 		}
 		for _, attr := range unexpectedAttributes {
@@ -108,8 +169,15 @@ func assertContent(t *testing.T, elem *xml.ElementNode, pathString string, conte
 	nodes, err := elem.Search(path)
 	util.CheckErr(err)
 	for _, node := range nodes {
-		assert.Equal(t, node.Content(), content)
+		assert.Equal(t, content, node.Content())
 	}
+}
+
+// just for debugging. remove later
+func printXmlString(xmlString string) {
+	fmt.Printf("\n====================\n")
+	fmt.Printf(xmlString)
+	fmt.Printf("\n====================\n\n")
 }
 
 // - - - - - - - - - - - - - - - - - - - //

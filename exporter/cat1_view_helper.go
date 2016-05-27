@@ -147,6 +147,10 @@ func negationIndicator(entry models.Entry) string {
 	return ""
 }
 
+func reasonValueSetOid(codedValue models.CodedConcept, fieldOids map[string][]string) string {
+	return oidForCode(codedValue, fieldOids["REASON"])
+}
+
 func oidForCode(codedValue models.CodedConcept, valuesetOids []string) string {
 
 	for _, vsoid := range valuesetOids {
@@ -306,6 +310,13 @@ func dischargeDispositionDisplay(dd map[string]string) string {
 	return fmt.Sprintf("<sdtc:dischargeDispositionCode code=\"%s\" codeSystem=\"%s\"/>", dd["code"], codeSystem)
 }
 
+func reasonOrNegationReason(entry *models.Entry) models.CodedConcept {
+	if entry.Reason != (models.CodedConcept{}) {
+		return entry.Reason
+	}
+	return entry.NegationReason
+}
+
 func sdtcValueSetAttribute(oid string) string {
 	if oid == "" {
 		return ""
@@ -321,7 +332,11 @@ func getTransferOid(dc models.DataCriteria, key string) string {
 }
 
 func oidForCodeSystem(codeSystem string) string {
-	return models.OidForCodeSystem(codeSystem)
+	oid := models.OidForCodeSystem(codeSystem)
+	if oid != "" {
+		return oid
+	}
+	return codeSystem
 }
 
 func hasReason(entry models.Entry) bool {
