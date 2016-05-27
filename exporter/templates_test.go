@@ -80,10 +80,6 @@ func TestReasonTemplate(t *testing.T) {
 	reason = models.CodedConcept{Code: "not_a_specified_code", CodeSystem: "¯\\_(ツ)_/¯"}
 	xmlString := generateXML("_reason.xml", *getReasonData(reason, false, true))
 	assert.Equal(t, "", strings.TrimSpace(xmlString))
-
-	// negate reason
-	// rootNode = xmlReasonRootNode(true)
-	assert.Equal(t, 1, 1)
 }
 
 func xmlReasonRootNode(reason models.CodedConcept, negateReason bool, r2CompatableQrdaOid bool) *xml.ElementNode {
@@ -105,7 +101,7 @@ func getReasonData(reason models.CodedConcept, negateReason bool, r2CompatableQr
 	}
 	encounter.StartTime = int64(0)
 	if r2CompatableQrdaOid {
-		encounter.Entry.Oid = "2.16.840.1.113883.10.20.24.3.23" // a valid qrda oid (Encounter Performed)
+		encounter.Entry.Oid = "2.16.840.1.113883.3.560.1.79" // a valid hqmf oid (Encounter Performed)
 	} else {
 		encounter.Entry.Oid = "invalid_qrda_oid"
 	}
@@ -123,11 +119,18 @@ func setMapDataCriteria(ei *entryInfo) {
 }
 
 // test _2.16.840.1.113883.10.20.24.3.23.xml
-func TestEncounterPerformed(t *testing.T) {
-	// qrdaOid := "2.16.840.1.113883.10.20.24.3.23"
-	// fmt.Printf(generateQrdaOidXML(qrdaOid))
+func TestEncounterPerformedTemplate(t *testing.T) {
+	// only tests r2 compatable
+	rootNode := xmlRootNodeForQrdaOid("2.16.840.1.113883.10.20.24.3.23")
+	assertXPath(t, rootNode, "//entry/encounter", map[string]string{"classCode": "ENC", "moodCode": "ENV"}, nil)
+	assertXPath(t, rootNode, "//entry/encounter/templateId[@root='2.16.840.1.113883.10.20.22.4.49']", nil, nil)
+	assertXPath(t, rootNode, "//entry/encounter/templateId[@root='2.16.840.1.113883.10.20.24.3.23']", nil, nil)
+	assertXPath(t, rootNode, "//entry/encounter/id", map[string]string{"root": "1.3.6.1.4.1.115"}, nil)
+	assertContent(t, rootNode, "//entry/encounter/text", "Encounter, Performed: Encounter Inpatient")
+	assertXPath(t, rootNode, "//entry/encounter/statusCode", map[string]string{"code": "completed"}, nil)
+	// assertXPath(t, rootNode, "//entry/encounter/effectiveTime/low", map[string]string{"value": "201408110415"}, nil)
 
-	assert.Equal(t, 1, 1) // should make better test
+	// continue testing here
 }
 
 // - - - - - - - - //
@@ -184,27 +187,36 @@ func printXmlString(xmlString string) {
 //   G E N E R A T E   T E M P L A T E   //
 // - - - - - - - - - - - - - - - - - - - //
 
+func xmlRootNodeForQrdaOid(qrdaOid string) *xml.ElementNode {
+	fileName := "_" + qrdaOid + ".xml"
+	// printXmlString(generateXML(fileName, getDataForQrdaOid(qrdaOid)))
+	return xmlRootNode(generateXML(fileName, getDataForQrdaOid(qrdaOid)))
+}
+
+func getDataForQrdaOid(qrdaOid string) entryInfo {
+	var p models.Record
+	var m []models.Measure
+	var vs []models.ValueSet
+	setPatientMeasuresAndValueSets(&p, &m, &vs)
+	ei, err := getEntryInfo(p, m, qrdaOid) // ei stands for entry info
+	if err != nil {
+		util.CheckErr(err)
+	}
+	return ei
+}
+
+func xmlRootNode(xmlString string) *xml.ElementNode {
+	doc, err := xml.Parse([]byte(xmlString), nil, nil, 0, xml.DefaultEncodingBytes)
+	util.CheckErr(err)
+	return doc.Root()
+}
+
 func generateXML(fileName string, templateData interface{}) string {
 	var p models.Record
 	var m []models.Measure
 	var vs []models.ValueSet
 	setPatientMeasuresAndValueSets(&p, &m, &vs)
 	return generateTemplateForFile(makeTemplate(), fileName, templateData)
-}
-
-func generateQrdaOidXML(qrdaOid string) string {
-	fileName := "_" + qrdaOid + ".xml"
-
-	var p models.Record
-	var m []models.Measure
-	var vs []models.ValueSet
-	setPatientMeasuresAndValueSets(&p, &m, &vs)
-
-	entryInfo, err := getEntryInfo(p, m, qrdaOid)
-	if err != nil {
-		util.CheckErr(err)
-	}
-	return generateTemplateForFile(makeTemplate(), fileName, entryInfo)
 }
 
 func setPatientMeasuresAndValueSets(patient *models.Record, measures *[]models.Measure, valueSets *[]models.ValueSet) {
