@@ -6,11 +6,12 @@ import (
 	"encoding/hex"
 	"encoding/xml"
 	"fmt"
-	"github.com/pebbe/util"
 	"strconv"
 	"strings"
 	"text/template"
 	"time"
+
+	"github.com/pebbe/util"
 
 	"github.com/projectcypress/cdatools/models"
 )
@@ -35,8 +36,10 @@ func escapeString(s string) string {
 
 // TimeToFormat parses time from a seconds since Epoch value, and spits out a string in the supplied format
 func timeToFormat(t int64, f string) string {
+	utc, err := time.LoadLocation("UTC")
+	util.CheckErr(err, "Time Zone Location failed to load")
 	parsedTime := time.Unix(t, 0)
-	return escapeString(parsedTime.Format(f))
+	return escapeString(parsedTime.In(utc).Format(f))
 }
 
 // IdentifierFor MD5s a byte slice, and returns a String
@@ -175,19 +178,21 @@ func codeSetContainsCode(sets []models.CodeSet, codedValue models.CodedConcept) 
 
 func valueOrNullFlavor(i interface{}) string {
 	var s string
+	utc, err := time.LoadLocation("UTC")
+	util.CheckErr(err, "Time Zone Location failed to load")
 	switch str := i.(type) {
 	case string:
 		ival, err := strconv.Atoi(str)
 		if err == nil {
 			var t = time.Unix(int64(ival), 0)
-			s = fmt.Sprintf("value='%s'", t.Format("200601021504"))
+			s = fmt.Sprintf("value='%s'", t.In(utc).Format("200601021504-0700"))
 		}
 	case int64:
 		var t = time.Unix(str, 0)
-		s = fmt.Sprintf("value='%s'", t.Format("200601021504"))
+		s = fmt.Sprintf("value='%s'", t.In(utc).Format("200601021504-0700"))
 	case int:
 		var t = time.Unix(int64(str), 0)
-		s = fmt.Sprintf("value='%s'", t.Format("200601021504"))
+		s = fmt.Sprintf("value='%s'", t.In(utc).Format("200601021504-0700"))
 	default:
 		s = "nullFlavor='UNK'"
 	}

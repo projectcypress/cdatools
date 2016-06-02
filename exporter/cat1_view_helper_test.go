@@ -19,9 +19,9 @@ var vsOid = "1.2.3.4.5.6.7.8.9"
 
 func TestValueOrNullFlavor(t *testing.T) {
 	assert.Equal(t, valueOrNullFlavor(nil), "nullFlavor='UNK'")
-	assert.Equal(t, valueOrNullFlavor(0), "value='196912311900'")
-	assert.Equal(t, valueOrNullFlavor(int64(0)), "value='196912311900'")
-	assert.Equal(t, valueOrNullFlavor("0"), "value='196912311900'")
+	assert.Equal(t, valueOrNullFlavor(0), "value='197001010000+0000'")
+	assert.Equal(t, valueOrNullFlavor(int64(0)), "value='197001010000+0000'")
+	assert.Equal(t, valueOrNullFlavor("0"), "value='197001010000+0000'")
 }
 
 func TestEscape(t *testing.T) {
@@ -58,7 +58,7 @@ func TestIdentifierForInt(t *testing.T) {
 }
 
 func TestTimeToFormat(t *testing.T) {
-	assert.Equal(t, "20151231", timeToFormat(1451606400, "20060102"))
+	assert.Equal(t, "20160101-700", timeToFormat(1451606400, "20060102-700"))
 }
 
 func TestNegationIndicator(t *testing.T) {

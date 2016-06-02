@@ -63,14 +63,14 @@ func TestReasonTemplate(t *testing.T) {
 	assertXPath(t, rootNode, "//entryRelationship/observation/id", map[string]string{"root": "1.3.6.1.4.1.115"}, nil)
 	assertXPath(t, rootNode, "//entryRelationship/observation/code", map[string]string{"code": "410666004", "codeSystem": "2.16.840.1.113883.6.96", "displayName": "reason", "codeSystemName": "SNOMED CT"}, nil)
 	assertXPath(t, rootNode, "//entryRelationship/observation/statusCode", map[string]string{"code": "completed"}, nil)
-	assertXPath(t, rootNode, "//entryRelationship/observation/effectiveTime", map[string]string{"value": "196912311900"}, nil)
+	assertXPath(t, rootNode, "//entryRelationship/observation/effectiveTime", map[string]string{"value": "197001010000+0000"}, nil)
 	assertXPath(t, rootNode, "//entryRelationship/observation/value", map[string]string{"xsi:type": "CD", "code": "RESULT_CODE_1", "codeSystem": "2.16.840.1.113883.6.1", "sdtc:valueSet": "1.2.3.4.5.6.7.8.9.11"}, nil)
 
 	// do not negate reason, not r2 compatable
 	rootNode = xmlReasonRootNode(reason, false, false)
 	assertXPath(t, rootNode, "//entryRelationship/observation/templateId", map[string]string{"root": "2.16.840.1.113883.10.20.24.3.88", "extension": "2014-12-01"}, nil)
 	assertXPath(t, rootNode, "//entryRelationship/observation/code", map[string]string{"code": "77301-0", "codeSystem": "2.16.840.1.113883.6.1", "displayName": "reason", "codeSystemName": "LOINC"}, nil)
-	assertXPath(t, rootNode, "//entryRelationship/observation/effectiveTime/low", map[string]string{"value": "196912311900"}, nil)
+	assertXPath(t, rootNode, "//entryRelationship/observation/effectiveTime/low", map[string]string{"value": "197001010000+0000"}, nil)
 
 	// negate reason
 	rootNode = xmlReasonRootNode(reason, true, true)
@@ -142,16 +142,16 @@ func TestEncounterPerformedTemplate(t *testing.T) {
 	entrySection.EndTime = 0
 	ei.EntrySection = entrySection
 	rootNode = xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
-	assertXPath(t, rootNode, "//entry/encounter/effectiveTime/low", map[string]string{"value": "201001021504"}, nil)
-	assertXPath(t, rootNode, "//entry/encounter/effectiveTime/high", map[string]string{"value": "201101021504"}, nil)
+	assertXPath(t, rootNode, "//entry/encounter/effectiveTime/low", map[string]string{"value": "201001022004+0000"}, nil)
+	assertXPath(t, rootNode, "//entry/encounter/effectiveTime/high", map[string]string{"value": "201101022004+0000"}, nil)
 	entrySection.AdmitTime = 0
 	entrySection.StartTime = 1293998640 // is time 2011 01 02 1504 in EST
 	entrySection.DischargeTime = 0
 	entrySection.EndTime = 1262462640 // is time 2010 01 02 1504 in EST
 	ei.EntrySection = entrySection
 	rootNode = xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
-	assertXPath(t, rootNode, "//entry/encounter/effectiveTime/low", map[string]string{"value": "201101021504"}, nil)
-	assertXPath(t, rootNode, "//entry/encounter/effectiveTime/high", map[string]string{"value": "201001021504"}, nil)
+	assertXPath(t, rootNode, "//entry/encounter/effectiveTime/low", map[string]string{"value": "201101022004+0000"}, nil)
+	assertXPath(t, rootNode, "//entry/encounter/effectiveTime/high", map[string]string{"value": "201001022004+0000"}, nil)
 
 	// continue testing here
 }
