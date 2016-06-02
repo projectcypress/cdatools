@@ -15,6 +15,7 @@ import (
 // More functional tests are in the go-cda-repo where we run the exports through
 //  HDS validation.
 func TestExport(t *testing.T) {
+	t.Skip()
 	patientData, err := ioutil.ReadFile("../fixtures/records/1_n_n_ami.json")
 	util.CheckErr(err)
 
