@@ -48,9 +48,7 @@ func xmlCodeRootNode(codeDisplay models.CodeDisplay) *xml.ElementNode {
 	codeDisplay.Description = "my lil description"
 	xmlString := generateXML("_code.xml", codeDisplay)
 	// printXmlString(xmlString)
-	doc, err := xml.Parse([]byte(xmlString), nil, nil, 0, xml.DefaultEncodingBytes)
-	util.CheckErr(err)
-	return doc.Root()
+	return xmlRootNode(xmlString)
 }
 
 func TestReasonTemplate(t *testing.T) {
@@ -87,9 +85,7 @@ func xmlReasonRootNode(reason models.CodedConcept, negateReason bool, r2Compatab
 	setMapDataCriteria(data)
 	xmlString := generateXML("_reason.xml", *data)
 	// printXmlString(xmlString)
-	doc, err := xml.Parse([]byte(xmlString), nil, nil, 0, xml.DefaultEncodingBytes)
-	util.CheckErr(err)
-	return doc.Root()
+	return xmlRootNode(xmlString)
 }
 
 func getReasonData(reason models.CodedConcept, negateReason bool, r2CompatableQrdaOid bool) *entryInfo {
@@ -235,7 +231,7 @@ func getDataForQrdaOid(qrdaOid string) entryInfo {
 }
 
 func xmlRootNode(xmlString string) *xml.ElementNode {
-	doc, err := xml.Parse([]byte(xmlString), nil, nil, 0, xml.DefaultEncodingBytes)
+	doc, err := xml.Parse([]byte(xmlString), nil, nil, xml.DefaultParseOption, xml.DefaultEncodingBytes)
 	util.CheckErr(err)
 	return doc.Root()
 }
