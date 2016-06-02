@@ -75,7 +75,7 @@ func importHqmfQrdaJSON() {
 		qrdaCodeDisplayMap[oidsElem.QrdaOid] = oidsElem.CodeDisplays
 	}
 
-	// create hqmfQrdaMap (map) from hqmfQrdaOids (array of HqmfQrdaOidsWithCodeDisplays structs)
+	// create hqmfQrdaMap (map) of hqmf oid to map[string]string containing "hqmf_name", "hqmf_oid", "qrda_name", and qrda_oid
 	hqmfQrdaMap = map[string]map[string]string{}
 	for _, oidsElem := range hqmfQrdaOids {
 		hqmfQrdaMapElem := make(map[string]string)

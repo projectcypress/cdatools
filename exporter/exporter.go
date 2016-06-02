@@ -124,8 +124,6 @@ func exporterFuncMap(cat1Template *template.Template) template.FuncMap {
 		"entryInfosForPatient":    entryInfosForPatient,
 		"executeTemplateForEntry": generateExecuteTemplateForEntry(cat1Template),
 		"isR2":                         IsR2Compatible,
-		"toMap":                        toMap,
-		"toStringSlice":                toStringSlice,
 		"condAssign":                   condAssign,
 		"valueOrNullFlavor":            valueOrNullFlavor,
 		"dischargeDispositionDisplay":  dischargeDispositionDisplay,

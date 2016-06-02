@@ -41,11 +41,6 @@ type CodeDisplay struct {
 	Description            string   `json:"description"`
 }
 
-// type PreferredCode struct {
-// 	Code    string
-// 	CodeSet string
-// }
-
 func ExtractEntry(entry *interface{}) *Entry {
 
 	switch t := (*entry).(type) {

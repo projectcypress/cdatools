@@ -120,15 +120,38 @@ func setMapDataCriteria(ei *entryInfo) {
 
 // test _2.16.840.1.113883.10.20.24.3.23.xml
 func TestEncounterPerformedTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.23"
+
 	// only tests r2 compatable
-	rootNode := xmlRootNodeForQrdaOid("2.16.840.1.113883.10.20.24.3.23")
+	rootNode := xmlRootNodeForQrdaOid(qrdaOid)
 	assertXPath(t, rootNode, "//entry/encounter", map[string]string{"classCode": "ENC", "moodCode": "ENV"}, nil)
 	assertXPath(t, rootNode, "//entry/encounter/templateId[@root='2.16.840.1.113883.10.20.22.4.49']", nil, nil)
 	assertXPath(t, rootNode, "//entry/encounter/templateId[@root='2.16.840.1.113883.10.20.24.3.23']", nil, nil)
 	assertXPath(t, rootNode, "//entry/encounter/id", map[string]string{"root": "1.3.6.1.4.1.115"}, nil)
 	assertContent(t, rootNode, "//entry/encounter/text", "Encounter, Performed: Encounter Inpatient")
 	assertXPath(t, rootNode, "//entry/encounter/statusCode", map[string]string{"code": "completed"}, nil)
+	assertXPath(t, rootNode, "//entry/encounter/effectiveTime", nil, nil)
 	// assertXPath(t, rootNode, "//entry/encounter/effectiveTime/low", map[string]string{"value": "201408110415"}, nil)
+
+	// test admit time vs start time for <low> tag. test discharge time vs end time for <high> tag
+	ei := getDataForQrdaOid(qrdaOid)
+	entrySection := ei.EntrySection.(models.Encounter)
+	entrySection.AdmitTime = 1262462640 // is time 2010 01 02 1504 in EST
+	entrySection.StartTime = 0
+	entrySection.DischargeTime = 1293998640 // is time 2011 01 02 1504 in EST
+	entrySection.EndTime = 0
+	ei.EntrySection = entrySection
+	rootNode = xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+	assertXPath(t, rootNode, "//entry/encounter/effectiveTime/low", map[string]string{"value": "201001021504"}, nil)
+	assertXPath(t, rootNode, "//entry/encounter/effectiveTime/high", map[string]string{"value": "201101021504"}, nil)
+	entrySection.AdmitTime = 0
+	entrySection.StartTime = 1293998640 // is time 2011 01 02 1504 in EST
+	entrySection.DischargeTime = 0
+	entrySection.EndTime = 1262462640 // is time 2010 01 02 1504 in EST
+	ei.EntrySection = entrySection
+	rootNode = xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+	assertXPath(t, rootNode, "//entry/encounter/effectiveTime/low", map[string]string{"value": "201101021504"}, nil)
+	assertXPath(t, rootNode, "//entry/encounter/effectiveTime/high", map[string]string{"value": "201001021504"}, nil)
 
 	// continue testing here
 }
@@ -191,6 +214,12 @@ func xmlRootNodeForQrdaOid(qrdaOid string) *xml.ElementNode {
 	fileName := "_" + qrdaOid + ".xml"
 	// printXmlString(generateXML(fileName, getDataForQrdaOid(qrdaOid)))
 	return xmlRootNode(generateXML(fileName, getDataForQrdaOid(qrdaOid)))
+}
+
+// same as xmlRootNodeForQrdaOid() function but allows custom input data (should be an EntryInfo struct)
+func xmlRootNodeForQrdaOidWithData(qrdaOid string, data interface{}) *xml.ElementNode {
+	fileName := "_" + qrdaOid + ".xml"
+	return xmlRootNode(generateXML(fileName, data))
 }
 
 func getDataForQrdaOid(qrdaOid string) entryInfo {

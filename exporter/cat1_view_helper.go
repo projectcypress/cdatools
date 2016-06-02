@@ -5,7 +5,6 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"encoding/xml"
-	"errors"
 	"fmt"
 	"github.com/pebbe/util"
 	"strconv"
@@ -174,22 +173,6 @@ func codeSetContainsCode(sets []models.CodeSet, codedValue models.CodedConcept) 
 	return false
 }
 
-// def oid_for_code(codedValue, valueset_oids,  valueset)
-// 	return nil if codedValue.nil?
-// 	valueset_oids ||=[]
-// 	code = codedValue["code"]
-// 	code_system = codedValue["code_set"] || codedValue["code_system"]
-// 	vs_map = (value_set_map(bundle_id) || {})
-// 	valueset_oids.each do |vs_oid|
-// 		oid_list = (vs_map[vs_oid] || [])
-// 		oid_map = Hash[oid_list.collect{|x| [x["set"],x["values"]]}]
-// 		if (oid_map[code_system] || []).index code
-// 			return vs_oid
-// 		end
-// 	end
-// 	return nil
-// end
-
 func valueOrNullFlavor(i interface{}) string {
 	var s string
 	switch str := i.(type) {
@@ -239,60 +222,6 @@ func codeToDisplay(i interface{}, codeType string) (models.CodeDisplay, error) {
 	return entry.GetCodeDisplay(codeType)
 }
 
-func codeDisplay(i interface{}, codeType string) string {
-	entry := models.ExtractEntry(&i)
-
-	// var found bool
-	codeDisplayInfo, err := entry.GetCodeDisplay(codeType)
-	if err != nil {
-		return ""
-	}
-
-	// get code display information from codeDisplayInfo
-	tagName := valueOrDefault(codeDisplayInfo.TagName, "code")
-	attribute := valueOrDefault(codeDisplayInfo.Attribute, "codes")
-	excludeNullFlavor := valueOrDefault(codeDisplayInfo.ExcludeNullFlavor, false)
-	extraContent := valueOrDefault(codeDisplayInfo.ExtraContent, "")
-	var codeString string
-
-	// preferred code sets should get all code system names if "*" is included in options["preferred_code_sets"]
-	preferredCodeSets := make([]string, len(codeDisplayInfo.PreferredCodeSets))
-	for j, codeSet := range codeDisplayInfo.PreferredCodeSets {
-		preferredCodeSets[j] = codeSet
-	}
-	if stringInSlice("*", preferredCodeSets) {
-		preferredCodeSets = models.CodeSystemNames()
-	}
-
-	// need to replace this with actual call to entry.perferredCode once implmented
-	preferredCode := map[string]string{"code": "1234", "code_set": "SNOMED-CT"}
-	if preferredCode != nil {
-		oid := models.OidForCodeSystem(preferredCode["code_set"])
-		codeString = fmt.Sprintf("<%s code='%s' codeSystem='%s' %s>", tagName.(string), preferredCode["code"], oid, extraContent.(string))
-	} else {
-		var buffer bytes.Buffer
-		buffer.WriteString(fmt.Sprintf("<%s ", tagName))
-		if !excludeNullFlavor.(bool) {
-			buffer.WriteString(" nullFlavor='UNK' ")
-		}
-		buffer.WriteString(extraContent.(string))
-		codeString = buffer.String()
-	}
-	if attribute == "codes" {
-		codeString += fmt.Sprintf("<originalText>%s</originalText>", entry.Description)
-		// add a bunch of translation codes if they exist
-	}
-
-	//       if options["attribute"] == :codes && entry.respond_to?(:translation_codes)
-	//         code_string += "<originalText>#{ERB::Util.html_escape entry.description}</originalText>" if entry.respond_to?(:description)
-	//         entry.translation_codes(options['preferred_code_sets'], options['value_set_map']).each do |translation|
-	//           code_string += "<translation code=\"#{translation['code']}\" codeSystem=\"#{HealthDataStandards::Util::CodeSystemHelper.oid_for_code_system(translation['code_set'])}\"/>\n"
-	//         end
-	//       end
-
-	return fmt.Sprintf("%s </%s>", codeString, tagName.(string))
-}
-
 func codeDisplayWithPreferredCode(entry *models.Entry, coded *models.Coded, codeType string) models.CodeDisplay {
 	codeDisplay, err := entry.GetCodeDisplay(codeType)
 	util.CheckErr(err)
@@ -308,13 +237,6 @@ func dischargeDispositionDisplay(dd map[string]string) string {
 		codeSystem = dd["code_system"]
 	}
 	return fmt.Sprintf("<sdtc:dischargeDispositionCode code=\"%s\" codeSystem=\"%s\"/>", dd["code"], codeSystem)
-}
-
-func reasonOrNegationReason(entry *models.Entry) models.CodedConcept {
-	if entry.Reason != (models.CodedConcept{}) {
-		return entry.Reason
-	}
-	return entry.NegationReason
 }
 
 func sdtcValueSetAttribute(oid string) string {
@@ -352,25 +274,6 @@ func hasPreferredCode(pc models.Concept) bool {
 
 func codeDisplayAttributeIsCodes(attribute string) bool {
 	return attribute == "codes"
-}
-
-func toMap(values ...interface{}) (map[string]interface{}, error) {
-	if len(values)%2 != 0 { // if there are not values for each key (uneven number of arguments for this function)
-		return nil, errors.New("number of arguments must be even")
-	}
-	dic := make(map[string]interface{}, len(values)/2)
-	for i := 0; i < len(values); i += 2 {
-		if key, ok := values[i].(string); ok {
-			dic[key] = values[i+1] // add key-value pair to dic if key can be converted to string
-		} else {
-			return nil, errors.New("dic keys must be strings")
-		}
-	}
-	return dic, nil
-}
-
-func toStringSlice(values ...string) []string {
-	return values
 }
 
 func stringInSlice(str string, list []string) bool {
