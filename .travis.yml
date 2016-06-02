@@ -1,4 +1,5 @@
-sudo: true
+sudo: false
+dist: trusty
 language: go
 go:
 - 1.6
