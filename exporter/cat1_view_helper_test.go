@@ -37,7 +37,7 @@ func TestValueOrDefault(t *testing.T) {
 }
 
 func TestOidForCode(t *testing.T) {
-	valueSets, _ := ioutil.ReadFile("../fixtures/value_sets/CMS9_26.json")
+	valueSets, _ := ioutil.ReadFile("../fixtures/value_sets/cms9_26.json")
 	vs := []models.ValueSet{}
 	json.Unmarshal(valueSets, &vs)
 	initializeVsMap(vs)
@@ -131,7 +131,7 @@ func TestEntryInfosForPatient(t *testing.T) {
 }
 
 func TestReasonValueSetOid(t *testing.T) {
-	valueSets, _ := ioutil.ReadFile("../fixtures/value_sets/CMS9_26.json")
+	valueSets, _ := ioutil.ReadFile("../fixtures/value_sets/cms9_26.json")
 	vs := []models.ValueSet{}
 	json.Unmarshal(valueSets, &vs)
 	initializeVsMap(vs)
