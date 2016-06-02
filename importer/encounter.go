@@ -8,7 +8,7 @@ import (
 
 func EncounterOrderExtractor(entry *models.Entry, entryElement xml.Node) interface{} {
 	encounterOrder := models.Encounter{}
-	encounterOrder.Entry = *entry
+	encounterOrder.Entry = entry
 
 	//extract codes
 	var codePath = xpath.Compile("cda:code")
@@ -24,7 +24,7 @@ func EncounterOrderExtractor(entry *models.Entry, entryElement xml.Node) interfa
 
 func EncounterPerformedExtractor(entry *models.Entry, entryElement xml.Node) interface{} {
 	encounter := models.Encounter{}
-	encounter.Entry = *entry
+	encounter.Entry = entry
 
 	//extract codes
 	var codePath = xpath.Compile("cda:code")

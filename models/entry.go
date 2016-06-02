@@ -86,16 +86,9 @@ func (e *Entry) GetCodeDisplay(codeType string) (CodeDisplay, error) {
 	return returnableCodeDisplay, errors.New(fmt.Sprintf("code display was not found for code type \"%s\"", codeType))
 }
 
-func (e *Entry) AddScalarValue(value int64, units string) {
-	val := ResultValue{}
-	val.Scalar = value
-	val.Units = units
-	e.Values = append(e.Values, val)
-}
-
 func (e *Entry) AddStringValue(value string, units string) {
 	val := ResultValue{}
-	val.Value = value
+	val.Scalar = value
 	val.Units = units
 	e.Values = append(e.Values, val)
 }
