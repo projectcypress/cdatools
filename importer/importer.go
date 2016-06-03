@@ -571,9 +571,9 @@ func TimestampToSeconds(timestamp string) int64 {
 
 func extractValueAndUnit(entry *models.Entry, valueElement xml.Node, valString string) {
 	if unit := valueElement.Attribute("unit"); unit == nil {
-		entry.AddScalarValue(valString, "")
+		entry.AddStringValue(valString, "")
 	} else {
-		entry.AddScalarValue(valString, unit.String())
+		entry.AddStringValue(valString, unit.String())
 	}
 }
 

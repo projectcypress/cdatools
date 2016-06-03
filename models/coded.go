@@ -69,3 +69,33 @@ func doSetsIntersect(a []Concept, b []string) bool {
 	}
 	return false
 }
+
+func computeIntersection(a []string, b []string) []string {
+	var intersect = make([]string, 0)
+	// We start with making a map of one of the lists
+	var m = make(map[string]int, len(a))
+	for _, el := range a {
+		m[el] = 1
+	}
+	// Now iterate over B to check each element is in the map
+	for _, checkEl := range b {
+		if m[checkEl] == 1 {
+			intersect = append(intersect, checkEl)
+		}
+	}
+	return intersect
+}
+
+func (c *Coded) PreferredCode(preferredCodeSets []string) Concept {
+	codeTypes := make([]string, len(c.Codes))
+	i := 0
+	for k := range c.Codes {
+		codeTypes[i] = k
+		i++
+	}
+	codes := computeIntersection(preferredCodeSets, codeTypes)
+	if len(codes) > 0 {
+		return Concept{CodeSystem: codes[0], Code: c.Codes[codes[0]][0]}
+	}
+	return Concept{}
+}

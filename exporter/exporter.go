@@ -12,12 +12,13 @@ import (
 )
 
 type cat1data struct {
-	Record    models.Record
-	Header    models.Header
-	Measures  []models.Measure
-	ValueSets []models.ValueSet
-	StartDate int64
-	EndDate   int64
+	EntryInfos []entryInfo
+	Record     models.Record
+	Header     models.Header
+	Measures   []models.Measure
+	ValueSets  []models.ValueSet
+	StartDate  int64
+	EndDate    int64
 }
 
 func allDataCriteria(measures []models.Measure) []models.DataCriteria {
@@ -30,7 +31,7 @@ func allDataCriteria(measures []models.Measure) []models.DataCriteria {
 	return dc
 }
 
-type dc struct {
+type dcKey struct {
 	DataCriteriaOid string
 	ValueSetOid     string
 }
@@ -39,16 +40,29 @@ type mdc struct {
 	FieldOids    map[string][]string
 	ResultOids   []string
 	DataCriteria models.DataCriteria
-	dc
+	dcKey
+}
+
+// passed into each qrda oid (entry) template
+// EntrySection should be a struct that includes entry attributes (ex. Procedure, Medication, ...)
+type entryInfo struct {
+	EntrySection    interface{}
+	MapDataCriteria mdc
 }
 
 func uniqueDataCriteria(allDataCriteria []models.DataCriteria) []mdc {
-	mappedDataCriteria := map[dc]mdc{}
+	mappedDataCriteria := map[dcKey]mdc{}
 	for _, dataCriteria := range allDataCriteria {
-		// Based on the data criteria, get the HQMF oid associated with it
-		oid := GetID(dataCriteria, false)
+		// Based on the data criteria, get the HQMF oid associated with it]
+		oid := dataCriteria.HQMFOid
 		if oid == "" {
-			oid = GetID(dataCriteria, true)
+			oid = GetID(dataCriteria, false)
+			if oid == "" {
+				oid = GetID(dataCriteria, true)
+			}
+			if oid != "" {
+				dataCriteria.HQMFOid = oid
+			}
 		}
 		vsOid := dataCriteria.CodeListID
 
@@ -60,7 +74,7 @@ func uniqueDataCriteria(allDataCriteria []models.DataCriteria) []mdc {
 		}
 
 		// Generate the key for the mappedDataCriteria
-		dc := dc{DataCriteriaOid: oid, ValueSetOid: vsOid}
+		dc := dcKey{DataCriteriaOid: oid, ValueSetOid: vsOid}
 
 		var mappedDc = mappedDataCriteria[dc]
 		if mappedDc.FieldOids == nil {
@@ -84,7 +98,9 @@ func uniqueDataCriteria(allDataCriteria []models.DataCriteria) []mdc {
 			mappedDc.ResultOids = append(mappedDc.ResultOids, dataCriteria.CodeListID)
 		}
 
-		mappedDataCriteria[dc] = mappedDc
+		if dc.DataCriteriaOid != "" {
+			mappedDataCriteria[dc] = mappedDc
+		}
 	}
 
 	// Add the key to the value to get what HDS would have returned
@@ -97,6 +113,34 @@ func uniqueDataCriteria(allDataCriteria []models.DataCriteria) []mdc {
 	return retDataCriteria
 }
 
+func exporterFuncMap(cat1Template *template.Template) template.FuncMap {
+	return template.FuncMap{
+		"timeNow":                 time.Now().UTC().Unix,
+		"newRandom":               uuid.NewRandom,
+		"timeToFormat":            timeToFormat,
+		"identifierForInt":        identifierForInt,
+		"identifierForString":     identifierForString,
+		"escape":                  escape,
+		"entryInfosForPatient":    entryInfosForPatient,
+		"executeTemplateForEntry": generateExecuteTemplateForEntry(cat1Template),
+		"isR2":                         IsR2Compatible,
+		"condAssign":                   condAssign,
+		"valueOrNullFlavor":            valueOrNullFlavor,
+		"dischargeDispositionDisplay":  dischargeDispositionDisplay,
+		"sdtcValueSetAttribute":        sdtcValueSetAttribute,
+		"getTransferOid":               getTransferOid,
+		"hasReason":                    hasReason,
+		"identifierForInterface":       identifierForInterface,
+		"codeToDisplay":                codeToDisplay,
+		"valueOrDefault":               valueOrDefault,
+		"reasonValueSetOid":            reasonValueSetOid,
+		"oidForCodeSystem":             oidForCodeSystem,
+		"codeDisplayAttributeIsCodes":  codeDisplayAttributeIsCodes,
+		"hasPreferredCode":             hasPreferredCode,
+		"codeDisplayWithPreferredCode": codeDisplayWithPreferredCode,
+	}
+}
+
 //export GenerateCat1
 func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate int64, endDate int64) string {
 
@@ -105,16 +149,8 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 		fmt.Println(err)
 	}
 
-	funcMap := template.FuncMap{
-		"timeNow":             time.Now().UTC().Unix,
-		"newRandom":           uuid.NewRandom,
-		"timeToFormat":        timeToFormat,
-		"identifierForInt":    identifierForInt,
-		"identifierForString": identifierForString,
-		"escape":              escape,
-	}
-
-	cat1Template := template.New("cat1").Funcs(funcMap)
+	cat1Template := template.New("cat1")
+	cat1Template.Funcs(exporterFuncMap(cat1Template))
 
 	for _, d := range data {
 		asset, _ := Asset("templates/cat1/" + d)
@@ -274,7 +310,7 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 
 	initializeVsMap(vs)
 
-	c1d := cat1data{Record: *p, Header: *h, Measures: m, ValueSets: vs, StartDate: startDate, EndDate: endDate}
+	c1d := cat1data{Record: *p, Header: *h, Measures: m, ValueSets: vs, StartDate: startDate, EndDate: endDate, EntryInfos: entryInfosForPatient(*p, m)}
 
 	var b bytes.Buffer
 

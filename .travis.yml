@@ -1,4 +1,4 @@
-sudo: false
+sudo: true
 language: go
 go:
 - 1.6
@@ -6,6 +6,8 @@ branches:
   only:
   - master
 install:
+  - sudo apt-get -qq update
+  - sudo apt-get -y install libxml2-dev
   - go get -u github.com/jteeuwen/go-bindata/...
   - go get -t ./...
 script: go test -v ./...
