@@ -150,6 +150,16 @@ func TestEncounterPerformedTemplate(t *testing.T) {
 	assertXPath(t, rootNode, "//entry/encounter/effectiveTime/high", map[string]string{"value": "201001022004+0000"}, nil)
 
 	// continue testing here
+
+	// discharge disposition
+	ei = getDataForQrdaOid(qrdaOid)
+	entrySection = ei.EntrySection.(*models.Encounter)
+	entrySection.DischargeDisposition = map[string]string{"code": "my_code", "code_system": "my_code_system"}
+	ei.EntrySection = entrySection
+	rootNode = xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+	// assertXPath(t, rootNode, "//entry/encounter/sdtc:dischargeDispositionCode", map[string]string{"code": "my_code", "codeSystem": "my_code_system"}, nil)
+	fmt.Printf(" -> namespaces declared are %v\n", rootNode.DeclaredNamespaces())
+	assertXPath(t, rootNode, "//sdtc:dischargeDispositionCode", nil, nil)
 }
 
 // - - - - - - - - //
@@ -215,6 +225,7 @@ func xmlRootNodeForQrdaOid(qrdaOid string) *xml.ElementNode {
 // same as xmlRootNodeForQrdaOid() function but allows custom input data (should be an EntryInfo struct)
 func xmlRootNodeForQrdaOidWithData(qrdaOid string, data interface{}) *xml.ElementNode {
 	fileName := "_" + qrdaOid + ".xml"
+	printXmlString(generateXML(fileName, data))
 	return xmlRootNode(generateXML(fileName, data))
 }
 
@@ -233,7 +244,19 @@ func getDataForQrdaOid(qrdaOid string) entryInfo {
 func xmlRootNode(xmlString string) *xml.ElementNode {
 	doc, err := xml.Parse([]byte(xmlString), nil, nil, xml.DefaultParseOption, xml.DefaultEncodingBytes)
 	util.CheckErr(err)
-	return doc.Root()
+	path := doc.DocXPathCtx()
+	if registered := path.RegisterNamespace("sdtc", "urn:hl7-org:sdtc"); registered {
+		fmt.Printf(" -> sdtc namespace was registered\n")
+	}
+	if registered := path.RegisterNamespace("cda", "urn:hl7-org:v3"); registered {
+		fmt.Printf(" -> cda namespace was registered\n")
+	}
+	rootNode := doc.Root()
+	rootNode.DeclareNamespace("sdtc", "urn:hl7-org:sdtc")
+	rootNode.DeclareNamespace("cda", "urn:hl7-org:v3")
+	// rootNode.SetNamespace("cda", "urn:hl7-org:v3")
+	// rootNode.SetNamespace("sdtc", "urn:hl7-org:sdtc")
+	return rootNode
 }
 
 func generateXML(fileName string, templateData interface{}) string {
