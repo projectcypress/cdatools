@@ -44,37 +44,37 @@ func extractMedication(entry *models.Entry, entryElement xml.Node) models.Medica
 	ExtractCodes(&medication.Entry.Coded, entryElement, codeXPath)
 
 	routeXPath := xpath.Compile("./cda:routeCode")
-	medication.Route.Codes = map[string][]string{}
-	ExtractCodes(&medication.Route, entryElement, routeXPath)
+	medication.Route = &models.CodedConcept{}
+	medication.Route.AddCodeIfPresent(FirstElement(routeXPath, entryElement))
 
 	doseXPath := xpath.Compile("./cda:doseQuantity")
 	ExtractScalar(&medication.Dose, entryElement, doseXPath)
 
 	aaXPath := xpath.Compile("./cda:approachSiteCode")
-	medication.AnatomicalApproach.Codes = map[string][]string{}
-	ExtractCodes(&medication.AnatomicalApproach, entryElement, aaXPath)
+	medication.AnatomicalApproach = &models.CodedConcept{}
+	medication.AnatomicalApproach.AddCodeIfPresent(FirstElement(aaXPath, entryElement))
 
 	extractDoseRestriction(&medication, entryElement)
 
 	pfXPath := xpath.Compile("./cda:administrationUnitCode")
-	medication.ProductForm.Codes = map[string][]string{}
-	ExtractCodes(&medication.ProductForm, entryElement, pfXPath)
+	medication.ProductForm = &models.CodedConcept{}
+	medication.ProductForm.AddCodeIfPresent(FirstElement(pfXPath, entryElement))
 
 	dmXPath := xpath.Compile("./cda:code")
-	medication.DeliveryMethod.Codes = map[string][]string{}
-	ExtractCodes(&medication.DeliveryMethod, entryElement, dmXPath)
+	medication.DeliveryMethod = &models.CodedConcept{}
+	medication.DeliveryMethod.AddCodeIfPresent(FirstElement(dmXPath, entryElement))
 
 	tomXPath := xpath.Compile("./cda:entryRelationship[@typeCode='SUBJ']/cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.8.1']/cda:code")
-	medication.TypeOfMedication.Codes = map[string][]string{}
-	ExtractCodes(&medication.TypeOfMedication, entryElement, tomXPath)
+	medication.TypeOfMedication = &models.CodedConcept{}
+	medication.TypeOfMedication.AddCodeIfPresent(FirstElement(tomXPath, entryElement))
 
 	indXPath := xpath.Compile("./cda:entryRelationship[@typeCode='RSON']/cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.1.28']/cda:code")
-	medication.Indication.Codes = map[string][]string{}
-	ExtractCodes(&medication.Indication, entryElement, indXPath)
+	medication.Indication = &models.CodedConcept{}
+	medication.Indication.AddCodeIfPresent(FirstElement(indXPath, entryElement))
 
 	vehicleXPath := xpath.Compile("cda:participant/cda:participantRole[cda:code/@code='412307009' and cda:code/@codeSystem='2.16.840.1.113883.6.96']/cda:playingEntity/cda:code")
-	medication.Vehicle.Codes = map[string][]string{}
-	ExtractCodes(&medication.Vehicle, entryElement, vehicleXPath)
+	medication.Vehicle = &models.CodedConcept{}
+	medication.Vehicle.AddCodeIfPresent(FirstElement(vehicleXPath, entryElement))
 
 	medication.OrderInformation = []models.OrderInformation{}
 	extractOrderInformation(&medication, entryElement)

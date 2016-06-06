@@ -7,7 +7,6 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/moovweb/gokogiri/xml"
 	"github.com/moovweb/gokogiri/xpath"
 	"github.com/pebbe/util"
@@ -320,8 +319,6 @@ func Read_patient(path string) string {
 		patient.Procedures = append(patient.Procedures, rawProcedurePerformed[i].(models.Procedure))
 	}
 
-	spew.Dump(patient.Medications)
-
 	patientJSON, err := json.Marshal(patient)
 	if err != nil {
 		fmt.Println(err)
@@ -490,6 +487,16 @@ func ExtractReasonOrNegation(entry *models.Entry, entryElement xml.Node) {
 	if len(reasonElements) == 0 {
 		extractNegation(entry, entryElement)
 	}
+}
+
+func FirstElement(xpath *xpath.Expression, xmlNode xml.Node) xml.Node {
+	resultNodes, err := xmlNode.Search(xpath)
+	util.CheckErr(err)
+	if len(resultNodes) > 0 {
+		firstNode := resultNodes[0]
+		return firstNode
+	}
+	return nil
 }
 
 func FirstElementContent(xpath *xpath.Expression, xmlNode xml.Node) string {
