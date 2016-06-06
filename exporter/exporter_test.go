@@ -47,10 +47,12 @@ func TestEntriesForDataCriteria(t *testing.T) {
 	json.Unmarshal(patientData, patient)
 	json.Unmarshal(measureData, measure)
 
-	var entries []interface{}
+	var entries []models.HasEntry
 	for _, crit := range measure.HQMFDocument.DataCriteria {
 		if crit.HQMFOid != "" {
-			entries = append(entries, entriesForDataCriteria(crit, *patient))
+			for _, entryForDataCriteria := range entriesForDataCriteria(crit, *patient) {
+				entries = append(entries, entryForDataCriteria)
+			}
 		}
 	}
 	// TODO: This test will have to change when we get a new export of CMS9v4a with all the HQMFOid fields filled.

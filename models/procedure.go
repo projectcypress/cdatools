@@ -13,6 +13,10 @@ type Procedure struct {
 type Performer struct {
 }
 
+func (proc *Procedure) GetEntry() *Entry {
+	return &proc.Entry
+}
+
 // used so bson.Marshal() and bson.Unmarshal() will not recursively call GetBSON() and SetBSON() respectively
 type ProcedureNoFunc Procedure
 

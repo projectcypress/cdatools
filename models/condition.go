@@ -21,3 +21,7 @@ type Laterality struct {
 	CodedConcept `bson:",inline"`
 	Title        string `json:"title,omitempty"`
 }
+
+func (con *Condition) GetEntry() *Entry {
+	return &con.Entry
+}

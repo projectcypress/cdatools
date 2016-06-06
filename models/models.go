@@ -102,51 +102,50 @@ type Record struct {
 }
 
 // Entries returns all the entries from the Encounters, Diagnoses, and LabResults for a Record
-func (r *Record) Entries() []interface{} {
-	var entries []interface{}
+func (r *Record) Entries() []HasEntry {
+	var entries []HasEntry
 
-	// This whole "for loop for each of these things" is unavoidable, because elements must be copied individually to a []interface{}
-	for _, en := range r.Encounters {
-		entries = append(entries, en)
+	// This whole "for loop for each of these things" is unavoidable, because elements must be copied individually to a []HasEntry
+	for i, _ := range r.Encounters {
+		entries = append(entries, &r.Encounters[i])
 	}
 
-	for _, lr := range r.LabResults {
-		entries = append(entries, lr)
+	for i, _ := range r.LabResults {
+		entries = append(entries, &r.LabResults[i])
 	}
 
-	for _, ip := range r.InsuranceProviders {
-		entries = append(entries, ip)
+	for i, _ := range r.InsuranceProviders {
+		entries = append(entries, &r.InsuranceProviders[i])
 	}
 
-	for _, pp := range r.ProviderPerformances {
-		entries = append(entries, pp)
+	for i, _ := range r.ProviderPerformances {
+		entries = append(entries, &r.ProviderPerformances[i])
 	}
 
-	for _, pr := range r.Procedures {
-		entries = append(entries, pr)
+	for i, _ := range r.Procedures {
+		entries = append(entries, &r.Procedures[i])
 	}
 
-	for _, md := range r.Medications {
-		entries = append(entries, md)
+	for i, _ := range r.Medications {
+		entries = append(entries, &r.Medications[i])
 	}
 
-	for _, al := range r.Allergies {
-		entries = append(entries, al)
+	for i, _ := range r.Allergies {
+		entries = append(entries, &r.Allergies[i])
 	}
 
-	for _, cn := range r.Conditions {
-		entries = append(entries, cn)
+	for i, _ := range r.Conditions {
+		entries = append(entries, &r.Conditions[i])
 	}
 
 	return entries
 }
 
 // EntriesForOid returns all the entries which include the OID
-func (r *Record) EntriesForOid(oid string) []interface{} {
-	var matchedEntries []interface{}
+func (r *Record) EntriesForOid(oid string) []HasEntry {
+	var matchedEntries []HasEntry
 	for _, entry := range r.Entries() {
-
-		if ExtractEntry(&entry).Oid == oid {
+		if entry.GetEntry().Oid == oid {
 			matchedEntries = append(matchedEntries, entry)
 		}
 	}
@@ -164,12 +163,6 @@ type ResultValue struct {
 type CDAIdentifier struct {
 	Root      string `json:"root,omitempty"`
 	Extension string `json:"extension,omitempty"`
-}
-
-type ProviderPerformance struct {
-	Entry     `bson:",inline"`
-	StartDate int64 `json:"startDate,omitempty"`
-	EndDate   int64 `json:"endDate,omitempty"`
 }
 
 type Scalar struct {

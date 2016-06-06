@@ -46,7 +46,7 @@ type mdc struct {
 // passed into each qrda oid (entry) template
 // EntrySection should be a struct that includes entry attributes (ex. Procedure, Medication, ...)
 type entryInfo struct {
-	EntrySection    interface{}
+	EntrySection    models.HasEntry
 	MapDataCriteria mdc
 }
 

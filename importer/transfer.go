@@ -9,7 +9,7 @@ import (
 // returns Encounter with TransferFrom field
 func TransferFromExtractor(entry *models.Entry, entryElement xml.Node) interface{} {
 	transferFromEncounter := models.Encounter{}
-	transferFromEncounter.Entry = entry
+	transferFromEncounter.Entry = *entry
 
 	extractCodes(&transferFromEncounter.Entry.Coded, entryElement)
 	extractTimes(&transferFromEncounter, &transferFromEncounter.TransferFrom, entryElement)
@@ -23,7 +23,7 @@ func TransferFromExtractor(entry *models.Entry, entryElement xml.Node) interface
 // returns Encounter with TransferTo field
 func TransferToExtractor(entry *models.Entry, entryElement xml.Node) interface{} {
 	transferToEncounter := models.Encounter{}
-	transferToEncounter.Entry = entry
+	transferToEncounter.Entry = *entry
 
 	extractCodes(&transferToEncounter.Entry.Coded, entryElement)
 	extractTimes(&transferToEncounter, &transferToEncounter.TransferTo, entryElement)

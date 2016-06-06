@@ -21,6 +21,10 @@ type Guarantor struct {
 	EndTime      int64        `json:"end_time"`
 }
 
+func (ip *InsuranceProvider) GetEntry() *Entry {
+	return &ip.Entry
+}
+
 // ShiftDates adds dateDiff to start/end times/other times for Insurance Providers
 func (p *InsuranceProvider) ShiftDates(dateDiff int64) {
 	p.StartTime = shiftDate(p.StartTime, dateDiff)

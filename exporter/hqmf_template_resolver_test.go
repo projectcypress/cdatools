@@ -32,10 +32,10 @@ func TestCodeDisplayForQrdaOid(t *testing.T) {
 
 func TestIsR2Compatible(t *testing.T) {
 	// invalid hqmf oid
-	entry := models.Encounter{Entry: &models.Entry{Oid: "not a valid hqmf r2 oid"}}
-	assert.Equal(t, false, IsR2Compatible(entry))
+	entry := models.Encounter{Entry: models.Entry{Oid: "not a valid hqmf r2 oid"}}
+	assert.Equal(t, false, IsR2Compatible(&entry))
 
 	// valid hqmf oid
-	entry = models.Encounter{Entry: &models.Entry{Oid: "2.16.840.1.113883.3.560.1.10"}}
-	assert.Equal(t, true, IsR2Compatible(entry))
+	entry = models.Encounter{Entry: models.Entry{Oid: "2.16.840.1.113883.3.560.1.10"}}
+	assert.Equal(t, true, IsR2Compatible(&entry))
 }

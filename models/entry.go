@@ -3,9 +3,6 @@ package models
 import (
 	"errors"
 	"fmt"
-	"reflect"
-
-	"github.com/davecgh/go-spew/spew"
 )
 
 type Entry struct {
@@ -41,33 +38,12 @@ type CodeDisplay struct {
 	Description            string   `json:"description"`
 }
 
-func ExtractEntry(entry *interface{}) *Entry {
+type HasEntry interface {
+	GetEntry() *Entry
+}
 
-	switch t := (*entry).(type) {
-	case Encounter:
-		return t.Entry
-	case LabResult:
-		return &t.Entry
-	case InsuranceProvider:
-		return &t.Entry
-	case Procedure:
-		return &t.Entry
-	case Allergy:
-		return &t.Entry
-	case Medication:
-		return &t.Entry
-	case Communication:
-		return &t.Entry
-	case Condition:
-		return &t.Entry
-	case ProviderPerformance:
-		return &t.Entry
-	case Entry:
-		return &t
-	default:
-		spew.Dump(reflect.TypeOf(entry))
-		panic("We don't know how to extract an Entry from this type")
-	}
+func (entry *Entry) GetEntry() *Entry {
+	return entry
 }
 
 // returns codeDisplay. also returns true if code display was found and false if not found

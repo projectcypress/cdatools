@@ -25,30 +25,30 @@ func valueSetMap(vs []models.ValueSet) map[string][]models.CodeSet {
 	return vsMap
 }
 
-func handlePatientExpired(patient models.Record) []interface{} {
+func handlePatientExpired(patient models.Record) []models.HasEntry {
 	if patient.Expired {
-		exp := make([]interface{}, 1)
-		return append(exp, models.Entry{StartTime: patient.DeathDate})
+		exp := make([]models.HasEntry, 1)
+		return append(exp, &models.Entry{StartTime: patient.DeathDate})
 	}
 	return nil
 }
 
-func handlePayerInformation(patient models.Record) []interface{} {
-	providers := make([]interface{}, len(patient.InsuranceProviders))
+func handlePayerInformation(patient models.Record) []models.HasEntry {
+	providers := make([]models.HasEntry, len(patient.InsuranceProviders))
 	for _, prov := range patient.InsuranceProviders {
-		providers = append(providers, prov)
+		providers = append(providers, &prov)
 	}
 	return providers
 }
 
-func entriesForDataCriteria(dataCriteria models.DataCriteria, patient models.Record) []interface{} {
+func entriesForDataCriteria(dataCriteria models.DataCriteria, patient models.Record) []models.HasEntry {
 	dataCriteriaOid := dataCriteria.HQMFOid //GetID(dataCriteria, false)
 	if dataCriteriaOid == "" {
 		dataCriteriaOid = dataCriteria.HQMFOid //GetID(dataCriteria, true)
 	}
 
-	var entries []interface{}
-	var filteredEntries []interface{}
+	var entries []models.HasEntry
+	var filteredEntries []models.HasEntry
 	switch dataCriteriaOid {
 	case "2.16.840.1.113883.3.560.1.404":
 		filteredEntries = handlePatientExpired(patient)
@@ -90,14 +90,14 @@ func entriesForDataCriteria(dataCriteria models.DataCriteria, patient models.Rec
 
 		// Get a slice containing only unique entries, by adding them to a map, then iterating over that
 		// NOTE: this makes me hate myself
-		uniqueEntries := make(map[string]interface{})
+		uniqueEntries := make(map[string]models.HasEntry)
 		for _, entry := range entries {
 			uniqueEntries[string(uuid.NewRandom())] = entry
 		}
 		var negationRegexp = regexp.MustCompile(`2\.16\.840\.1\.113883\.3\.526\.3\.100[7-9]`)
 		for _, entry := range uniqueEntries {
 
-			entryData := models.ExtractEntry(&entry)
+			entryData := entry.GetEntry()
 
 			if negationRegexp.FindStringIndex(dataCriteria.CodeListID) != nil {
 				// Add the entry to FilteredEntries if entry.negation_reason['code'] is in codes

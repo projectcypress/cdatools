@@ -77,15 +77,15 @@ func TestAppendEntryInfos(t *testing.T) {
 	// create entry sections
 	entries := make([]models.Entry, 0)
 	entries = append(entries, models.Entry{Description: "my description"})
-	var entrySections []interface{}
+	var entrySections []models.HasEntry
 	for _, entry := range entries {
-		entrySections = append(entrySections, models.Encounter{Entry: &entry})
+		entrySections = append(entrySections, &models.Encounter{Entry: entry})
 	}
 	entrySections = append(entrySections, nil) // appendEntryInfos() function should not include nil entry sections
 
 	entryInfos := appendEntryInfos([]entryInfo{}, entrySections, mdc{})
 	assert.Equal(t, 1, len(entryInfos))
-	assert.Equal(t, "my description", models.ExtractEntry(&entryInfos[0].EntrySection).Description)
+	assert.Equal(t, "my description", entryInfos[0].EntrySection.GetEntry().Description)
 }
 
 func TestAllPreferredCodeSetsIfNeeded(t *testing.T) {
@@ -162,13 +162,13 @@ func TestCondAssign(t *testing.T) {
 func TestCodeToDisplay(t *testing.T) {
 	codeDisplays := []models.CodeDisplay{models.CodeDisplay{CodeType: "first code type"}, models.CodeDisplay{CodeType: "second code type"}}
 	entry := models.Entry{CodeDisplays: codeDisplays}
-	encounter := models.Encounter{Entry: &entry}
+	encounter := models.Encounter{Entry: entry}
 
-	codeDisplay, err := codeToDisplay(encounter, "first code type")
+	codeDisplay, err := codeToDisplay(&encounter, "first code type")
 	assert.Nil(t, err)
 	assert.Equal(t, models.CodeDisplay{CodeType: "first code type"}, codeDisplay)
 
-	codeDisplay, err = codeToDisplay(encounter, "not a code type")
+	codeDisplay, err = codeToDisplay(&encounter, "not a code type")
 	assert.NotNil(t, err)
 }
 
@@ -285,7 +285,7 @@ func unorderedStringSlicesEqual(a, b []string) bool {
 	return true
 }
 
-func numNonNil(objs []interface{}) int {
+func numNonNil(objs []models.HasEntry) int {
 	var sum int
 	for _, obj := range objs {
 		if obj != nil {
