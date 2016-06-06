@@ -5,6 +5,8 @@ type Encounter struct {
 	AdmitTime            int64             `json:"admitTime,omitempty"`
 	DischargeTime        int64             `json:"discharge_time,omitempty"`
 	DischargeDisposition map[string]string `json:"discharge_disposition,omitempty"`
+	TransferTo           Transfer          `json:"transferTo,omitempty"`
+	TransferFrom         Transfer          `json:"transferFrom,omitempty"`
 }
 
 func (enc *Encounter) GetEntry() *Entry {

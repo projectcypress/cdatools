@@ -19,8 +19,6 @@ type Entry struct {
 	Values         []ResultValue       `json:"values,omitempty"`
 	StatusCode     map[string][]string `json:"status_code,omitempty"`
 	Reason         CodedConcept        `json:"reason,omitempty"`
-	TransferTo     Transfer            `json:"transferTo,omitempty"`
-	TransferFrom   Transfer            `json:"transferFrom,omitempty"`
 	References     []Reference         `json:"references,omitempty"`
 	CodeDisplays   []CodeDisplay       `json:"code_displays,omitempty"`
 }
