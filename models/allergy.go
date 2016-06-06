@@ -6,3 +6,7 @@ type Allergy struct {
 	Reaction Coded `json:"reaction,omitempty"`
 	Severity Coded `json:"severity,omitempty"`
 }
+
+func (al *Allergy) GetEntry() *Entry {
+	return &al.Entry
+}

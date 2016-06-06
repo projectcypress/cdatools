@@ -91,9 +91,9 @@ func xmlReasonRootNode(reason models.CodedConcept, negateReason bool, r2Compatab
 func getReasonData(reason models.CodedConcept, negateReason bool, r2CompatableQrdaOid bool) *entryInfo {
 	encounter := models.Encounter{}
 	if negateReason {
-		encounter.Entry = &models.Entry{NegationReason: reason}
+		encounter.Entry = models.Entry{NegationReason: reason}
 	} else {
-		encounter.Entry = &models.Entry{Reason: reason}
+		encounter.Entry = models.Entry{Reason: reason}
 	}
 	encounter.StartTime = int64(0)
 	if r2CompatableQrdaOid {
@@ -101,7 +101,7 @@ func getReasonData(reason models.CodedConcept, negateReason bool, r2CompatableQr
 	} else {
 		encounter.Entry.Oid = "invalid_qrda_oid"
 	}
-	return &entryInfo{EntrySection: encounter}
+	return &entryInfo{EntrySection: &encounter}
 }
 
 func setMapDataCriteria(ei *entryInfo) {
@@ -131,7 +131,7 @@ func TestEncounterPerformedTemplate(t *testing.T) {
 
 	// test admit time vs start time for <low> tag. test discharge time vs end time for <high> tag
 	ei := getDataForQrdaOid(qrdaOid)
-	entrySection := ei.EntrySection.(models.Encounter)
+	entrySection := ei.EntrySection.(*models.Encounter)
 	entrySection.AdmitTime = 1262462640 // is time 2010 01 02 1504 in EST
 	entrySection.StartTime = 0
 	entrySection.DischargeTime = 1293998640 // is time 2011 01 02 1504 in EST
@@ -289,7 +289,7 @@ func generateTemplateForFile(temp *template.Template, fileName string, templateD
 func getEntryInfo(patient models.Record, measures []models.Measure, qrdaOid string) (entryInfo, error) {
 	entryInfos := entryInfosForPatient(patient, measures)
 	for _, ei := range entryInfos {
-		if qrdaOid == HqmfToQrdaOid(models.ExtractEntry(&ei.EntrySection).Oid) {
+		if qrdaOid == HqmfToQrdaOid(ei.EntrySection.GetEntry().Oid) {
 			return ei, nil
 		}
 	}

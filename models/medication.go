@@ -41,3 +41,7 @@ type OrderInformation struct {
 	OrderExpiration int64  `json:"order_expiration_date_time,omitempty"`
 	OrderDate       int64  `json:"order_date_time,omitempty"`
 }
+
+func (med *Medication) GetEntry() *Entry {
+	return &med.Entry
+}

@@ -82,11 +82,11 @@ func entryInfosForPatient(patient models.Record, measures []models.Measure) []en
 	mappedDataCriterias := uniqueDataCriteria(allDataCriteria(measures))
 	var entryInfos []entryInfo
 	for _, mappedDataCriteria := range mappedDataCriterias {
-		entrySections := entriesForDataCriteria(mappedDataCriteria.DataCriteria, patient)
+		var entrySections []models.HasEntry = entriesForDataCriteria(mappedDataCriteria.DataCriteria, patient)
 		// add code displays struct to each entry
 		for i, entrySection := range entrySections {
 			if entrySection != nil {
-				entry := models.ExtractEntry(&entrySections[i])
+				entry := entrySections[i].GetEntry()
 				SetCodeDisplaysForEntry(entry)
 			}
 		}
@@ -114,7 +114,7 @@ func allPerferredCodeSetsIfNeeded(cds []models.CodeDisplay) {
 }
 
 // append an entryInfo to entryInfos for each entry
-func appendEntryInfos(entryInfos []entryInfo, entries []interface{}, mappedDataCriteria mdc) []entryInfo {
+func appendEntryInfos(entryInfos []entryInfo, entries []models.HasEntry, mappedDataCriteria mdc) []entryInfo {
 	for _, entry := range entries {
 		if entry != nil {
 			entryInfo := entryInfo{EntrySection: entry, MapDataCriteria: mappedDataCriteria}
@@ -129,7 +129,7 @@ func appendEntryInfos(entryInfos []entryInfo, entries []interface{}, mappedDataC
 //   this is done so we have access to cat1Template when calling this function from _patient_data.xml
 func generateExecuteTemplateForEntry(cat1Template *template.Template) func(entryInfo) string {
 	return func(ei entryInfo) string {
-		entry := models.ExtractEntry(&ei.EntrySection)
+		entry := ei.EntrySection.GetEntry()
 		qrdaOid := HqmfToQrdaOid(entry.Oid)
 
 		templateName := fmt.Sprintf("_%v.xml", qrdaOid)
@@ -222,8 +222,8 @@ func condAssign(first int64, second int64) int64 {
 	return second
 }
 
-func codeToDisplay(i interface{}, codeType string) (models.CodeDisplay, error) {
-	entry := models.ExtractEntry(&i)
+func codeToDisplay(entrySection models.HasEntry, codeType string) (models.CodeDisplay, error) {
+	entry := entrySection.GetEntry()
 	return entry.GetCodeDisplay(codeType)
 }
 

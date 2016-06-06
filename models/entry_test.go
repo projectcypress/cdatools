@@ -37,3 +37,18 @@ func TestNegationReasonOrReason(t *testing.T) {
 	entry = Entry{}
 	assert.Equal(t, CodedConcept{}, entry.NegationReasonOrReason())
 }
+
+func TestExtractEntryFromEncounter(t *testing.T) {
+	entry := Entry{Description: "my entry's description"}
+	var encounter HasEntry = &Encounter{Entry: entry}
+	extractedEntry := encounter.GetEntry()
+	assert.Equal(t, entry, *extractedEntry)
+}
+
+func TestExtractedEntryCanBeEdited(t *testing.T) {
+	var encounter HasEntry = &Encounter{Entry: Entry{Description: "my entry's description"}}
+	firstExtractedEntry := encounter.GetEntry()
+	firstExtractedEntry.Description = "different description from before"
+	secondExtractedEntry := encounter.GetEntry()
+	assert.Equal(t, *firstExtractedEntry, *secondExtractedEntry)
+}
