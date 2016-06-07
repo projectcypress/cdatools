@@ -21,7 +21,37 @@
       {{dischargeDispositionDisplay .EntrySection.DischargeDisposition}}
     {{end}}
 
-    {{/* - - - facility code goes here - - - */}}
+    {{if .EntrySection.Facility}}
+      <participant typeCode="LOC">
+        <!-- Facility Location template -->
+        <templateId root="2.16.840.1.113883.10.20.24.3.100"/>
+        <time>
+          <!-- Attribute: facility location arrival datetime -->
+          <low {{valueOrNullFlavor .EntrySection.Facility.StartTime}}/>
+          <high {{valueOrNullFlavor .EntrySection.Facility.EndTime}}/>
+        </time>
+        <participantRole classCode="SDLOC">
+          {{if hasConcept .EntrySection.Facility.Concept}}
+            <code code="{{.EntrySection.Facility.Code}}" codeSystem="{{oidForCodeSystem .EntrySection.Facility.CodeSystem}}"/>
+          {{else}}
+            <code nullFlavor="UNK"/>
+          {{end}}
+          {{if hasAddress .EntrySection.Facility}}
+            <addr>
+              <streetAddressLine>{{concatStringSlice .EntrySection.Facility.Address.Street "\n"}}</streetAddressLine>
+              <city>{{.EntrySection.Facility.Address.City}}</city>
+              <state>{{.EntrySection.Facility.Address.State}}</state>
+              <postalCode>{{.EntrySection.Facility.Address.Zip}}</postalCode>
+              <country>{{.EntrySection.Facility.Address.Country}}</country>
+            </addr>
+          {{end}}
+          <telecom nullFlavor="UNK"/>
+          <playingEntity classCode="PLC">
+            <name>{{.EntrySection.Facility.Name}}</name>
+          </playingEntity>
+        </participantRole>
+      </participant>
+    {{end}}
 
     {{if isR2 .EntrySection}}
       {{if .EntrySection.TransferFrom}}

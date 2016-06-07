@@ -136,8 +136,10 @@ func exporterFuncMap(cat1Template *template.Template) template.FuncMap {
 		"reasonValueSetOid":            reasonValueSetOid,
 		"oidForCodeSystem":             oidForCodeSystem,
 		"codeDisplayAttributeIsCodes":  codeDisplayAttributeIsCodes,
-		"hasPreferredCode":             hasPreferredCode,
+		"hasConcept":                   hasConcept,
 		"codeDisplayWithPreferredCode": codeDisplayWithPreferredCode,
+		"concatStringSlice":            concatStringSlice,
+		"hasAddress":                   hasAddress,
 	}
 }
 

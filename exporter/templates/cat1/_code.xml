@@ -1,5 +1,5 @@
 <{{- valueOrDefault .TagName "code" -}}
-  {{- if hasPreferredCode .PreferredCode}} code='{{- .PreferredCode.Code}}' codeSystem='{{- oidForCodeSystem .PreferredCode.CodeSystem}}' {{.ExtraContent}}
+  {{- if hasConcept .PreferredCode}} code='{{- .PreferredCode.Code}}' codeSystem='{{- oidForCodeSystem .PreferredCode.CodeSystem}}' {{.ExtraContent}}
   {{- else}}
     {{- $excludeNullFlavor := valueOrDefault .ExcludeNullFlavor false}}
     {{- if $excludeNullFlavor}}{{- else}} nillFlavor='UNK'

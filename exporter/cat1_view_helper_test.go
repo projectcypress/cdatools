@@ -245,11 +245,11 @@ func TestHasReason(t *testing.T) {
 	assert.Equal(t, true, hasReason(entry))
 }
 
-func TestHasPreferredCode(t *testing.T) {
-	assert.Equal(t, false, hasPreferredCode(models.Concept{}))
-	assert.Equal(t, false, hasPreferredCode(models.Concept{Code: "my code"}))
-	assert.Equal(t, false, hasPreferredCode(models.Concept{CodeSystem: "my code system"}))
-	assert.Equal(t, true, hasPreferredCode(models.Concept{Code: "my code", CodeSystem: "my code system"}))
+func TestHasConcept(t *testing.T) {
+	assert.Equal(t, false, hasConcept(models.Concept{}))
+	assert.Equal(t, false, hasConcept(models.Concept{Code: "my code"}))
+	assert.Equal(t, false, hasConcept(models.Concept{CodeSystem: "my code system"}))
+	assert.Equal(t, true, hasConcept(models.Concept{Code: "my code", CodeSystem: "my code system"}))
 }
 
 func TestStringInSlice(t *testing.T) {
@@ -257,6 +257,17 @@ func TestStringInSlice(t *testing.T) {
 	assert.Equal(t, true, stringInSlice("one", stringSlice))
 	assert.Equal(t, true, stringInSlice("two", stringSlice))
 	assert.Equal(t, false, stringInSlice("three", stringSlice))
+}
+
+func TestConcatStringSlice(t *testing.T) {
+	stringSlice := []string{"one", "two", "three"}
+	assert.Equal(t, "one, two, three", concatStringSlice(stringSlice, ", "))
+	assert.Equal(t, "one\ntwo\nthree", concatStringSlice(stringSlice, "\n"))
+}
+
+func TestHasAddress(t *testing.T) {
+	assert.Equal(t, true, hasAddress(models.Facility{Address: models.Address{City: "ma ctay"}}))
+	assert.Equal(t, false, hasAddress(models.Facility{}))
 }
 
 // - - - - - - - - //

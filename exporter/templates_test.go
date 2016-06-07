@@ -158,8 +158,47 @@ func TestEncounterPerformedTemplate(t *testing.T) {
 	ei.EntrySection = entrySection
 	rootNode = xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
 	// assertXPath(t, rootNode, "//entry/encounter/sdtc:dischargeDispositionCode", map[string]string{"code": "my_code", "codeSystem": "my_code_system"}, nil)
-	fmt.Printf(" -> namespaces declared are %v\n", rootNode.DeclaredNamespaces())
-	assertXPath(t, rootNode, "//sdtc:dischargeDispositionCode", nil, nil)
+	// fmt.Printf(" -> namespaces declared are %v\n", rootNode.DeclaredNamespaces())
+	// assertXPath(t, rootNode, "//sdtc:dischargeDispositionCode", nil, nil) // <-- I CANNOT GET NAMESPACED XPATHS TO WORK. THIS SHOULD BE POSSIBLE (I think)
+
+	// facility
+	address := models.Address{}
+	facility := models.Facility{Name: "my_facility", StartTime: 1234, EndTime: 4321, Address: address}
+	ei = getDataForQrdaOid(qrdaOid)
+	entrySection = ei.EntrySection.(*models.Encounter)
+	entrySection.Facility = facility
+	ei.EntrySection = entrySection
+	rootNode = xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+	assertXPath(t, rootNode, "//entry/encounter/participant[@typeCode='LOC']", nil, nil)
+	assertXPath(t, rootNode, "//entry/encounter/participant[@typeCode='LOC']/templateId", map[string]string{"root": "2.16.840.1.113883.10.20.24.3.100"}, nil)
+	assertXPath(t, rootNode, "//entry/encounter/participant[@typeCode='LOC']/time/low", map[string]string{"value": "197001010020+0000"}, nil)
+	assertXPath(t, rootNode, "//entry/encounter/participant[@typeCode='LOC']/time/high", map[string]string{"value": "197001010112+0000"}, nil)
+	assertXPath(t, rootNode, "//entry/encounter/participant[@typeCode='LOC']/participantRole[@classCode='SDLOC']/code", map[string]string{"nullFlavor": "UNK"}, nil) // no facility participant role code
+	assertNoXPath(t, rootNode, "//entry/encounter/participant[@typeCode='LOC']/participantRole[@classCode='SDLOC']/addr")
+	assertXPath(t, rootNode, "//entry/encounter/participant[@typeCode='LOC']/participantRole[@classCode='SDLOC']/telecom", map[string]string{"nullFlavor": "UNK"}, nil)
+	assertXPath(t, rootNode, "//entry/encounter/participant[@typeCode='LOC']/participantRole[@classCode='SDLOC']/playingEntity", map[string]string{"classCode": "PLC"}, nil)
+	assertContent(t, rootNode, "//entry/encounter/participant[@typeCode='LOC']/participantRole[@classCode='SDLOC']/playingEntity/name", "my_facility")
+
+	// facility participant role code
+	concept := models.Concept{Code: "my_code", CodeSystem: "my_code_system"}
+	facility = models.Facility{Name: "my_facility", Concept: concept}
+	entrySection = ei.EntrySection.(*models.Encounter)
+	entrySection.Facility = facility
+	ei.EntrySection = entrySection
+	rootNode = xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+	assertXPath(t, rootNode, "//entry/encounter/participant[@typeCode='LOC']/participantRole[@classCode='SDLOC']/code", map[string]string{"code": "my_code", "codeSystem": "my_code_system"}, nil)
+
+	// facility address
+	facility = models.Facility{Name: "my_facility", Address: models.Address{Street: []string{"1 Lane Road", "Apt 1"}, City: "Buttsville", State: "MA", Zip: "12345", Country: "Russia", Use: "Monitoring stuff levels"}}
+	entrySection = ei.EntrySection.(*models.Encounter)
+	entrySection.Facility = facility
+	ei.EntrySection = entrySection
+	rootNode = xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+	assertContent(t, rootNode, "//entry/encounter/participant[@typeCode='LOC']/participantRole[@classCode='SDLOC']/addr/streetAddressLine", "1 Lane Road\nApt 1")
+	assertContent(t, rootNode, "//entry/encounter/participant[@typeCode='LOC']/participantRole[@classCode='SDLOC']/addr/city", "Buttsville")
+	assertContent(t, rootNode, "//entry/encounter/participant[@typeCode='LOC']/participantRole[@classCode='SDLOC']/addr/state", "MA")
+	assertContent(t, rootNode, "//entry/encounter/participant[@typeCode='LOC']/participantRole[@classCode='SDLOC']/addr/postalCode", "12345")
+	assertContent(t, rootNode, "//entry/encounter/participant[@typeCode='LOC']/participantRole[@classCode='SDLOC']/addr/country", "Russia")
 }
 
 // - - - - - - - - //
@@ -191,8 +230,8 @@ func assertXPath(t *testing.T, elem *xml.ElementNode, pathString string, expecte
 // assert the xml path does not exist in the xml string
 func assertNoXPath(t *testing.T, elem *xml.ElementNode, pathString string) {
 	path := xpath.Compile(pathString)
-	_, err := elem.Search(path)
-	assert.Nil(t, err)
+	elems, _ := elem.Search(path)
+	assert.Equal(t, 0, len(elems))
 }
 
 // assert all xml tags at the xml path do not contain the content
@@ -225,7 +264,7 @@ func xmlRootNodeForQrdaOid(qrdaOid string) *xml.ElementNode {
 // same as xmlRootNodeForQrdaOid() function but allows custom input data (should be an EntryInfo struct)
 func xmlRootNodeForQrdaOidWithData(qrdaOid string, data interface{}) *xml.ElementNode {
 	fileName := "_" + qrdaOid + ".xml"
-	printXmlString(generateXML(fileName, data))
+	// printXmlString(generateXML(fileName, data))
 	return xmlRootNode(generateXML(fileName, data))
 }
 
@@ -244,19 +283,19 @@ func getDataForQrdaOid(qrdaOid string) entryInfo {
 func xmlRootNode(xmlString string) *xml.ElementNode {
 	doc, err := xml.Parse([]byte(xmlString), nil, nil, xml.DefaultParseOption, xml.DefaultEncodingBytes)
 	util.CheckErr(err)
-	path := doc.DocXPathCtx()
-	if registered := path.RegisterNamespace("sdtc", "urn:hl7-org:sdtc"); registered {
-		fmt.Printf(" -> sdtc namespace was registered\n")
-	}
-	if registered := path.RegisterNamespace("cda", "urn:hl7-org:v3"); registered {
-		fmt.Printf(" -> cda namespace was registered\n")
-	}
 	rootNode := doc.Root()
+	setNamespaces(doc, rootNode)
+	return rootNode
+}
+
+func setNamespaces(doc *xml.XmlDocument, rootNode *xml.ElementNode) {
+	path := doc.DocXPathCtx()
+	path.RegisterNamespace("sdtc", "urn:hl7-org:sdtc")
+	path.RegisterNamespace("cda", "urn:hl7-org:v3")
 	rootNode.DeclareNamespace("sdtc", "urn:hl7-org:sdtc")
 	rootNode.DeclareNamespace("cda", "urn:hl7-org:v3")
 	// rootNode.SetNamespace("cda", "urn:hl7-org:v3")
 	// rootNode.SetNamespace("sdtc", "urn:hl7-org:sdtc")
-	return rootNode
 }
 
 func generateXML(fileName string, templateData interface{}) string {

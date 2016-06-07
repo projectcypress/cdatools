@@ -273,7 +273,7 @@ func hasReason(entry models.Entry) bool {
 	return false
 }
 
-func hasPreferredCode(pc models.Concept) bool {
+func hasConcept(pc models.Concept) bool {
 	return pc.Code != "" && pc.CodeSystem != ""
 }
 
@@ -288,4 +288,23 @@ func stringInSlice(str string, list []string) bool {
 		}
 	}
 	return false
+}
+
+func concatStringSlice(elems []string, delimiter string) string {
+	var str string
+	for i, elem := range elems {
+		if i != 0 {
+			str += delimiter
+		}
+		str += elem
+	}
+	return str
+}
+
+func hasAddress(facility models.Facility) bool {
+	address := facility.Address
+	if len(address.Street) == 0 && address.City == "" && address.State == "" && address.Zip == "" && address.Country == "" && address.Use == "" {
+		return false
+	}
+	return true
 }
