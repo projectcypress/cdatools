@@ -20,26 +20,33 @@ import (
 func TestCodeTemplate(t *testing.T) {
 	// tag name is "code", has preferred code, attribute is not "codes"
 	preferredCode := models.Concept{Code: "my_code", CodeSystem: "SNOMED-CT"}
-	codeDisplay := models.CodeDisplay{CodeType: "my_code_type", TagName: "code", Attribute: "my_attr", PreferredCode: preferredCode, ExtraContent: "my_extra_content=\"extra_content_value\""}
+	codeDisplay := models.CodeDisplay{CodeType: "my_code_type", TagName: "code", Attribute: "my_attr", PreferredCode: preferredCode, ValueSetOid: "my_value_set_oid"}
 	rootNode := xmlCodeRootNode(codeDisplay)
-	assertXPath(t, rootNode, "//code", map[string]string{"code": "my_code", "codeSystem": "2.16.840.1.113883.6.96", "my_extra_content": "extra_content_value"}, nil)
+	assertXPath(t, rootNode, "//code", map[string]string{"code": "my_code", "codeSystem": "2.16.840.1.113883.6.96", "sdtc:valueSet": "my_value_set_oid"}, nil)
 	assertNoXPath(t, rootNode, "//code/originalText")
+
+	// empty value set oid
+	preferredCode = models.Concept{Code: "my_code", CodeSystem: "SNOMED-CT"}
+	codeDisplay = models.CodeDisplay{CodeType: "my_code_type", TagName: "code", Attribute: "my_attr", PreferredCode: preferredCode, ValueSetOid: ""}
+	rootNode = xmlCodeRootNode(codeDisplay)
+	assertXPath(t, rootNode, "//code", nil, []string{"sdtc:valueSet"})
 
 	// tag name is not "code"
 	codeDisplay = models.CodeDisplay{CodeType: "my_code_type", TagName: "other_tag_name"}
 	assertXPath(t, xmlCodeRootNode(codeDisplay), "//other_tag_name", nil, nil)
 
-	// tag name is "code", no preferred code, exclude null flavor true
+	// tag name is "code", no preferred code, exclude null flavor true, no value set
 	codeDisplay = models.CodeDisplay{CodeType: "my_code_type", TagName: "code", ExcludeNullFlavor: true}
-	assertXPath(t, xmlCodeRootNode(codeDisplay), "//code", nil, []string{"excludeNullFlavor"})
+	assertXPath(t, xmlCodeRootNode(codeDisplay), "//code", nil, []string{"excludeNullFlavor", "sdtc:valueSet"})
 
 	// tag name is "code", no preferred code, exclude null flavor false
-	codeDisplay = models.CodeDisplay{CodeType: "my_code_type", TagName: "code", Attribute: "my_attr", ExcludeNullFlavor: false, ExtraContent: "extra_stuff"}
+	codeDisplay = models.CodeDisplay{CodeType: "my_code_type", TagName: "code", Attribute: "my_attr", ExcludeNullFlavor: false}
 	assertXPath(t, xmlCodeRootNode(codeDisplay), "//code", map[string]string{"nillFlavor": "UNK"}, nil)
 
-	// attribute is "codes"
-	codeDisplay = models.CodeDisplay{CodeType: "my_code_type", Attribute: "codes"}
+	// attribute is "codes", value set is empty string
+	codeDisplay = models.CodeDisplay{CodeType: "my_code_type", Attribute: "codes", ValueSetOid: ""}
 	rootNode = xmlCodeRootNode(codeDisplay)
+	assertXPath(t, rootNode, "//code/originalText", nil, []string{"sdtc:valueSet"})
 	assertXPath(t, rootNode, "//code/originalText", nil, nil)
 	assertContent(t, rootNode, "//code/originalText", "my lil description")
 }
@@ -119,18 +126,20 @@ func TestEncounterPerformedTemplate(t *testing.T) {
 	qrdaOid := "2.16.840.1.113883.10.20.24.3.23"
 
 	// only tests r2 compatable
-	rootNode := xmlRootNodeForQrdaOid(qrdaOid)
+	ei := getDataForQrdaOid(qrdaOid)
+	description := ei.EntrySection.GetEntry().Description
+	rootNode := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
 	assertXPath(t, rootNode, "//entry/encounter", map[string]string{"classCode": "ENC", "moodCode": "ENV"}, nil)
-	assertXPath(t, rootNode, "//entry/encounter/templateId[@root='2.16.840.1.113883.10.20.22.4.49']", nil, nil)
-	assertXPath(t, rootNode, "//entry/encounter/templateId[@root='2.16.840.1.113883.10.20.24.3.23']", nil, nil)
+	assertXPath(t, rootNode, "//entry/encounter/templateId[@root='2.16.840.1.113883.10.20.22.4.49']", map[string]string{"extension": "2014-06-09"}, nil)
+	assertXPath(t, rootNode, "//entry/encounter/templateId[@root='2.16.840.1.113883.10.20.24.3.23']", map[string]string{"extension": "2014-12-01"}, nil)
 	assertXPath(t, rootNode, "//entry/encounter/id", map[string]string{"root": "1.3.6.1.4.1.115"}, nil)
-	assertContent(t, rootNode, "//entry/encounter/text", "Encounter, Performed: Encounter Inpatient")
+	assertContent(t, rootNode, "//entry/encounter/text", description)
 	assertXPath(t, rootNode, "//entry/encounter/statusCode", map[string]string{"code": "completed"}, nil)
 	assertXPath(t, rootNode, "//entry/encounter/effectiveTime", nil, nil)
 	// assertXPath(t, rootNode, "//entry/encounter/effectiveTime/low", map[string]string{"value": "201408110415"}, nil)
 
 	// test admit time vs start time for <low> tag. test discharge time vs end time for <high> tag
-	ei := getDataForQrdaOid(qrdaOid)
+	ei = getDataForQrdaOid(qrdaOid)
 	entrySection := ei.EntrySection.(*models.Encounter)
 	entrySection.AdmitTime = 1262462640 // is time 2010 01 02 1504 in EST
 	entrySection.StartTime = 0
@@ -189,16 +198,40 @@ func TestEncounterPerformedTemplate(t *testing.T) {
 	assertXPath(t, rootNode, "//entry/encounter/participant[@typeCode='LOC']/participantRole[@classCode='SDLOC']/code", map[string]string{"code": "my_code", "codeSystem": "my_code_system"}, nil)
 
 	// facility address
-	facility = models.Facility{Name: "my_facility", Address: models.Address{Street: []string{"1 Lane Road", "Apt 1"}, City: "Buttsville", State: "MA", Zip: "12345", Country: "Russia", Use: "Monitoring stuff levels"}}
+	facility = models.Facility{Name: "my_facility", Address: models.Address{Street: []string{"1 Lane Road", "Apt 1"}, City: "Sillyville", State: "MA", Zip: "12345", Country: "Russia", Use: "Monitoring stuff levels"}}
 	entrySection = ei.EntrySection.(*models.Encounter)
 	entrySection.Facility = facility
 	ei.EntrySection = entrySection
 	rootNode = xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
 	assertContent(t, rootNode, "//entry/encounter/participant[@typeCode='LOC']/participantRole[@classCode='SDLOC']/addr/streetAddressLine", "1 Lane Road\nApt 1")
-	assertContent(t, rootNode, "//entry/encounter/participant[@typeCode='LOC']/participantRole[@classCode='SDLOC']/addr/city", "Buttsville")
+	assertContent(t, rootNode, "//entry/encounter/participant[@typeCode='LOC']/participantRole[@classCode='SDLOC']/addr/city", "Sillyville")
 	assertContent(t, rootNode, "//entry/encounter/participant[@typeCode='LOC']/participantRole[@classCode='SDLOC']/addr/state", "MA")
 	assertContent(t, rootNode, "//entry/encounter/participant[@typeCode='LOC']/participantRole[@classCode='SDLOC']/addr/postalCode", "12345")
 	assertContent(t, rootNode, "//entry/encounter/participant[@typeCode='LOC']/participantRole[@classCode='SDLOC']/addr/country", "Russia")
+}
+
+func TestTransferFromTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.81"
+	// qrda oid of encounter performed. transferTo and transferFrom templates use encounter performed as entrySections
+	entryInfo := getDataForQrdaOid("2.16.840.1.113883.10.20.24.3.23")
+	transfer := models.Transfer{Time: int64(1000), Coded: models.Coded{Codes: map[string][]string{"SNOMED-CT": []string{"my_snomed_code_value"}}}}
+	entryInfo.EntrySection.GetEntry().TransferFrom = transfer
+
+	fieldValue := models.FieldValue{CodeListID: "my_code_list_id"}
+	dataCriteria := models.DataCriteria{FieldValues: map[string]models.FieldValue{"TRANSFER_FROM": fieldValue}}
+	entryInfo.MapDataCriteria.DataCriteria = dataCriteria
+
+	rootNode := xmlRootNodeForQrdaOidWithData(qrdaOid, entryInfo)
+	assertXPath(t, rootNode, "//entry", nil, nil)
+	assertXPath(t, rootNode, "//entry/encounter", map[string]string{"classCode": "ENC", "moodCode": "ENV"}, nil)
+	assertXPath(t, rootNode, "//entry/encounter/templateId", map[string]string{"root": "2.16.840.1.113883.10.20.24.3.81", "extension": "2014-12-01"}, nil)
+	assertXPath(t, rootNode, "//entry/encounter/id", map[string]string{"root": "1.3.6.1.4.1.115"}, nil)
+	assertXPath(t, rootNode, "//entry/encounter/code", map[string]string{"code": "77305-1", "codeSystem": "2.16.840.1.113883.6.1", "codeSystemName": "LOINC", "displayName": "transferred from"}, nil)
+	assertXPath(t, rootNode, "//entry/encounter/statusCode", map[string]string{"code": "completed"}, nil)
+	assertXPath(t, rootNode, "//entry/encounter/participant", map[string]string{"typeCode": "ORG"}, nil)
+	assertXPath(t, rootNode, "//entry/encounter/participant/time/low", map[string]string{"value": "197001010016+0000"}, nil)
+	assertXPath(t, rootNode, "//entry/encounter/participant/participantRole", map[string]string{"classCode": "LOCE"}, nil)
+	assertXPath(t, rootNode, "//entry/encounter/participant/participantRole/code", map[string]string{"code": "my_snomed_code_value", "codeSystem": "2.16.840.1.113883.6.96", "sdtc:valueSet": "my_code_list_id"}, nil) // continue adding stdc value set here
 }
 
 // - - - - - - - - //

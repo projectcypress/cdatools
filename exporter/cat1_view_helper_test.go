@@ -61,6 +61,13 @@ func TestTimeToFormat(t *testing.T) {
 	assert.Equal(t, "20160101-700", timeToFormat(1451606400, "20060102-700"))
 }
 
+func TestTransferQrdaOidIfTransfer(t *testing.T) {
+	qrdaOid := "my_oid"
+	assert.Equal(t, qrdaOid, transferQrdaOidIfTransfer(qrdaOid, map[string][]string{}))
+	assert.Equal(t, "2.16.840.1.113883.10.20.24.3.81", transferQrdaOidIfTransfer(qrdaOid, map[string][]string{"TRANSFER_FROM": []string{}}))
+	assert.Equal(t, "2.16.840.1.113883.10.20.24.3.82", transferQrdaOidIfTransfer(qrdaOid, map[string][]string{"TRANSFER_TO": []string{}}))
+}
+
 func TestNegationIndicator(t *testing.T) {
 	assert.Equal(t, "", negationIndicator(models.Entry{}))
 	assert.Equal(t, "negationInd='true'", negationIndicator(models.Entry{NegationInd: true}))
@@ -172,16 +179,16 @@ func TestCodeToDisplay(t *testing.T) {
 	assert.NotNil(t, err)
 }
 
-func TestCodeDisplayWithPreferredCode(t *testing.T) {
+func TestCodeDisplayFromEntry(t *testing.T) {
 	codeType := "my code type"
-	expectedCodeDisplay := models.CodeDisplay{CodeType: codeType, PreferredCodeSets: []string{"codeSetB"}}
+	expectedCodeDisplay := models.CodeDisplay{CodeType: codeType, PreferredCodeSets: []string{"codeSetB"}, ValueSetOid: "my_value_set_oid"}
 	entry := models.Entry{CodeDisplays: []models.CodeDisplay{expectedCodeDisplay}}
 	codes := make(map[string][]string)
 	codes["codeSetA"] = []string{"third", "fourth"}
 	codes["codeSetB"] = []string{"first", "second"}
 	coded := models.Coded{Codes: codes}
 
-	actualCodeDisplay := codeDisplayWithPreferredCode(&entry, &coded, codeType)
+	actualCodeDisplay := codeDisplayFromEntry(&entry, &coded, codeType, "my_value_set_oid")
 	expectedCodeDisplay.PreferredCode = models.Concept{Code: "first", CodeSystem: "codeSetB"}
 	assert.Equal(t, expectedCodeDisplay, actualCodeDisplay)
 }

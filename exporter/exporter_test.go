@@ -2,7 +2,6 @@ package exporter
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"testing"
 
@@ -15,7 +14,6 @@ import (
 // More functional tests are in the go-cda-repo where we run the exports through
 //  HDS validation.
 func TestExport(t *testing.T) {
-	t.Skip()
 	patientData, err := ioutil.ReadFile("../fixtures/records/1_n_n_ami.json")
 	util.CheckErr(err)
 
@@ -27,7 +25,8 @@ func TestExport(t *testing.T) {
 
 	startDate := int64(1451606400)
 	endDate := int64(1483228799)
-	fmt.Print(GenerateCat1(patientData, measureData, valueSetData, startDate, endDate))
+	// fmt.Print(GenerateCat1(patientData, measureData, valueSetData, startDate, endDate))
+	GenerateCat1(patientData, measureData, valueSetData, startDate, endDate)
 }
 
 func TestEntriesForDataCriteria(t *testing.T) {
@@ -56,7 +55,7 @@ func TestEntriesForDataCriteria(t *testing.T) {
 		}
 	}
 	// TODO: This test will have to change when we get a new export of CMS9v4a with all the HQMFOid fields filled.
-	assert.Equal(t, len(entries), 1)
+	assert.Equal(t, 2, len(entries)) // one encounter performed and one transfer from
 }
 
 func TestImportHQMFTemplateJSON(t *testing.T) {
@@ -85,7 +84,7 @@ func TestGetallDatacriteriaForMultipleMeasures(t *testing.T) {
 	measureData = append([]byte("["), append(append(measureData, append([]byte(","), measureData2...)...), []byte("]")...)...)
 	json.Unmarshal(measureData, &mes)
 
-	assert.Equal(t, len(allDataCriteria(mes)), 47)
+	assert.Equal(t, 48, len(allDataCriteria(mes)))
 }
 
 func TestGetUniqueDataCriteriaForOneMeasure(t *testing.T) {

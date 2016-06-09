@@ -1686,5 +1686,40 @@
         "display_name": "ResultVS",
         "oid": "1.2.3.4.5.6.7.8.9.11",
         "version": "Draft"
+    }, {
+          "bundle_id": null,
+          "categories": null,
+          "concepts": [
+            {
+              "black_list": false,
+              "code": "33022008",
+              "code_system": "2.16.840.1.113883.6.96",
+              "code_system_name": "SNOMED-CT",
+              "code_system_version": "2016-03",
+              "display_name": "Hospital-based outpatient department (environment)",
+              "white_list": false
+            },
+            {
+              "black_list": false,
+              "code": "440655000",
+              "code_system": "2.16.840.1.113883.6.96",
+              "code_system_name": "SNOMED-CT",
+              "code_system_version": "2016-03",
+              "display_name": "Outpatient environment (environment)",
+              "white_list": false
+            },
+            {
+              "black_list": false,
+              "code": "73770003",
+              "code_system": "2.16.840.1.113883.6.96",
+              "code_system_name": "SNOMED-CT",
+              "code_system_version": "2016-03",
+              "display_name": "Hospital-based outpatient emergency care center (environment)",
+              "white_list": false
+            }
+          ],
+          "display_name": "Transfer From Outpatient",
+          "oid": "2.16.840.1.113883.3.67.1.101.950",
+          "version": "20160418"
     }
 ]

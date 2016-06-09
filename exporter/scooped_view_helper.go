@@ -79,8 +79,8 @@ func entriesForDataCriteria(dataCriteria models.DataCriteria, patient models.Rec
 				codeListID := dataCriteria.FieldValues["TRANSFER_FROM"].CodeListID
 				if codeListID == "" {
 					codeListID = dataCriteria.FieldValues["TRANSFER_TO"].CodeListID
-					codes = vsMap[codeListID]
 				}
+				codes = vsMap[codeListID]
 			}
 		}
 
@@ -104,13 +104,13 @@ func entriesForDataCriteria(dataCriteria models.DataCriteria, patient models.Rec
 				if reasonInCodes(codes[0], entryData.NegationReason) {
 					filteredEntries = append(filteredEntries, entry)
 				}
-			} else if dataCriteriaOid == "2.16.840.1.113883.3.560.1.71" && &entryData.TransferFrom != nil {
+			} else if dataCriteriaOid == "2.16.840.1.113883.3.560.1.71" && !entryData.TransferFrom.IsEmpty() {
 				entryData.TransferFrom.Codes[entryData.TransferFrom.CodeSystem] = []string{entryData.TransferFrom.Code}
 				tfc := entryData.TransferFrom.Coded.CodesInCodeSet(codes[0].Set)
 				if len(tfc) > 0 {
 					filteredEntries = append(filteredEntries, entry)
 				}
-			} else if dataCriteriaOid == "2.16.840.1.113883.3.560.1.72" && &entryData.TransferTo != nil {
+			} else if dataCriteriaOid == "2.16.840.1.113883.3.560.1.72" && !entryData.TransferTo.IsEmpty() {
 				entryData.TransferTo.Codes[entryData.TransferTo.CodeSystem] = []string{entryData.TransferTo.Code}
 				if len(entryData.TransferTo.Coded.CodesInCodeSet(codes[0].Set)) > 0 {
 					filteredEntries = append(filteredEntries, entry)

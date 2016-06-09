@@ -31,7 +31,7 @@ type CodeDisplay struct {
 	TagName                string   `json:"tag_name,omitempty"`
 	Attribute              string   `json:"attribute,omitempty"`
 	ExcludeNullFlavor      bool     `json:"exclude_null_flavor,omitempty"`
-	ExtraContent           string   `json:"extra_content,omitempty"`
+	ValueSetOid            string   `json:"value_set_oid,omitempty"`
 	PreferredCodeSets      []string `json:"preferred_code_sets,omitempty"`
 	PreferredCode          Concept  `json:"preferred_code,omitempty"`
 	EntryFieldNameForCoded string   `json:"entry_field_name_for_coded"`

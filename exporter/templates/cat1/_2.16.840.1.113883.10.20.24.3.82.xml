@@ -1,1 +1,15 @@
 {{/* template for transfer to. this is unfinished */}}
+<participant typeCode="DST">
+  <!-- Transfer To (Destination) template -->
+  <templateId root="2.16.840.1.113883.10.20.24.3.82"/>
+  <time {{valueOrNullFlavor .EntrySection.TransferTo.Time}}/>
+  <participantRole classCode="LOCE">
+    {{/* NOTE: did not add transfer_vs_map to options hash. should I do this? */}}
+    {{/*$transferOid := getTransferOid .MapDataCriteria.DataCriteria "TRANSFER_TO"*/}}
+
+    {{/* - - - FIX LATER: NEED sdtc:valueSet='my_value_set' IN CALL TO codeDisplayFromEntry() */}}
+
+    {{/*$vsTag := sdtcValueSetAttribute $transferOid*/}}
+    {{template "_code.xml" codeDisplayFromEntry .EntrySection.Entry .EntrySection.TransferTo.Coded "transferTo" ""}}
+  </participantRole>
+</participant>

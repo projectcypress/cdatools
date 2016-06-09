@@ -118,6 +118,86 @@
         "title": "Transfer From Outpatient"
       },
       "_type": "Encounter"
+    },
+    {
+      "admitTime": null,
+      "admitType": null,
+      "codes": {
+        "SNOMED-CT": [
+          "32485007"
+        ]
+      },
+      "description": "Encounter, Performed: Encounter Inpatient",
+      "diagnosis": null,
+      "dischargeDisposition": null,
+      "dischargeTime": null,
+      "end_time": 1429743600,
+      "mood_code": "EVN",
+      "negationInd": null,
+      "negationReason": null,
+      "oid": "2.16.840.1.113883.3.560.1.79",
+      "performer_id": null,
+      "reason": null,
+      "specifics": null,
+      "start_time": 1429723800,
+      "status_code": {
+        "HL7 ActStatus": [
+          "performed"
+        ]
+      },
+      "time": null,
+      "transferTo": {
+        "code": "434771000124107",
+        "code_system": "SNOMED-CT",
+        "codes": {
+        },
+        "time": 1429743600,
+        "title": "Acute care hospital"
+      },
+      "_type": "Encounter"
+    },
+    {
+      "admitTime": null,
+      "admitType": null,
+      "codes": {
+        "SNOMED-CT": [
+          "4525004"
+        ]
+      },
+      "description": "Encounter, Performed: Emergency Department Visit",
+      "diagnosis": null,
+      "dischargeDisposition": null,
+      "dischargeTime": null,
+      "end_time": 1431332100,
+      "facility": {
+        "code": null,
+        "end_time": 1431332100,
+        "name": null,
+        "start_time": 1431327600
+      },
+      "mood_code": "EVN",
+      "negationInd": null,
+      "negationReason": null,
+      "oid": "2.16.840.1.113883.3.560.1.79",
+      "performer_id": null,
+      "reason": null,
+      "specifics": null,
+      "start_time": 1431327600,
+      "status_code": {
+        "HL7 ActStatus": [
+          "performed"
+        ]
+      },
+      "time": null,
+      "transferFrom": {
+        "code": "33022008",
+        "code_system": "SNOMED-CT",
+        "codes": {
+        },
+        "time": 1431326700,
+        "title": "Transfer From Outpatient"
+      },
+      "_type": "Encounter"
     }
   ],
   "ethnicity": {

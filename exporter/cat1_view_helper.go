@@ -131,7 +131,8 @@ func generateExecuteTemplateForEntry(cat1Template *template.Template) func(entry
 	return func(ei entryInfo) string {
 		entry := ei.EntrySection.GetEntry()
 		qrdaOid := HqmfToQrdaOid(entry.Oid)
-
+		qrdaOid = transferQrdaOidIfTransfer(qrdaOid, ei.MapDataCriteria.FieldOids)
+		// printGenerateTemplateInfo(entry.Oid, qrdaOid, ei)
 		templateName := fmt.Sprintf("_%v.xml", qrdaOid)
 		var b bytes.Buffer
 		if err := cat1Template.ExecuteTemplate(&b, templateName, ei); err != nil {
@@ -140,6 +141,27 @@ func generateExecuteTemplateForEntry(cat1Template *template.Template) func(entry
 
 		return b.String()
 	}
+}
+
+// REMOVE LATER
+func printGenerateTemplateInfo(hqmfOid string, qrdaOid string, ei entryInfo) {
+	fmt.Printf("\n>>>>>>>\n")
+	fmt.Printf("generating template for\n")
+	fmt.Printf(" -> hqmf oid \"%v\"\n", hqmfOid)
+	fmt.Printf(" -> qrda oid \"%v\"\n", qrdaOid)
+	fmt.Printf(" -> mdc FieldOids is %v\n", ei.MapDataCriteria.FieldOids)
+	fmt.Printf("<<<<<<<\n\n")
+}
+
+// returns a transfer oid (transferTo or transferFrom oid) if a transfer data criteria oid is specified by fieldOids
+//   returns input qrdaOid if a transfer data criteria oid is not found in fieldOids
+func transferQrdaOidIfTransfer(qrdaOid string, fieldOids map[string][]string) string {
+	if _, ok := fieldOids["TRANSFER_FROM"]; ok {
+		return "2.16.840.1.113883.10.20.24.3.81" // qrda oid for transfer from
+	} else if _, ok := fieldOids["TRANSFER_TO"]; ok {
+		return "2.16.840.1.113883.10.20.24.3.82"
+	}
+	return qrdaOid
 }
 
 func negationIndicator(entry models.Entry) string {
@@ -227,13 +249,16 @@ func codeToDisplay(entrySection models.HasEntry, codeType string) (models.CodeDi
 	return entry.GetCodeDisplay(codeType)
 }
 
-func codeDisplayWithPreferredCode(entry *models.Entry, coded *models.Coded, codeType string) models.CodeDisplay {
+// gets codeDisplay object from entry using codeType. adds PreferredCode to codeDisplay object. adds ValueSetOid to codeDisplay object
+func codeDisplayFromEntry(entry *models.Entry, coded *models.Coded, codeType string, valueSetOid string) models.CodeDisplay {
 	codeDisplay, err := entry.GetCodeDisplay(codeType)
 	util.CheckErr(err)
 	codeDisplay.PreferredCode = coded.PreferredCode(codeDisplay.PreferredCodeSets)
+	codeDisplay.ValueSetOid = valueSetOid
 	return codeDisplay
 }
 
+// returns string containing xml dischargeDispositionCode tag
 // dd stands for discharge disposition
 func dischargeDispositionDisplay(dd map[string]string) string {
 	// set code system

@@ -615,6 +615,23 @@
             "reference": "GROUP_variable_CHILDREN_12"
           }
         ]
+      },
+      "TransferFromOutpatient_TransferFrom_689bee80_0c1a_4631_8d94_2339c2b04446": {
+        "title": "Transfer From: ",
+        "description": "Transfer From: ",
+        "type": "transfers",
+        "definition": "transfer_from",
+        "hard_status": false,
+        "negation": false,
+        "source_data_criteria": "TransferFromOutpatient_TransferFrom_689bee80_0c1a_4631_8d94_2339c2b04446_source",
+        "variable": false,
+        "field_values": {
+          "TRANSFER_FROM": {
+            "type": "CD",
+            "code_list_id": "2.16.840.1.113883.3.67.1.101.950",
+            "title": "Transfer From"
+          }
+        }
       }
     },
     "source_data_criteria": {
