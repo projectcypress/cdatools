@@ -120,8 +120,10 @@ func entriesForDataCriteria(dataCriteria models.DataCriteria, patient models.Rec
 					}
 				}
 			} else {
-				if entryData.IsInCodeSet(codes) && entryData.NegationInd == dataCriteria.Negation {
-					filteredEntries = append(filteredEntries, entry)
+				if entryData.IsInCodeSet(codes) && entryData.NegationInd != nil {
+					if *entryData.NegationInd == dataCriteria.Negation {
+						filteredEntries = append(filteredEntries, entry)
+					}
 				}
 			}
 		}
