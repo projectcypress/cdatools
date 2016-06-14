@@ -14,7 +14,7 @@ type Entry struct {
 	ID             CDAIdentifier       `json:"cda_identifier,omitempty"`
 	Oid            string              `json:"oid,omitempty"`
 	Description    string              `json:"description,omitempty"`
-	NegationInd    bool                `json:"negationInd,omitempty"`
+	NegationInd    *bool               `json:"negationInd,omitempty"`
 	NegationReason CodedConcept        `json:"negationReason,omitempty"`
 	Values         []ResultValue       `json:"values,omitempty"`
 	StatusCode     map[string][]string `json:"status_code,omitempty"`
