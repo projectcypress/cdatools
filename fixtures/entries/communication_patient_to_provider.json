@@ -1,0 +1,24 @@
+{
+  "codes": {
+    "SNOMED-CT": [
+      "315640000"
+    ]
+  },
+  "description": "Communication: From Patient to Provider: Influenza Vaccination Declined",
+  "direction": "communication_from_patient_to_provider",
+  "end_time": 1383466500,
+  "mood_code": "EVN",
+  "negationInd": null,
+  "negationReason": null,
+  "oid": "2.16.840.1.113883.3.560.1.30",
+  "reason": null,
+  "specifics": null,
+  "start_time": 1383466500,
+  "status_code": {
+    "HL7 ActStatus": [
+      null
+    ]
+  },
+  "time": null,
+  "_type": "Communication"
+}

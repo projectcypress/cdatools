@@ -152,9 +152,46 @@ func TestEncounterPerformedTemplate(t *testing.T) {
 	// continue testing here
 }
 
+func TestCommunicationFromPatientToProviderTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.2"
+	dataCriteriaName := "communication_patient_to_provider"
+	entryName := "communication_patient_to_provider"
+
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Communication{})
+
+	xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+
+	// spew.Dump(xrn)
+}
+
 // - - - - - - - - //
 //   H E L P E R   //
 // - - - - - - - - //
+
+// Given the name of an "entry" file, a "dataCriteria" file, and a pointer to an entry object, return the required entryInfo struct for the template
+func generateDataForTemplate(dataCriteriaName string, entryName string, entry models.HasEntry) entryInfo {
+	dc, err := ioutil.ReadFile(fmt.Sprintf("../fixtures/data_criteria/%s.json", dataCriteriaName))
+	util.CheckErr(err)
+
+	ent, err := ioutil.ReadFile(fmt.Sprintf("../fixtures/entries/%s.json", entryName))
+	util.CheckErr(err)
+
+	var dataCriteria models.DataCriteria
+	json.Unmarshal(dc, &dataCriteria)
+
+	json.Unmarshal(ent, &entry)
+
+	SetCodeDisplaysForEntry(entry.GetEntry())
+
+	udc := uniqueDataCriteria([]models.DataCriteria{dataCriteria})
+
+	ei := entryInfo{
+		EntrySection:    entry,
+		MapDataCriteria: udc[0],
+	}
+
+	return ei
+}
 
 // asserts the xml path exists in xml string
 // asserts that each expected attribute is on the tag
@@ -215,6 +252,7 @@ func xmlRootNodeForQrdaOid(qrdaOid string) *xml.ElementNode {
 // same as xmlRootNodeForQrdaOid() function but allows custom input data (should be an EntryInfo struct)
 func xmlRootNodeForQrdaOidWithData(qrdaOid string, data interface{}) *xml.ElementNode {
 	fileName := "_" + qrdaOid + ".xml"
+	// printXmlString(generateXML(fileName, data))
 	return xmlRootNode(generateXML(fileName, data))
 }
 
