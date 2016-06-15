@@ -138,6 +138,7 @@ func exporterFuncMap(cat1Template *template.Template) template.FuncMap {
 		"codeDisplayAttributeIsCodes":  codeDisplayAttributeIsCodes,
 		"hasPreferredCode":             hasPreferredCode,
 		"codeDisplayWithPreferredCode": codeDisplayWithPreferredCode,
+		"negationIndicator":            negationIndicator,
 	}
 }
 
