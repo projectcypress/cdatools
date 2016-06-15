@@ -124,6 +124,8 @@ func entriesForDataCriteria(dataCriteria models.DataCriteria, patient models.Rec
 					if *entryData.NegationInd == dataCriteria.Negation {
 						filteredEntries = append(filteredEntries, entry)
 					}
+				} else if entryData.IsInCodeSet(codes) && entryData.NegationInd == nil && !dataCriteria.Negation {
+					filteredEntries = append(filteredEntries, entry)
 				}
 			}
 		}
