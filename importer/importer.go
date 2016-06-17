@@ -468,24 +468,6 @@ func ExtractScalar(scalar *models.Scalar, entryElement xml.Node, scalarPath *xpa
 	}
 }
 
-func ExtractReason(encounter *models.Encounter, entryElement xml.Node) {
-	var reasonXPath = xpath.Compile("cda:entryRelationship[@typeCode='RSON']/cda:observation")
-	reasonElements, err := entryElement.Search(reasonXPath)
-	util.CheckErr(err)
-	if len(reasonElements) > 0 {
-		reasonElement := reasonElements[0]
-
-		//extract reason value code
-		var valueCodeXPath = xpath.Compile("cda:value/@code")
-		var valueCodeSystemXPath = xpath.Compile("cda:value/@codeSystem")
-		valueCode := FirstElementContent(valueCodeXPath, reasonElement)
-		valueCodeSystem := models.CodeSystemFor(FirstElementContent(valueCodeSystemXPath, reasonElement))
-		encounter.Reason.Code = valueCode
-		encounter.Reason.CodeSystem = valueCodeSystem
-		encounter.Reason.CodeSystemName = valueCodeSystem
-	}
-}
-
 func ExtractValues(entry *models.Entry, entryElement xml.Node, valuePath *xpath.Expression) {
 	valueElements, err := entryElement.Search(valuePath)
 	util.CheckErr(err)
