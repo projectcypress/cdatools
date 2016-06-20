@@ -14,16 +14,12 @@ func ImportAddress(addressElement xml.Node) models.Address {
 	util.CheckErr(err)
 	address.Street = make([]string, len(streetNameElements))
 	for i, streetNameElement := range streetNameElements {
-		address.Street[i] = streetNameElement.Attr("text")
+		address.Street[i] = streetNameElement.Content()
 	}
-	city := FirstElement(xpath.Compile("cda:city"), addressElement).Attr("text")
-	address.City = city
-	state := FirstElement(xpath.Compile("cda:state"), addressElement).Attr("text")
-	address.State = state
-	zip := FirstElement(xpath.Compile("cda:postalCode"), addressElement).Attr("text")
-	address.Zip = zip
-	country := FirstElement(xpath.Compile("cda:country"), addressElement).Attr("text")
-	address.Country = country
+	address.City = FirstElementContent(xpath.Compile("cda:city"), addressElement)
+	address.State = FirstElementContent(xpath.Compile("cda:state"), addressElement)
+	address.Zip = FirstElementContent(xpath.Compile("cda:postalCode"), addressElement)
+	address.Country = FirstElementContent(xpath.Compile("cda:country"), addressElement)
 
 	return address
 }

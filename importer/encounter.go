@@ -66,10 +66,7 @@ func extractFacility(encounter *models.Encounter, entryElement xml.Node) {
 		var facility = models.Facility{}
 
 		var nameXPath = xpath.Compile("cda:playingEntity/cda:name")
-		nameElement := FirstElement(nameXPath, participantElement)
-		if nameElement != nil {
-			facility.Name = nameElement.Attr("text")
-		}
+		facility.Name = FirstElementContent(nameXPath, participantElement)
 
 		addressXPath := xpath.Compile("cda:addr")
 		addressElements, err := participantElement.Search(addressXPath)
