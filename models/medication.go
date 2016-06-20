@@ -3,15 +3,15 @@ package models
 type Medication struct {
 	Entry                `bson:",inline"`
 	AdministrationTiming administrationTiming `json:"administration_timing,omitempty"`
-	Route                Coded                `json:"route,omitempty"`
+	Route                *CodedConcept        `json:"route,omitempty"`
 	Dose                 Scalar               `json:"dose,omitempty"`
-	AnatomicalApproach   Coded                `json:"anatomical_approach,omitempty"`
+	AnatomicalApproach   *CodedConcept        `json:"anatomical_approach,omitempty"`
 	DoseRestriction      doseRestriction      `json:"dose_restriction,omitempty"`
-	ProductForm          Coded                `json:"product_form,omitempty"`
-	DeliveryMethod       Coded                `json:"delivery_method,omitempty"`
-	TypeOfMedication     Coded                `json:"type_of_medication,omitempty"`
-	Indication           Coded                `json:"indication,omitempty"`
-	Vehicle              Coded                `json:"vehicle,omitempty"`
+	ProductForm          *CodedConcept        `json:"product_form,omitempty"`
+	DeliveryMethod       *CodedConcept        `json:"delivery_method,omitempty"`
+	TypeOfMedication     *CodedConcept        `json:"type_of_medication,omitempty"`
+	Indication           *CodedConcept        `json:"indication,omitempty"`
+	Vehicle              *CodedConcept        `json:"vehicle,omitempty"`
 	FulfillmentHistory   []FulfillmentHistory `json:"fulfillmentHistory,omitempty"`
 	OrderInformation     []OrderInformation   `json:"orderInformation,omitempty"`
 }

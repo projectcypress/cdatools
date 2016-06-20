@@ -62,8 +62,10 @@ func TestTimeToFormat(t *testing.T) {
 }
 
 func TestNegationIndicator(t *testing.T) {
-	assert.Equal(t, "", negationIndicator(models.Entry{}))
-	assert.Equal(t, "negationInd='true'", negationIndicator(models.Entry{NegationInd: true}))
+	fals := false
+	assert.Equal(t, "", negationIndicator(models.Entry{NegationInd: &fals}))
+	tru := true
+	assert.Equal(t, "negationInd='true'", negationIndicator(models.Entry{NegationInd: &tru}))
 }
 
 func TestIdentifierForInterface(t *testing.T) {

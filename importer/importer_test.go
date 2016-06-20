@@ -4,12 +4,13 @@ import (
 	"io/ioutil"
 	"testing"
 
+	"strconv"
+
 	"github.com/moovweb/gokogiri/xml"
 	"github.com/moovweb/gokogiri/xpath"
 	"github.com/pebbe/util"
 	"github.com/projectcypress/cdatools/models"
 	. "gopkg.in/check.v1"
-	"strconv"
 )
 
 type ImporterSuite struct {
@@ -45,9 +46,9 @@ func (i *ImporterSuite) TestExtractDemograpics(c *C) {
 	c.Assert(i.patient.Last, Equals, "Flores")
 	c.Assert(i.patient.Birthdate, Equals, int64(599646600))
 	c.Assert(i.patient.Race.Code, Equals, "1002-5")
-	c.Assert(i.patient.Race.CodeSet, Equals, "CDC Race and Ethnicity")
+	c.Assert(i.patient.Race.CodeSystem, Equals, "CDC Race and Ethnicity")
 	c.Assert(i.patient.Ethnicity.Code, Equals, "2186-5")
-	c.Assert(i.patient.Ethnicity.CodeSet, Equals, "CDC Race and Ethnicity")
+	c.Assert(i.patient.Ethnicity.CodeSystem, Equals, "CDC Race and Ethnicity")
 }
 
 func (i *ImporterSuite) TestExtractEncountersPerformed(c *C) {
@@ -271,8 +272,10 @@ func (i *ImporterSuite) TestMedicationActive(c *C) {
 	c.Assert(medicationActive.StartTime, Equals, int64(1092658739))
 	c.Assert(medicationActive.EndTime, Equals, int64(1092676026))
 	c.Assert(medicationActive.Oid, Equals, "2.16.840.1.113883.3.560.1.13")
-	c.Assert(medicationActive.Route.Codes["NCI Thesaurus"][0], Equals, "C38288")
-	c.Assert(medicationActive.ProductForm.Codes["NCI Thesaurus"][0], Equals, "C42944")
+	c.Assert(medicationActive.Route.Code, Equals, "C38288")
+	c.Assert(medicationActive.Route.CodeSystemName, Equals, "NCI Thesaurus")
+	c.Assert(medicationActive.ProductForm.Code, Equals, "C42944")
+	c.Assert(medicationActive.ProductForm.CodeSystemName, Equals, "NCI Thesaurus")
 	c.Assert(medicationActive.DoseRestriction.Numerator.Unit, Equals, "oz")
 	c.Assert(medicationActive.DoseRestriction.Numerator.Value, Equals, int64(42))
 	c.Assert(medicationActive.DoseRestriction.Denominator.Unit, Equals, "oz")
@@ -503,7 +506,7 @@ func (i *ImporterSuite) TestCommunication(c *C) {
 	c.Assert(communication.Oid, Equals, "2.16.840.1.113883.3.560.1.30")
 	c.Assert(communication.Direction, Equals, "communication_from_patient_to_provider")
 	c.Assert(communication.Codes["SNOMED-CT"][0], Equals, "315640000")
-	c.Assert(communication.NegationInd, Equals, false)
+	c.Assert(*communication.NegationInd, Equals, false)
 	c.Assert(communication.Reason.Code, Equals, "105480006")
 	c.Assert(communication.Reason.CodeSystem, Equals, "SNOMED-CT")
 	reference := communication.References[0]
@@ -609,7 +612,7 @@ func (i *ImporterSuite) TestExtractProcedurePerformed(c *C) {
 	c.Assert(procedurePerformed.StartTime, Equals, int64(506358845))
 	c.Assert(procedurePerformed.EndTime, Equals, int64(506409573))
 	c.Assert(procedurePerformed.IncisionTime, Equals, int64(506358905))
-	c.Assert(procedurePerformed.NegationInd, Equals, true)
+	c.Assert(*procedurePerformed.NegationInd, Equals, true)
 	c.Assert(procedurePerformed.NegationReason, Equals, models.CodedConcept{}) // no negation reason
 
 	// tests not included in health data standards
@@ -625,7 +628,7 @@ func (i *ImporterSuite) TestExtractProcedurePerformed(c *C) {
 	}
 	// second procedure performed has negation reasons (not just negation indicator with no reason)
 	c.Assert(procedurePerformed.ID.Root, Equals, "51083f0e944dfe9bd7001234")
-	c.Assert(procedurePerformed.NegationInd, Equals, true)
+	c.Assert(*procedurePerformed.NegationInd, Equals, true)
 	c.Assert(procedurePerformed.NegationReason.Code, Equals, "308292007")
 	c.Assert(procedurePerformed.NegationReason.CodeSystem, Equals, "SNOMED-CT")
 
@@ -653,7 +656,7 @@ func (i *ImporterSuite) TestExtractPhysicalExamPerformed(c *C) {
 	c.Assert(physicalExamPerformed.Codes["LOINC"][0], Equals, "8462-4")
 	c.Assert(physicalExamPerformed.StartTime, Equals, int64(751003636))
 	c.Assert(physicalExamPerformed.EndTime, Equals, int64(751060302))
-	c.Assert(physicalExamPerformed.NegationInd, Equals, true)
+	c.Assert(*physicalExamPerformed.NegationInd, Equals, true)
 	c.Assert(physicalExamPerformed.NegationReason, Equals, models.CodedConcept{})
 	c.Assert(physicalExamPerformed.StatusCode["HL7 ActStatus"][0], Equals, "performed")
 }
@@ -801,7 +804,7 @@ func (i *ImporterSuite) TestExtractDiagnosticStudyResult(c *C) {
 	c.Assert(diagnosticStudyResult.Codes["LOINC"][0], Equals, "71485-7")
 	c.Assert(diagnosticStudyResult.StartTime, Equals, int64(622535563))
 	c.Assert(diagnosticStudyResult.EndTime, Equals, int64(622548751))
-	c.Assert(diagnosticStudyResult.NegationInd, Equals, true)
+	c.Assert(*diagnosticStudyResult.NegationInd, Equals, true)
 	c.Assert(diagnosticStudyResult.NegationReason, Equals, models.CodedConcept{Code: "79899007"})
 }
 

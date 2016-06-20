@@ -280,14 +280,14 @@ func Read_patient(path string) string {
 		patient.Procedures = append(patient.Procedures, rawProcedurePerformed[i].(models.Procedure))
 	}
 
-	// Physical Exam, Performed
+	//Physical Exam Performed
 	var physicalExamPerformedXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.59']")
 	rawPhysicalExamPerformed := ExtractSection(patientElement, physicalExamPerformedXPath, ProcedureExtractor, "2.16.840.1.113883.3.560.1.57", "performed")
 	for i := range rawPhysicalExamPerformed {
 		patient.Procedures = append(patient.Procedures, rawPhysicalExamPerformed[i].(models.Procedure))
 	}
 
-	// Intervention, Order
+	//Intervention Order
 	var interventionOrderXPath = xpath.Compile("//cda:entry/cda:act[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.31']")
 	rawInterventionOrder := ExtractSection(patientElement, interventionOrderXPath, ProcedureExtractor, "2.16.840.1.113883.3.560.1.45", "ordered")
 	for i := range rawInterventionOrder {
@@ -411,6 +411,10 @@ func ExtractEntry(entryElement xml.Node, oid string, extractor EntryExtractor, s
 	//create code map
 	entry.Codes = map[string][]string{}
 
+	//default negationInd to false
+	fals := false
+	entry.NegationInd = &fals
+
 	// create status code and set status code from status
 	set_status_code(&entry, status)
 
@@ -464,24 +468,6 @@ func ExtractScalar(scalar *models.Scalar, entryElement xml.Node, scalarPath *xpa
 	}
 }
 
-func ExtractReason(encounter *models.Encounter, entryElement xml.Node) {
-	var reasonXPath = xpath.Compile("cda:entryRelationship[@typeCode='RSON']/cda:observation")
-	reasonElements, err := entryElement.Search(reasonXPath)
-	util.CheckErr(err)
-	if len(reasonElements) > 0 {
-		reasonElement := reasonElements[0]
-
-		//extract reason value code
-		var valueCodeXPath = xpath.Compile("cda:value/@code")
-		var valueCodeSystemXPath = xpath.Compile("cda:value/@codeSystem")
-		valueCode := FirstElementContent(valueCodeXPath, reasonElement)
-		valueCodeSystem := models.CodeSystemFor(FirstElementContent(valueCodeSystemXPath, reasonElement))
-		encounter.Reason.Code = valueCode
-		encounter.Reason.CodeSystem = valueCodeSystem
-		encounter.Reason.CodeSystemName = valueCodeSystem
-	}
-}
-
 func ExtractValues(entry *models.Entry, entryElement xml.Node, valuePath *xpath.Expression) {
 	valueElements, err := entryElement.Search(valuePath)
 	util.CheckErr(err)
@@ -522,7 +508,8 @@ func ExtractReasonOrNegation(entry *models.Entry, entryElement xml.Node) {
 			if negationAttr != nil {
 				negationInd := negationAttr.String()
 				if negationInd == "true" {
-					entry.NegationInd = true
+					tru := true
+					entry.NegationInd = &tru
 					entry.NegationReason.Code = code
 					entry.NegationReason.CodeSystem = codeSystem
 					return
@@ -536,6 +523,16 @@ func ExtractReasonOrNegation(entry *models.Entry, entryElement xml.Node) {
 	if len(reasonElements) == 0 {
 		extractNegation(entry, entryElement)
 	}
+}
+
+func FirstElement(xpath *xpath.Expression, xmlNode xml.Node) xml.Node {
+	resultNodes, err := xmlNode.Search(xpath)
+	util.CheckErr(err)
+	if len(resultNodes) > 0 {
+		firstNode := resultNodes[0]
+		return firstNode
+	}
+	return nil
 }
 
 func FirstElementContent(xpath *xpath.Expression, xmlNode xml.Node) string {
@@ -580,7 +577,8 @@ func extractValueAndUnit(entry *models.Entry, valueElement xml.Node, valString s
 func extractNegation(entry *models.Entry, entryElement xml.Node) {
 	if negationAttr := entryElement.Attribute("negationInd"); negationAttr != nil {
 		if negationInd := negationAttr.String(); negationInd == "true" { // if the negationInd attribute exists and is "true"
-			entry.NegationInd = true
+			tru := true
+			entry.NegationInd = &tru
 		}
 	}
 }
