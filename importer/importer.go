@@ -3,7 +3,6 @@ package importer
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"strconv"
 	"time"
 
@@ -15,12 +14,9 @@ import (
 
 func main() {}
 
-func Read_patient(path string) string {
+func Read_patient(document string) string {
 
-	data, err := ioutil.ReadFile(path)
-	util.CheckErr(err)
-
-	doc, err := xml.Parse(data, nil, nil, 0, xml.DefaultEncodingBytes)
+	doc, err := xml.Parse([]byte(document), nil, nil, 0, xml.DefaultEncodingBytes)
 	util.CheckErr(err)
 	defer doc.Free()
 
