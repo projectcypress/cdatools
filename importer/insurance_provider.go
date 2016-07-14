@@ -1,17 +1,17 @@
 package importer
 
 import (
-  "github.com/moovweb/gokogiri/xml"
-  "github.com/moovweb/gokogiri/xpath"
-  "github.com/projectcypress/cdatools/models"
+	"github.com/moovweb/gokogiri/xml"
+	"github.com/moovweb/gokogiri/xpath"
+	"github.com/projectcypress/cdatools/models"
 )
 
 func InsuranceProviderExtractor(entry *models.Entry, entryElement xml.Node) interface{} {
-  insuranceProvider := models.InsuranceProvider{}
-  insuranceProvider.Entry = *entry
+	insuranceProvider := models.InsuranceProvider{}
+	insuranceProvider.Entry = *entry
 
-  var codePath = xpath.Compile("cda:value")
-  ExtractCodes(&insuranceProvider.Entry.Coded, entryElement, codePath)
+	var codePath = xpath.Compile("cda:value")
+	ExtractCodes(&insuranceProvider.Entry.Coded, entryElement, codePath)
 
-  return insuranceProvider
+	return insuranceProvider
 }

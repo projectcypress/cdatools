@@ -108,7 +108,7 @@ func (i *ImporterSuite) TestExtractDiagnosesActive(c *C) {
 	c.Assert(firstDiagnosis.Description, Equals, "Diagnosis, Active: Atrial Fibrillation/Flutter")
 	c.Assert(firstDiagnosis.StartTime, Equals, int64(1332775800))
 	c.Assert(firstDiagnosis.EndTime, Equals, int64(0))
-	c.Assert(firstDiagnosis.Severity["SNOMED-CT"][0], Equals, "55561003")
+	c.Assert(firstDiagnosis.Severity.Code, Equals, "55561003")
 	c.Assert(firstDiagnosis.StatusCode["SNOMED-CT"][0], Equals, "55561003")
 	c.Assert(firstDiagnosis.StatusCode["HL7 ActStatus"][0], Equals, "active")
 
