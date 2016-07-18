@@ -54,6 +54,13 @@ func Read_patient(document string) string {
 		patient.Conditions[i] = rawDiagnosesActive[i].(models.Condition)
 	}
 
+	//r3.1 diagnosis
+	var diagnosisXPath = xpath.Compile("//cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.135']")
+	rawDiagnoses := ExtractSection(patientElement, diagnosisXPath, ConditionExtractor, "2.16.840.1.113883.3.560.1.2", "active")
+	for i := range rawDiagnoses {
+		patient.Conditions = append(patient.Conditions, rawDiagnoses[i].(models.Condition))
+	}
+
 	//diagnosis inactive
 	var diagnosisInactiveXPath = xpath.Compile("//cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.13']")
 	rawDiagnosesInactive := ExtractSection(patientElement, diagnosisInactiveXPath, DiagnosisInactiveExtractor, "2.16.840.1.113883.3.560.1.23", "inactive")
@@ -161,6 +168,13 @@ func Read_patient(document string) string {
 	rawMedicationAllergies := ExtractSection(patientElement, medicationAllergyXPath, AllergyExtractor, "2.16.840.1.113883.3.560.1.1", "")
 	for i := range rawMedicationAllergies {
 		patient.Allergies = append(patient.Allergies, rawMedicationAllergies[i].(models.Allergy))
+	}
+
+	// immunization administered
+	var immunizationAdministeredXPath = xpath.Compile("//cda:entry/cda:act/cda:entryRelationship/cda:substanceAdministration[cda:templateId/@root = '2.16.840.1.113883.10.20.22.4.52']")
+	rawImmunizationAdministereds := ExtractSection(patientElement, immunizationAdministeredXPath, MedicationExtractor, "2.16.840.1.113883.10.20.28.3.112", "administered")
+	for i := range rawImmunizationAdministereds {
+		patient.Medications = append(patient.Medications, rawImmunizationAdministereds[i].(models.Medication))
 	}
 
 	// procedure intolerance (such as flu shot intolerance)

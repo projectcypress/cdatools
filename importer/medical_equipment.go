@@ -20,6 +20,8 @@ func MedicalEquipmentExtractor(entry *models.Entry, entryElement xml.Node) inter
 	extractAnatomicalStructure(&medicalEquipment, entryElement)
 	extractRemovalTime(&medicalEquipment, entryElement)
 
+	ExtractReasonOrNegation(&medicalEquipment.Entry, entryElement)
+
 	return medicalEquipment
 }
 

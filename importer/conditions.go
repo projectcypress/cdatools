@@ -43,9 +43,12 @@ func ConditionExtractor(entry *models.Entry, entryElement xml.Node) interface{} 
 	ExtractCodes(&condition.Entry.Coded, entryElement, codePath)
 
 	//extract severity
-	var severityCodeXPath = xpath.Compile("cda:entryRelationship/cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.22.4.8']/cda:value/@code")
-	var severityCodeSetXPath = xpath.Compile("cda:entryRelationship/cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.22.4.8']/cda:value/@codeSystem")
-	ExtractSeverity(&condition, entryElement, severityCodeXPath, severityCodeSetXPath)
+	var severityXPath = xpath.Compile("cda:entryRelationship/cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.22.4.8']/cda:value")
+	ExtractSeverity(&condition, entryElement, severityXPath)
+
+	//extract laterality
+	var lateralityXPath = xpath.Compile("cda:targetSiteCode")
+	ExtractLaterality(&condition, entryElement, lateralityXPath)
 
 	return condition
 }
@@ -61,12 +64,17 @@ func DiagnosisInactiveExtractor(entry *models.Entry, entryElement xml.Node) inte
 	return diagnosisInactive
 }
 
-func ExtractSeverity(diagnosis *models.Condition, entryElement xml.Node, severityCodeXPath *xpath.Expression, severityCodeSetXPath *xpath.Expression) {
-	severityCode := FirstElementContent(severityCodeXPath, entryElement)
-	severityCodeSystem := models.CodeSystemFor(FirstElementContent(severityCodeSetXPath, entryElement))
-	if severityCode != "" && severityCodeSystem != "" {
-		diagnosis.Severity = map[string][]string{
-			severityCodeSystem: []string{severityCode},
-		}
+func ExtractSeverity(diagnosis *models.Condition, entryElement xml.Node, severityXPath *xpath.Expression) {
+	severityElement := FirstElement(severityXPath, entryElement)
+	if severityElement != nil {
+		diagnosis.Severity.AddCodeIfPresent(severityElement)
+	}
+}
+
+func ExtractLaterality(diagnosis *models.Condition, entryElement xml.Node, lateralityXPath *xpath.Expression) {
+	lateralityElement := FirstElement(lateralityXPath, entryElement)
+	if lateralityElement != nil {
+		diagnosis.Laterality.AddCodeIfPresent(lateralityElement)
+		diagnosis.AnatomicalLocation.AddCodeIfPresent(lateralityElement)
 	}
 }
