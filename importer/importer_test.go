@@ -862,3 +862,33 @@ func (i *ImporterSuite) TestExtractPatientCharacteristicExpired(c *C) {
 	c.Assert(patientExpired.Oid, Equals, "2.16.840.1.113883.3.560.1.404")
 	c.Assert(i.patient.DeathDate, Equals, int64(1450141290))
 }
+
+func (i *ImporterSuite) TestExtractRThreeOneDiagnosis(c *C) {
+	var diagnosisXPath = xpath.Compile("//cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.135']")
+	rawDiagnoses := ExtractSection(i.patientElement, diagnosisXPath, ConditionExtractor, "2.16.840.1.113883.3.560.1.2", "active")
+	i.patient.Conditions = make([]models.Condition, len(rawDiagnoses))
+	for j := range rawDiagnoses {
+		i.patient.Conditions[j] = rawDiagnoses[j].(models.Condition)
+	}
+
+	diagnosis := i.patient.Conditions[0]
+	c.Assert(diagnosis.StartTime, Equals, int64(620813702))
+	c.Assert(diagnosis.EndTime, Equals, int64(620883909))
+	c.Assert(diagnosis.Severity.Code, Equals, "55561003")
+	c.Assert(diagnosis.Severity.CodeSystem, Equals, "SNOMED-CT")
+	c.Assert(diagnosis.Codes["ICD-9-CM"][0], Equals, "999.34")
+}
+
+func (i *ImporterSuite) TestExtractImmunizationAdministered(c *C) {
+	var immunizationAdministeredXPath = xpath.Compile("//cda:entry/cda:act/cda:entryRelationship/cda:substanceAdministration[cda:templateId/@root = '2.16.840.1.113883.10.20.22.4.52']")
+	rawImmunizationAdministereds := ExtractSection(i.patientElement, immunizationAdministeredXPath, MedicationExtractor, "2.16.840.1.113883.10.20.28.3.112", "administered")
+	i.patient.Medications = make([]models.Medication, len(rawImmunizationAdministereds))
+	for j := range rawImmunizationAdministereds {
+		i.patient.Medications[j] = rawImmunizationAdministereds[j].(models.Medication)
+	}
+
+	immunAdmin := i.patient.Medications[0]
+	c.Assert(immunAdmin.StartTime, Equals, int64(610736807))
+	c.Assert(immunAdmin.EndTime, Equals, int64(610738644))
+	c.Assert(immunAdmin.Codes["CVX"][0], Equals, "33")
+}
