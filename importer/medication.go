@@ -94,8 +94,8 @@ func extractAdministrationTiming(medication *models.Medication, entryElement xml
 		institutionSpecifiedAttr := adminTimingElement.Attribute("institutionSpecified")
 		if institutionSpecifiedAttr != nil {
 			institutionSpecified, err := strconv.ParseBool(institutionSpecifiedAttr.String())
-			medication.AdministrationTiming.InstitutionSpecified = institutionSpecified
 			util.CheckErr(err)
+			medication.AdministrationTiming.InstitutionSpecified = institutionSpecified
 		}
 		periodXPath := xpath.Compile("./cda:period")
 		ExtractScalar(&medication.AdministrationTiming.Period, adminTimingElement, periodXPath)
@@ -123,9 +123,9 @@ func extractOrderInformation(medication *models.Medication, entryElement xml.Nod
 		//provider information not captured, unsure if necessary
 		oi.OrderNumber = FirstElementContent(xpath.Compile("./cda:id/@root"), oiElement)
 		fills, err := strconv.ParseInt(FirstElementContent(xpath.Compile("./cda:repeatNumber/@value"), oiElement), 10, 64)
+		util.CheckErr(err)
 		oi.Fills = fills
 		oi.OrderDate = GetTimestamp(xpath.Compile("./cda:effectiveTime/cda:low/@value"), oiElement)
-		util.CheckErr(err)
 
 		qoXPath := xpath.Compile("./cda:quantity")
 		ExtractScalar(&oi.QuantityOrdered, oiElement, qoXPath)
@@ -146,8 +146,8 @@ func extractFulfillmentHistory(medication *models.Medication, entryElement xml.N
 		fillNumber := FirstElementContent(xpath.Compile("./cda:entryRelationship[@typeCode='COMP']/cda:sequenceNumber/@value"), fhElement)
 		if fillNumber != "" {
 			fillnumber, err := strconv.ParseInt(fillNumber, 10, 64)
-			fh.FillNumber = fillnumber
 			util.CheckErr(err)
+			fh.FillNumber = fillnumber
 		}
 
 		medication.FulfillmentHistory = append(medication.FulfillmentHistory, fh)
