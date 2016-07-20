@@ -10,14 +10,15 @@ import (
 	"github.com/jbowtie/gokogiri/xpath"
 	"github.com/pebbe/util"
 	"github.com/projectcypress/cdatools/models"
+	"github.com/juju/errors"
 )
-
-func main() {}
 
 func Read_patient(document string) string {
 
 	doc, err := xml.Parse([]byte(document), nil, nil, 0, xml.DefaultEncodingBytes)
-	util.CheckErr(err)
+	if err != nil {
+		return errors.Annotate(err, "Error: Failed to Parse XML").Error()
+	}
 	defer doc.Free()
 
 	xp := doc.DocXPathCtx()
@@ -26,7 +27,9 @@ func Read_patient(document string) string {
 
 	var patientXPath = xpath.Compile("/cda:ClinicalDocument/cda:recordTarget/cda:patientRole/cda:patient")
 	patientElements, err := doc.Root().Search(patientXPath)
-	util.CheckErr(err)
+	if err != nil {
+		return errors.Annotate(err, "Error: Failed to Search XML").Error()
+	}
 	patientElement := patientElements[0]
 	patient := &models.Record{}
 	ExtractDemographics(patient, patientElement)
