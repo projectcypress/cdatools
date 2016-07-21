@@ -1,8 +1,10 @@
 package importer
 
 import (
+	"math"
 	"strconv"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/moovweb/gokogiri/xml"
 	"github.com/moovweb/gokogiri/xpath"
 	"github.com/pebbe/util"
@@ -14,6 +16,13 @@ func MedicationActiveExtractor(entry *models.Entry, entryElement xml.Node) inter
 
 	codeXPath := xpath.Compile("./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code")
 	ExtractCodes(&medicationActive.Entry.Coded, entryElement, codeXPath)
+
+	if (medicationActive.StartTime != 0) && (medicationActive.EndTime != 0) {
+		duration := int64(math.Floor(float64(medicationActive.EndTime-medicationActive.StartTime)/(60*60*24)) + 1)
+		medicationActive.CumulativeDuration.Unit = "days"
+		medicationActive.CumulativeDuration.Value = duration
+		spew.Dump(medicationActive.CumulativeDuration)
+	}
 
 	return medicationActive
 }
