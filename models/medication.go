@@ -14,7 +14,6 @@ type Medication struct {
 	Vehicle              *CodedConcept        `json:"vehicle,omitempty"`
 	FulfillmentHistory   []FulfillmentHistory `json:"fulfillmentHistory,omitempty"`
 	OrderInformation     []OrderInformation   `json:"orderInformation,omitempty"`
-	CumulativeDuration   Scalar               `json:"cumulative_medication_duration,omitempty"`
 }
 
 type administrationTiming struct {
@@ -28,11 +27,11 @@ type doseRestriction struct {
 }
 
 type FulfillmentHistory struct {
-	PrescriptionNumber string `json:"prescription_number,omitempty"`
-	DispenseDate       int64  `json:"dispense_date,omitempty"`
-	QuantityDispensed  Scalar `json,"quantity_dispensed,omitempty"`
-	FillNumber         int64  `json:"fill_number,omitempty"`
-	FillStatus         string `json:"fill_status"`
+	PrescriptionNumber string `json:"prescriptionNumber,omitempty"`
+	DispenseDate       int64  `json:"dispenseDate,omitempty"`
+	QuantityDispensed  Scalar `json:"quantityDispensed,omitempty"`
+	FillNumber         int64  `json:"fillNumber,omitempty"`
+	FillStatus         string `json:"fillStatus"`
 }
 
 type OrderInformation struct {
