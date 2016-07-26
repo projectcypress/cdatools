@@ -6,11 +6,11 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/juju/errors"
 	"github.com/moovweb/gokogiri/xml"
 	"github.com/moovweb/gokogiri/xpath"
 	"github.com/pebbe/util"
 	"github.com/projectcypress/cdatools/models"
-	"github.com/juju/errors"
 )
 
 func Read_patient(document string) string {
@@ -478,6 +478,22 @@ func ExtractScalar(scalar *models.Scalar, entryElement xml.Node, scalarPath *xpa
 			scalar.Value, err = strconv.ParseInt(valueAttr.String(), 10, 64)
 			util.CheckErr(err)
 		}
+	}
+}
+
+func ExtractOrdinality(ordinality *models.Ordinality, entryElement xml.Node) {
+	var codePath = xpath.Compile("cda:priorityCode")
+	ExtractCodedConcept(&ordinality.CodedConcept, entryElement, codePath)
+
+	codeElement := FirstElement(codePath, entryElement)
+	if codeElement != nil {
+		//extract code from attribute if it exists
+		var code string
+		codeAttribute := codeElement.Attribute("code")
+		if codeAttribute != nil {
+			code = codeAttribute.String()
+		}
+		ordinality.CodeList = []string{code}
 	}
 }
 
