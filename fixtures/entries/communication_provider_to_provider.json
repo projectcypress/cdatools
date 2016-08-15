@@ -6,12 +6,12 @@
     },
     "description": "Communication: From Provider to Provider: Level of Severity of Retinopathy Findings",
     "direction": "communication_from_provider_to_provider",
-    "end_time": 1399018500,
+    "end_time": 1399019000,
     "mood_code": "EVN",
     "negationInd": true,
     "negationReason": {
-    "code_system": "SNOMED-CT",
-    "code": "79899007"
+    "code_system": "LOINC",
+    "code": "REASON_CODE_1"
     },
     "oid": "2.16.840.1.113883.3.560.1.129",
     "reason": null,

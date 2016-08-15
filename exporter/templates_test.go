@@ -10,6 +10,7 @@ import (
 	"testing"
 	"text/template"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/moovweb/gokogiri/xml"
 	"github.com/moovweb/gokogiri/xpath"
 	"github.com/pebbe/util"
@@ -159,9 +160,39 @@ func TestCommunicationFromPatientToProviderTemplate(t *testing.T) {
 
 	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Communication{})
 
-	xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
 
-	// spew.Dump(xrn)
+	assertXPath(t, xrn, "//entry/act/templateId", map[string]string{"root": "2.16.840.1.113883.10.20.24.3.2"}, nil)
+
+	assertXPath(t, xrn, "//entry/act/effectiveTime/low", map[string]string{"value": "201311030815+0000"}, nil)
+	assertXPath(t, xrn, "//entry/act/effectiveTime/high", map[string]string{"value": "201311030815+0000"}, nil)
+
+	assertXPath(t, xrn, "//entry/act/code", map[string]string{"code": "315640000", "codeSystem": "2.16.840.1.113883.6.96"}, nil)
+
+	assertNoXPath(t, xrn, "//entry/act/entryRelationship/observation/templateId[@root='2.16.840.1.113883.10.20.24.3.88']")
+}
+
+func TestCommunicationFromProviderToProviderTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.4"
+	dataCriteriaName := "communication_provider_to_provider"
+	entryName := "communication_provider_to_provider"
+
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Communication{})
+
+	spew.Dump(vsMap["SNOMED"])
+
+	spew.Dump(ei.EntrySection.GetEntry().NegationReasonOrReason())
+
+	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+
+	assertXPath(t, xrn, "//entry/act/templateId", map[string]string{"root": "2.16.840.1.113883.10.20.24.3.4"}, nil)
+
+	assertXPath(t, xrn, "//entry/act/effectiveTime/low", map[string]string{"value": "201405020815+0000"}, nil)
+	assertXPath(t, xrn, "//entry/act/effectiveTime/high", map[string]string{"value": "201405020823+0000"}, nil)
+
+	assertXPath(t, xrn, "//entry/act/code", map[string]string{"code": "312904009", "codeSystem": "2.16.840.1.113883.6.96"}, nil)
+
+	assertNoXPath(t, xrn, "//entry/act/entryRelationship/observation/templateId[@root='2.16.840.1.113883.10.20.24.3.88']")
 }
 
 // - - - - - - - - //
@@ -252,7 +283,7 @@ func xmlRootNodeForQrdaOid(qrdaOid string) *xml.ElementNode {
 // same as xmlRootNodeForQrdaOid() function but allows custom input data (should be an EntryInfo struct)
 func xmlRootNodeForQrdaOidWithData(qrdaOid string, data interface{}) *xml.ElementNode {
 	fileName := "_" + qrdaOid + ".xml"
-	// printXmlString(generateXML(fileName, data))
+	printXmlString(generateXML(fileName, data))
 	return xmlRootNode(generateXML(fileName, data))
 }
 

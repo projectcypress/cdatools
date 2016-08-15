@@ -8,7 +8,7 @@
   "direction": "communication_from_patient_to_provider",
   "end_time": 1383466500,
   "mood_code": "EVN",
-  "negationInd": null,
+  "negationInd": false,
   "negationReason": null,
   "oid": "2.16.840.1.113883.3.560.1.30",
   "reason": null,
