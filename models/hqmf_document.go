@@ -14,6 +14,7 @@ type DataCriteria struct {
 	Status             string                `json:"status"`
 	HardStatus         bool                  `json:"hard_status"`
 	Negation           bool                  `json:"negation"`
+	NegationCodeListID string                `json:"negation_code_list_id"`
 	SourceDataCriteria string                `json:"source_data_criteria"`
 	Variable           bool                  `json:"variable"`
 	FieldValues        map[string]FieldValue `json:"field_values"`

@@ -1670,7 +1670,7 @@
             "code_system": "2.16.840.1.113883.6.1",
             "code_system_name": "LOINC",
             "code_system_version": null,
-            "display_name": "Testing For Reason Codes"
+            "display_name": "Testing For Severity Codes"
         }],
         "display_name": "SeverityVS",
         "oid": "1.2.3.4.5.6.7.8.9.13",
@@ -1684,7 +1684,7 @@
             "display_name": "Testing For Results Codes"
         }],
         "display_name": "ResultVS",
-        "oid": "1.2.3.4.5.6.7.8.9.11",
+        "oid": "1.2.3.4.5.6.7.8.9.14",
         "version": "Draft"
     }
 ]

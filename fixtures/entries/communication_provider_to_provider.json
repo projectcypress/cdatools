@@ -10,8 +10,9 @@
     "mood_code": "EVN",
     "negationInd": true,
     "negationReason": {
-    "code_system": "LOINC",
-    "code": "REASON_CODE_1"
+    "code_system": "2.16.840.1.113883.6.1",
+    "code": "REASON_CODE_1",
+    "code_system_name": "LOINC"
     },
     "oid": "2.16.840.1.113883.3.560.1.129",
     "reason": null,

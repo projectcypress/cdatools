@@ -5,7 +5,7 @@
     "type": "communications",
     "definition": "communication_from_provider_to_provider",
     "hard_status": false,
-    "negation": false,
+    "negation": true,
     "source_data_criteria": "CommunicationFromProviderToProviderLevelOfSeverityOfRetinopathyFindings",
     "variable": false,
     "temporal_references": [
@@ -13,5 +13,7 @@
         "type": "SAS",
         "reference": "GROUP_variable_CHILDREN_12"
         }
-    ]
+    ],
+    "negation_code_list_id": "1.2.3.4.5.6.7.8.9.11",
+    "hqmf_oid": "2.16.840.1.113883.3.560.1.129"
 }
