@@ -1,0 +1,19 @@
+{
+	"title": "Written Information Given",
+	"description": "Communication: From Provider to Patient: Written Information Given",
+	"code_list_id": "2.16.840.1.113883.3.117.1.7.1.415",
+	"type": "communications",
+	"definition": "communication_from_provider_to_patient",
+	"hard_status": false,
+	"negation": true,
+	"negation_code_list_id": "1.2.3.4.5.6.7.8.9.11",
+	"source_data_criteria": "CommunicationFromProviderToPatientWrittenInformationGiven",
+	"variable": false,
+	"hqmf_oid": "2.16.840.1.113883.3.560.1.131",
+	"temporal_references": [
+		{
+			"type": "SDU",
+			"reference": "GROUP_variable_CHILDREN_12"
+		}
+	]
+}

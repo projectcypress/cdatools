@@ -4,7 +4,7 @@
     <templateId root="2.16.840.1.113883.10.20.24.3.3" {{if isR2 .EntrySection}}{{else}}extension="2014-12-01"{{end}}/>
     <id root="1.3.6.1.4.1.115" extension="{{newRandom}}"/>  
     {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded "entryCode"}}
-    <text><%= entry.description %></text>
+    <text>{{.EntrySection.Entry.Description}}</text>
     <statusCode code="completed"/>
     
     <effectiveTime>
@@ -22,8 +22,6 @@
       <participantRole classCode="PAT"/>
     </participant>
     
-    {{if .EntrySection.Reason}}
-      {{template "_reason.xml" .}}
-    {{end}}
+    {{template "_reason.xml" .}}
   </act>
 </entry>

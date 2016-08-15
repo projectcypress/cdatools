@@ -10,7 +10,6 @@ import (
 	"testing"
 	"text/template"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/moovweb/gokogiri/xml"
 	"github.com/moovweb/gokogiri/xpath"
 	"github.com/pebbe/util"
@@ -54,7 +53,7 @@ func xmlCodeRootNode(codeDisplay models.CodeDisplay) *xml.ElementNode {
 
 func TestReasonTemplate(t *testing.T) {
 	// do not negate reason, r2 compatable
-	reason := models.CodedConcept{Code: "RESULT_CODE_1", CodeSystem: "2.16.840.1.113883.6.1"} // specified in cms9_26.json
+	reason := models.CodedConcept{Code: "REASON_CODE_1", CodeSystem: "2.16.840.1.113883.6.1"} // specified in cms9_26.json
 	rootNode := xmlReasonRootNode(reason, false, true)
 	assertXPath(t, rootNode, "//entryRelationship", map[string]string{"typeCode": "RSON"}, nil)
 	assertXPath(t, rootNode, "//entryRelationship/observation", map[string]string{"classCode": "OBS", "moodCode": "EVN"}, nil)
@@ -63,7 +62,7 @@ func TestReasonTemplate(t *testing.T) {
 	assertXPath(t, rootNode, "//entryRelationship/observation/code", map[string]string{"code": "410666004", "codeSystem": "2.16.840.1.113883.6.96", "displayName": "reason", "codeSystemName": "SNOMED CT"}, nil)
 	assertXPath(t, rootNode, "//entryRelationship/observation/statusCode", map[string]string{"code": "completed"}, nil)
 	assertXPath(t, rootNode, "//entryRelationship/observation/effectiveTime", map[string]string{"value": "197001010000+0000"}, nil)
-	assertXPath(t, rootNode, "//entryRelationship/observation/value", map[string]string{"xsi:type": "CD", "code": "RESULT_CODE_1", "codeSystem": "2.16.840.1.113883.6.1", "sdtc:valueSet": "1.2.3.4.5.6.7.8.9.11"}, nil)
+	assertXPath(t, rootNode, "//entryRelationship/observation/value", map[string]string{"xsi:type": "CD", "code": "REASON_CODE_1", "codeSystem": "2.16.840.1.113883.6.1", "sdtc:valueSet": "1.2.3.4.5.6.7.8.9.11"}, nil)
 
 	// do not negate reason, not r2 compatable
 	rootNode = xmlReasonRootNode(reason, false, false)
@@ -179,10 +178,6 @@ func TestCommunicationFromProviderToProviderTemplate(t *testing.T) {
 
 	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Communication{})
 
-	spew.Dump(vsMap["SNOMED"])
-
-	spew.Dump(ei.EntrySection.GetEntry().NegationReasonOrReason())
-
 	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
 
 	assertXPath(t, xrn, "//entry/act/templateId", map[string]string{"root": "2.16.840.1.113883.10.20.24.3.4"}, nil)
@@ -192,7 +187,22 @@ func TestCommunicationFromProviderToProviderTemplate(t *testing.T) {
 
 	assertXPath(t, xrn, "//entry/act/code", map[string]string{"code": "312904009", "codeSystem": "2.16.840.1.113883.6.96"}, nil)
 
-	assertNoXPath(t, xrn, "//entry/act/entryRelationship/observation/templateId[@root='2.16.840.1.113883.10.20.24.3.88']")
+	assertXPath(t, xrn, "//entry/act/entryRelationship/observation/templateId", map[string]string{"root": "2.16.840.1.113883.10.20.24.3.88"}, nil)
+}
+
+func TestCommunicationFromProviderToPatientTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.3"
+	dataCriteriaName := "communication_provider_to_patient"
+	entryName := "communication_provider_to_patient"
+
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Communication{})
+
+	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+
+	assertXPath(t, xrn, "//entry/act/templateId", map[string]string{"root": qrdaOid}, nil)
+	assertXPath(t, xrn, "//entry/act/effectiveTime/low", map[string]string{"value": "201404251800+0000"}, nil)
+	assertXPath(t, xrn, "//entry/act/effectiveTime/high", map[string]string{"value": "201404251800+0000"}, nil)
+	assertXPath(t, xrn, "//entry/act/code", map[string]string{"code": "410264007", "codeSystem": "2.16.840.1.113883.6.96"}, nil)
 }
 
 // - - - - - - - - //
@@ -249,8 +259,9 @@ func assertXPath(t *testing.T, elem *xml.ElementNode, pathString string, expecte
 // assert the xml path does not exist in the xml string
 func assertNoXPath(t *testing.T, elem *xml.ElementNode, pathString string) {
 	path := xpath.Compile(pathString)
-	_, err := elem.Search(path)
-	assert.Nil(t, err)
+	res, err := elem.Search(path)
+	util.CheckErr(err)
+	assert.Nil(t, res)
 }
 
 // assert all xml tags at the xml path do not contain the content
@@ -283,7 +294,7 @@ func xmlRootNodeForQrdaOid(qrdaOid string) *xml.ElementNode {
 // same as xmlRootNodeForQrdaOid() function but allows custom input data (should be an EntryInfo struct)
 func xmlRootNodeForQrdaOidWithData(qrdaOid string, data interface{}) *xml.ElementNode {
 	fileName := "_" + qrdaOid + ".xml"
-	printXmlString(generateXML(fileName, data))
+	// printXmlString(generateXML(fileName, data))
 	return xmlRootNode(generateXML(fileName, data))
 }
 
