@@ -10,6 +10,7 @@ import (
 	"testing"
 	"text/template"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/moovweb/gokogiri/xml"
 	"github.com/moovweb/gokogiri/xpath"
 	"github.com/pebbe/util"
@@ -177,6 +178,8 @@ func TestCommunicationFromProviderToProviderTemplate(t *testing.T) {
 	entryName := "communication_provider_to_provider"
 
 	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Communication{})
+
+	spew.Dump(ei.EntrySection.GetEntry())
 
 	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
 

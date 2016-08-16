@@ -10,19 +10,55 @@
     "mood_code": "EVN",
     "negationInd": true,
     "negationReason": {
-    "code_system": "2.16.840.1.113883.6.1",
-    "code": "REASON_CODE_1",
-    "code_system_name": "LOINC"
+        "code_system": "2.16.840.1.113883.6.1",
+        "code": "REASON_CODE_1",
+        "code_system_name": "LOINC"
     },
     "oid": "2.16.840.1.113883.3.560.1.129",
     "reason": null,
     "specifics": null,
     "start_time": 1399018500,
     "status_code": {
-    "HL7 ActStatus": [
-        null
-    ]
+        "HL7 ActStatus": [
+            null
+        ]
     },
     "time": null,
-    "_type": "Communication"
+    "_type": "Communication",
+    "references": [
+        {
+            "referenced_id": "574734c402d4052a45000785",
+            "referenced_type": "Procedure",
+            "type": "fulfills"
+        }
+    ]
+},
+{
+    "negation": false,
+    "definition": "intervention",
+    "status": "performed",
+    "title": "Referral",
+    "description": "Intervention, Performed: Referral",
+    "code_list_id": "2.16.840.1.113883.3.464.1003.101.12.1046",
+    "type": "interventions",
+    "id": "OccurrenceA_Referral_InterventionPerformed_07de5cba_6617_474d_8628_824d1d3ebd3f",
+    "start_date": 1427725800000,
+    "end_date": 1427725800000,
+    "value": [
+
+    ],
+    "references": null,
+    "field_values": {
+    },
+    "hqmf_set_id": "F58FC0D6-EDF5-416A-8D29-79AFBFD24DEA",
+    "cms_id": "CMS50v5",
+    "criteria_id": "153cdf09176re",
+    "codes": {
+    "SNOMED-CT": [
+        "183881003"
+    ]
+    },
+    "negation_code_list_id": "",
+    "coded_entry_id": "574734c402d4052a45000785",
+    "code_source": "USER_DEFINED"
 }
