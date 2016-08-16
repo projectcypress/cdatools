@@ -90,7 +90,7 @@ func uniqueDataCriteria(allDataCriteria []models.DataCriteria) []mdc {
 
 		// If the data criteria has a negation, add the reason onto the returned FieldOids
 		if dataCriteria.Negation {
-			mappedDc.FieldOids["REASON"] = append(mappedDc.FieldOids["REASON"])
+			mappedDc.FieldOids["REASON"] = append(mappedDc.FieldOids["REASON"], dataCriteria.NegationCodeListID)
 		}
 
 		// If the data criteria has a value, and it's a "coded" type, added the CodeListId into the result OID set
@@ -138,6 +138,7 @@ func exporterFuncMap(cat1Template *template.Template) template.FuncMap {
 		"codeDisplayAttributeIsCodes":  codeDisplayAttributeIsCodes,
 		"hasPreferredCode":             hasPreferredCode,
 		"codeDisplayWithPreferredCode": codeDisplayWithPreferredCode,
+		"negationIndicator":            negationIndicator,
 	}
 }
 

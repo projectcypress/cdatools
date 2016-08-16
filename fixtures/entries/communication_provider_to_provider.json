@@ -1,0 +1,28 @@
+{
+    "codes": {
+    "SNOMED-CT": [
+        "312904009"
+    ]
+    },
+    "description": "Communication: From Provider to Provider: Level of Severity of Retinopathy Findings",
+    "direction": "communication_from_provider_to_provider",
+    "end_time": 1399019000,
+    "mood_code": "EVN",
+    "negationInd": true,
+    "negationReason": {
+    "code_system": "2.16.840.1.113883.6.1",
+    "code": "REASON_CODE_1",
+    "code_system_name": "LOINC"
+    },
+    "oid": "2.16.840.1.113883.3.560.1.129",
+    "reason": null,
+    "specifics": null,
+    "start_time": 1399018500,
+    "status_code": {
+    "HL7 ActStatus": [
+        null
+    ]
+    },
+    "time": null,
+    "_type": "Communication"
+}

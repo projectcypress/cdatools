@@ -9,19 +9,49 @@
     "hqmf_name": "Communication: From Patient to Provider",
     "hqmf_oid": "2.16.840.1.113883.3.560.1.30",
     "qrda_name": "Communication from Patient to Provider",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.2"
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.2",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "",
+        "preferred_code_sets": ["SNOMED-CT"]
+      }
+    ]
   },
   {
     "hqmf_name": "Communication: From Provider to Patient",
     "hqmf_oid": "2.16.840.1.113883.3.560.1.31",
     "qrda_name": "Communication from Provider to Patient",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.3"
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.3",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "",
+        "preferred_code_sets": ["SNOMED-CT"]
+      }
+    ]
   },
   {
     "hqmf_name": "Communication: From Provider to Provider",
     "hqmf_oid": "2.16.840.1.113883.3.560.1.29",
     "qrda_name": "Communication from Provider to Provider",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.4"
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.4",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "",
+        "preferred_code_sets": ["SNOMED-CT"]
+      }
+    ]
   },
   {
     "hqmf_name": "Device, Adverse Event",
@@ -657,13 +687,33 @@
     "hqmf_name": "Communication: From Provider to Provider not done",
     "hqmf_oid": "2.16.840.1.113883.3.560.1.129",
     "qrda_name": "Communication from Provider to Provider",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.4"
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.4",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "",
+        "preferred_code_sets": ["SNOMED-CT"]
+      }
+    ]
   },
   {
     "hqmf_name": "Communication: From Patient to Provider not done",
     "hqmf_oid": "2.16.840.1.113883.3.560.1.130",
     "qrda_name": "Communication from Patient to Provider",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.2"
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.2",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "",
+        "preferred_code_sets": ["SNOMED-CT"]
+      }
+    ]
   },
   {
     "hqmf_name": "Risk Category Assessment not done",
@@ -675,7 +725,17 @@
     "hqmf_name": "Communication: From Provider to Patient not done",
     "hqmf_oid": "2.16.840.1.113883.3.560.1.131",
     "qrda_name": "Communication from Provider to Patient",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.3"
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.3",
+     "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "",
+        "preferred_code_sets": ["SNOMED-CT"]
+      }
+    ]
   },
   {
     "hqmf_name": "Physical Exam, Performed not done",

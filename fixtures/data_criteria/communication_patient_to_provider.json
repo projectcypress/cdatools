@@ -1,0 +1,12 @@
+{
+  "title": "Previous Receipt of Influenza Vaccine",
+  "description": "Communication: From Patient to Provider: Previous Receipt of Influenza Vaccine",
+  "code_list_id": "2.16.840.1.113883.3.526.3.1185",
+  "type": "communications",
+  "definition": "communication_from_patient_to_provider",
+  "hard_status": false,
+  "negation": false,
+  "source_data_criteria": "CommunicationFromPatientToProviderPreviousReceiptOfInfluenzaVaccine",
+  "variable": false,
+  "hqmf_oid": "2.16.840.1.113883.3.560.1.30"
+}

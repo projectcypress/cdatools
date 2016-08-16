@@ -1,0 +1,29 @@
+{
+	"codes": {
+		"SNOMED-CT": [
+			"410264007"
+		]
+	},
+	"description": "Communication: From Provider to Patient: Adverse Drug Reactions Education",
+	"direction": "communication_from_provider_to_patient",
+	"end_time": 1398448800,
+	"mood_code": "EVN",
+	"negationInd": true,
+	"negationReason": {
+			"code_system": "2.16.840.1.113883.6.1",
+			"code": "REASON_CODE_1",
+			"code_system_name": "LOINC"
+	},
+	"negationReason": null,
+	"oid": "2.16.840.1.113883.3.560.1.131",
+	"reason": null,
+	"specifics": null,
+	"start_time": 1398448800,
+	"status_code": {
+		"HL7 ActStatus": [
+			null
+		]
+	},
+	"time": null,
+	"_type": "Communication"
+}

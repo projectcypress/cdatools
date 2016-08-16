@@ -53,7 +53,7 @@ func xmlCodeRootNode(codeDisplay models.CodeDisplay) *xml.ElementNode {
 
 func TestReasonTemplate(t *testing.T) {
 	// do not negate reason, r2 compatable
-	reason := models.CodedConcept{Code: "RESULT_CODE_1", CodeSystem: "2.16.840.1.113883.6.1"} // specified in cms9_26.json
+	reason := models.CodedConcept{Code: "REASON_CODE_1", CodeSystem: "2.16.840.1.113883.6.1"} // specified in cms9_26.json
 	rootNode := xmlReasonRootNode(reason, false, true)
 	assertXPath(t, rootNode, "//entryRelationship", map[string]string{"typeCode": "RSON"}, nil)
 	assertXPath(t, rootNode, "//entryRelationship/observation", map[string]string{"classCode": "OBS", "moodCode": "EVN"}, nil)
@@ -62,7 +62,7 @@ func TestReasonTemplate(t *testing.T) {
 	assertXPath(t, rootNode, "//entryRelationship/observation/code", map[string]string{"code": "410666004", "codeSystem": "2.16.840.1.113883.6.96", "displayName": "reason", "codeSystemName": "SNOMED CT"}, nil)
 	assertXPath(t, rootNode, "//entryRelationship/observation/statusCode", map[string]string{"code": "completed"}, nil)
 	assertXPath(t, rootNode, "//entryRelationship/observation/effectiveTime", map[string]string{"value": "197001010000+0000"}, nil)
-	assertXPath(t, rootNode, "//entryRelationship/observation/value", map[string]string{"xsi:type": "CD", "code": "RESULT_CODE_1", "codeSystem": "2.16.840.1.113883.6.1", "sdtc:valueSet": "1.2.3.4.5.6.7.8.9.11"}, nil)
+	assertXPath(t, rootNode, "//entryRelationship/observation/value", map[string]string{"xsi:type": "CD", "code": "REASON_CODE_1", "codeSystem": "2.16.840.1.113883.6.1", "sdtc:valueSet": "1.2.3.4.5.6.7.8.9.11"}, nil)
 
 	// do not negate reason, not r2 compatable
 	rootNode = xmlReasonRootNode(reason, false, false)
@@ -152,9 +152,87 @@ func TestEncounterPerformedTemplate(t *testing.T) {
 	// continue testing here
 }
 
+func TestCommunicationFromPatientToProviderTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.2"
+	dataCriteriaName := "communication_patient_to_provider"
+	entryName := "communication_patient_to_provider"
+
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Communication{})
+
+	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+
+	assertXPath(t, xrn, "//entry/act/templateId", map[string]string{"root": "2.16.840.1.113883.10.20.24.3.2"}, nil)
+
+	assertXPath(t, xrn, "//entry/act/effectiveTime/low", map[string]string{"value": "201311030815+0000"}, nil)
+	assertXPath(t, xrn, "//entry/act/effectiveTime/high", map[string]string{"value": "201311030815+0000"}, nil)
+
+	assertXPath(t, xrn, "//entry/act/code", map[string]string{"code": "315640000", "codeSystem": "2.16.840.1.113883.6.96"}, nil)
+
+	assertNoXPath(t, xrn, "//entry/act/entryRelationship/observation/templateId[@root='2.16.840.1.113883.10.20.24.3.88']")
+}
+
+func TestCommunicationFromProviderToProviderTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.4"
+	dataCriteriaName := "communication_provider_to_provider"
+	entryName := "communication_provider_to_provider"
+
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Communication{})
+
+	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+
+	assertXPath(t, xrn, "//entry/act/templateId", map[string]string{"root": "2.16.840.1.113883.10.20.24.3.4"}, nil)
+
+	assertXPath(t, xrn, "//entry/act/effectiveTime/low", map[string]string{"value": "201405020815+0000"}, nil)
+	assertXPath(t, xrn, "//entry/act/effectiveTime/high", map[string]string{"value": "201405020823+0000"}, nil)
+
+	assertXPath(t, xrn, "//entry/act/code", map[string]string{"code": "312904009", "codeSystem": "2.16.840.1.113883.6.96"}, nil)
+
+	assertXPath(t, xrn, "//entry/act/entryRelationship/observation/templateId", map[string]string{"root": "2.16.840.1.113883.10.20.24.3.88"}, nil)
+}
+
+func TestCommunicationFromProviderToPatientTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.3"
+	dataCriteriaName := "communication_provider_to_patient"
+	entryName := "communication_provider_to_patient"
+
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Communication{})
+
+	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+
+	assertXPath(t, xrn, "//entry/act/templateId", map[string]string{"root": qrdaOid}, nil)
+	assertXPath(t, xrn, "//entry/act/effectiveTime/low", map[string]string{"value": "201404251800+0000"}, nil)
+	assertXPath(t, xrn, "//entry/act/effectiveTime/high", map[string]string{"value": "201404251800+0000"}, nil)
+	assertXPath(t, xrn, "//entry/act/code", map[string]string{"code": "410264007", "codeSystem": "2.16.840.1.113883.6.96"}, nil)
+}
+
 // - - - - - - - - //
 //   H E L P E R   //
 // - - - - - - - - //
+
+// Given the name of an "entry" file, a "dataCriteria" file, and a pointer to an entry object, return the required entryInfo struct for the template
+func generateDataForTemplate(dataCriteriaName string, entryName string, entry models.HasEntry) entryInfo {
+	dc, err := ioutil.ReadFile(fmt.Sprintf("../fixtures/data_criteria/%s.json", dataCriteriaName))
+	util.CheckErr(err)
+
+	ent, err := ioutil.ReadFile(fmt.Sprintf("../fixtures/entries/%s.json", entryName))
+	util.CheckErr(err)
+
+	var dataCriteria models.DataCriteria
+	json.Unmarshal(dc, &dataCriteria)
+
+	json.Unmarshal(ent, &entry)
+
+	SetCodeDisplaysForEntry(entry.GetEntry())
+
+	udc := uniqueDataCriteria([]models.DataCriteria{dataCriteria})
+
+	ei := entryInfo{
+		EntrySection:    entry,
+		MapDataCriteria: udc[0],
+	}
+
+	return ei
+}
 
 // asserts the xml path exists in xml string
 // asserts that each expected attribute is on the tag
@@ -181,8 +259,9 @@ func assertXPath(t *testing.T, elem *xml.ElementNode, pathString string, expecte
 // assert the xml path does not exist in the xml string
 func assertNoXPath(t *testing.T, elem *xml.ElementNode, pathString string) {
 	path := xpath.Compile(pathString)
-	_, err := elem.Search(path)
-	assert.Nil(t, err)
+	res, err := elem.Search(path)
+	util.CheckErr(err)
+	assert.Nil(t, res)
 }
 
 // assert all xml tags at the xml path do not contain the content
@@ -215,6 +294,7 @@ func xmlRootNodeForQrdaOid(qrdaOid string) *xml.ElementNode {
 // same as xmlRootNodeForQrdaOid() function but allows custom input data (should be an EntryInfo struct)
 func xmlRootNodeForQrdaOidWithData(qrdaOid string, data interface{}) *xml.ElementNode {
 	fileName := "_" + qrdaOid + ".xml"
+	// printXmlString(generateXML(fileName, data))
 	return xmlRootNode(generateXML(fileName, data))
 }
 
