@@ -143,9 +143,13 @@ func exporterFuncMap(cat1Template *template.Template) template.FuncMap {
 }
 
 //export GenerateCat1
-func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate int64, endDate int64) string {
+func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate int64, endDate int64, qrdaVersion string) string {
 
-	data, err := AssetDir("templates/cat1")
+	if qrdaVersion == "" {
+		qrdaVersion = "r3"
+	}
+
+	data, err := AssetDir("templates/cat1/" + qrdaVersion)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -154,7 +158,7 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 	cat1Template.Funcs(exporterFuncMap(cat1Template))
 
 	for _, d := range data {
-		asset, _ := Asset("templates/cat1/" + d)
+		asset, _ := Asset("templates/cat1/" + qrdaVersion + "/" + d)
 		template.Must(cat1Template.New(d).Parse(string(asset)))
 	}
 

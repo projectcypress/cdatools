@@ -27,7 +27,7 @@ func TestExport(t *testing.T) {
 
 	startDate := int64(1451606400)
 	endDate := int64(1483228799)
-	fmt.Print(GenerateCat1(patientData, measureData, valueSetData, startDate, endDate))
+	fmt.Print(GenerateCat1(patientData, measureData, valueSetData, startDate, endDate, "r3"))
 }
 
 func TestEntriesForDataCriteria(t *testing.T) {
