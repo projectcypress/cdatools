@@ -1,0 +1,57 @@
+<documentationOf typeCode="DOC">
+  <serviceEvent classCode="PCPR"> <!-- care provision -->
+  {{if .ProviderPerformances}}
+    {{range .ProviderPerformances }}
+      <effectiveTime>
+        <low value="{{timeToFormat .StartDate "20060102"}}"/>
+        <high value="{{timeToFormat .EndDate "20060102"}}"/>
+      </effectiveTime>
+      <!-- You can include multiple performers, each with an NPI, TIN, CCN. -->
+      <performer typeCode="PRF">
+        <time>
+          <low value="{{timeToFormat .StartDate "20060102"}}"/>
+          <high value="{{timeToFormat .EndDate "20060102"}}"/>
+        </time>
+        <assignedEntity>
+          {{range .Provider.CDAIdentidiers}}
+            {{if ne .Root "2.16.840.1.113883.4.2"}}
+              <id root="{{ escape .Root}}" extension="{{ escape .Extension}}" />
+            {{end}}
+          {{end}}
+          <representedOrganization>
+            {{range .Provider.CDAIdentidiers}}
+              {{if eq .Root "2.16.840.1.113883.4.2"}}
+                <id root="2.16.840.1.113883.4.2" extension="{{ escape .Extension}}" />
+              {{end}}
+            {{end}}
+          </representedOrganization>
+        </assignedEntity>
+      </performer>
+    {{end}}
+  {{else}}
+  <!-- No provider data found in the patient record
+       putting in a fake provider -->
+  <effectiveTime>
+    <low value="20020716"/>
+    <high value="{{timeToFormat timeNow "20060102"}}"/>
+  </effectiveTime>
+  <!-- You can include multiple performers, each with an NPI, TIN, CCN. -->
+  <performer typeCode="PRF">
+    <time>
+      <low value="20020716"/>
+      <high value="{{timeToFormat timeNow "20060102"}}"/>
+    </time>
+    <assignedEntity>
+      <!-- This is the provider NPI -->
+      <id root="2.16.840.1.113883.4.6" extension="111111111" />
+      <representedOrganization>
+        <!-- This is the organization TIN -->
+        <id root="2.16.840.1.113883.4.2" extension="1234567" />
+        <!-- This is the organization CCN -->
+        <id root="2.16.840.1.113883.4.336" extension="54321" />
+      </representedOrganization>
+    </assignedEntity>
+  </performer>
+  {{end}}
+  </serviceEvent>
+</documentationOf>

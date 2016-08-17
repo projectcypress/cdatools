@@ -1,0 +1,62 @@
+<recordTarget>
+  <patientRole>
+    {{if .MedicalRecordNumber}}
+      {{if .MedicalRecordAssigner}}
+        <id extension="{{escape .MedicalRecordNumber}}" root="{{escape .MedicalRecordAssigner}}" />
+      {{else}}
+        <id extension="12345" root="PlaceholderOrganization" />
+      {{end}}
+    {{else}}
+      <id extension="12345" root="PlaceholderOrganization" />
+    {{end}}
+    <addr use="HP">
+      {{if .Addresses}}
+        {{range .Addresses}}
+          {{range .Street}}
+            <streetAddressLine>{{escape .}}</streetAddressLine>
+          {{end}}
+          <city>{{escape .City}}</city>
+          <state>{{escape .State}}</state>
+          <postalCode>{{escape .Zip}}</postalCode>
+          <country>{{escape .Country }}</country>
+        {{end}}
+      {{else}}
+        <streetAddressLine>202 Burlington Rd.</streetAddressLine>
+        <city>Bedford</city>
+        <state>MA</state>
+        <postalCode>01730</postalCode>
+        <country>US</country>
+      {{end}}
+    </addr>
+    <telecom use="WP" value="tel:+1-781-271-3000"/>
+    <patient>
+      <name>
+        <given>{{escape .First}}</given>
+        <family>{{escape .Last}}</family>
+      </name>
+      <administrativeGenderCode code="{{escape .Gender}}" codeSystem="2.16.840.1.113883.5.1" codeSystemName="HL7 AdministrativeGender"/>
+      <birthTime value="{{timeToFormat .Birthdate "20060102"}}"/>
+      {{if .Race}}
+        <raceCode code="{{escape .Race.Code}}" {{if .Race.Name }}displayName="{{escape .Race.Name}}"{{end}} codeSystemName="CDC Race and Ethnicity" codeSystem="2.16.840.1.113883.6.238"/>
+      {{end}}
+      {{if .Ethnicity }}
+        <ethnicGroupCode code="{{escape .Ethnicity.Code}}" {{ if .Ethnicity.Name }}displayName="{{escape .Ethnicity.Name }}"{{end}} codeSystemName="CDC Race and Ethnicity" codeSystem="2.16.840.1.113883.6.238"/>
+      {{end}}
+      {{if .Languages}}
+        {{range .Languages}}
+          <languageCommunication>
+            <templateId root="2.16.840.1.113883.3.88.11.83.2" assigningAuthorityName="HITSP/C83"/>
+            <templateId root="1.3.6.1.4.1.19376.1.5.3.1.2.1" assigningAuthorityName="IHE/PCC"/>
+            <languageCode code="{{index .Codes "IETF" 0 }}"/>
+          </languageCommunication>
+        {{end}}
+      {{else}}
+        <languageCommunication>
+          <templateId root="2.16.840.1.113883.3.88.11.83.2" assigningAuthorityName="HITSP/C83"/>
+          <templateId root="1.3.6.1.4.1.19376.1.5.3.1.2.1" assigningAuthorityName="IHE/PCC"/>
+          <languageCode code="en"/>
+        </languageCommunication>
+      {{end}}
+    </patient>
+  </patientRole>
+</recordTarget>

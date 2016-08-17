@@ -1,0 +1,13 @@
+<{{- valueOrDefault .TagName "code" -}}
+  {{- if hasPreferredCode .PreferredCode}} code='{{- .PreferredCode.Code}}' codeSystem='{{- oidForCodeSystem .PreferredCode.CodeSystem}}' {{.ExtraContent}}
+  {{- else}}
+    {{- $excludeNullFlavor := valueOrDefault .ExcludeNullFlavor false}}
+    {{- if $excludeNullFlavor}}{{- else}} nillFlavor='UNK'
+    {{- end}}
+  {{- end -}}
+>
+  {{- $attribute := valueOrDefault .Attribute "codes"}}
+  {{- if codeDisplayAttributeIsCodes $attribute}}
+    <originalText>{{- .Description}}</originalText>
+  {{- end}}
+</{{- valueOrDefault .TagName "code"}}>
