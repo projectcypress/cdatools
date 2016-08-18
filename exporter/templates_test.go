@@ -321,7 +321,7 @@ func generateXML(fileName string, templateData interface{}) string {
 	var m []models.Measure
 	var vs []models.ValueSet
 	setPatientMeasuresAndValueSets(&p, &m, &vs)
-	return generateTemplateForFile(makeTemplate(), fileName, templateData)
+	return generateTemplateForFile(makeTemplate("r3"), fileName, templateData)
 }
 
 func setPatientMeasuresAndValueSets(patient *models.Record, measures *[]models.Measure, valueSets *[]models.ValueSet) {
@@ -343,15 +343,18 @@ func setPatientMeasuresAndValueSets(patient *models.Record, measures *[]models.M
 	initializeVsMap(*valueSets)
 }
 
-func makeTemplate() *template.Template {
+func makeTemplate(qrdaVersion string) *template.Template {
+	if qrdaVersion == "" {
+		qrdaVersion = "r3"
+	}
 	temp := template.New("cat1")
 	temp.Funcs(exporterFuncMap(temp))
-	fileNames, err := AssetDir("templates/cat1")
+	fileNames, err := AssetDir("templates/cat1/" + qrdaVersion)
 	if err != nil {
 		util.CheckErr(err)
 	}
 	for _, fileName := range fileNames {
-		asset, err := Asset("templates/cat1/" + fileName)
+		asset, err := Asset("templates/cat1/" + qrdaVersion + "/" + fileName)
 		util.CheckErr(err)
 		template.Must(temp.New(fileName).Parse(string(asset)))
 	}
