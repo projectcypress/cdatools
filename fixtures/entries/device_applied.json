@@ -1,0 +1,28 @@
+{
+      "anatomicalStructure": null,
+      "anatomical_approach": null,
+      "codes": {
+        "SNOMED-CT": [
+          "408127000"
+        ]
+      },
+      "description": "Device, Applied: Graduated compression stockings (GCS)",
+      "end_time": 1428393660,
+      "manufacturer": null,
+      "mood_code": "EVN",
+      "negationInd": false,
+      "negationReason": null,
+      "oid": "2.16.840.1.113883.3.560.1.10",
+      "reaction": null,
+      "reason": null,
+      "removalTime": null,
+      "specifics": null,
+      "start_time": 1428393660,
+      "status_code": {
+        "HL7 ActStatus": [
+          "applied"
+        ]
+      },
+      "time": null,
+      "_type": "Procedure"
+}

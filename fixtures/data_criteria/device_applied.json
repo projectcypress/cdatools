@@ -1,0 +1,13 @@
+{
+        "title": "Intermittent pneumatic compression devices (IPC)",
+        "description": "Device, Applied: Intermittent pneumatic compression devices (IPC)",
+        "code_list_id": "2.16.840.1.113883.3.117.1.7.1.214",
+        "type": "devices",
+        "definition": "device",
+        "status": "applied",
+        "hard_status": true,
+        "negation": false,
+        "source_data_criteria": "DeviceAppliedIntermittentPneumaticCompressionDevicesIpc",
+        "variable": false,
+        "hqmf_oid": "2.16.840.1.113883.3.560.1.10"
+}

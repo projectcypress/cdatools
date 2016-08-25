@@ -10,6 +10,7 @@ import (
 	"testing"
 	"text/template"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/moovweb/gokogiri/xml"
 	"github.com/moovweb/gokogiri/xpath"
 	"github.com/pebbe/util"
@@ -203,6 +204,18 @@ func TestCommunicationFromProviderToPatientTemplate(t *testing.T) {
 	assertXPath(t, xrn, "//entry/act/effectiveTime/low", map[string]string{"value": "201404251800+0000"}, nil)
 	assertXPath(t, xrn, "//entry/act/effectiveTime/high", map[string]string{"value": "201404251800+0000"}, nil)
 	assertXPath(t, xrn, "//entry/act/code", map[string]string{"code": "410264007", "codeSystem": "2.16.840.1.113883.6.96"}, nil)
+}
+
+func TestDeviceAppliedTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.7"
+	dataCriteriaName := "device_applied"
+	entryName := "device_applied"
+	spew.Dump(codeDisplayForQrdaOid(qrdaOid))
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Procedure{})
+
+	rootNode := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+	fmt.Printf(rootNode.String())
+	assertXPath(t, rootNode, "//entry/procedure", map[string]string{"classCode": "PROC", "moodCode": "EVN"}, nil)
 }
 
 // - - - - - - - - //
