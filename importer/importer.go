@@ -59,7 +59,7 @@ func Read_patient(document string) string {
 
 	//r3.1 diagnosis
 	var diagnosisXPath = xpath.Compile("//cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.135']")
-	rawDiagnoses := ExtractSection(patientElement, diagnosisXPath, ConditionExtractor, "2.16.840.1.113883.3.560.1.2", "active")
+	rawDiagnoses := ExtractSection(patientElement, diagnosisXPath, ConditionExtractor, "2.16.840.1.113883.10.20.28.3.110", "active")
 	for i := range rawDiagnoses {
 		patient.Conditions = append(patient.Conditions, rawDiagnoses[i].(models.Condition))
 	}

@@ -14,6 +14,12 @@ type Medication struct {
 	Vehicle              *CodedConcept        `json:"vehicle,omitempty"`
 	FulfillmentHistory   []FulfillmentHistory `json:"fulfillmentHistory,omitempty"`
 	OrderInformation     []OrderInformation   `json:"orderInformation,omitempty"`
+	CumulativeDuration   cumulativeDur        `json:"cumulative_medication_duration,omitempty"`
+}
+
+type cumulativeDur struct {
+	Scalar int64  `json:"scalar,omitempty"`
+	Unit   string `json:"units,omitempty"`
 }
 
 type administrationTiming struct {

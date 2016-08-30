@@ -67,7 +67,7 @@ func extractBaseProcedure(procedure *models.Procedure, entryElement xml.Node) {
 	extractPerformer(&procedure.Performer, entryElement)
 	extractAnatomicalTarget(&procedure.AnatomicalTarget, entryElement)
 	ExtractReasonOrNegation(&procedure.Entry, entryElement)
-	scalarPath := xpath.Compile("cda:value")
+	scalarPath := xpath.Compile("cda:value | cda:entryRelationship[@typeCode='REFR']/cda:observation/cda:value")
 	ExtractValues(&procedure.Entry, entryElement, scalarPath)
 }
 
