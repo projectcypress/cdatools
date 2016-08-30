@@ -10,7 +10,6 @@ import (
 	"testing"
 	"text/template"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/moovweb/gokogiri/xml"
 	"github.com/moovweb/gokogiri/xpath"
 	"github.com/pebbe/util"
@@ -210,12 +209,36 @@ func TestDeviceAppliedTemplate(t *testing.T) {
 	qrdaOid := "2.16.840.1.113883.10.20.24.3.7"
 	dataCriteriaName := "device_applied"
 	entryName := "device_applied"
-	spew.Dump(codeDisplayForQrdaOid(qrdaOid))
+
 	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Procedure{})
 
-	rootNode := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
-	fmt.Printf(rootNode.String())
-	assertXPath(t, rootNode, "//entry/procedure", map[string]string{"classCode": "PROC", "moodCode": "EVN"}, nil)
+	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+
+	assertXPath(t, xrn, "//entry/procedure", map[string]string{"classCode": "PROC", "moodCode": "EVN"}, nil)
+	assertXPath(t, xrn, "//entry/procedure/templateId[@root='2.16.840.1.113883.10.20.22.4.14']", nil, nil)
+	assertXPath(t, xrn, "//entry/procedure/templateId[@root='2.16.840.1.113883.10.20.24.3.7']", nil, nil)
+	assertContent(t, xrn, "//entry/procedure/text", "Device, Applied: Graduated compression stockings (GCS)")
+	assertXPath(t, xrn, "//entry/procedure/effectiveTime/low", map[string]string{"value": "201504070801+0000"}, nil)
+	assertXPath(t, xrn, "//entry/procedure/effectiveTime/high", map[string]string{"value": "201504070801+0000"}, nil)
+
+	assertNoXPath(t, xrn, "//entry/act")
+}
+
+func TestDeviceOrderTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.9"
+	dataCriteriaName := "device_order"
+	entryName := "device_order"
+
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.MedicalEquipment{})
+
+	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+
+	assertXPath(t, xrn, "//entry/supply", map[string]string{"classCode": "SPLY", "moodCode": "RQO"}, nil)
+	assertXPath(t, xrn, "//entry/supply/templateId[@root='2.16.840.1.113883.10.20.22.4.43']", nil, nil)
+	assertXPath(t, xrn, "//entry/supply/templateId[@root='2.16.840.1.113883.10.20.24.3.9']", nil, nil)
+	assertContent(t, xrn, "//entry/supply/text", "Device, Order: Intermittent pneumatic compression devices (IPC)")
+	assertXPath(t, xrn, "//entry/supply/effectiveTime/low", map[string]string{"value": "201504060830+0000"}, nil)
+	assertXPath(t, xrn, "//entry/supply/effectiveTime/high", map[string]string{"value": "201504060830+0000"}, nil)
 }
 
 // - - - - - - - - //
@@ -277,7 +300,7 @@ func assertNoXPath(t *testing.T, elem *xml.ElementNode, pathString string) {
 	assert.Nil(t, res)
 }
 
-// assert all xml tags at the xml path do not contain the content
+// assert all xml tags at the xml contain the content
 func assertContent(t *testing.T, elem *xml.ElementNode, pathString string, content string) {
 	path := xpath.Compile(pathString)
 	nodes, err := elem.Search(path)
