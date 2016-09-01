@@ -17,7 +17,7 @@
       <templateId root="2.16.840.1.113883.10.20.22.4.119"/>
       <time {{valueOrNullFlavor .EntrySection.Entry.Time}}/>
       <assignedAuthor>
-        <id nullFlavor="NA" root="<%= UUID.generate %>"/>
+        <id nullFlavor="NA" root="{{newRandom}}"/>
       </assignedAuthor>
     </author>
     <participant typeCode="DEV">
@@ -44,7 +44,7 @@
       <templateId root="2.16.840.1.113883.10.20.22.4.119"/>
       <time {{valueOrNullFlavor .EntrySection.Entry.Time}}/>
       <assignedAuthor>
-        <id nullFlavor="NA" root="<%= UUID.generate %>"/>
+        <id nullFlavor="NA" root="{{newRandom}}"/>
       </assignedAuthor>
     </author>
     <participant typeCode="DEV">
