@@ -143,7 +143,7 @@ func generateExecuteTemplateForEntry(cat1Template *template.Template) func(entry
 }
 
 func negationIndicator(entry models.Entry) string {
-	if *entry.NegationInd {
+	if entry.NegationInd != nil && *entry.NegationInd {
 		return "negationInd='true'"
 	}
 	return ""

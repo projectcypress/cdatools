@@ -129,6 +129,7 @@ func HqmfToQrdaOid(hqmfOid string) string {
 }
 
 func codeDisplayForQrdaOid(oid string) []models.CodeDisplay {
+	initializeMap()
 	if codeDisplays, ok := qrdaCodeDisplayMap[oid]; ok {
 		return codeDisplays
 	}

@@ -1,0 +1,31 @@
+{
+      "anatomicalStructure": null,
+      "anatomical_approach": null,
+      "codes": {
+        "SNOMED-CT": [
+          "428421000124107"
+        ]
+      },
+      "description": "Device, Order: Intermittent pneumatic compression devices (IPC)",
+      "end_time": 1428309000,
+      "manufacturer": null,
+      "mood_code": "EVN",
+      "negationInd": true,
+      "negationReason": {
+        "code_system": "SNOMED-CT",
+        "code": "182901005"
+      },
+      "oid": "2.16.840.1.113883.3.560.1.137",
+      "reaction": null,
+      "reason": null,
+      "removalTime": null,
+      "specifics": null,
+      "start_time": 1428309000,
+      "status_code": {
+        "HL7 ActStatus": [
+          "ordered"
+        ]
+      },
+      "time": null,
+      "_type": "MedicalEquipment"
+}
