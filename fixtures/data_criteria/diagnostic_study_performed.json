@@ -1,0 +1,13 @@
+{
+    "title": "Chest XRay Diagnostic Test",
+    "description": "Diagnostic Study, Performed: Chest XRay Diagnostic Test",
+    "code_list_id": "2.16.840.1.113762.1.4.1111.41",
+    "type": "diagnostic_studies",
+    "definition": "diagnostic_study",
+    "status": "performed",
+    "hard_status": false,
+    "negation": false,
+    "source_data_criteria": "prefix_690740f4_b6fe_4ab9_8a28_a8dab1de95f7_4d6547e3_2b48_4fd5_a3f9_c10df7cbcfb5_source",
+    "variable": false,
+    "hqmf_oid": "2.16.840.1.113883.3.560.1.3"
+}

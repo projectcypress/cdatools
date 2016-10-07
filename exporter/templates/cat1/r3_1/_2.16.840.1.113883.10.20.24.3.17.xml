@@ -1,0 +1,21 @@
+<entry>
+  <observation classCode="OBS" moodCode="RQO" {{negationIndicator .EntrySection.Entry}}>
+    <!-- Consolidated Plan of Care Activity Observation
+        templateId (Implied Template) -->
+    <templateId root="2.16.840.1.113883.10.20.22.4.44" extension="2014-06-09"/>
+    <!-- Diagnostic Study, Order template -->
+    <templateId root="2.16.840.1.113883.10.20.24.3.17" extension="2016-02-01"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded "entryCode"}}
+    <text>{{.EntrySection.Entry.Description}}</text>
+    <statusCode code="active"/>
+    <!-- The effectiveTime indicates the time when the Diagnostic Study is intended to take place -->
+    <effectiveTime>
+      <low  {{valueOrNullFlavor .EntrySection.Entry.StartTime}}/>
+      <high {{valueOrNullFlavor .EntrySection.Entry.EndTime}}/>
+    </effectiveTime>
+    <!-- Attribute: datetime -->
+    {{template "_author.xml" .EntrySection.Entry}}
+    {{template "_reason.xml" .}}
+  </observation>
+</entry>

@@ -1,0 +1,49 @@
+{
+    "anatomical_approach": null,
+    "anatomical_target": null,
+    "codes": {
+        "ICD-10-PCS": [
+            "BB241ZZ"
+        ],
+        "LOINC": [
+            "29252-4"
+        ],
+        "ICD-9-PCS": [
+            "87.41"
+        ]
+    },
+    "description": "Diagnostic Study, Performed: Ct Scan Including Chest Diagnostic Test",
+    "end_time": 1432109400,
+    "incisionTime": null,
+    "method": null,
+    "mood_code": "EVN",
+    "negationInd": null,
+    "negationReason": null,
+    "oid": "2.16.840.1.113883.3.560.1.3",
+    "ordinality": null,
+    "performer_id": null,
+    "radiation_dose": null,
+    "radiation_duration": null,
+    "reaction": null,
+    "reason": null,
+    "source": null,
+    "specifics": null,
+    "start_time": 1432108800,
+    "status_code": {
+        "HL7 ActStatus": [
+            "performed"
+        ]
+    },
+    "values": [
+        {
+            "codes": {
+                "SNOMED-CT": [
+                    "168500000"
+                ]
+            },
+            "description": "Radiologic Finding Normal",
+            "_type": "CodedResultValue"
+        }
+    ],
+    "_type": "Procedure"
+}
