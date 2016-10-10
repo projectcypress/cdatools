@@ -113,16 +113,17 @@ func uniqueDataCriteria(allDataCriteria []models.DataCriteria) []mdc {
 	return retDataCriteria
 }
 
-func exporterFuncMap(cat1Template *template.Template) template.FuncMap {
+func exporterFuncMap(cat1Template *template.Template, entryInfos interface{}) template.FuncMap {
 	return template.FuncMap{
-		"timeNow":                 time.Now().UTC().Unix,
-		"newRandom":               uuid.NewRandom,
-		"timeToFormat":            timeToFormat,
-		"identifierForInt":        identifierForInt,
-		"identifierForString":     identifierForString,
-		"escape":                  escape,
-		"entryInfosForPatient":    entryInfosForPatient,
-		"executeTemplateForEntry": generateExecuteTemplateForEntry(cat1Template),
+		"timeNow":                      time.Now().UTC().Unix,
+		"newRandom":                    uuid.NewRandom,
+		"timeToFormat":                 timeToFormat,
+		"identifierForInt":             identifierForInt,
+		"identifierForString":          identifierForString,
+		"escape":                       escape,
+		"entryInfosForPatient":         entryInfosForPatient,
+		"executeTemplateForEntry":      generateExecuteTemplateForEntry(cat1Template),
+		"resolveReference":             generateResolveReferences(entryInfos),
 		"isR2":                         IsR2Compatible,
 		"condAssign":                   condAssign,
 		"valueOrNullFlavor":            valueOrNullFlavor,
@@ -154,15 +155,6 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 	if err != nil {
 		fmt.Println(err)
 	}
-
-	cat1Template := template.New("cat1")
-	cat1Template.Funcs(exporterFuncMap(cat1Template))
-
-	for _, d := range data {
-		asset, _ := Asset("templates/cat1/" + qrdaVersion + "/" + d)
-		template.Must(cat1Template.New(d).Parse(string(asset)))
-	}
-
 	p := &models.Record{}
 	m := []models.Measure{}
 	vs := []models.ValueSet{}
@@ -316,7 +308,17 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 
 	initializeVsMap(vs)
 
-	c1d := cat1data{Record: *p, Header: *h, Measures: m, ValueSets: vs, StartDate: startDate, EndDate: endDate, EntryInfos: entryInfosForPatient(*p, m)}
+	eis := entryInfosForPatient(*p, m)
+
+	cat1Template := template.New("cat1")
+	cat1Template.Funcs(exporterFuncMap(cat1Template, eis))
+
+	for _, d := range data {
+		asset, _ := Asset("templates/cat1/" + qrdaVersion + "/" + d)
+		template.Must(cat1Template.New(d).Parse(string(asset)))
+	}
+
+	c1d := cat1data{Record: *p, Header: *h, Measures: m, ValueSets: vs, StartDate: startDate, EndDate: endDate, EntryInfos: eis}
 
 	var b bytes.Buffer
 

@@ -142,6 +142,18 @@ func generateExecuteTemplateForEntry(cat1Template *template.Template) func(entry
 	}
 }
 
+func generateResolveReferences(entryInfos interface{}) func(models.Reference) entryInfo {
+	return func(ref models.Reference) entryInfo {
+		for _, entry := range entryInfos.([]entryInfo) {
+			ent := entry.EntrySection.GetEntry()
+			if ent.CodedEntryID == ref.ReferencedID {
+				return entry
+			}
+		}
+		return entryInfo{}
+	}
+}
+
 func negationIndicator(entry models.Entry) string {
 	if entry.NegationInd != nil && *entry.NegationInd {
 		return "negationInd='true'"
