@@ -57,18 +57,14 @@ func TestReasonTemplate(t *testing.T) {
 	rootNode := xmlReasonRootNode(reason, false, true)
 	assertXPath(t, rootNode, "//entryRelationship", map[string]string{"typeCode": "RSON"}, nil)
 	assertXPath(t, rootNode, "//entryRelationship/observation", map[string]string{"classCode": "OBS", "moodCode": "EVN"}, nil)
-	assertXPath(t, rootNode, "//entryRelationship/observation/templateId", map[string]string{"root": "2.16.840.1.113883.10.20.24.3.88"}, []string{"extension"})
+	assertXPath(t, rootNode, "//entryRelationship/observation/templateId", map[string]string{"root": "2.16.840.1.113883.10.20.24.3.88", "extension": "2014-12-01"}, nil)
 	assertXPath(t, rootNode, "//entryRelationship/observation/id", map[string]string{"root": "1.3.6.1.4.1.115"}, nil)
-	assertXPath(t, rootNode, "//entryRelationship/observation/code", map[string]string{"code": "410666004", "codeSystem": "2.16.840.1.113883.6.96", "displayName": "reason", "codeSystemName": "SNOMED CT"}, nil)
 	assertXPath(t, rootNode, "//entryRelationship/observation/statusCode", map[string]string{"code": "completed"}, nil)
-	assertXPath(t, rootNode, "//entryRelationship/observation/effectiveTime", map[string]string{"value": "197001010000+0000"}, nil)
+	assertXPath(t, rootNode, "//entryRelationship/observation/effectiveTime/low", map[string]string{"value": "197001010000+0000"}, nil)
 	assertXPath(t, rootNode, "//entryRelationship/observation/value", map[string]string{"xsi:type": "CD", "code": "REASON_CODE_1", "codeSystem": "2.16.840.1.113883.6.1", "sdtc:valueSet": "1.2.3.4.5.6.7.8.9.11"}, nil)
 
 	// do not negate reason, not r2 compatable
-	rootNode = xmlReasonRootNode(reason, false, false)
-	assertXPath(t, rootNode, "//entryRelationship/observation/templateId", map[string]string{"root": "2.16.840.1.113883.10.20.24.3.88", "extension": "2014-12-01"}, nil)
 	assertXPath(t, rootNode, "//entryRelationship/observation/code", map[string]string{"code": "77301-0", "codeSystem": "2.16.840.1.113883.6.1", "displayName": "reason", "codeSystemName": "LOINC"}, nil)
-	assertXPath(t, rootNode, "//entryRelationship/observation/effectiveTime/low", map[string]string{"value": "197001010000+0000"}, nil)
 
 	// negate reason
 	rootNode = xmlReasonRootNode(reason, true, true)
@@ -381,7 +377,7 @@ func setPatientMeasuresAndValueSets(patient *models.Record, measures *[]models.M
 
 func makeTemplate(qrdaVersion string) *template.Template {
 	if qrdaVersion == "" {
-		qrdaVersion = "r3"
+		qrdaVersion = "r3_1"
 	}
 	temp := template.New("cat1")
 	temp.Funcs(exporterFuncMap(temp))

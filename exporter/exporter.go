@@ -115,15 +115,14 @@ func uniqueDataCriteria(allDataCriteria []models.DataCriteria) []mdc {
 
 func exporterFuncMap(cat1Template *template.Template) template.FuncMap {
 	return template.FuncMap{
-		"timeNow":                 time.Now().UTC().Unix,
-		"newRandom":               uuid.NewRandom,
-		"timeToFormat":            timeToFormat,
-		"identifierForInt":        identifierForInt,
-		"identifierForString":     identifierForString,
-		"escape":                  escape,
-		"entryInfosForPatient":    entryInfosForPatient,
-		"executeTemplateForEntry": generateExecuteTemplateForEntry(cat1Template),
-		"isR2":                         IsR2Compatible,
+		"timeNow":                      time.Now().UTC().Unix,
+		"newRandom":                    uuid.NewRandom,
+		"timeToFormat":                 timeToFormat,
+		"identifierForInt":             identifierForInt,
+		"identifierForString":          identifierForString,
+		"escape":                       escape,
+		"entryInfosForPatient":         entryInfosForPatient,
+		"executeTemplateForEntry":      generateExecuteTemplateForEntry(cat1Template),
 		"condAssign":                   condAssign,
 		"valueOrNullFlavor":            valueOrNullFlavor,
 		"dischargeDispositionDisplay":  dischargeDispositionDisplay,

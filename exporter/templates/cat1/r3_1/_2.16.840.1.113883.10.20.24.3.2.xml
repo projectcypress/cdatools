@@ -1,7 +1,7 @@
 <entry>
   <act classCode="ACT" moodCode="EVN" {{ negationIndicator .EntrySection.Entry}}>
     <!-- Communication from patient to provider -->
-    <templateId root="2.16.840.1.113883.10.20.24.3.2" {{if isR2 .EntrySection}}{{else}}extension="2014-12-01"{{end}}/>
+    <templateId root="2.16.840.1.113883.10.20.24.3.2" extension="2014-12-01"/>
     <id root="1.3.6.1.4.1.115" extension="{{newRandom}}"/>
     {{/*$extraContent := "sdtc:valueSet=\"#{value_set_oid}\""*/}}
 

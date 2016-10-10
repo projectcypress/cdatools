@@ -135,10 +135,3 @@ func codeDisplayForQrdaOid(oid string) []models.CodeDisplay {
 	}
 	return []models.CodeDisplay{}
 }
-
-// input entrySection should be an entry section (ex. Procedure, Medication, ...)
-func IsR2Compatible(entrySection models.HasEntry) bool {
-	initializeMap()
-	entry := entrySection.GetEntry()
-	return hqmfQrdaMap[entry.Oid] != nil
-}
