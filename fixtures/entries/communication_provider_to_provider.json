@@ -1,4 +1,4 @@
-{
+[{
     "codes": {
     "SNOMED-CT": [
         "312904009"
@@ -34,31 +34,36 @@
     ]
 },
 {
-    "negation": false,
-    "definition": "intervention",
-    "status": "performed",
-    "title": "Referral",
-    "description": "Intervention, Performed: Referral",
-    "code_list_id": "2.16.840.1.113883.3.464.1003.101.12.1046",
-    "type": "interventions",
-    "id": "OccurrenceA_Referral_InterventionPerformed_07de5cba_6617_474d_8628_824d1d3ebd3f",
-    "start_date": 1427725800000,
-    "end_date": 1427725800000,
-    "value": [
-
-    ],
-    "references": null,
-    "field_values": {
-    },
-    "hqmf_set_id": "F58FC0D6-EDF5-416A-8D29-79AFBFD24DEA",
-    "cms_id": "CMS50v5",
-    "criteria_id": "153cdf09176re",
+    "anatomical_approach": null,
+    "anatomical_target": null,
     "codes": {
     "SNOMED-CT": [
-        "183881003"
+        "103699006"
     ]
     },
-    "negation_code_list_id": "",
-    "coded_entry_id": "574734c402d4052a45000785",
-    "code_source": "USER_DEFINED"
-}
+    "description": "Intervention, Performed: Referral",
+    "end_time": 1427379300,
+    "incisionTime": null,
+    "method": null,
+    "mood_code": "EVN",
+    "negationInd": null,
+    "negationReason": null,
+    "oid": "2.16.840.1.113883.3.560.1.46",
+    "ordinality": null,
+    "performer_id": null,
+    "radiation_dose": null,
+    "radiation_duration": null,
+    "reaction": null,
+    "reason": null,
+    "source": null,
+    "specifics": null,
+    "start_time": 1427379300,
+    "status_code": {
+    "HL7 ActStatus": [
+        "performed"
+    ]
+    },
+    "time": null,
+    "_type": "Procedure",
+    "coded_entry_id": "574734c402d4052a45000785"
+}]
