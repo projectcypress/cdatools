@@ -18,9 +18,11 @@ type Entry struct {
 	NegationReason CodedConcept        `json:"negationReason,omitempty"`
 	Values         []ResultValue       `json:"values,omitempty"`
 	StatusCode     map[string][]string `json:"status_code,omitempty"`
+	MoodCode       string              `json:"mood_code,omitempty"`
 	Reason         CodedConcept        `json:"reason,omitempty"`
 	References     []Reference         `json:"references,omitempty"`
 	CodeDisplays   []CodeDisplay       `json:"code_displays,omitempty"`
+	CodedEntryID   string              `json:"coded_entry_id,omitempty"`
 }
 
 // used by exporter template to display a code. ex. (if TagName is priorityCode) <priorityCode code="1234"></priorityCode>
