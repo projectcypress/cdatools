@@ -1,11 +1,12 @@
 package importer
 
 import (
-	"github.com/moovweb/gokogiri/xml"
-	"github.com/moovweb/gokogiri/xpath"
+	"strconv"
+
+	"github.com/jbowtie/gokogiri/xml"
+	"github.com/jbowtie/gokogiri/xpath"
 	"github.com/pebbe/util"
 	"github.com/projectcypress/cdatools/models"
-	"strconv"
 )
 
 func GestationalAgeExtractor(entry *models.Entry, entryElement xml.Node) interface{} {
