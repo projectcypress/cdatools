@@ -1,5 +1,6 @@
 package models
 
+
 type Header struct {
 	Authenticator Authenticator
 	Authors       []Author
@@ -80,3 +81,4 @@ type Scalar struct {
 	Unit  string `json:"unit,omitempty"`
 	Value int64  `json:"value,omitempty"`
 }
+

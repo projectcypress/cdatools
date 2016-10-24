@@ -237,6 +237,39 @@ func TestDeviceOrderTemplate(t *testing.T) {
 	assertXPath(t, xrn, "//entry/supply/effectiveTime/high", map[string]string{"value": "201504060830+0000"}, nil)
 }
 
+func TestLaboratoryTestOrderTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.37"
+	dataCriteriaName := "laboratory_test_order"
+	entryName := "laboratory_test_order"
+
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.LabResult{})
+
+	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+
+	assertXPath(t, xrn, "//entry/observation", map[string]string{"classCode": "OBS", "moodCode": "RQO"}, nil)
+	assertXPath(t, xrn, "//entry/observation/templateId[@root='2.16.840.1.113883.10.20.22.4.44']", nil, nil)
+	assertXPath(t, xrn, "//entry/observation/templateId[@root='2.16.840.1.113883.10.20.24.3.37']", nil, nil)
+	assertContent(t, xrn, "//entry/observation/text", "Laboratory Test, Order: Pregnancy Test")
+	assertXPath(t, xrn, "//entry/observation/author/templateId[@root='2.16.840.1.113883.10.20.22.4.119']", nil, nil)
+
+}
+
+func TestLaboratoryTestPerformedTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.38"
+	dataCriteriaName := "laboratory_test_performed"
+	entryName := "laboratory_test_performed"
+
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.LabResult{})
+	
+	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+
+	assertXPath(t, xrn, "//entry/observation", map[string]string{"classCode": "OBS", "moodCode": "EVN"}, nil)
+	assertXPath(t, xrn, "//entry/observation/templateId[@root='2.16.840.1.113883.10.20.24.3.38']", nil, nil)
+	assertContent(t, xrn, "//entry/observation/text", "Laboratory Test, Performed: LDL-c")
+
+	//assertXPath(t, xrn, "//entry/observation/effectiveTime/low", map[string]string{"value": "201504060830+0000"}, nil)
+	//assertXPath(t, xrn, "//entry/observation/effectiveTime/high", map[string]string{"value": "201504060830+0000"}, nil)
+}
 // - - - - - - - - //
 //   H E L P E R   //
 // - - - - - - - - //

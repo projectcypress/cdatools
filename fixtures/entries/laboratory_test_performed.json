@@ -1,0 +1,37 @@
+{
+      "codes": {
+        "LOINC": [
+          "18261-8"
+        ]
+      },
+      "description": "Laboratory Test, Performed: LDL-c",
+      "end_time": 1428303600,
+      "interpretation": null,
+      "method": null,
+      "mood_code": "EVN",
+      "negationInd": null,
+      "negationReason": null,
+      "oid": "2.16.840.1.113883.3.560.1.5",
+      "reaction": null,
+      "reason": null,
+      "referenceRange": null,
+      "referenceRangeHigh": null,
+      "referenceRangeLow": null,
+      "specifics": null,
+      "start_time": 1428303600,
+      "status_code": {
+        "HL7 ActStatus": [
+          "performed"
+        ]
+      },
+      "time": null,
+      "values": [
+        {
+          "scalar": "90",
+          "units": "mg/dL",
+          "_type": "PhysicalQuantityResultValue"
+        }
+      ],
+      "hqmf_oid": "2.16.840.1.113883.3.560.1.5",
+      "_type": "VitalSign"
+    }
