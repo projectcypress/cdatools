@@ -1,0 +1,18 @@
+{{ if not .EntrySection.IsValuesEmpty }}
+    {{ range .EntrySection.Entry.Values }}
+        {{ if .IsCodesPresent }}
+
+            {{ template "_result_value.xml" codeDisplayWithPreferredCode . .Coded.Codes "resultValue" }}
+        {{ else if ne .Scalar "" }}
+            {{ if eq .GetScalarType "num" }}
+                <value xsi:type="PQ" value="{{ .Scalar }}" {{ if ne .Units ""}}unit="{{ .Units }}"{{ else }}unit="1"{{ end }}/>
+            {{ else if eq .GetScalarType "bool" }}
+                <value xsi:type="BL" value="{{ .Scalar }}" />
+            {{ else }}
+                <value xsi:type="ST" >{{ .Scalar }}</value> 
+            {{ end }}
+        {{ end }}
+    {{ end }}
+{{ else }}
+    <value xsi:type="CD" nullFlavor="UNK"/>
+{{ end }}
