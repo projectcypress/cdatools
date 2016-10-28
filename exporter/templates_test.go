@@ -10,6 +10,7 @@ import (
 	"testing"
 	"text/template"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/moovweb/gokogiri/xml"
 	"github.com/moovweb/gokogiri/xpath"
 	"github.com/pebbe/util"
@@ -182,6 +183,9 @@ func TestCommunicationFromProviderToProviderTemplate(t *testing.T) {
 
 	xrn := xmlRootNodeForQrdaOidWithDataSubset(qrdaOid, eis)
 
+	// xrn.SetAttr("xmlns", "urn:hl7-org:v3")
+	xrn.SetNamespace("xmlns:sdtc", "urn:hl7-org:sdtc")
+
 	assertXPath(t, xrn, "//entry/act/templateId", map[string]string{"root": qrdaOid}, nil)
 
 	assertXPath(t, xrn, "//entry/act/effectiveTime/low", map[string]string{"value": "201405020815+0000"}, nil)
@@ -190,6 +194,12 @@ func TestCommunicationFromProviderToProviderTemplate(t *testing.T) {
 	assertXPath(t, xrn, "//entry/act/code", map[string]string{"code": "312904009", "codeSystem": "2.16.840.1.113883.6.96"}, nil)
 
 	assertXPath(t, xrn, "//entry/act/entryRelationship/observation/templateId", map[string]string{"root": "2.16.840.1.113883.10.20.24.3.88"}, nil)
+
+	path := xpath.Compile("//entry/act/sdtc:inFulfillmentOf1")
+	nodes, err := xrn.Search(path)
+	util.CheckErr(err)
+	spew.Dump(len(nodes))
+	// printXmlString(nodes[0].ToUnformattedXml())
 }
 
 func TestCommunicationFromProviderToPatientTemplate(t *testing.T) {
