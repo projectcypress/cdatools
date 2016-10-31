@@ -94,7 +94,7 @@ func (r *ResultValue) GetScalarType() string {
 	if err == nil {
 		return "num"
 	} else {
-		return "else"
+		return "other"
 	}
 }
 
