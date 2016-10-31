@@ -1,0 +1,15 @@
+{
+        "title": "Pregnancy Test",
+        "description": "Laboratory Test, Ordered: Pregnancy Test",
+        "code_list_id": "2.16.840.1.113883.3.464.1003.111.12.1011",
+        "type": "laboratory_tests",
+        "definition": "laboratory_test",
+        "status": "ordered",
+        "hard_status": true,
+        "negation": false,
+        "specific_occurrence": "A",
+        "specific_occurrence_const": "LABORATORY_TEST_ORDERED_PREGNANCY_TEST",
+        "source_data_criteria": "OccurrenceAPregnancyTest1",
+        "variable": false,
+        "hqmf_oid": "2.16.840.1.113883.3.560.1.50"
+      }

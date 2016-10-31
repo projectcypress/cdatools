@@ -1,0 +1,25 @@
+{
+        "title": "LDL-c",
+        "description": "Laboratory Test, Performed: LDL-c",
+        "code_list_id": "2.16.840.1.113883.3.117.1.7.1.215",
+        "type": "laboratory_tests",
+        "definition": "laboratory_test",
+        "status": "performed",
+        "hard_status": false,
+        "negation": false,
+        "specific_occurrence": "A",
+        "specific_occurrence_const": "LABORATORY_TEST_PERFORMED_LDL_C",
+        "source_data_criteria": "OccurrenceALdlC1",
+        "variable": false,
+        "value": {
+          "type": "IVL_PQ",
+          "high": {
+            "type": "PQ",
+            "unit": "mg/dL",
+            "value": "70",
+            "inclusive?": false,
+            "derived?": false
+          }
+        },
+        "hqmf_oid": "2.16.840.1.113883.3.560.1.5"
+      }

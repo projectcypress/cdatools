@@ -1,0 +1,30 @@
+{
+      "codes": {
+        "LOINC": [
+          "2112-1"
+        ]
+      },
+      "description": "Laboratory Test, Order: Pregnancy Test",
+      "end_time": 1425222000,
+      "interpretation": null,
+      "method": null,
+      "mood_code": "EVN",
+      "negationInd": null,
+      "negationReason": null,
+      "oid": "2.16.840.1.113883.3.560.1.50",
+      "reaction": null,
+      "reason": null,
+      "referenceRange": null,
+      "referenceRangeHigh": null,
+      "referenceRangeLow": null,
+      "specifics": null,
+      "start_time": 1425222000,
+      "status_code": {
+        "HL7 ActStatus": [
+          "ordered"
+        ]
+      },
+      "time": null,
+      "hqmf_oid": "2.16.840.1.113883.3.560.1.50",
+      "_type": "VitalSign"
+    }

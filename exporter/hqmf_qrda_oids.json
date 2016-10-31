@@ -317,19 +317,57 @@
     "hqmf_name": "Laboratory Test, Order",
     "hqmf_oid": "2.16.840.1.113883.3.560.1.50",
     "qrda_name": "Laboratory Test Order",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.37"
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.37",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "",
+        "preferred_code_sets": ["LOINC"]
+      }
+    ]
   },
   {
     "hqmf_name": "Laboratory Test, Order not done",
     "hqmf_oid": "2.16.840.1.113883.3.560.1.150",
     "qrda_name": "Laboratory Test Order",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.37"
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.37",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "",
+        "preferred_code_sets": ["LOINC"]
+      }
+    ]
   },
   {
     "hqmf_name": "Laboratory Test, Performed",
     "hqmf_oid": "2.16.840.1.113883.3.560.1.5",
     "qrda_name": "Laboratory Test Performed",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.38"
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.38",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "",
+        "preferred_code_sets": ["LOINC", "SNOMED-CT"]
+      },
+      {
+        "code_type": "resultValue",
+        "tag_name": "value",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "xsi:type=\"CD\"",
+        "preferred_code_sets": ["LOINC", "SNOMED-CT", "ICD-9-CM", "ICD-10-CM"]
+      }
+    ]
   },
   {
     "hqmf_name": "Laboratory Test, Recommended",
@@ -635,7 +673,25 @@
     "hqmf_name": "Laboratory Test, not Performed",
     "hqmf_oid": "2.16.840.1.113883.3.560.1.105",
     "qrda_name": "Laboratory Test Performed",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.38"
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.38",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "",
+        "preferred_code_sets": ["LOINC", "SNOMED-CT"]
+      },
+      {
+        "code_type": "resultValue",
+        "tag_name": "value",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "xsi:type=\"CD\"",
+        "preferred_code_sets": ["LOINC", "SNOMED-CT", "ICD-9-CM", "ICD-10-CM"]
+      }
+    ]
   },
   {
     "hqmf_name": "Diagnostic Study, not Performed",

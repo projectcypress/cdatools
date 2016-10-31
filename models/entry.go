@@ -3,6 +3,7 @@ package models
 import (
 	"errors"
 	"fmt"
+	"strconv"
 )
 
 type Entry struct {
@@ -67,4 +68,36 @@ func (e *Entry) NegationReasonOrReason() CodedConcept {
 		return e.NegationReason
 	}
 	return e.Reason
+}
+
+// In current implementation, this may give unexpected value if Time or StartTime 
+// are set to zero, and not just as a default
+func (e *Entry) AsPointInTime() int64 {
+	if e.Time != 0 {
+		return e.Time
+	} else if e.StartTime != 0 {
+		return e.StartTime
+	} else {
+		return e.EndTime
+	}
+}
+
+func (e *Entry) IsValuesEmpty() bool {
+	return len(e.Values) == 0
+}
+
+func (r *ResultValue) GetScalarType() string {
+	if r.Scalar == "true" || r.Scalar == "false" {
+		return "bool"
+	}
+	_, err := strconv.ParseFloat(r.Scalar, 64)
+	if err == nil {
+		return "num"
+	} else {
+		return "other"
+	}
+}
+
+func (r *ResultValue) IsCodesPresent() bool {
+	return r.Coded.Codes != nil && len(r.Coded.Codes) != 0
 }
