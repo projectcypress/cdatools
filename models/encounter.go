@@ -21,6 +21,12 @@ type Facility struct {
 	Telecoms  []Telecom     `json:"telecoms,omitempty"`
 }
 
+type Transfer struct {
+	Coded
+	CodedConcept
+	Time int64 `json:"time,omitempty"`
+}
+
 func (enc *Encounter) GetEntry() *Entry {
 	return &enc.Entry
 }

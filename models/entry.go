@@ -23,6 +23,13 @@ type Entry struct {
 	CodeDisplays   []CodeDisplay       `json:"code_displays,omitempty"`
 }
 
+// Reference is a link from one entry to another, used in "fulfills" among others
+type Reference struct {
+	Type           string `json:"type,omitempty"`
+	ReferencedType string `json:"referenced_type,omitempty"`
+	ReferencedID   string `json:"referenced_id,omitempty"`
+}
+
 // used by exporter template to display a code. ex. (if TagName is priorityCode) <priorityCode code="1234"></priorityCode>
 type CodeDisplay struct {
 	CodeType               string   `json:"code_type,omitempty"`
