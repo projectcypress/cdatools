@@ -99,3 +99,7 @@ func (c *Coded) PreferredCode(preferredCodeSets []string) Concept {
 	}
 	return Concept{}
 }
+
+func (c *Coded) IsCodesPresent() bool {
+	return c.Codes != nil && len(c.Codes) != 0
+}

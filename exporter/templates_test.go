@@ -146,22 +146,21 @@ func getResultValueData() []entryInfo {
 
 	// Several entries created to test different paths in the template
 	var entries []models.Entry
-	entries = append(entries, models.Entry{Values: [](models.ResultValue){ models.ResultValue{ Scalar: "2", Units: "", Coded: coded } }, CodeDisplays: [](models.CodeDisplay){expectedCodeDisplay}})
-	entries = append(entries, models.Entry{Values: [](models.ResultValue){ models.ResultValue{ Scalar: "5.2", Units: "Inches" } }})
-	entries = append(entries, models.Entry{Values: [](models.ResultValue){ models.ResultValue{ Scalar: "5.3", Units: "" } }})
-	entries = append(entries, models.Entry{Values: [](models.ResultValue){ models.ResultValue{ Scalar: "true", Units: "" } }})
+	entries = append(entries, models.Entry{Values: [](models.ResultValue){models.ResultValue{Scalar: "2", Units: "", Coded: coded}}, CodeDisplays: [](models.CodeDisplay){expectedCodeDisplay}})
+	entries = append(entries, models.Entry{Values: [](models.ResultValue){models.ResultValue{Scalar: "5.2", Units: "Inches"}}})
+	entries = append(entries, models.Entry{Values: [](models.ResultValue){models.ResultValue{Scalar: "5.3", Units: ""}}})
+	entries = append(entries, models.Entry{Values: [](models.ResultValue){models.ResultValue{Scalar: "true", Units: ""}}})
 	entries = append(entries, models.Entry{})
 	var entrySections []models.HasEntry
 	for _, entry := range entries {
 		entrySections = append(entrySections, &models.Encounter{Entry: entry})
 	}
 	entrySections = append(entrySections, nil)
-	
+
 	entryInfos := appendEntryInfos([]entryInfo{}, entrySections, mdc{})
 
 	return entryInfos
 }
-
 
 // test _2.16.840.1.113883.10.20.24.3.23.xml
 func TestEncounterPerformedTemplate(t *testing.T) {
@@ -302,7 +301,6 @@ func TestLaboratoryTestOrderTemplate(t *testing.T) {
 	assertXPath(t, xrn, "//entry/observation/templateId[@root='2.16.840.1.113883.10.20.24.3.37']", nil, nil)
 	assertContent(t, xrn, "//entry/observation/text", "Laboratory Test, Order: Pregnancy Test")
 	assertXPath(t, xrn, "//entry/observation/author/templateId[@root='2.16.840.1.113883.10.20.22.4.119']", nil, nil)
-
 }
 
 func TestLaboratoryTestPerformedTemplate(t *testing.T) {
@@ -317,9 +315,8 @@ func TestLaboratoryTestPerformedTemplate(t *testing.T) {
 	assertXPath(t, xrn, "//entry/observation", map[string]string{"classCode": "OBS", "moodCode": "EVN"}, nil)
 	assertXPath(t, xrn, "//entry/observation/templateId[@root='2.16.840.1.113883.10.20.24.3.38']", nil, nil)
 	assertContent(t, xrn, "//entry/observation/text", "Laboratory Test, Performed: LDL-c")
-
-	//assertXPath(t, xrn, "//entry/observation/effectiveTime/low", map[string]string{"value": "201504060830+0000"}, nil)
-	//assertXPath(t, xrn, "//entry/observation/effectiveTime/high", map[string]string{"value": "201504060830+0000"}, nil)
+	assertXPath(t, xrn, "//entry/observation/effectiveTime/low", map[string]string{"value": "201504060700+0000"}, nil)
+	assertXPath(t, xrn, "//entry/observation/effectiveTime/high", map[string]string{"value": "201504060700+0000"}, nil)
 }
 
 func TestDiagnosticStudyOrderTemplate(t *testing.T) {
@@ -352,6 +349,68 @@ func TestDiagnosticStudyPerformedTemplate(t *testing.T) {
 	assertContent(t, xrn, "//entry/observation/text", "Diagnostic Study, Performed: Ct Scan Including Chest Diagnostic Test")
 	assertXPath(t, xrn, "//entry/observation/effectiveTime/low", map[string]string{"value": "201505200800+0000"}, nil)
 	assertXPath(t, xrn, "//entry/observation/effectiveTime/high", map[string]string{"value": "201505200810+0000"}, nil)
+}
+
+func TestPatientCharacteristicClinicalTrialParticipantTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.51"
+	dataCriteriaName := "patient_characteristic_clinical_trial_participant"
+	entryName := "patient_characteristic_clinical_trial_participant"
+
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Encounter{})
+
+	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+
+	assertXPath(t, xrn, "//entry/observation", map[string]string{"classCode": "OBS", "moodCode": "EVN"}, nil)
+	assertXPath(t, xrn, "//entry/observation/templateId[@root='2.16.840.1.113883.10.20.24.3.51']", nil, nil)
+	assertXPath(t, xrn, "//entry/observation/code", map[string]string{"code": "ASSERTION", "codeSystem": "2.16.840.1.113883.5.4"}, nil)
+	assertXPath(t, xrn, "//entry/observation/effectiveTime/low", map[string]string{"value": "201507130830+0000"}, nil)
+}
+
+func TestPatientCharacteristicExpiredTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.54"
+	dataCriteriaName := "patient_characteristic_expired"
+	entryName := "patient_characteristic_expired"
+
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Encounter{})
+
+	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+
+	assertXPath(t, xrn, "//entry/observation", map[string]string{"classCode": "OBS", "moodCode": "EVN"}, nil)
+	assertXPath(t, xrn, "//entry/observation/templateId[@root='2.16.840.1.113883.10.20.22.4.79']", nil, nil)
+	assertXPath(t, xrn, "//entry/observation/templateId[@root='2.16.840.1.113883.10.20.24.3.54']", nil, nil)
+	assertXPath(t, xrn, "//entry/observation/effectiveTime/low", map[string]string{"value": "201505010800+0000"}, nil)
+}
+
+func TestPatientCharacteristicPayerTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.55"
+	dataCriteriaName := "patient_characteristic_payer"
+	entryName := "patient_characteristic_payer"
+
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.InsuranceProvider{})
+
+	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+
+	assertXPath(t, xrn, "//entry/observation", map[string]string{"classCode": "OBS", "moodCode": "EVN"}, nil)
+	assertXPath(t, xrn, "//entry/observation/templateId[@root='2.16.840.1.113883.10.20.24.3.55']", nil, nil)
+	assertXPath(t, xrn, "//entry/observation/id", map[string]string{"root": "1.3.6.1.4.1.115"}, nil)
+	assertXPath(t, xrn, "//entry/observation/code", map[string]string{"code": "48768-6", "codeSystemName": "LOINC", "codeSystem": "2.16.840.1.113883.6.1"}, nil)
+}
+
+func TestPatientCharacteristicObservationAssertionTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.103"
+	dataCriteriaName := "patient_characteristic_observation_assertion"
+	entryName := "patient_characteristic_observation_assertion"
+
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Encounter{})
+
+	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+
+	assertXPath(t, xrn, "//entry/observation", map[string]string{"classCode": "OBS", "moodCode": "EVN"}, nil)
+	assertXPath(t, xrn, "//entry/observation/templateId[@root='2.16.840.1.113883.10.20.24.3.103']", nil, nil)
+	assertXPath(t, xrn, "//entry/observation/id", map[string]string{"root": "1.3.6.1.4.1.115"}, nil)
+	assertXPath(t, xrn, "//entry/observation/code", map[string]string{"code": "ASSERTION", "codeSystem": "2.16.840.1.113883.5.4"}, nil)
+	assertXPath(t, xrn, "//entry/observation/effectiveTime/low", map[string]string{"value": "201510130800+0000"}, nil)
+	assertXPath(t, xrn, "//entry/observation/effectiveTime/high", map[string]string{"value": "201510130800+0000"}, nil)
 }
 
 // - - - - - - - - //

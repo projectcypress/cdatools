@@ -1,0 +1,12 @@
+{
+        "title": "Expired",
+        "description": "Patient Characteristic Expired: Expired",
+        "property": "expired",
+        "type": "characteristic",
+        "definition": "patient_characteristic_expired",
+        "hard_status": false,
+        "negation": false,
+        "source_data_criteria": "PatientCharacteristicExpiredExpired",
+        "variable": false,
+        "hqmf_oid": "2.16.840.1.113883.3.560.1.404"
+      }

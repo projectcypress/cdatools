@@ -1,0 +1,31 @@
+{
+      "codes": {
+        "SOP": [
+          "349"
+        ]
+      },
+      "description": null,
+      "end_time": null,
+      "financial_responsibility_type": {
+        "code": "SELF",
+        "codeSystem": "HL7 Relationship Code"
+      },
+      "member_id": null,
+      "mood_code": "EVN",
+      "name": "Other",
+      "negationInd": null,
+      "negationReason": null,
+      "oid": "2.16.840.1.113883.3.560.1.405",
+      "payer": {
+        "name": "Other"
+      },
+      "reason": null,
+      "relationship": null,
+      "specifics": null,
+      "start_time": null,
+      "status_code": null,
+      "time": null,
+      "type": "OT",
+      "hqmf_oid": "2.16.840.1.113883.3.560.1.405",
+      "_type": "InsuranceProvider"
+    }

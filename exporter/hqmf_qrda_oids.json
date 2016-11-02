@@ -511,25 +511,65 @@
     "hqmf_name": "Patient Characteristic Clinical Trial Participant",
     "hqmf_oid": "2.16.840.1.113883.3.560.1.401",
     "qrda_name": "Patient Characteristic Clinical Trial Participant",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.51"
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.51",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "value",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "", 
+        "preferred_code_sets": ["SNOMED-CT", "LOINC", "ICD-9-CM", "ICD-10-CM"]
+      }
+    ]
   },
   {
     "hqmf_name": "Patient Characteristic Expired",
     "hqmf_oid": "2.16.840.1.113883.3.560.1.404",
     "qrda_name": "Patient Characteristic Expired",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.54"
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.54",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "value",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "", 
+        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM"]
+      }
+    ]
   },
   {
     "hqmf_name": "Patient Characteristic Payer",
     "hqmf_oid": "2.16.840.1.113883.3.560.1.405",
     "qrda_name": "Patient Characteristic Payer",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.55"
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.55",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "value",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "xsi:type=\"CD\" sdtc:valueSet=\"2.16.840.1.114222.4.11.3591\"", 
+        "preferred_code_sets": ["SOP","Source of Payment Typology"]
+      }
+    ]
   },
   {
-    "hqmf_name": "Patient Charactersitic, ECOG Performance Status Poor",
+    "hqmf_name": "Patient Characteristic, ECOG Performance Status Poor",
     "hqmf_oid": "2.16.840.1.113883.3.560.1.1001",
     "qrda_name": "Patient Characteristic Observation Assertion",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.103"
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.103",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "value",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "xsi:type=\"CD\"", 
+        "preferred_code_sets": ["*"]
+      }
+    ]
   },
   {
     "hqmf_name": "Patient Charactersitic, Estimated Date of Conception",
@@ -541,7 +581,17 @@
     "hqmf_name": "Patient Charactersitic, Tobacco user and Non-User",
     "hqmf_oid": "2.16.840.1.113883.3.560.1.1001",
     "qrda_name": "Tobacco Use",
-    "qrda_oid": "2.16.840.1.113883.10.20.22.4.85"
+    "qrda_oid": "2.16.840.1.113883.10.20.22.4.85",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "value",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "xsi:type=\"CD\"", 
+        "preferred_code_sets": ["SNOMED-CT"]
+      }
+    ]
   },
   {
     "hqmf_name": "Patient Preference (attribute)",
