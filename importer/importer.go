@@ -355,10 +355,10 @@ func Read_patient(document string) string {
 
 	// Care Goal
 	var careGoalXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.1']")
-	rawCareGoals := ExtractSection(patientElement, careGoalXPath, CareGoalExtractor, "2.16.840.1.113883.3.560.1.9", "")
-	patient.CareGoals = make([]models.CareGoal, len(rawCareGoals))
+	rawCareGoals := ExtractSection(patientElement, careGoalXPath, nil, "2.16.840.1.113883.3.560.1.9", "")
+	patient.CareGoals = make([]models.Entry, len(rawCareGoals))
 	for i := range rawCareGoals {
-		patient.CareGoals[i] = rawCareGoals[i].(models.CareGoal)
+		patient.CareGoals[i] = rawCareGoals[i].(models.Entry)
 	}
 
 	// Patient Characteristic Clinical Trial Participant
@@ -428,7 +428,16 @@ func ExtractEntry(entryElement xml.Node, oid string, extractor EntryExtractor, s
 	// create status code and set status code from status
 	set_status_code(&entry, status)
 
-	fullEntry := extractor(&entry, entryElement)
+	var fullEntry interface{}
+
+	//if there is no entry extractor method provided, generically extract code
+	if extractor == nil {
+		codeXPath := xpath.Compile("cda:code")
+		ExtractCodes(&entry.Coded, entryElement, codeXPath)
+		fullEntry = entry
+	} else {
+		fullEntry = extractor(&entry, entryElement)
+	}
 	return fullEntry
 }
 
