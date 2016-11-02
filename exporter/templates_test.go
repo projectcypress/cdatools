@@ -368,7 +368,7 @@ func getDataForQrdaOid(qrdaOid string) entryInfo {
 	var m []models.Measure
 	var vs []models.ValueSet
 	setPatientMeasuresAndValueSets(&p, &m, &vs)
-	ei, err := getEntryInfo(p, m, qrdaOid) // ei stands for entry info
+	ei, err := getEntryInfo(p, m, qrdaOid, vs) // ei stands for entry info
 	if err != nil {
 		util.CheckErr(err)
 	}
@@ -434,8 +434,8 @@ func generateTemplateForFile(temp *template.Template, fileName string, templateD
 	return buf.String()
 }
 
-func getEntryInfo(patient models.Record, measures []models.Measure, qrdaOid string) (entryInfo, error) {
-	entryInfos := entryInfosForPatient(patient, measures)
+func getEntryInfo(patient models.Record, measures []models.Measure, qrdaOid string, vs []models.ValueSet) (entryInfo, error) {
+	entryInfos := entryInfosForPatient(patient, measures, initializeVsMap(vs))
 	for _, ei := range entryInfos {
 		if qrdaOid == HqmfToQrdaOid(ei.EntrySection.GetEntry().Oid) {
 			return ei, nil
