@@ -1,6 +1,7 @@
 package importer
 
 import (
+	"math"
 	"strconv"
 
 	"github.com/moovweb/gokogiri/xml"
@@ -14,6 +15,12 @@ func MedicationActiveExtractor(entry *models.Entry, entryElement xml.Node) inter
 
 	codeXPath := xpath.Compile("./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code")
 	ExtractCodes(&medicationActive.Entry.Coded, entryElement, codeXPath)
+
+	if (medicationActive.StartTime != 0) && (medicationActive.EndTime != 0) {
+		duration := int64(math.Floor(float64(medicationActive.EndTime-medicationActive.StartTime)/(60*60*24)) + 1)
+		medicationActive.CumulativeDuration.Unit = "days"
+		medicationActive.CumulativeDuration.Scalar = duration
+	}
 
 	return medicationActive
 }
@@ -82,7 +89,7 @@ func extractMedication(entry *models.Entry, entryElement xml.Node) models.Medica
 	medication.FulfillmentHistory = []models.FulfillmentHistory{}
 	extractFulfillmentHistory(&medication, entryElement)
 
-	ExtractReasonOrNegation(&medication.Entry, entryElement)
+	extractReasonOrNegation(&medication, entryElement)
 	return medication
 }
 
@@ -94,8 +101,8 @@ func extractAdministrationTiming(medication *models.Medication, entryElement xml
 		institutionSpecifiedAttr := adminTimingElement.Attribute("institutionSpecified")
 		if institutionSpecifiedAttr != nil {
 			institutionSpecified, err := strconv.ParseBool(institutionSpecifiedAttr.String())
-			medication.AdministrationTiming.InstitutionSpecified = institutionSpecified
 			util.CheckErr(err)
+			medication.AdministrationTiming.InstitutionSpecified = institutionSpecified
 		}
 		periodXPath := xpath.Compile("./cda:period")
 		ExtractScalar(&medication.AdministrationTiming.Period, adminTimingElement, periodXPath)
@@ -123,9 +130,9 @@ func extractOrderInformation(medication *models.Medication, entryElement xml.Nod
 		//provider information not captured, unsure if necessary
 		oi.OrderNumber = FirstElementContent(xpath.Compile("./cda:id/@root"), oiElement)
 		fills, err := strconv.ParseInt(FirstElementContent(xpath.Compile("./cda:repeatNumber/@value"), oiElement), 10, 64)
+		util.CheckErr(err)
 		oi.Fills = fills
 		oi.OrderDate = GetTimestamp(xpath.Compile("./cda:effectiveTime/cda:low/@value"), oiElement)
-		util.CheckErr(err)
 
 		qoXPath := xpath.Compile("./cda:quantity")
 		ExtractScalar(&oi.QuantityOrdered, oiElement, qoXPath)
@@ -136,20 +143,34 @@ func extractOrderInformation(medication *models.Medication, entryElement xml.Nod
 
 func extractFulfillmentHistory(medication *models.Medication, entryElement xml.Node) {
 	fhXPath := xpath.Compile("./cda:entryRelationship/cda:supply[@moodCode='EVN']")
-	fhElement := FirstElement(fhXPath, entryElement)
+	fhElements, err := entryElement.Search(fhXPath)
+	util.CheckErr(err)
 
-	if fhElement != nil {
-		fh := models.FulfillmentHistory{}
-		fh.PrescriptionNumber = FirstElementContent(xpath.Compile("./cda:id/@root"), fhElement)
-		fh.DispenseDate = GetTimestamp(xpath.Compile("./cda:effectiveTime/@value"), fhElement)
-		ExtractScalar(&fh.QuantityDispensed, fhElement, xpath.Compile("./cda:quantity"))
-		fillNumber := FirstElementContent(xpath.Compile("./cda:entryRelationship[@typeCode='COMP']/cda:sequenceNumber/@value"), fhElement)
-		if fillNumber != "" {
-			fillnumber, err := strconv.ParseInt(fillNumber, 10, 64)
-			fh.FillNumber = fillnumber
-			util.CheckErr(err)
+	if fhElements != nil {
+		for _, fhElement := range fhElements {
+			fh := models.FulfillmentHistory{}
+			fh.PrescriptionNumber = FirstElementContent(xpath.Compile("./cda:id/@root"), fhElement)
+			fh.DispenseDate = GetTimestamp(xpath.Compile("./cda:effectiveTime/@value"), fhElement)
+			ExtractScalar(&fh.QuantityDispensed, fhElement, xpath.Compile("./cda:quantity"))
+			fillNumber := FirstElementContent(xpath.Compile("./cda:entryRelationship[@typeCode='COMP']/cda:sequenceNumber/@value"), fhElement)
+			if fillNumber != "" {
+				fillnumber, err := strconv.ParseInt(fillNumber, 10, 64)
+				util.CheckErr(err)
+				fh.FillNumber = fillnumber
+			}
+
+			medication.FulfillmentHistory = append(medication.FulfillmentHistory, fh)
 		}
+	}
+}
 
-		medication.FulfillmentHistory = append(medication.FulfillmentHistory, fh)
+func extractReasonOrNegation(medication *models.Medication, entryElement xml.Node) {
+	negationIndicator := entryElement.Attribute("negationInd")
+	if negationIndicator == nil {
+		if entryElement.Parent().Name() == "entryRelationship" {
+			ExtractReasonOrNegation(&medication.Entry, entryElement.Parent().Parent())
+		}
+	} else if negationIndicator.String() == "true" {
+		ExtractReasonOrNegation(&medication.Entry, entryElement)
 	}
 }

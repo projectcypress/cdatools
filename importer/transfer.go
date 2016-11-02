@@ -45,11 +45,14 @@ func extractTimes(encounter *models.Encounter, transfer *models.Transfer, entryE
 	var lowTimeXPath = xpath.Compile("cda:participant/cda:time/cda:low/@value")
 	var timeStamp = GetTimestamp(lowTimeXPath, entryElement)
 	encounter.StartTime = timeStamp // set start time on encounter from extracted low time
-	transfer.Time = timeStamp       // set time on transfer attribute from extracted low time
+	transfer.StartTime = timeStamp
+	transfer.Time = timeStamp // set time on transfer attribute from extracted low time
 }
 
 // code path is xpath to location code
 func extractLocation(transfer *models.Transfer, entryElement xml.Node, codePath *xpath.Expression) {
 	transfer.Codes = map[string][]string{} // create code map
 	ExtractCodes(&transfer.Coded, entryElement, codePath)
+	codeElement := FirstElement(codePath, entryElement)
+	transfer.CodedConcept.AddCodeIfPresent(codeElement)
 }

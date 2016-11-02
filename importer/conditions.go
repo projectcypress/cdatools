@@ -1,11 +1,12 @@
 package importer
 
 import (
+	"strconv"
+
 	"github.com/moovweb/gokogiri/xml"
 	"github.com/moovweb/gokogiri/xpath"
 	"github.com/pebbe/util"
 	"github.com/projectcypress/cdatools/models"
-	"strconv"
 )
 
 func GestationalAgeExtractor(entry *models.Entry, entryElement xml.Node) interface{} {
@@ -49,6 +50,9 @@ func ConditionExtractor(entry *models.Entry, entryElement xml.Node) interface{} 
 	//extract laterality
 	var lateralityXPath = xpath.Compile("cda:targetSiteCode")
 	ExtractLaterality(&condition, entryElement, lateralityXPath)
+
+	//extract ordinality
+	ExtractOrdinality(&condition.Ordinality, entryElement)
 
 	return condition
 }

@@ -6,18 +6,19 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/juju/errors"
 	"github.com/moovweb/gokogiri/xml"
 	"github.com/moovweb/gokogiri/xpath"
 	"github.com/pebbe/util"
 	"github.com/projectcypress/cdatools/models"
 )
 
-func main() {}
-
 func Read_patient(document string) string {
 
 	doc, err := xml.Parse([]byte(document), nil, nil, 0, xml.DefaultEncodingBytes)
-	util.CheckErr(err)
+	if err != nil {
+		return errors.Annotate(err, "Error: Failed to Parse XML").Error()
+	}
 	defer doc.Free()
 
 	xp := doc.DocXPathCtx()
@@ -26,7 +27,9 @@ func Read_patient(document string) string {
 
 	var patientXPath = xpath.Compile("/cda:ClinicalDocument/cda:recordTarget/cda:patientRole/cda:patient")
 	patientElements, err := doc.Root().Search(patientXPath)
-	util.CheckErr(err)
+	if err != nil {
+		return errors.Annotate(err, "Error: Failed to Search XML").Error()
+	}
 	patientElement := patientElements[0]
 	patient := &models.Record{}
 	ExtractDemographics(patient, patientElement)
@@ -56,7 +59,7 @@ func Read_patient(document string) string {
 
 	//r3.1 diagnosis
 	var diagnosisXPath = xpath.Compile("//cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.135']")
-	rawDiagnoses := ExtractSection(patientElement, diagnosisXPath, ConditionExtractor, "2.16.840.1.113883.3.560.1.2", "active")
+	rawDiagnoses := ExtractSection(patientElement, diagnosisXPath, ConditionExtractor, "2.16.840.1.113883.10.20.28.3.110", "active")
 	for i := range rawDiagnoses {
 		patient.Conditions = append(patient.Conditions, rawDiagnoses[i].(models.Condition))
 	}
@@ -475,6 +478,22 @@ func ExtractScalar(scalar *models.Scalar, entryElement xml.Node, scalarPath *xpa
 			scalar.Value, err = strconv.ParseInt(valueAttr.String(), 10, 64)
 			util.CheckErr(err)
 		}
+	}
+}
+
+func ExtractOrdinality(ordinality *models.Ordinality, entryElement xml.Node) {
+	var codePath = xpath.Compile("cda:priorityCode")
+	ExtractCodedConcept(&ordinality.CodedConcept, entryElement, codePath)
+
+	codeElement := FirstElement(codePath, entryElement)
+	if codeElement != nil {
+		//extract code from attribute if it exists
+		var code string
+		codeAttribute := codeElement.Attribute("code")
+		if codeAttribute != nil {
+			code = codeAttribute.String()
+		}
+		ordinality.CodeList = []string{code}
 	}
 }
 

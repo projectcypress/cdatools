@@ -15,8 +15,8 @@ type Condition struct {
 }
 
 type Ordinality struct {
-	CodedConcept `bson:",inline"`
-	Title        string `json:"title,omitempty"`
+	CodedConcept
+	CodeList []string `json:"SNOMED-CT,omitempty"`
 }
 
 type Laterality struct {

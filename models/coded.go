@@ -9,6 +9,9 @@ type Coded struct {
 
 // AddCode adds a code string to the given codeSystem
 func (c *Coded) AddCode(code string, codeSystem string) {
+	if c.Codes == nil {
+		c.Codes = make(map[string][]string)
+	}
 	if _, ok := c.Codes[codeSystem]; ok {
 		c.Codes[codeSystem] = append(c.Codes[codeSystem], code)
 	} else {
@@ -37,7 +40,6 @@ func (c *Coded) AddCodeIfPresent(codeElement xml.Node) {
 	if codeSystemAttribute != nil {
 		codeSystem = CodeSystemFor(codeElement.Attribute("codeSystem").String())
 	}
-
 	if code != "" && codeSystem != "" {
 		c.AddCode(code, codeSystem)
 	}

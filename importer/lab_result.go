@@ -18,6 +18,10 @@ func ResultExtractor(entry *models.Entry, entryElement xml.Node) interface{} {
 
 	ExtractReasonOrNegation(&result.Entry, entryElement)
 
+	//extract values
+	var valuePath = xpath.Compile("cda:value")
+	ExtractValues(&result.Entry, entryElement, valuePath)
+
 	return result
 }
 
