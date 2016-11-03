@@ -78,11 +78,11 @@ func identifierForString(objs ...string) string {
 
 // create entryInfos for each entry. entryInfos have mapped data criteria (mdc) recieved from the uniqueDataCriteria() function
 // also adds code displays struct to each entry
-func entryInfosForPatient(patient models.Record, measures []models.Measure) []entryInfo {
+func entryInfosForPatient(patient models.Record, measures []models.Measure, vsMap map[string][]models.CodeSet) []entryInfo {
 	mappedDataCriterias := uniqueDataCriteria(allDataCriteria(measures))
 	var entryInfos []entryInfo
 	for _, mappedDataCriteria := range mappedDataCriterias {
-		var entrySections []models.HasEntry = entriesForDataCriteria(mappedDataCriteria.DataCriteria, patient)
+		var entrySections []models.HasEntry = patient.EntriesForDataCriteria(mappedDataCriteria.DataCriteria, vsMap)
 		// add code displays struct to each entry
 		for i, entrySection := range entrySections {
 			if entrySection != nil {

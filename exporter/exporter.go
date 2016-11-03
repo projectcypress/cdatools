@@ -4,12 +4,16 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"sync"
 	"text/template"
 	"time"
 
 	"github.com/pborman/uuid"
 	"github.com/projectcypress/cdatools/models"
 )
+
+var vsMapInit sync.Once
+var vsMap map[string][]models.CodeSet
 
 type cat1data struct {
 	EntryInfos []entryInfo
@@ -315,7 +319,7 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 
 	initializeVsMap(vs)
 
-	c1d := cat1data{Record: *p, Header: *h, Measures: m, ValueSets: vs, StartDate: startDate, EndDate: endDate, EntryInfos: entryInfosForPatient(*p, m)}
+	c1d := cat1data{Record: *p, Header: *h, Measures: m, ValueSets: vs, StartDate: startDate, EndDate: endDate, EntryInfos: entryInfosForPatient(*p, m, vsMap)}
 
 	var b bytes.Buffer
 
@@ -326,4 +330,14 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 	}
 
 	return b.String()
+}
+
+func initializeVsMap(vs []models.ValueSet) map[string][]models.CodeSet {
+	vsMapInit.Do(func() {
+		vsMap = map[string][]models.CodeSet{}
+		for _, valueSet := range vs {
+			vsMap[valueSet.Oid] = valueSet.CodeSetMap()
+		}
+	})
+	return vsMap
 }
