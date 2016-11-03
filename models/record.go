@@ -31,6 +31,15 @@ type Language struct {
 	Coded
 }
 
+//type EntryGroup []Entry
+//type EncounterGroup []Encounter
+//type LabResults []LabResult
+
+//type EntryService interface {
+//	EntriesForDataCriteria(DataCriteria) []EntryGroup
+//	EntriesForOid(oid string) []EntryGroup
+//}
+
 // Entries returns all the entries from the Encounters, Diagnoses, and LabResults for a Record
 func (r *Record) Entries() []HasEntry {
 	var entries []HasEntry
@@ -122,6 +131,19 @@ func (r *Record) EntriesForOid(oid string) []HasEntry {
 	return matchedEntries
 }
 
+// GetEntriesForOids returns all the entries which include the list of OIDs given
+func (r *Record) GetEntriesForOids(oids ...string) []HasEntry {
+	var matchedEntries []HasEntry
+	for _, entry := range r.Entries() {
+		for _, oid := range oids {
+			if entry.GetEntry().Oid == oid {
+				matchedEntries = append(matchedEntries, entry)
+			}
+		}
+	}
+	return matchedEntries
+}
+
 // ResolveReference takes a Reference object, and finds the Entry that it refers to
 func (r *Record) ResolveReference(ref Reference) HasEntry {
 	for _, entry := range r.EntryMap()[ref.ReferencedType] {
@@ -133,10 +155,7 @@ func (r *Record) ResolveReference(ref Reference) HasEntry {
 }
 
 func (r *Record) EntriesForDataCriteria(dataCriteria DataCriteria, vsMap map[string][]CodeSet) []HasEntry {
-	dataCriteriaOid := dataCriteria.HQMFOid //GetID(dataCriteria, false)
-	if dataCriteriaOid == "" {
-		dataCriteriaOid = dataCriteria.HQMFOid //GetID(dataCriteria, true)
-	}
+	dataCriteriaOid := dataCriteria.HQMFOid
 
 	var entries []HasEntry
 	var filteredEntries []HasEntry
@@ -146,26 +165,19 @@ func (r *Record) EntriesForDataCriteria(dataCriteria DataCriteria, vsMap map[str
 	case "2.16.840.1.113883.3.560.1.405":
 		filteredEntries = r.handlePayerInformation()
 	default:
-		entries = r.EntriesForOid(dataCriteriaOid)
 
 		var codes []CodeSet
 		switch dataCriteriaOid {
-		case "2.16.840.1.113883.3.560.1.5":
+		case "2.16.840.1.113883.3.560.1.5", "2.16.840.1.113883.3.560.1.12":
 			// If Lab Test: Performed, look for Lab Test: Result too
-			entries = append(entries, r.EntriesForOid("2.16.840.1.113883.3.560.1.12")...)
-		case "2.16.840.1.113883.3.560.1.12":
-			entries = append(entries, r.EntriesForOid("2.16.840.1.113883.3.560.1.5")...)
-		case "2.16.840.1.113883.3.560.1.6":
-			entries = append(entries, r.EntriesForOid("2.16.840.1.113883.3.560.1.63")...)
-		case "2.16.840.1.113883.3.560.1.63":
-			entries = append(entries, r.EntriesForOid("2.16.840.1.113883.3.560.1.6")...)
-		case "2.16.840.1.113883.3.560.1.3":
-			entries = append(entries, r.EntriesForOid("2.16.840.1.113883.3.560.1.11")...)
-		case "2.16.840.1.113883.3.560.1.11":
-			entries = append(entries, r.EntriesForOid("2.16.840.1.113883.3.560.1.3")...)
+			entries = r.GetEntriesForOids("2.16.840.1.113883.3.560.1.5", "2.16.840.1.113883.3.560.1.12")
+		case "2.16.840.1.113883.3.560.1.6", "2.16.840.1.113883.3.560.1.63":
+			entries = r.GetEntriesForOids("2.16.840.1.113883.3.560.1.6", "2.16.840.1.113883.3.560.1.63")
+		case "2.16.840.1.113883.3.560.1.3", "2.16.840.1.113883.3.560.1.11":
+			entries = r.GetEntriesForOids("2.16.840.1.113883.3.560.1.3", "2.16.840.1.113883.3.560.1.11")
 		case "2.16.840.1.113883.3.560.1.71", "2.16.840.1.113883.3.560.1.72":
 			// Transfers (either from or to)
-			entries = append(entries, r.EntriesForOid("2.16.840.1.113883.3.560.1.79")...)
+			entries = r.GetEntriesForOids(dataCriteriaOid, "2.16.840.1.113883.3.560.1.79")
 			if dataCriteria.FieldValues != nil {
 				codeListID := dataCriteria.FieldValues["TRANSFER_FROM"].CodeListID
 				if codeListID == "" {
@@ -173,6 +185,8 @@ func (r *Record) EntriesForDataCriteria(dataCriteria DataCriteria, vsMap map[str
 					codes = vsMap[codeListID]
 				}
 			}
+		default:
+			entries = r.GetEntriesForOids(dataCriteriaOid)
 		}
 
 		if codes == nil {
@@ -224,6 +238,7 @@ func (r *Record) EntriesForDataCriteria(dataCriteria DataCriteria, vsMap map[str
 
 	return filteredEntries
 }
+
 
 func (r *Record) handlePatientExpired() []HasEntry {
 	if r.Expired {
