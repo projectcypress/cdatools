@@ -42,7 +42,7 @@ func TestEntriesForDataCriteria(t *testing.T) {
 	valueSetData, err := ioutil.ReadFile("../fixtures/value_sets/cms9_26.json")
 	var vs []models.ValueSet
 	json.Unmarshal(valueSetData, &vs)
-	initializeVsMap(vs)
+	vsMap := initializeVsMap(vs)
 
 	json.Unmarshal(patientData, patient)
 	json.Unmarshal(measureData, measure)
@@ -50,7 +50,7 @@ func TestEntriesForDataCriteria(t *testing.T) {
 	var entries []models.HasEntry
 	for _, crit := range measure.HQMFDocument.DataCriteria {
 		if crit.HQMFOid != "" {
-			for _, entryForDataCriteria := range entriesForDataCriteria(crit, *patient) {
+			for _, entryForDataCriteria := range patient.EntriesForDataCriteria(crit, vsMap) {
 				entries = append(entries, entryForDataCriteria)
 			}
 		}

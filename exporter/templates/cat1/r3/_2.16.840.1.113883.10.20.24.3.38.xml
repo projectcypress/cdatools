@@ -13,8 +13,6 @@
     </effectiveTime>
     {{template "_reason.xml" .}}
 
-    {{ if not .EntrySection.Entry.IsValuesEmpty }}
-      {{template "_result_value.xml" .}}
-    {{ end }}
+    {{template "_result_value.xml" .}}
     </observation>
 </entry>

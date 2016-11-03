@@ -3,7 +3,6 @@ package models
 import (
 	"errors"
 	"fmt"
-	"strconv"
 )
 
 type Entry struct {
@@ -22,6 +21,13 @@ type Entry struct {
 	Reason         CodedConcept        `json:"reason,omitempty"`
 	References     []Reference         `json:"references,omitempty"`
 	CodeDisplays   []CodeDisplay       `json:"code_displays,omitempty"`
+}
+
+// Reference is a link from one entry to another, used in "fulfills" among others
+type Reference struct {
+	Type           string `json:"type,omitempty"`
+	ReferencedType string `json:"referenced_type,omitempty"`
+	ReferencedID   string `json:"referenced_id,omitempty"`
 }
 
 // used by exporter template to display a code. ex. (if TagName is priorityCode) <priorityCode code="1234"></priorityCode>
@@ -70,7 +76,7 @@ func (e *Entry) NegationReasonOrReason() CodedConcept {
 	return e.Reason
 }
 
-// In current implementation, this may give unexpected value if Time or StartTime 
+// In current implementation, this may give unexpected value if Time or StartTime
 // are set to zero, and not just as a default
 func (e *Entry) AsPointInTime() int64 {
 	if e.Time != 0 {
@@ -84,24 +90,4 @@ func (e *Entry) AsPointInTime() int64 {
 
 func (e *Entry) IsValuesEmpty() bool {
 	return len(e.Values) == 0
-}
-
-func (e *Entry) IsCodesPresent() bool {
-	return e.Coded.Codes != nil && len(e.Coded.Codes) != 0
-}
-
-func (r *ResultValue) GetScalarType() string {
-	if r.Scalar == "true" || r.Scalar == "false" {
-		return "bool"
-	}
-	_, err := strconv.ParseFloat(r.Scalar, 64)
-	if err == nil {
-		return "num"
-	} else {
-		return "other"
-	}
-}
-
-func (r *ResultValue) IsCodesPresent() bool {
-	return r.Coded.Codes != nil && len(r.Coded.Codes) != 0
 }
