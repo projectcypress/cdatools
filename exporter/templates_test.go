@@ -110,6 +110,50 @@ func setMapDataCriteria(ei *entryInfo) {
 	ei.MapDataCriteria = mdc{FieldOids: fieldOids, ResultOids: resultOids}
 }
 
+func TestResultValueTemplate(t *testing.T) {
+	sampleValue1 := models.ResultValue{ Scalar: "5.2", Units: "Inches" }
+	sampleValue2 := models.ResultValue{ Scalar: "5.3", Units: "" }
+	sampleValue3 := models.ResultValue{ Scalar: "true", Units: "" }
+
+	entries := make([]models.Entry, 0)
+	entries = append(entries, models.Entry{Values: [](models.ResultValue){ sampleValue1 }})
+	entries = append(entries, models.Entry{Values: [](models.ResultValue){ sampleValue2 }})
+	entries = append(entries, models.Entry{Values: [](models.ResultValue){ sampleValue3 }})
+	entries = append(entries, models.Entry{})
+	var entrySections []models.HasEntry
+	for _, entry := range entries {
+		entrySections = append(entrySections, &models.Encounter{Entry: entry})
+	}
+	entrySections = append(entrySections, nil)
+	
+	entryInfos := appendEntryInfos([]entryInfo{}, entrySections, mdc{})
+
+	rootNode := xmlResultValueRootNode(entryInfos[0])
+
+	assertXPath(t, rootNode, "//value", map[string]string{"xsi:type": "PQ", "value": "5.2", "unit": "Inches"}, nil)
+
+	rootNode = xmlResultValueRootNode(entryInfos[1])
+
+	assertXPath(t, rootNode, "//value", map[string]string{"xsi:type": "PQ", "value": "5.3", "unit": "1"}, nil)
+
+	rootNode = xmlResultValueRootNode(entryInfos[2])
+
+	assertXPath(t, rootNode, "//value", map[string]string{"xsi:type": "BL", "value": "true"}, nil)
+
+	rootNode = xmlResultValueRootNode(entryInfos[3])
+
+	assertXPath(t, rootNode, "//value", map[string]string{"xsi:type": "CD", "nullFlavor": "UNK"}, nil)
+
+}
+
+func xmlResultValueRootNode(eInfo entryInfo) *xml.ElementNode {
+	//entry.Description = "my lil description"
+	xmlString := generateXML("_result_value.xml", eInfo)
+	// printXmlString(xmlString)
+	return xmlRootNode(xmlString)
+}
+
+
 // test _2.16.840.1.113883.10.20.24.3.23.xml
 func TestEncounterPerformedTemplate(t *testing.T) {
 	qrdaOid := "2.16.840.1.113883.10.20.24.3.23"
