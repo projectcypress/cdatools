@@ -1,6 +1,5 @@
 package models
 
-
 type Header struct {
 	Authenticator Authenticator
 	Authors       []Author
@@ -30,16 +29,6 @@ type Entity struct {
 	Telecoms  []Telecom       `json:"telecoms,omitempty"`
 }
 
-type Person struct {
-	Entity
-	First     string        `json:"first,omitempty"`
-	Last      string        `json:"last,omitempty"`
-	Birthdate int64         `json:"birthdate,omitempty"`
-	Gender    string        `json:"gender,omitempty"`
-	Race      *CodedConcept `json:"race,omitempty"`
-	Ethnicity *CodedConcept `json:"ethnicity,omitempty"`
-}
-
 type Organization struct {
 	Entity
 	Name    string `json:"name,omitempty"`
@@ -60,18 +49,6 @@ type Telecom struct {
 	Value string `json:"value"`
 }
 
-type Language struct {
-	Coded
-}
-
-type ResultValue struct {
-	Coded
-	Scalar    string `json:"scalar,omitempty"`
-	Units     string `json:"units,omitempty"`
-	StartTime int64  `json:"start_time,omitempty"`
-	EndTime   int64  `json:"end_time,omitempty"`
-}
-
 type CDAIdentifier struct {
 	Root      string `json:"root,omitempty"`
 	Extension string `json:"extension,omitempty"`
@@ -81,4 +58,3 @@ type Scalar struct {
 	Unit  string `json:"unit,omitempty"`
 	Value int64  `json:"value,omitempty"`
 }
-
