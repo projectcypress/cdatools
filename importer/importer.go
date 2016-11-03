@@ -428,17 +428,12 @@ func ExtractEntry(entryElement xml.Node, oid string, extractor EntryExtractor, s
 	// create status code and set status code from status
 	set_status_code(&entry, status)
 
-	var fullEntry interface{}
-
 	//if there is no entry extractor method provided, generically extract code
 	if extractor == nil {
-		codeXPath := xpath.Compile("cda:code")
-		ExtractCodes(&entry.Coded, entryElement, codeXPath)
-		fullEntry = entry
-	} else {
-		fullEntry = extractor(&entry, entryElement)
+		ExtractCodes(&entry.Coded, entryElement, xpath.Compile("cda:code"))
+		return entry
 	}
-	return fullEntry
+	return extractor(&entry, entryElement)
 }
 
 func ExtractCodes(coded *models.Coded, entryElement xml.Node, codePath *xpath.Expression) {
