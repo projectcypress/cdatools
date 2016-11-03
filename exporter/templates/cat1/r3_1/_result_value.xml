@@ -2,7 +2,7 @@
     {{range .EntrySection.Entry.Values}}
         {{if .IsCodesPresent}}
 
-            {{template "_code.xml" codeDisplayWithPreferredCode . .Coded.Codes "resultValue"}}
+            {{template "_code.xml" codeDisplayWithPreferredCode $.EntrySection.Entry .Coded "resultValue"}}
         {{else if ne .Scalar ""}}
             {{if eq .GetScalarType "num"}}
                 <value xsi:type="PQ" value="{{.Scalar}}" {{if ne .Units ""}}unit="{{.Units}}"{{else}}unit="1"{{end}}/>

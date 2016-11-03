@@ -111,11 +111,52 @@ func setMapDataCriteria(ei *entryInfo) {
 }
 
 func TestResultValueTemplate(t *testing.T) {
+	entryInfos := getResultValueData()
+
+	// Codes included
+	rootNode := xmlResultValueRootNode(entryInfos[0])
+	assertXPath(t, rootNode, "//code", map[string]string{"code": "first", "codeSystem": "2.16.840.1.113883.6.96"}, nil)
+
+	// Value is a scalar
+	rootNode = xmlResultValueRootNode(entryInfos[1])
+	assertXPath(t, rootNode, "//value", map[string]string{"xsi:type": "PQ", "value": "5.2", "unit": "Inches"}, nil)
+
+	// Value is a scalar with no units
+	rootNode = xmlResultValueRootNode(entryInfos[2])
+	assertXPath(t, rootNode, "//value", map[string]string{"xsi:type": "PQ", "value": "5.3", "unit": "1"}, nil)
+
+	// Value is a boolean
+	rootNode = xmlResultValueRootNode(entryInfos[3])
+	assertXPath(t, rootNode, "//value", map[string]string{"xsi:type": "BL", "value": "true"}, nil)
+
+	// No values
+	rootNode = xmlResultValueRootNode(entryInfos[4])
+	assertXPath(t, rootNode, "//value", map[string]string{"xsi:type": "CD", "nullFlavor": "UNK"}, nil)
+}
+
+func xmlResultValueRootNode(eInfo entryInfo) *xml.ElementNode {
+	//entry.Description = "my lil description"
+	xmlString := generateXML("_result_value.xml", eInfo)
+	// printXmlString(xmlString)
+	return xmlRootNode(xmlString)
+}
+
+func getResultValueData() []entryInfo {
+	// Sample ResultValue objects to be embedded in the entries.
+	expectedCodeDisplay := models.CodeDisplay{CodeType: "resultValue", PreferredCodeSets: []string{"SNOMED-CT"}}
+	codes := make(map[string][]string)
+	codes["codeSetA"] = []string{"third", "fourth"}
+	codes["SNOMED-CT"] = []string{"first"}
+	coded := models.Coded{Codes: codes}
+	sampleValue0 := models.ResultValue{ Scalar: "2", Units: "", Coded: coded }
+
 	sampleValue1 := models.ResultValue{ Scalar: "5.2", Units: "Inches" }
 	sampleValue2 := models.ResultValue{ Scalar: "5.3", Units: "" }
 	sampleValue3 := models.ResultValue{ Scalar: "true", Units: "" }
 
+	// Several entries created to test different paths in the template
 	entries := make([]models.Entry, 0)
+	entries = append(entries, models.Entry{Values: [](models.ResultValue){ sampleValue0 }, CodeDisplays: [](models.CodeDisplay){expectedCodeDisplay}})
 	entries = append(entries, models.Entry{Values: [](models.ResultValue){ sampleValue1 }})
 	entries = append(entries, models.Entry{Values: [](models.ResultValue){ sampleValue2 }})
 	entries = append(entries, models.Entry{Values: [](models.ResultValue){ sampleValue3 }})
@@ -128,29 +169,7 @@ func TestResultValueTemplate(t *testing.T) {
 	
 	entryInfos := appendEntryInfos([]entryInfo{}, entrySections, mdc{})
 
-	rootNode := xmlResultValueRootNode(entryInfos[0])
-
-	assertXPath(t, rootNode, "//value", map[string]string{"xsi:type": "PQ", "value": "5.2", "unit": "Inches"}, nil)
-
-	rootNode = xmlResultValueRootNode(entryInfos[1])
-
-	assertXPath(t, rootNode, "//value", map[string]string{"xsi:type": "PQ", "value": "5.3", "unit": "1"}, nil)
-
-	rootNode = xmlResultValueRootNode(entryInfos[2])
-
-	assertXPath(t, rootNode, "//value", map[string]string{"xsi:type": "BL", "value": "true"}, nil)
-
-	rootNode = xmlResultValueRootNode(entryInfos[3])
-
-	assertXPath(t, rootNode, "//value", map[string]string{"xsi:type": "CD", "nullFlavor": "UNK"}, nil)
-
-}
-
-func xmlResultValueRootNode(eInfo entryInfo) *xml.ElementNode {
-	//entry.Description = "my lil description"
-	xmlString := generateXML("_result_value.xml", eInfo)
-	// printXmlString(xmlString)
-	return xmlRootNode(xmlString)
+	return entryInfos
 }
 
 
