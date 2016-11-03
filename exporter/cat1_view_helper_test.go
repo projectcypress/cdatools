@@ -111,26 +111,28 @@ func TestSetCodeDisplaysForEntry(t *testing.T) {
 	SetCodeDisplaysForEntry(entry)
 	assert.Equal(t, 3, len(entry.CodeDisplays)) // three code displays the encounter performed entry
 }
+// This test needs to be fixed. entryInfosForPatient uses EntriesForDataCriteria to get entries.
+// This test will always pass since it uses EntriesForDataCriteria to the expected result.
+// The only reason why I haven't deleted it is so that it can be fixed.
+//func TestEntryInfosForPatient(t *testing.T) {
+//	// patient
+//	record, _ := ioutil.ReadFile("../fixtures/records/1_n_n_ami.json")
+//	patient := models.Record{}
+//	json.Unmarshal(record, &patient)
+//
+//	// measures
+//	measures := []models.Measure{}
+//	setMeasures(&measures)
+//
+//	// calculate expected number of entry infos
+//	numEntrySections := 0
+//	for _, mdc := range uniqueDataCriteria(allDataCriteria(measures)) {
+//		numEntrySections += numNonNil(patient.EntriesForDataCriteria(mdc.DataCriteria))
+//	}
 
-func TestEntryInfosForPatient(t *testing.T) {
-	// patient
-	record, _ := ioutil.ReadFile("../fixtures/records/1_n_n_ami.json")
-	patient := models.Record{}
-	json.Unmarshal(record, &patient)
-
-	// measures
-	measures := []models.Measure{}
-	setMeasures(&measures)
-
-	// calculate expected number of entry infos
-	numEntrySections := 0
-	for _, mdc := range uniqueDataCriteria(allDataCriteria(measures)) {
-		numEntrySections += numNonNil(entriesForDataCriteria(mdc.DataCriteria, patient))
-	}
-
-	entryInfos := entryInfosForPatient(patient, measures)
-	assert.Equal(t, numEntrySections, len(entryInfos))
-}
+//	entryInfos := entryInfosForPatient(patient, measures)
+//	assert.Equal(t, numEntrySections, len(entryInfos))
+//}
 
 func TestReasonValueSetOid(t *testing.T) {
 	valueSets, _ := ioutil.ReadFile("../fixtures/value_sets/cms9_26.json")
