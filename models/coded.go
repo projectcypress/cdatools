@@ -1,6 +1,6 @@
 package models
 
-import "github.com/moovweb/gokogiri/xml"
+import "github.com/jbowtie/gokogiri/xml"
 
 // Coded is a meta-struct that adds Code fields to an object
 type Coded struct {

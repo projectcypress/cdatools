@@ -1,6 +1,6 @@
 package models
 
-import "github.com/moovweb/gokogiri/xml"
+import "github.com/jbowtie/gokogiri/xml"
 
 type CodedConcept struct {
 	Code           string `json:"code,omitempty"`

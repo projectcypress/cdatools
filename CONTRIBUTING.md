@@ -26,12 +26,12 @@ Also, make good [commit messages](http://tbaggery.com/2008/04/19/a-note-about-gi
 
 ### List of current dependencies
 ```
-http://github.com/mooveweb/gokogiri/xml ??
-http://github.com/moovweb/gokogiri/xpath ??
+http://github.com/jbowtie/gokogiri/xml
+http://github.com/jbowtie/gokogiri/xpath
 http://github.com/pebbe/util
 http://github.com/pborman/uuid
 http://github.com/stretchr/testify/assert
-http://gopkg.in/check.v1 ??
+http://gopkg.in/check.v1
 http://github.com/jteeuwen/go-bindata/...
 ```
 
