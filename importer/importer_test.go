@@ -6,8 +6,8 @@ import (
 
 	"strconv"
 
-	"github.com/moovweb/gokogiri/xml"
-	"github.com/moovweb/gokogiri/xpath"
+	"github.com/jbowtie/gokogiri/xml"
+	"github.com/jbowtie/gokogiri/xpath"
 	"github.com/pebbe/util"
 	"github.com/projectcypress/cdatools/models"
 	. "gopkg.in/check.v1"
@@ -810,10 +810,10 @@ func (i *ImporterSuite) TestExtractDiagnosticStudyResult(c *C) {
 
 func (i *ImporterSuite) TestExtractCareGoal(c *C) {
 	var careGoalXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.1']")
-	rawCareGoals := ExtractSection(i.patientElement, careGoalXPath, CareGoalExtractor, "2.16.840.1.113883.3.560.1.9", "")
-	i.patient.CareGoals = make([]models.CareGoal, len(rawCareGoals))
+	rawCareGoals := ExtractSection(i.patientElement, careGoalXPath, nil, "2.16.840.1.113883.3.560.1.9", "")
+	i.patient.CareGoals = make([]models.Entry, len(rawCareGoals))
 	for j := range rawCareGoals {
-		i.patient.CareGoals[j] = rawCareGoals[j].(models.CareGoal)
+		i.patient.CareGoals[j] = rawCareGoals[j].(models.Entry)
 	}
 
 	careGoal := i.patient.CareGoals[0]
