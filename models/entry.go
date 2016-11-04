@@ -86,10 +86,6 @@ func (e *Entry) IsValuesEmpty() bool {
 	return len(e.Values) == 0
 }
 
-func (e *Entry) IsCodesPresent() bool {
-	return e.Coded.Codes != nil && len(e.Coded.Codes) != 0
-}
-
 func (r *ResultValue) GetScalarType() string {
 	if r.Scalar == "true" || r.Scalar == "false" {
 		return "bool"
