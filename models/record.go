@@ -97,25 +97,44 @@ func (r *Record) Entries() []HasEntry {
 	return entries
 }
 
-
-// EntriesForOid returns all the entries which include the OID
-func (r *Record) EntriesForOid(oid string) []HasEntry {
-	var matchedEntries []HasEntry
-	for _, entry := range r.Entries() {
-		if entry.GetEntry().Oid == oid {
-			matchedEntries = append(matchedEntries, entry)
-		}
-	}
-	return matchedEntries
-}
-
 // GetEntriesForOids returns all the entries which include the list of OIDs given
-func (r *Record) GetEntriesForOids(oids ...string) []HasEntry {
+func (r *Record) GetEntriesForOids(dataCriteria DataCriteria, codes []CodeSet, oids ...string) []HasEntry {
 	var entries []HasEntry
 	for _, entry := range r.Entries() {
 		for _, oid := range oids {
 			if entry.GetEntry().Oid == oid {
-				entries = append(entries, entry)
+				negationRegexp := regexp.MustCompile(`2\.16\.840\.1\.113883\.3\.526\.3\.100[7-9]`)
+				entryData := entry.GetEntry()
+				dataCriteriaOid := dataCriteria.HQMFOid
+				if negationRegexp.FindStringIndex(dataCriteria.CodeListID) != nil {
+					// Add the entry to FilteredEntries if Entry.negationReason is in codes
+					if reasonInCodes(codes[0], entryData.NegationReason) {
+						entries = append(entries, entry)
+					}
+				} else if dataCriteriaOid == "2.16.840.1.113883.3.560.1.71" {
+					if transferFrom := &entry.(*Encounter).TransferFrom; transferFrom != nil {
+						transferFrom.Codes[transferFrom.CodeSystem] = []string{transferFrom.Code}
+						tfc := transferFrom.Coded.CodesInCodeSet(codes[0].Set)
+						if len(tfc) > 0 {
+							entries = append(entries, entry)
+						}
+					}
+				} else if dataCriteriaOid == "2.16.840.1.113883.3.560.1.72" {
+					if transferTo := &entry.(*Encounter).TransferTo; transferTo != nil {
+						transferTo.Codes[transferTo.CodeSystem] = []string{transferTo.Code}
+						if len(transferTo.Coded.CodesInCodeSet(codes[0].Set)) > 0 {
+							entries = append(entries, entry)
+						}
+					}
+				} else {
+					if entryData.IsInCodeSet(codes) && entryData.NegationInd != nil {
+						if *entryData.NegationInd == dataCriteria.Negation {
+							entries = append(entries, entry)
+						}
+					} else if entryData.IsInCodeSet(codes) && entryData.NegationInd == nil && !dataCriteria.Negation {
+						entries = append(entries, entry)
+					}
+				}
 			}
 		}
 	}
@@ -126,26 +145,25 @@ func (r *Record) GetEntriesForOids(oids ...string) []HasEntry {
 
 func (r *Record) EntriesForDataCriteria(dataCriteria DataCriteria, vsMap map[string][]CodeSet) []HasEntry {
 	dataCriteriaOid := dataCriteria.HQMFOid
-	
 	var entries []HasEntry
-	var filteredEntries []HasEntry
+	
 	switch dataCriteriaOid {
 	case "2.16.840.1.113883.3.560.1.404":
-		filteredEntries = r.handlePatientExpired()
+		entries = r.handlePatientExpired()
 	case "2.16.840.1.113883.3.560.1.405":
-		filteredEntries = r.handlePayerInformation()
+		entries = r.handlePayerInformation()
 	default:
-
 		var codes []CodeSet
 		codes = vsMap[dataCriteria.CodeListID]
+		
 		switch dataCriteriaOid {
 		case "2.16.840.1.113883.3.560.1.5", "2.16.840.1.113883.3.560.1.12":
 			// If Lab Test: Performed, look for Lab Test: Result too
-			entries = r.GetEntriesForOids("2.16.840.1.113883.3.560.1.5", "2.16.840.1.113883.3.560.1.12")
+			entries = r.GetEntriesForOids(dataCriteria, codes, "2.16.840.1.113883.3.560.1.5", "2.16.840.1.113883.3.560.1.12")
 		case "2.16.840.1.113883.3.560.1.6", "2.16.840.1.113883.3.560.1.63":
-			entries = r.GetEntriesForOids("2.16.840.1.113883.3.560.1.6", "2.16.840.1.113883.3.560.1.63")
+			entries = r.GetEntriesForOids(dataCriteria, codes, "2.16.840.1.113883.3.560.1.6", "2.16.840.1.113883.3.560.1.63")
 		case "2.16.840.1.113883.3.560.1.3", "2.16.840.1.113883.3.560.1.11":
-			entries = r.GetEntriesForOids("2.16.840.1.113883.3.560.1.3", "2.16.840.1.113883.3.560.1.11")
+			entries = r.GetEntriesForOids(dataCriteria, codes, "2.16.840.1.113883.3.560.1.3", "2.16.840.1.113883.3.560.1.11")
 		case "2.16.840.1.113883.3.560.1.71", "2.16.840.1.113883.3.560.1.72":
 			// Transfers (either from or to)
 			if dataCriteria.FieldValues != nil {
@@ -153,12 +171,12 @@ func (r *Record) EntriesForDataCriteria(dataCriteria DataCriteria, vsMap map[str
 					codes = vsMap[dataCriteria.FieldValues["TRANSFER_TO"].CodeListID]
 				}
 			}
-			entries = r.GetEntriesForOids(dataCriteriaOid, "2.16.840.1.113883.3.560.1.79")
+			entries = r.GetEntriesForOids(dataCriteria, codes, dataCriteriaOid, "2.16.840.1.113883.3.560.1.79")
 		default:
-			entries = r.GetEntriesForOids(dataCriteriaOid)
+			entries = r.GetEntriesForOids(dataCriteria, codes, dataCriteriaOid)
 		}
 		
-// Gonna have to do for now.
+// Gonna have to do for now. First time I've ever made Go panic and I have no clue how it happened.
 		// Get a slice containing only unique entries
 //		ids := make(map[string]struct{})
 //		uniqueEntries := make([]HasEntry, len(entries))
@@ -170,51 +188,10 @@ func (r *Record) EntriesForDataCriteria(dataCriteria DataCriteria, vsMap map[str
 //			ids[entry.GetEntry().BSONID] = *new(struct{})
 //		}
 
-
-		filteredEntries = r.handleCodeSetsAndTransfers(entries, filteredEntries, dataCriteria, codes)
 		}
 
-	return filteredEntries
+	return entries
 }
-
-func (r *Record) handleCodeSetsAndTransfers(entries []HasEntry, filteredEntries []HasEntry, dataCriteria DataCriteria, codes []CodeSet) []HasEntry {
-	dataCriteriaOid := dataCriteria.HQMFOid
-	negationRegexp := regexp.MustCompile(`2\.16\.840\.1\.113883\.3\.526\.3\.100[7-9]`)
-	for _, entry := range entries {
-		entryData := entry.GetEntry()
-		if negationRegexp.FindStringIndex(dataCriteria.CodeListID) != nil {
-			// Add the entry to FilteredEntries if entry.negation_reason['code'] is in codes
-			if reasonInCodes(codes[0], entryData.NegationReason) {
-				filteredEntries = append(filteredEntries, entry)
-			}
-		} else if dataCriteriaOid == "2.16.840.1.113883.3.560.1.71" {
-			if transferFrom := &entry.(*Encounter).TransferFrom; transferFrom != nil {
-				transferFrom.Codes[transferFrom.CodeSystem] = []string{transferFrom.Code}
-				tfc := transferFrom.Coded.CodesInCodeSet(codes[0].Set)
-				if len(tfc) > 0 {
-					filteredEntries = append(filteredEntries, entry)
-				}
-			}
-		} else if dataCriteriaOid == "2.16.840.1.113883.3.560.1.72" {
-			if transferTo := &entry.(*Encounter).TransferTo; transferTo != nil {
-				transferTo.Codes[transferTo.CodeSystem] = []string{transferTo.Code}
-				if len(transferTo.Coded.CodesInCodeSet(codes[0].Set)) > 0 {
-					filteredEntries = append(filteredEntries, entry)
-				}
-			}
-		} else {
-			if entryData.IsInCodeSet(codes) && entryData.NegationInd != nil {
-				if *entryData.NegationInd == dataCriteria.Negation {
-					filteredEntries = append(filteredEntries, entry)
-				}
-			} else if entryData.IsInCodeSet(codes) && entryData.NegationInd == nil && !dataCriteria.Negation {
-				filteredEntries = append(filteredEntries, entry)
-			}
-		}
-	}
-	return filteredEntries
-}
-
 
 func (r *Record) handlePatientExpired() []HasEntry {
 	if r.Expired {
