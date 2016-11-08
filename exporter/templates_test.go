@@ -110,6 +110,59 @@ func setMapDataCriteria(ei *entryInfo) {
 	ei.MapDataCriteria = mdc{FieldOids: fieldOids, ResultOids: resultOids}
 }
 
+func TestResultValueTemplate(t *testing.T) {
+	entryInfos := getResultValueData()
+
+	// Codes included
+	rootNode := xmlResultValueRootNode(entryInfos[0])
+	assertXPath(t, rootNode, "//code", map[string]string{"code": "first", "codeSystem": "2.16.840.1.113883.6.96"}, nil)
+
+	// Value is a scalar
+	rootNode = xmlResultValueRootNode(entryInfos[1])
+	assertXPath(t, rootNode, "//value", map[string]string{"xsi:type": "PQ", "value": "5.2", "unit": "Inches"}, nil)
+
+	// Value is a scalar with no units
+	rootNode = xmlResultValueRootNode(entryInfos[2])
+	assertXPath(t, rootNode, "//value", map[string]string{"xsi:type": "PQ", "value": "5.3", "unit": "1"}, nil)
+
+	// Value is a boolean
+	rootNode = xmlResultValueRootNode(entryInfos[3])
+	assertXPath(t, rootNode, "//value", map[string]string{"xsi:type": "BL", "value": "true"}, nil)
+
+	// No values
+	rootNode = xmlResultValueRootNode(entryInfos[4])
+	assertXPath(t, rootNode, "//value", map[string]string{"xsi:type": "CD", "nullFlavor": "UNK"}, nil)
+}
+
+func xmlResultValueRootNode(eInfo entryInfo) *xml.ElementNode {
+	xmlString := generateXML("_result_value.xml", eInfo)
+	return xmlRootNode(xmlString)
+}
+
+func getResultValueData() []entryInfo {
+	// Sample ResultValue objects to be embedded in the entries.
+	expectedCodeDisplay := models.CodeDisplay{CodeType: "resultValue", PreferredCodeSets: []string{"SNOMED-CT"}}
+	coded := models.Coded{Codes: map[string][]string{"codeSetA": []string{"third", "fourth"}, "SNOMED-CT": []string{"first"}}}
+
+	// Several entries created to test different paths in the template
+	var entries []models.Entry
+	entries = append(entries, models.Entry{Values: [](models.ResultValue){ models.ResultValue{ Scalar: "2", Units: "", Coded: coded } }, CodeDisplays: [](models.CodeDisplay){expectedCodeDisplay}})
+	entries = append(entries, models.Entry{Values: [](models.ResultValue){ models.ResultValue{ Scalar: "5.2", Units: "Inches" } }})
+	entries = append(entries, models.Entry{Values: [](models.ResultValue){ models.ResultValue{ Scalar: "5.3", Units: "" } }})
+	entries = append(entries, models.Entry{Values: [](models.ResultValue){ models.ResultValue{ Scalar: "true", Units: "" } }})
+	entries = append(entries, models.Entry{})
+	var entrySections []models.HasEntry
+	for _, entry := range entries {
+		entrySections = append(entrySections, &models.Encounter{Entry: entry})
+	}
+	entrySections = append(entrySections, nil)
+	
+	entryInfos := appendEntryInfos([]entryInfo{}, entrySections, mdc{})
+
+	return entryInfos
+}
+
+
 // test _2.16.840.1.113883.10.20.24.3.23.xml
 func TestEncounterPerformedTemplate(t *testing.T) {
 	qrdaOid := "2.16.840.1.113883.10.20.24.3.23"
