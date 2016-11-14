@@ -14,6 +14,7 @@
     "negationInd": false,
     "negationReason": null,
     "oid": "2.16.840.1.113883.3.560.1.40",
+    "hqmf_oid": "2.16.840.1.113883.3.560.1.40",
     "ordinality": null,
     "performer_id": null,
     "radiation_dose": null,
