@@ -1,0 +1,34 @@
+{
+    "anatomical_approach": null,
+    "anatomical_target": null,
+    "codes": {
+        "LOINC": [
+            "69399-4"
+        ]
+    },
+    "description": "Diagnostic Study, Order: VTE Diagnostic Test",
+    "end_time": 1430809200,
+    "incisionTime": null,
+    "method": null,
+    "mood_code": "EVN",
+    "negationInd": false,
+    "negationReason": null,
+    "oid": "2.16.840.1.113883.3.560.1.40",
+    "hqmf_oid": "2.16.840.1.113883.3.560.1.40",
+    "ordinality": null,
+    "performer_id": null,
+    "radiation_dose": null,
+    "radiation_duration": null,
+    "reaction": null,
+    "reason": null,
+    "source": null,
+    "specifics": null,
+    "start_time": 1430809200,
+    "status_code": {
+        "HL7 ActStatus": [
+            "ordered"
+        ]
+    },
+    "time": null,
+    "_type": "Procedure"
+}

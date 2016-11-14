@@ -264,7 +264,6 @@ func TestDeviceAppliedTemplate(t *testing.T) {
 	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
 
 	assertXPath(t, xrn, "//entry/procedure", map[string]string{"classCode": "PROC", "moodCode": "EVN"}, nil)
-	assertXPath(t, xrn, "//entry/procedure/templateId[@root='2.16.840.1.113883.10.20.22.4.14']", nil, nil)
 	assertXPath(t, xrn, "//entry/procedure/templateId[@root='2.16.840.1.113883.10.20.24.3.7']", nil, nil)
 	assertContent(t, xrn, "//entry/procedure/text", "Device, Applied: Graduated compression stockings (GCS)")
 	assertXPath(t, xrn, "//entry/procedure/effectiveTime/low", map[string]string{"value": "201504070801+0000"}, nil)
@@ -283,7 +282,6 @@ func TestDeviceOrderTemplate(t *testing.T) {
 	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
 
 	assertXPath(t, xrn, "//entry/supply", map[string]string{"classCode": "SPLY", "moodCode": "RQO"}, nil)
-	assertXPath(t, xrn, "//entry/supply/templateId[@root='2.16.840.1.113883.10.20.22.4.43']", nil, nil)
 	assertXPath(t, xrn, "//entry/supply/templateId[@root='2.16.840.1.113883.10.20.24.3.9']", nil, nil)
 	assertContent(t, xrn, "//entry/supply/text", "Device, Order: Intermittent pneumatic compression devices (IPC)")
 	assertXPath(t, xrn, "//entry/supply/effectiveTime/low", map[string]string{"value": "201504060830+0000"}, nil)
@@ -313,7 +311,7 @@ func TestLaboratoryTestPerformedTemplate(t *testing.T) {
 	entryName := "laboratory_test_performed"
 
 	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.LabResult{})
-	
+
 	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
 
 	assertXPath(t, xrn, "//entry/observation", map[string]string{"classCode": "OBS", "moodCode": "EVN"}, nil)
@@ -323,6 +321,39 @@ func TestLaboratoryTestPerformedTemplate(t *testing.T) {
 	//assertXPath(t, xrn, "//entry/observation/effectiveTime/low", map[string]string{"value": "201504060830+0000"}, nil)
 	//assertXPath(t, xrn, "//entry/observation/effectiveTime/high", map[string]string{"value": "201504060830+0000"}, nil)
 }
+
+func TestDiagnosticStudyOrderTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.17"
+	dataCriteriaName := "diagnostic_study_order"
+	entryName := "diagnostic_study_order"
+
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Procedure{})
+	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+
+	assertXPath(t, xrn, "//entry/observation", map[string]string{"classCode": "OBS", "moodCode": "RQO"}, nil)
+	assertXPath(t, xrn, "//entry/observation/templateId[@root='2.16.840.1.113883.10.20.24.3.17']", map[string]string{"extension": "2014-12-01"}, nil)
+	assertContent(t, xrn, "//entry/observation/text", "Diagnostic Study, Order: VTE Diagnostic Test")
+	assertXPath(t, xrn, "//entry/observation/effectiveTime/low", map[string]string{"value": "201505050700+0000"}, nil)
+	assertXPath(t, xrn, "//entry/observation/effectiveTime/high", map[string]string{"value": "201505050700+0000"}, nil)
+	assertXPath(t, xrn, "//entry/observation/author/time/low", map[string]string{"value": "201505050700+0000"}, nil)
+	assertXPath(t, xrn, "//entry/observation/author/time/high", map[string]string{"value": "201505050700+0000"}, nil)
+}
+
+func TestDiagnosticStudyPerformedTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.18"
+	dataCriteriaName := "diagnostic_study_performed"
+	entryName := "diagnostic_study_performed"
+
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Procedure{})
+	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+
+	assertXPath(t, xrn, "//entry/observation", map[string]string{"classCode": "OBS", "moodCode": "EVN"}, nil)
+	assertXPath(t, xrn, "//entry/observation/templateId[@root='2.16.840.1.113883.10.20.24.3.18']", map[string]string{"extension": "2014-12-01"}, nil)
+	assertContent(t, xrn, "//entry/observation/text", "Diagnostic Study, Performed: Ct Scan Including Chest Diagnostic Test")
+	assertXPath(t, xrn, "//entry/observation/effectiveTime/low", map[string]string{"value": "201505200800+0000"}, nil)
+	assertXPath(t, xrn, "//entry/observation/effectiveTime/high", map[string]string{"value": "201505200810+0000"}, nil)
+}
+
 // - - - - - - - - //
 //   H E L P E R   //
 // - - - - - - - - //

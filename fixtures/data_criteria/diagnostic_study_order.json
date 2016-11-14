@@ -1,0 +1,13 @@
+{
+    "title": "Diagnostic Studies During Pregnancy",
+    "description": "Diagnostic Study, Order: Diagnostic Studies During Pregnancy",
+    "code_list_id": "2.16.840.1.113883.3.464.1003.111.12.1008",
+    "type": "diagnostic_studies",
+    "definition": "diagnostic_study",
+    "status": "ordered",
+    "hard_status": true,
+    "negation": false,
+    "source_data_criteria": "DiagnosticStudyOrderDiagnosticStudiesDuringPregnancy",
+    "variable": false,
+    "hqmf_oid": "2.16.840.1.113883.3.560.1.40"
+}
