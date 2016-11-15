@@ -21,7 +21,3 @@ func (r *ResultValue) GetScalarType() string {
 		return "other"
 	}
 }
-
-func (r *ResultValue) IsCodesPresent() bool {
-	return r.Coded.Codes != nil && len(r.Coded.Codes) != 0
-}
