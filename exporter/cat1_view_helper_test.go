@@ -111,6 +111,7 @@ func TestSetCodeDisplaysForEntry(t *testing.T) {
 	SetCodeDisplaysForEntry(entry)
 	assert.Equal(t, 3, len(entry.CodeDisplays)) // three code displays the encounter performed entry
 }
+
 // This test needs to be fixed. entryInfosForPatient uses EntriesForDataCriteria to get entries.
 // This test will always pass since it uses EntriesForDataCriteria to the expected result.
 // The only reason why I haven't deleted it is so that it can be fixed.
@@ -232,21 +233,6 @@ func TestOidForCodeSystem(t *testing.T) {
 	for i, codeSystemName := range codeSystemNames {
 		assert.Equal(t, expectedCodeSystemOids[i], oidForCodeSystem(codeSystemName))
 	}
-}
-
-func TestHasReason(t *testing.T) {
-	// no reason
-	entry := models.Entry{}
-	assert.Equal(t, false, hasReason(entry))
-
-	// negation reason
-	reason := models.CodedConcept{Code: "my code", CodeSystem: "my code system", CodeSystemName: "my code system name"}
-	entry = models.Entry{NegationReason: reason}
-	assert.Equal(t, true, hasReason(entry))
-
-	// reason
-	entry = models.Entry{Reason: reason}
-	assert.Equal(t, true, hasReason(entry))
 }
 
 func TestHasPreferredCode(t *testing.T) {

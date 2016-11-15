@@ -52,3 +52,18 @@ func TestExtractedEntryCanBeEdited(t *testing.T) {
 	secondExtractedEntry := encounter.GetEntry()
 	assert.Equal(t, *firstExtractedEntry, *secondExtractedEntry)
 }
+
+func TestHasReason(t *testing.T) {
+	// no reason
+	entry := Entry{}
+	assert.Equal(t, false, entry.HasReason())
+
+	// negation reason
+	reason := CodedConcept{Code: "my code", CodeSystem: "my code system", CodeSystemName: "my code system name"}
+	entry = Entry{NegationReason: reason}
+	assert.Equal(t, true, entry.HasReason())
+
+	// reason
+	entry = Entry{Reason: reason}
+	assert.Equal(t, true, entry.HasReason())
+}

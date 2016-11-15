@@ -26,7 +26,7 @@
       </participantRole>
     </participant>
 
-    {{if hasReason .EntrySection.Entry}}
+    {{if .EntrySection.Entry.HasReason}}
       {{template "_reason.xml" .}}
     {{end}}
 

@@ -132,7 +132,6 @@ func exporterFuncMap(cat1Template *template.Template) template.FuncMap {
 		"dischargeDispositionDisplay":  dischargeDispositionDisplay,
 		"sdtcValueSetAttribute":        sdtcValueSetAttribute,
 		"getTransferOid":               getTransferOid,
-		"hasReason":                    hasReason,
 		"identifierForInterface":       identifierForInterface,
 		"codeToDisplay":                codeToDisplay,
 		"valueOrDefault":               valueOrDefault,
