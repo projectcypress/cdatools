@@ -36,19 +36,6 @@ func TestValueOrDefault(t *testing.T) {
 	assert.Equal(t, valueOrDefault("hey", "hey thar"), "hey")
 }
 
-func TestOidForCode(t *testing.T) {
-	valueSets, _ := ioutil.ReadFile("../fixtures/value_sets/cms9_26.json")
-	vs := []models.ValueSet{}
-	json.Unmarshal(valueSets, &vs)
-	initializeVsMap(vs)
-	coded := models.CodedConcept{Code: "3950001", CodeSystem: "2.16.840.1.113883.6.96"}
-	coded2 := models.CodedConcept{Code: "3950001222", CodeSystem: "2.16.840.1.113883.6.96"}
-	vsoids := []string{"2.16.840.1.113883.3.117.1.7.1.70", "2.16.840.1.113883.3.117.1.7.1.27", "2.16.840.1.113883.3.117.1.7.1.26", "2.16.840.1.113883.3.117.1.7.1.25"}
-
-	assert.Equal(t, oidForCode(coded, vsoids), "2.16.840.1.113883.3.117.1.7.1.70")
-	assert.Equal(t, oidForCode(coded2, vsoids), "")
-}
-
 func TestIdentifierForString(t *testing.T) {
 	assert.Equal(t, "ACBD18DB4CC2F85CEDEF654FCCC4A4D8", identifierForString("foo"))
 }
@@ -75,44 +62,6 @@ func TestIdentifierForInterface(t *testing.T) {
 	assert.NotEqual(t, identifierForInterface(str1, myInt), identifierForInterface(str2, myInt), "identifiers should not be equal for unequal strings")
 }
 
-func TestAppendEntryInfos(t *testing.T) {
-	// create entry sections
-	entries := make([]models.Entry, 0)
-	entries = append(entries, models.Entry{Description: "my description"})
-	var entrySections []models.HasEntry
-	for _, entry := range entries {
-		entrySections = append(entrySections, &models.Encounter{Entry: entry})
-	}
-	entrySections = append(entrySections, nil) // appendEntryInfos() function should not include nil entry sections
-
-	entryInfos := appendEntryInfos([]entryInfo{}, entrySections, mdc{})
-	assert.Equal(t, 1, len(entryInfos))
-	assert.Equal(t, "my description", entryInfos[0].EntrySection.GetEntry().Description)
-}
-
-func TestAllPreferredCodeSetsIfNeeded(t *testing.T) {
-	// code sets without the "*" string
-	preferredCodeSets := []string{"one", "two", "three"}
-	codeDisplays := make([]models.CodeDisplay, 1)
-	codeDisplays[0] = models.CodeDisplay{PreferredCodeSets: preferredCodeSets}
-	allPerferredCodeSetsIfNeeded(codeDisplays)
-	assert.Equal(t, preferredCodeSets, codeDisplays[0].PreferredCodeSets)
-
-	// all code sets indicated by the "*" string
-	preferredCodeSets = append(preferredCodeSets, "*")
-	codeDisplays[0] = models.CodeDisplay{PreferredCodeSets: preferredCodeSets}
-	allPerferredCodeSetsIfNeeded(codeDisplays)
-	assert.Equal(t, true, unorderedStringSlicesEqual(models.CodeSystemNames(), codeDisplays[0].PreferredCodeSets), "preferred code sets should include all code system names")
-}
-
-func TestSetCodeDisplaysForEntry(t *testing.T) {
-	entry := &models.Entry{Oid: "2.16.840.1.113883.3.560.1.79"} // encounter performed hqmf oid
-	mapDataCriteria := mdc{}
-	assert.Equal(t, 0, len(entry.CodeDisplays))
-	SetCodeDisplaysForEntry(entry, mapDataCriteria)
-	assert.Equal(t, 3, len(entry.CodeDisplays)) // three code displays the encounter performed entry
-}
-
 // This test needs to be fixed. entryInfosForPatient uses EntriesForDataCriteria to get entries.
 // This test will always pass since it uses EntriesForDataCriteria to the expected result.
 // The only reason why I haven't deleted it is so that it can be fixed.
@@ -135,26 +84,6 @@ func TestSetCodeDisplaysForEntry(t *testing.T) {
 //	entryInfos := entryInfosForPatient(patient, measures)
 //	assert.Equal(t, numEntrySections, len(entryInfos))
 //}
-
-func TestReasonValueSetOid(t *testing.T) {
-	valueSets, _ := ioutil.ReadFile("../fixtures/value_sets/cms9_26.json")
-	vs := []models.ValueSet{}
-	json.Unmarshal(valueSets, &vs)
-	initializeVsMap(vs)
-
-	coded := models.CodedConcept{Code: "3950001", CodeSystem: "2.16.840.1.113883.6.96"}
-	vsoids := []string{"2.16.840.1.113883.3.117.1.7.1.70", "2.16.840.1.113883.3.117.1.7.1.27", "2.16.840.1.113883.3.117.1.7.1.26", "2.16.840.1.113883.3.117.1.7.1.25"}
-	fieldOids := make(map[string][]string)
-	fieldOids["REASON"] = vsoids
-	assert.Equal(t, "2.16.840.1.113883.3.117.1.7.1.70", reasonValueSetOid(coded, fieldOids))
-
-	fieldOidsNoReason := make(map[string][]string)
-	assert.Equal(t, "", reasonValueSetOid(coded, fieldOidsNoReason))
-
-	fieldOidsNoOids := make(map[string][]string)
-	fieldOidsNoOids["Reason"] = []string{}
-	assert.Equal(t, "", reasonValueSetOid(coded, fieldOidsNoOids))
-}
 
 func TestCondAssign(t *testing.T) {
 	var first, second int64
@@ -243,13 +172,6 @@ func TestHasPreferredCode(t *testing.T) {
 	assert.Equal(t, true, hasPreferredCode(models.Concept{Code: "my code", CodeSystem: "my code system"}))
 }
 
-func TestStringInSlice(t *testing.T) {
-	stringSlice := []string{"one", "two", "four"}
-	assert.Equal(t, true, stringInSlice("one", stringSlice))
-	assert.Equal(t, true, stringInSlice("two", stringSlice))
-	assert.Equal(t, false, stringInSlice("three", stringSlice))
-}
-
 // - - - - - - - - //
 //   H E L P E R   //
 // - - - - - - - - //
@@ -262,18 +184,6 @@ func setMeasures(measures *[]models.Measure) {
 	measureData = append([]byte("["), append(append(measureData, append([]byte(","), measureData2...)...), []byte("]")...)...)
 	err = json.Unmarshal(measureData, measures)
 	util.CheckErr(err)
-}
-
-func unorderedStringSlicesEqual(a, b []string) bool {
-	if a == nil || b == nil || len(a) != len(b) {
-		return false
-	}
-	for _, elemA := range a {
-		if !stringInSlice(elemA, b) {
-			return false
-		}
-	}
-	return true
 }
 
 func numNonNil(objs []models.HasEntry) int {

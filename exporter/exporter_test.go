@@ -1,14 +1,11 @@
 package exporter
 
 import (
-	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"testing"
 
 	"github.com/pebbe/util"
-	"github.com/projectcypress/cdatools/models"
-	"github.com/stretchr/testify/assert"
 )
 
 // This test is essentially a noop but it's useful to see what you're exporting.
@@ -30,69 +27,7 @@ func TestExport(t *testing.T) {
 	fmt.Print(GenerateCat1(patientData, measureData, valueSetData, startDate, endDate, "r3"))
 }
 
-func TestEntriesForDataCriteria(t *testing.T) {
-	patientData, err := ioutil.ReadFile("../fixtures/records/1_n_n_ami.json")
-	util.CheckErr(err)
 
-	measureData, err := ioutil.ReadFile("../fixtures/measures/CMS9v4a.json")
-	util.CheckErr(err)
 
-	patient := &models.Record{}
-	measure := &models.Measure{}
-	valueSetData, err := ioutil.ReadFile("../fixtures/value_sets/cms9_26.json")
-	var vs []models.ValueSet
-	json.Unmarshal(valueSetData, &vs)
-	vsMap := initializeVsMap(vs)
 
-	json.Unmarshal(patientData, patient)
-	json.Unmarshal(measureData, measure)
 
-	var entries []models.HasEntry
-	for _, crit := range measure.HQMFDocument.DataCriteria {
-		if crit.HQMFOid != "" {
-			for _, entryForDataCriteria := range patient.EntriesForDataCriteria(crit, vsMap) {
-				entries = append(entries, entryForDataCriteria)
-			}
-		}
-	}
-	// TODO: This test will have to change when we get a new export of CMS9v4a with all the HQMFOid fields filled.
-	assert.Equal(t, len(entries), 1)
-}
-
-func TestImportHQMFTemplateJSON(t *testing.T) {
-	var origID = "2.16.840.1.113883.10.20.28.3.19"
-	var def = GetTemplateDefinition(origID, true)
-	assert.Equal(t, def.Definition, "diagnosis")
-	assert.Equal(t, def.Status, "resolved")
-	var id = GetID(def, true)
-	assert.Equal(t, id, origID)
-}
-
-func TestGetAllDataCriteriaForOneMeasure(t *testing.T) {
-	mes := make([]models.Measure, 1)
-	measureData, err := ioutil.ReadFile("../fixtures/measures/CMS9v4a.json")
-	util.CheckErr(err)
-	measureData = append([]byte("["), append(measureData, []byte("]")...)...)
-	json.Unmarshal(measureData, &mes)
-	assert.Equal(t, len(allDataCriteria(mes)), 27)
-}
-
-func TestGetallDatacriteriaForMultipleMeasures(t *testing.T) {
-	mes := make([]models.Measure, 2)
-	measureData, err := ioutil.ReadFile("../fixtures/measures/CMS9v4a.json")
-	measureData2, err := ioutil.ReadFile("../fixtures/measures/CMS26v3.json")
-	util.CheckErr(err)
-	measureData = append([]byte("["), append(append(measureData, append([]byte(","), measureData2...)...), []byte("]")...)...)
-	json.Unmarshal(measureData, &mes)
-
-	assert.Equal(t, len(allDataCriteria(mes)), 47)
-}
-
-func TestGetUniqueDataCriteriaForOneMeasure(t *testing.T) {
-	mes := make([]models.Measure, 1)
-	measureData, err := ioutil.ReadFile("../fixtures/measures/CMS9v4a.json")
-	util.CheckErr(err)
-	measureData = append([]byte("["), append(measureData, []byte("]")...)...)
-	json.Unmarshal(measureData, &mes)
-	assert.Equal(t, len(uniqueDataCriteria(allDataCriteria(mes))), 14)
-}

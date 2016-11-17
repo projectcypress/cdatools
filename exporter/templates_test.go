@@ -71,6 +71,7 @@ func TestReasonTemplate(t *testing.T) {
 	assertXPath(t, rootNode, "//entryRelationship", nil, nil)
 
 	// reason that is not specifed by a measure
+	// TODO: Get rid of this lovely shrug that invokes
 	reason = models.CodedConcept{Code: "not_a_specified_code", CodeSystem: "¯\\_(ツ)_/¯"}
 	xmlString := generateXML("_reason.xml", *getReasonData(reason, false, true))
 	assert.Equal(t, "", strings.TrimSpace(xmlString))
@@ -84,7 +85,7 @@ func xmlReasonRootNode(reason models.CodedConcept, negateReason bool, r2Compatab
 	return xmlRootNode(xmlString)
 }
 
-func getReasonData(reason models.CodedConcept, negateReason bool, r2CompatableQrdaOid bool) *entryInfo {
+func getReasonData(reason models.CodedConcept, negateReason bool, r2CompatableQrdaOid bool) *models.EntryInfo {
 	encounter := models.Encounter{}
 	if negateReason {
 		encounter.Entry = models.Entry{NegationReason: reason}
@@ -97,17 +98,17 @@ func getReasonData(reason models.CodedConcept, negateReason bool, r2CompatableQr
 	} else {
 		encounter.Entry.Oid = "invalid_qrda_oid"
 	}
-	return &entryInfo{EntrySection: &encounter}
+	return &models.EntryInfo{EntrySection: &encounter}
 }
 
-func setMapDataCriteria(ei *entryInfo) {
+func setMapDataCriteria(ei *models.EntryInfo) {
 	var fieldOids = map[string][]string{"REASON": []string{"1.2.3.4.5.6.7.8.9.11"},
 		"ORDINAL":  []string{"1.2.3.4.5.6.7.8.9.10"},
 		"SEVERITY": []string{"1.2.3.4.5.6.7.8.9.13"},
 		"ROUTE":    []string{"1.2.3.4.5.6.7.8.9.12"}}
 	var resultOids = []string{"1.2.3.4.5.6.7.8.9.14"}
 	// var vsOid = "1.2.3.4.5.6.7.8.9"
-	ei.MapDataCriteria = mdc{FieldOids: fieldOids, ResultOids: resultOids}
+	ei.MapDataCriteria = models.Mdc{FieldOids: fieldOids, ResultOids: resultOids}
 }
 
 func TestResultValueTemplate(t *testing.T) {
@@ -134,12 +135,12 @@ func TestResultValueTemplate(t *testing.T) {
 	assertXPath(t, rootNode, "//value", map[string]string{"xsi:type": "CD", "nullFlavor": "UNK"}, nil)
 }
 
-func xmlResultValueRootNode(eInfo entryInfo) *xml.ElementNode {
+func xmlResultValueRootNode(eInfo models.EntryInfo) *xml.ElementNode {
 	xmlString := generateXML("_result_value.xml", eInfo)
 	return xmlRootNode(xmlString)
 }
 
-func getResultValueData() []entryInfo {
+func getResultValueData() []models.EntryInfo {
 	// Sample ResultValue objects to be embedded in the entries.
 	expectedCodeDisplay := models.CodeDisplay{CodeType: "resultValue", PreferredCodeSets: []string{"SNOMED-CT"}}
 	coded := models.Coded{Codes: map[string][]string{"codeSetA": []string{"third", "fourth"}, "SNOMED-CT": []string{"first"}}}
@@ -156,8 +157,7 @@ func getResultValueData() []entryInfo {
 		entrySections = append(entrySections, &models.Encounter{Entry: entry})
 	}
 	entrySections = append(entrySections, nil)
-
-	entryInfos := appendEntryInfos([]entryInfo{}, entrySections, mdc{})
+	entryInfos := models.AppendEntryInfos([]models.EntryInfo{}, entrySections, models.Mdc{})
 
 	return entryInfos
 }
@@ -418,7 +418,7 @@ func TestPatientCharacteristicObservationAssertionTemplate(t *testing.T) {
 // - - - - - - - - //
 
 // Given the name of an "entry" file, a "dataCriteria" file, and a pointer to an entry object, return the required entryInfo struct for the template
-func generateDataForTemplate(dataCriteriaName string, entryName string, entry models.HasEntry) entryInfo {
+func generateDataForTemplate(dataCriteriaName string, entryName string, entry models.HasEntry) models.EntryInfo {
 	dc, err := ioutil.ReadFile(fmt.Sprintf("../fixtures/data_criteria/%s.json", dataCriteriaName))
 	util.CheckErr(err)
 
@@ -430,11 +430,11 @@ func generateDataForTemplate(dataCriteriaName string, entryName string, entry mo
 
 	json.Unmarshal(ent, &entry)
 
-	udc := uniqueDataCriteria([]models.DataCriteria{dataCriteria})
+	udc := models.UniqueDataCriteria([]models.DataCriteria{dataCriteria})
+	models.SetCodeDisplaysForEntry(entry.GetEntry(), udc[0])
 
-	SetCodeDisplaysForEntry(entry.GetEntry(), udc[0])
 
-	ei := entryInfo{
+	ei := models.EntryInfo{
 		EntrySection:    entry,
 		MapDataCriteria: udc[0],
 	}
@@ -506,7 +506,7 @@ func xmlRootNodeForQrdaOidWithData(qrdaOid string, data interface{}) *xml.Elemen
 	return xmlRootNode(generateXML(fileName, data))
 }
 
-func getDataForQrdaOid(qrdaOid string) entryInfo {
+func getDataForQrdaOid(qrdaOid string) models.EntryInfo {
 	var p models.Record
 	var m []models.Measure
 	var vs []models.ValueSet
@@ -548,7 +548,7 @@ func setPatientMeasuresAndValueSets(patient *models.Record, measures *[]models.M
 	json.Unmarshal(patientData, patient)
 	json.Unmarshal(measureData, measures)
 	json.Unmarshal(valueSetData, valueSets)
-	initializeVsMap(*valueSets)
+	models.InitializeVsMap(*valueSets)
 }
 
 func makeTemplate(qrdaVersion string) *template.Template {
@@ -577,15 +577,15 @@ func generateTemplateForFile(temp *template.Template, fileName string, templateD
 	return buf.String()
 }
 
-func getEntryInfo(patient models.Record, measures []models.Measure, qrdaOid string, vs []models.ValueSet) (entryInfo, error) {
-	entryInfos := entryInfosForPatient(patient, measures, initializeVsMap(vs))
+func getEntryInfo(patient models.Record, measures []models.Measure, qrdaOid string, vs []models.ValueSet) (models.EntryInfo, error) {
+	entryInfos := patient.EntryInfosForPatient(measures, models.InitializeVsMap(vs))
 	for _, ei := range entryInfos {
-		if qrdaOid == HqmfToQrdaOid(ei.EntrySection.GetEntry().Oid, ei.MapDataCriteria.dcKey.ValueSetOid) {
+		if qrdaOid == models.HqmfToQrdaOid(ei.EntrySection.GetEntry().Oid, ei.MapDataCriteria.dcKey.ValueSetOid) {
 			return ei, nil
 		}
 	}
 	if len(entryInfos) == 0 {
-		return entryInfo{}, errors.New("no entry infos found for patient and measures")
+		return models.EntryInfo{}, errors.New("no entry infos found for patient and measures")
 	}
-	return entryInfo{}, errors.New(fmt.Sprintf("no entry info found with qrda oid \"%s\"", qrdaOid))
+	return models.EntryInfo{}, errors.New(fmt.Sprintf("no entry info found with qrda oid \"%s\"", qrdaOid))
 }
