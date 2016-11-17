@@ -16,7 +16,7 @@
 
     {{if .EntrySection.AnatomicalTarget}}
       {{$vset := oidForCode .EntrySection.AnatomicalTarget (index .MapDataCriteria.FieldOids "LATERALITY")}}
-      {{if $vset}}
+      {{if ne $vset ""}}
         <targetSiteCode code="{{.EntrySection.AnatomicalTarget.Code}}"
           codeSystem="{{oidForCodeSystem .EntrySection.AnatomicalTarget}}" sdtc:valueSet="{{$vset}}"/>
       {{end}}
