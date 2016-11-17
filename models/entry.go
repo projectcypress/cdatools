@@ -91,3 +91,7 @@ func (e *Entry) AsPointInTime() int64 {
 func (e *Entry) IsValuesEmpty() bool {
 	return len(e.Values) == 0
 }
+
+func (e *Entry) HasReason() bool {
+	return e.NegationReason != (CodedConcept{}) || e.Reason != (CodedConcept{})
+}

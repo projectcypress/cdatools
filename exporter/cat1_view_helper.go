@@ -266,13 +266,6 @@ func oidForCodeSystem(codeSystem string) string {
 	return codeSystem
 }
 
-func hasReason(entry models.Entry) bool {
-	if entry.NegationReason != (models.CodedConcept{}) || entry.Reason != (models.CodedConcept{}) {
-		return true
-	}
-	return false
-}
-
 func hasPreferredCode(pc models.Concept) bool {
 	return pc.Code != "" && pc.CodeSystem != ""
 }

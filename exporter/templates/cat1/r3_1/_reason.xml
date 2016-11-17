@@ -1,4 +1,4 @@
-{{if hasReason .EntrySection.Entry}}
+{{if .EntrySection.Entry.HasReason}}
   {{$reason := .EntrySection.Entry.NegationReasonOrReason}}
   {{$valueSetOid := reasonValueSetOid $reason .MapDataCriteria.FieldOids}}
   {{if $valueSetOid}}
