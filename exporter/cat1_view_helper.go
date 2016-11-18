@@ -87,7 +87,7 @@ func entryInfosForPatient(patient models.Record, measures []models.Measure, vsMa
 		for i, entrySection := range entrySections {
 			if entrySection != nil {
 				entry := entrySections[i].GetEntry()
-				SetCodeDisplaysForEntry(entry)
+				SetCodeDisplaysForEntry(entry, mappedDataCriteria)
 			}
 		}
 		entryInfos = appendEntryInfos(entryInfos, entrySections, mappedDataCriteria)
@@ -95,8 +95,8 @@ func entryInfosForPatient(patient models.Record, measures []models.Measure, vsMa
 	return entryInfos
 }
 
-func SetCodeDisplaysForEntry(e *models.Entry) {
-	codeDisplays := codeDisplayForQrdaOid(HqmfToQrdaOid(e.Oid))
+func SetCodeDisplaysForEntry(e *models.Entry, mapDataCriteria mdc) {
+	codeDisplays := codeDisplayForQrdaOid(HqmfToQrdaOid(e.Oid, mapDataCriteria.dcKey.ValueSetOid))
 	allPerferredCodeSetsIfNeeded(codeDisplays)
 	for i, _ := range codeDisplays {
 		codeDisplays[i].Description = e.Description
@@ -130,7 +130,7 @@ func appendEntryInfos(entryInfos []entryInfo, entries []models.HasEntry, mappedD
 func generateExecuteTemplateForEntry(cat1Template *template.Template) func(entryInfo) string {
 	return func(ei entryInfo) string {
 		entry := ei.EntrySection.GetEntry()
-		qrdaOid := HqmfToQrdaOid(entry.Oid)
+		qrdaOid := HqmfToQrdaOid(entry.Oid, ei.MapDataCriteria.dcKey.ValueSetOid)
 
 		templateName := fmt.Sprintf("_%v.xml", qrdaOid)
 		var b bytes.Buffer

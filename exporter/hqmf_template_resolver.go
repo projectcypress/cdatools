@@ -114,9 +114,12 @@ func GetMap(r2Compat bool) map[string]models.DataCriteria {
 	}
 }
 
-func HqmfToQrdaOid(hqmfOid string) string {
+func HqmfToQrdaOid(hqmfOid string, vsOid string) string {
 	initializeMap()
 	var qrdaOidToReturn string
+	if vsOid != "" && hqmfOid == "2.16.840.1.113883.3.560.1.1001" {
+		return VsToQrdaOidPatientCharacteristic(vsOid)
+	}
 	for curHqmfOid, hqmfQrdaMapVal := range hqmfQrdaMap {
 		if hqmfOid == curHqmfOid {
 			if qrdaOidToReturn != "" {
@@ -134,4 +137,19 @@ func codeDisplayForQrdaOid(oid string) []models.CodeDisplay {
 		return codeDisplays
 	}
 	return []models.CodeDisplay{}
+}
+
+func VsToQrdaOidPatientCharacteristic(vsOid string) string {
+	switch vsOid {
+	case "2.16.840.1.113883.3.117.1.7.1.402", "2.16.840.1.113883.3.117.1.7.1.403",
+		"2.16.840.1.113883.3.117.1.7.1.287", "2.16.840.1.113883.3.117.1.7.1.307":
+		// Patient Charasteristic Gestational Age
+		return "2.16.840.1.113883.10.20.24.3.101"
+	default:
+		// Patient Characteristic Observation Assertion template for
+		// Patient Characteristic: ECOG Performance Status-Poor
+		// Patient Characteristic Tobacco User/Non-User
+		// return generic pc observation template for anything not specificly mapped to its own template
+		return "2.16.840.1.113883.10.20.24.3.103"
+	}
 }

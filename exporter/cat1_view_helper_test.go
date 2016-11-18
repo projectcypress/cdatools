@@ -107,8 +107,9 @@ func TestAllPreferredCodeSetsIfNeeded(t *testing.T) {
 
 func TestSetCodeDisplaysForEntry(t *testing.T) {
 	entry := &models.Entry{Oid: "2.16.840.1.113883.3.560.1.79"} // encounter performed hqmf oid
+	mapDataCriteria := mdc{}
 	assert.Equal(t, 0, len(entry.CodeDisplays))
-	SetCodeDisplaysForEntry(entry)
+	SetCodeDisplaysForEntry(entry, mapDataCriteria)
 	assert.Equal(t, 3, len(entry.CodeDisplays)) // three code displays the encounter performed entry
 }
 

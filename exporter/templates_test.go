@@ -430,9 +430,9 @@ func generateDataForTemplate(dataCriteriaName string, entryName string, entry mo
 
 	json.Unmarshal(ent, &entry)
 
-	SetCodeDisplaysForEntry(entry.GetEntry())
-
 	udc := uniqueDataCriteria([]models.DataCriteria{dataCriteria})
+
+	SetCodeDisplaysForEntry(entry.GetEntry(), udc[0])
 
 	ei := entryInfo{
 		EntrySection:    entry,
@@ -580,7 +580,7 @@ func generateTemplateForFile(temp *template.Template, fileName string, templateD
 func getEntryInfo(patient models.Record, measures []models.Measure, qrdaOid string, vs []models.ValueSet) (entryInfo, error) {
 	entryInfos := entryInfosForPatient(patient, measures, initializeVsMap(vs))
 	for _, ei := range entryInfos {
-		if qrdaOid == HqmfToQrdaOid(ei.EntrySection.GetEntry().Oid) {
+		if qrdaOid == HqmfToQrdaOid(ei.EntrySection.GetEntry().Oid, ei.MapDataCriteria.dcKey.ValueSetOid) {
 			return ei, nil
 		}
 	}
