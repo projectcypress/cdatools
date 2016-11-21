@@ -71,9 +71,8 @@ func TestReasonTemplate(t *testing.T) {
 	assertXPath(t, rootNode, "//entryRelationship", nil, nil)
 
 	// reason that is not specifed by a measure
-	// TODO: Get rid of this lovely shrug that invokes
 	reason = models.CodedConcept{Code: "not_a_specified_code", CodeSystem: "¯\\_(ツ)_/¯"}
-	xmlString := generateXML("_reason.xml", *getReasonData(reason, false, true))
+	xmlString := generateXML("_reason.xml", getReasonData(reason, false, true))
 	assert.Equal(t, "", strings.TrimSpace(xmlString))
 }
 
@@ -419,6 +418,7 @@ func TestPatientCharacteristicObservationAssertionTemplate(t *testing.T) {
 
 // Given the name of an "entry" file, a "dataCriteria" file, and a pointer to an entry object, return the required entryInfo struct for the template
 func generateDataForTemplate(dataCriteriaName string, entryName string, entry models.HasEntry) models.EntryInfo {
+	hds := models.NewHds()
 	dc, err := ioutil.ReadFile(fmt.Sprintf("../fixtures/data_criteria/%s.json", dataCriteriaName))
 	util.CheckErr(err)
 
@@ -431,7 +431,7 @@ func generateDataForTemplate(dataCriteriaName string, entryName string, entry mo
 	json.Unmarshal(ent, &entry)
 
 	udc := models.UniqueDataCriteria([]models.DataCriteria{dataCriteria})
-	models.SetCodeDisplaysForEntry(entry.GetEntry(), udc[0])
+	hds.SetCodeDisplaysForEntry(entry.GetEntry(), udc[0])
 
 
 	ei := models.EntryInfo{
@@ -529,34 +529,31 @@ func generateXML(fileName string, templateData interface{}) string {
 	var m []models.Measure
 	var vs []models.ValueSet
 	setPatientMeasuresAndValueSets(&p, &m, &vs)
-	return generateTemplateForFile(makeTemplate("r3"), fileName, templateData)
+	vsMap := models.NewValueSetMap(vs)
+	return generateTemplateForFile(makeTemplate("r3", vsMap), fileName, templateData)
 }
 
 func setPatientMeasuresAndValueSets(patient *models.Record, measures *[]models.Measure, valueSets *[]models.ValueSet) {
 	patientData, err := ioutil.ReadFile("../fixtures/records/1_n_n_ami.json")
 	util.CheckErr(err)
-
 	measureData, err := ioutil.ReadFile("../fixtures/measures/CMS9v4a.json")
 	util.CheckErr(err)
 	measureData2, err := ioutil.ReadFile("../fixtures/measures/CMS26v3.json")
 	util.CheckErr(err)
 	measureData = append([]byte("["), append(append(measureData, append([]byte(","), measureData2...)...), []byte("]")...)...)
-
 	valueSetData, err := ioutil.ReadFile("../fixtures/value_sets/cms9_26.json")
 	util.CheckErr(err)
-
 	json.Unmarshal(patientData, patient)
 	json.Unmarshal(measureData, measures)
 	json.Unmarshal(valueSetData, valueSets)
-	models.InitializeVsMap(*valueSets)
 }
 
-func makeTemplate(qrdaVersion string) *template.Template {
+func makeTemplate(qrdaVersion string, vsMap models.ValueSetMap) *template.Template {
 	if qrdaVersion == "" {
 		qrdaVersion = "r3_1"
 	}
 	temp := template.New("cat1")
-	temp.Funcs(exporterFuncMap(temp))
+	temp.Funcs(exporterFuncMap(temp, vsMap))
 	fileNames, err := AssetDir("templates/cat1/" + qrdaVersion)
 	if err != nil {
 		util.CheckErr(err)
@@ -578,9 +575,10 @@ func generateTemplateForFile(temp *template.Template, fileName string, templateD
 }
 
 func getEntryInfo(patient models.Record, measures []models.Measure, qrdaOid string, vs []models.ValueSet) (models.EntryInfo, error) {
-	entryInfos := patient.EntryInfosForPatient(measures, models.InitializeVsMap(vs))
+	hds := models.NewHds()
+	entryInfos := patient.EntryInfosForPatient(measures, models.NewValueSetMap(vs))
 	for _, ei := range entryInfos {
-		if qrdaOid == models.HqmfToQrdaOid(ei.EntrySection.GetEntry().Oid, ei.MapDataCriteria.dcKey.ValueSetOid) {
+		if qrdaOid == hds.HqmfToQrdaOid(ei.EntrySection.GetEntry().Oid, ei.MapDataCriteria.DcKey.ValueSetOid) {
 			return ei, nil
 		}
 	}

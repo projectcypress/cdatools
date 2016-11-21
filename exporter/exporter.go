@@ -21,28 +21,26 @@ type cat1data struct {
 	EndDate    int64
 }
 
-func exporterFuncMap(cat1Template *template.Template) template.FuncMap {
+func exporterFuncMap(cat1Template *template.Template, vsMap models.ValueSetMap) template.FuncMap {
 	return template.FuncMap{
-		"timeNow":                      time.Now().UTC().Unix,
-		"newRandom":                    uuid.NewRandom,
-		"timeToFormat":                 timeToFormat,
-		"identifierForInt":             identifierForInt,
-		"identifierForString":          identifierForString,
-		"escape":                       escape,
-		// mattrbianchi: I grepped for this and it wasn't used in any of the templates... should it really be in here?
-		//"entryInfosForPatient":         models.Record.EntryInfosForPatient,
-		"executeTemplateForEntry":      generateExecuteTemplateForEntry(cat1Template),
-		"condAssign":                   condAssign,
-		"valueOrNullFlavor":            valueOrNullFlavor,
-		"dischargeDispositionDisplay":  dischargeDispositionDisplay,
-		"sdtcValueSetAttribute":        sdtcValueSetAttribute,
-		"getTransferOid":               getTransferOid,
-		"identifierForInterface":       identifierForInterface,
-		"codeToDisplay":                codeToDisplay,
-		"valueOrDefault":               valueOrDefault,
-		"reasonValueSetOid":            models.ReasonValueSetOid,
-		"oidForCodeSystem":             oidForCodeSystem,
-		"oidForCode":                   models.OidForCode,
+		"timeNow":             time.Now().UTC().Unix,
+		"newRandom":           uuid.NewRandom,
+		"timeToFormat":        timeToFormat,
+		"identifierForInt":    identifierForInt,
+		"identifierForString": identifierForString,
+		"escape":              escape,
+		"executeTemplateForEntry":     generateExecuteTemplateForEntry(cat1Template),
+		"condAssign":                  condAssign,
+		"valueOrNullFlavor":           valueOrNullFlavor,
+		"dischargeDispositionDisplay": dischargeDispositionDisplay,
+		"sdtcValueSetAttribute":       sdtcValueSetAttribute,
+		"getTransferOid":              getTransferOid,
+		"identifierForInterface":      identifierForInterface,
+		"codeToDisplay":               codeToDisplay,
+		"valueOrDefault":              valueOrDefault,
+		"reasonValueSetOid":           vsMap.ReasonValueSetOid,
+		"oidForCodeSystem":            oidForCodeSystem,
+		"oidForCode":                   vsMap.OidForCode,
 		"codeDisplayAttributeIsCodes":  codeDisplayAttributeIsCodes,
 		"hasPreferredCode":             hasPreferredCode,
 		"codeDisplayWithPreferredCode": codeDisplayWithPreferredCode,
@@ -52,6 +50,16 @@ func exporterFuncMap(cat1Template *template.Template) template.FuncMap {
 
 //export GenerateCat1
 func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate int64, endDate int64, qrdaVersion string) string {
+
+	p := &models.Record{}
+	m := []models.Measure{}
+	vs := []models.ValueSet{}
+
+	json.Unmarshal(patient, p)
+	json.Unmarshal(measures, &m)
+	json.Unmarshal(valueSets, &vs)
+
+	vsMap := models.NewValueSetMap(vs)
 
 	if qrdaVersion == "" {
 		qrdaVersion = "r3"
@@ -63,16 +71,13 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 	}
 
 	cat1Template := template.New("cat1")
-	cat1Template.Funcs(exporterFuncMap(cat1Template))
+	cat1Template.Funcs(exporterFuncMap(cat1Template, vsMap))
 
 	for _, d := range data {
 		asset, _ := Asset("templates/cat1/" + qrdaVersion + "/" + d)
 		template.Must(cat1Template.New(d).Parse(string(asset)))
 	}
 
-	p := &models.Record{}
-	m := []models.Measure{}
-	vs := []models.ValueSet{}
 	h := &models.Header{
 		Authors: []models.Author{
 			models.Author{
@@ -216,12 +221,6 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 			},
 		},
 	}
-
-	json.Unmarshal(patient, p)
-	json.Unmarshal(measures, &m)
-	json.Unmarshal(valueSets, &vs)
-
-	vsMap := models.InitializeVsMap(vs)
 
 	c1d := cat1data{Record: *p, Header: *h, Measures: m, ValueSets: vs, StartDate: startDate, EndDate: endDate, EntryInfos: p.EntryInfosForPatient(m, vsMap)}
 

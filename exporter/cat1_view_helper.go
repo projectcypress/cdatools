@@ -6,6 +6,7 @@ import (
 	"encoding/hex"
 	"encoding/xml"
 	"fmt"
+	"log"
 	"strconv"
 	"strings"
 	"text/template"
@@ -76,20 +77,19 @@ func identifierForString(objs ...string) string {
 	return identifierFor([]byte(b))
 }
 
-
 // git blame schreiber
 // returns a function for executing a template based on the qrda oid
 //   this is done so we have access to cat1Template when calling this function from _patient_data.xml
 func generateExecuteTemplateForEntry(cat1Template *template.Template) func(models.EntryInfo) string {
+	hds := models.NewHds()
 	return func(ei models.EntryInfo) string {
 		entry := ei.EntrySection.GetEntry()
-		qrdaOid := models.HqmfToQrdaOid(entry.Oid, ei.MapDataCriteria.dcKey.ValueSetOid)
+		qrdaOid := hds.HqmfToQrdaOid(entry.Oid, ei.MapDataCriteria.DcKey.ValueSetOid)
 
 		templateName := fmt.Sprintf("_%v.xml", qrdaOid)
 		var b bytes.Buffer
 		if err := cat1Template.ExecuteTemplate(&b, templateName, ei); err != nil {
-			// TODO: Get these panics out of here
-			panic(err)
+			log.Fatalln(err)
 		}
 
 		return b.String()

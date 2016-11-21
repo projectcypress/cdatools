@@ -1497,9 +1497,9 @@ var _bindata = map[string]func() (*asset, error){
 	"templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.103.xml": templatesCat1R3_1_21684011138831020243103Xml,
 	"templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.17.xml": templatesCat1R3_1_2168401113883102024317Xml,
 	"templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.18.xml": templatesCat1R3_1_2168401113883102024318Xml,
-	"templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.2.xml": templatesCat1R3_1_216840111388310202432Xml,
+	"templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.2.xml":  templatesCat1R3_1_216840111388310202432Xml,
 	"templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.23.xml": templatesCat1R3_1_2168401113883102024323Xml,
-	"templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.3.xml": templatesCat1R3_1_216840111388310202433Xml,
+	"templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.3.xml":  templatesCat1R3_1_216840111388310202433Xml,
 	"templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.37.xml": templatesCat1R3_1_2168401113883102024337Xml,
 	"templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.38.xml": templatesCat1R3_1_2168401113883102024338Xml,
 	"templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.4.xml": templatesCat1R3_1_216840111388310202434Xml,
@@ -1568,9 +1568,10 @@ type bintree struct {
 	Func     func() (*asset, error)
 	Children map[string]*bintree
 }
+
 var _bintree = &bintree{nil, map[string]*bintree{
-	"hqmf_qrda_oids.json": &bintree{hqmf_qrda_oidsJson, map[string]*bintree{}},
-	"hqmf_template_oid_map.json": &bintree{hqmf_template_oid_mapJson, map[string]*bintree{}},
+	"hqmf_qrda_oids.json":          &bintree{hqmf_qrda_oidsJson, map[string]*bintree{}},
+	"hqmf_template_oid_map.json":   &bintree{hqmf_template_oid_mapJson, map[string]*bintree{}},
 	"hqmfr2_template_oid_map.json": &bintree{hqmfr2_template_oid_mapJson, map[string]*bintree{}},
 	"templates": &bintree{nil, map[string]*bintree{
 		"cat1": &bintree{nil, map[string]*bintree{
@@ -1579,9 +1580,9 @@ var _bintree = &bintree{nil, map[string]*bintree{
 				"_2.16.840.1.113883.10.20.24.3.103.xml": &bintree{templatesCat1R3_21684011138831020243103Xml, map[string]*bintree{}},
 				"_2.16.840.1.113883.10.20.24.3.17.xml": &bintree{templatesCat1R3_2168401113883102024317Xml, map[string]*bintree{}},
 				"_2.16.840.1.113883.10.20.24.3.18.xml": &bintree{templatesCat1R3_2168401113883102024318Xml, map[string]*bintree{}},
-				"_2.16.840.1.113883.10.20.24.3.2.xml": &bintree{templatesCat1R3_216840111388310202432Xml, map[string]*bintree{}},
+				"_2.16.840.1.113883.10.20.24.3.2.xml":  &bintree{templatesCat1R3_216840111388310202432Xml, map[string]*bintree{}},
 				"_2.16.840.1.113883.10.20.24.3.23.xml": &bintree{templatesCat1R3_2168401113883102024323Xml, map[string]*bintree{}},
-				"_2.16.840.1.113883.10.20.24.3.3.xml": &bintree{templatesCat1R3_216840111388310202433Xml, map[string]*bintree{}},
+				"_2.16.840.1.113883.10.20.24.3.3.xml":  &bintree{templatesCat1R3_216840111388310202433Xml, map[string]*bintree{}},
 				"_2.16.840.1.113883.10.20.24.3.37.xml": &bintree{templatesCat1R3_2168401113883102024337Xml, map[string]*bintree{}},
 				"_2.16.840.1.113883.10.20.24.3.38.xml": &bintree{templatesCat1R3_2168401113883102024338Xml, map[string]*bintree{}},
 				"_2.16.840.1.113883.10.20.24.3.4.xml": &bintree{templatesCat1R3_216840111388310202434Xml, map[string]*bintree{}},
@@ -1611,9 +1612,9 @@ var _bintree = &bintree{nil, map[string]*bintree{
 				"_2.16.840.1.113883.10.20.24.3.103.xml": &bintree{templatesCat1R3_1_21684011138831020243103Xml, map[string]*bintree{}},
 				"_2.16.840.1.113883.10.20.24.3.17.xml": &bintree{templatesCat1R3_1_2168401113883102024317Xml, map[string]*bintree{}},
 				"_2.16.840.1.113883.10.20.24.3.18.xml": &bintree{templatesCat1R3_1_2168401113883102024318Xml, map[string]*bintree{}},
-				"_2.16.840.1.113883.10.20.24.3.2.xml": &bintree{templatesCat1R3_1_216840111388310202432Xml, map[string]*bintree{}},
+				"_2.16.840.1.113883.10.20.24.3.2.xml":  &bintree{templatesCat1R3_1_216840111388310202432Xml, map[string]*bintree{}},
 				"_2.16.840.1.113883.10.20.24.3.23.xml": &bintree{templatesCat1R3_1_2168401113883102024323Xml, map[string]*bintree{}},
-				"_2.16.840.1.113883.10.20.24.3.3.xml": &bintree{templatesCat1R3_1_216840111388310202433Xml, map[string]*bintree{}},
+				"_2.16.840.1.113883.10.20.24.3.3.xml":  &bintree{templatesCat1R3_1_216840111388310202433Xml, map[string]*bintree{}},
 				"_2.16.840.1.113883.10.20.24.3.37.xml": &bintree{templatesCat1R3_1_2168401113883102024337Xml, map[string]*bintree{}},
 				"_2.16.840.1.113883.10.20.24.3.38.xml": &bintree{templatesCat1R3_1_2168401113883102024338Xml, map[string]*bintree{}},
 				"_2.16.840.1.113883.10.20.24.3.4.xml": &bintree{templatesCat1R3_1_216840111388310202434Xml, map[string]*bintree{}},
@@ -1689,4 +1690,3 @@ func _filePath(dir, name string) string {
 	cannonicalName := strings.Replace(name, "\\", "/", -1)
 	return filepath.Join(append([]string{dir}, strings.Split(cannonicalName, "/")...)...)
 }
-

@@ -26,8 +26,3 @@ func TestExport(t *testing.T) {
 	endDate := int64(1483228799)
 	fmt.Print(GenerateCat1(patientData, measureData, valueSetData, startDate, endDate, "r3"))
 }
-
-
-
-
-

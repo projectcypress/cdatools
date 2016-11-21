@@ -95,3 +95,7 @@ func (e *Entry) IsValuesEmpty() bool {
 func (e *Entry) HasReason() bool {
 	return e.NegationReason != (CodedConcept{}) || e.Reason != (CodedConcept{})
 }
+
+
+
+

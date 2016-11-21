@@ -1,9 +1,9 @@
 package models
 
 import (
-	"github.com/pebbe/util"
 	. "gopkg.in/check.v1"
 	"gopkg.in/mgo.v2/bson"
+	"log"
 	"testing"
 )
 
@@ -26,12 +26,16 @@ func (p *ProcedureSuite) TestMarshalOrdinality(c *C) {
 	}
 
 	data, err := bson.Marshal(procedure) // call GetBSON() for procedure
-	util.CheckErr(err)
+	if err != nil {
+		log.Fatalln(err)
+	}
 
 	// unmarshal data back to a map so this map can be checked against the expected
 	var procedureMap bson.M
 	err = bson.Unmarshal(data, &procedureMap)
-	util.CheckErr(err)
+	if err != nil {
+		log.Fatalln(err)
+	}
 
 	c.Assert(procedureMap["ordinality"], DeepEquals, expectedOrdinality)
 }
@@ -45,7 +49,9 @@ func (p *ProcedureSuite) TestUnmarshalOrdinality(c *C) {
 		},
 		"incision_time": int64(5), // to test that all procedure attributes are coppied
 	})
-	util.CheckErr(err)
+	if err != nil {
+		log.Fatalln(err)
+	}
 
 	// expect procedure to have Codes nested under Ordinality after SetBSON
 	expectedProcedure := Procedure{
@@ -57,7 +63,9 @@ func (p *ProcedureSuite) TestUnmarshalOrdinality(c *C) {
 
 	var procedure Procedure
 	err = bson.Unmarshal(data, &procedure) // call SetBSON() for procedure
-	util.CheckErr(err)
+	if err != nil {
+		log.Fatalln(err)
+	}
 
 	c.Assert(procedure, DeepEquals, expectedProcedure)
 }
