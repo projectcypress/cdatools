@@ -51,6 +51,10 @@ func (v *ValueSetMap) ReasonValueSetOid(codedValue CodedConcept, fieldOids map[s
 	return v.OidForCode(codedValue, fieldOids["REASON"])
 }
 
+func (v *ValueSetMap) OrdinalityValueSetOid(codedValue CodedConcept, fieldOids map[string][]string) string {
+	return v.OidForCode(codedValue, fieldOids["ORDINAL"])
+}
+
 func (v ValueSetMap) OidForCode(codedValue CodedConcept, valuesetOids []string) string {
 	for _, vsoid := range valuesetOids {
 		oidlist := v[vsoid]

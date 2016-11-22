@@ -608,7 +608,8 @@ func (i *ImporterSuite) TestExtractProcedurePerformed(c *C) {
 	c.Assert(procedurePerformed.ID.Root, Equals, "51083f0e944dfe9bd7000004")
 	c.Assert(procedurePerformed.Oid, Equals, "2.16.840.1.113883.3.560.1.6") // hqmf oid
 	c.Assert(procedurePerformed.Codes["SNOMED-CT"][0], Equals, "236211007")
-	c.Assert(procedurePerformed.Ordinality.Codes["SNOMED-CT"][0], Equals, "63161005")
+	c.Assert(procedurePerformed.Ordinality.CodedConcept.Code, Equals, "63161005")
+	c.Assert(procedurePerformed.Ordinality.CodedConcept.CodeSystem, Equals, "SNOMED-CT")
 	c.Assert(*procedurePerformed.StartTime, Equals, int64(506358845))
 	c.Assert(*procedurePerformed.EndTime, Equals, int64(506409573))
 	c.Assert(*procedurePerformed.IncisionTime, Equals, int64(506358905))

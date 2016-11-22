@@ -1,0 +1,19 @@
+{
+        "title": "Treatment Adjusted by Protocol",
+        "description": "Procedure, Performed: Treatment Adjusted by Protocol",
+        "code_list_id": "2.16.840.1.113883.3.117.1.7.1.278",
+        "type": "procedures",
+        "definition": "procedure",
+        "status": "performed",
+        "hard_status": false,
+        "negation": false,
+        "source_data_criteria": "ProcedurePerformedTreatmentAdjustedByProtocol",
+        "variable": false,
+        "temporal_references": [
+          {
+            "type": "SBE",
+            "reference": "GROUP_variable_CHILDREN_19"
+          }
+        ],
+        "hqmf_oid": "2.16.840.1.113883.3.560.1.6"
+      }

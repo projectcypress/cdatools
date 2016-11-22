@@ -260,3 +260,13 @@ func codeDisplayAttributeIsCodes(attribute string) bool {
 func isNil(i interface{}) bool {
 	return i == nil
 }
+
+func hasSetIncisionTime(e models.HasEntry) bool {
+	proc, ok := e.(*models.Procedure)
+	return ok && proc.IncisionTime != nil
+}
+
+func hasSetOrdinality(e models.HasEntry) bool {
+	proc, ok := e.(*models.Procedure)
+	return ok && proc.Ordinality != (models.Ordinality{})
+}
