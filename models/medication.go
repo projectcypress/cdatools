@@ -29,7 +29,7 @@ type doseRestriction struct {
 type FulfillmentHistory struct {
 	PrescriptionNumber string `json:"prescription_number,omitempty"`
 	DispenseDate       int64  `json:"dispense_date,omitempty"`
-	QuantityDispensed  Scalar `json,"quantity_dispensed,omitempty"`
+	QuantityDispensed  Scalar `json:"quantity_dispensed,omitempty"`
 	FillNumber         int64  `json:"fill_number,omitempty"`
 	FillStatus         string `json:"fill_status"`
 }
