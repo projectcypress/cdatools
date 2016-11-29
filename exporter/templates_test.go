@@ -179,18 +179,26 @@ func TestEncounterPerformedTemplate(t *testing.T) {
 	// test admit time vs start time for <low> tag. test discharge time vs end time for <high> tag
 	ei := getDataForQrdaOid(qrdaOid)
 	entrySection := ei.EntrySection.(*models.Encounter)
-	entrySection.AdmitTime = 1262462640 // is time 2010 01 02 1504 in EST
-	entrySection.StartTime = 0
-	entrySection.DischargeTime = 1293998640 // is time 2011 01 02 1504 in EST
-	entrySection.EndTime = 0
+	entrySection.AdmitTime = new(int64)
+	*(entrySection.AdmitTime) = 1262462640 // is time 2010 01 02 1504 in EST
+	entrySection.StartTime = new(int64)
+	*(entrySection.StartTime) = 0
+	entrySection.DischargeTime = new(int64)
+	*(entrySection.DischargeTime) = 1293998640 // is time 2011 01 02 1504 in EST
+	entrySection.EndTime = new(int64)
+	*(entrySection.EndTime) = 0
 	ei.EntrySection = entrySection
 	rootNode = xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
 	assertXPath(t, rootNode, "//entry/encounter/effectiveTime/low", map[string]string{"value": "201001022004+0000"}, nil)
 	assertXPath(t, rootNode, "//entry/encounter/effectiveTime/high", map[string]string{"value": "201101022004+0000"}, nil)
-	entrySection.AdmitTime = 0
-	entrySection.StartTime = 1293998640 // is time 2011 01 02 1504 in EST
-	entrySection.DischargeTime = 0
-	entrySection.EndTime = 1262462640 // is time 2010 01 02 1504 in EST
+	entrySection.AdmitTime = new(int64)
+	*(entrySection.AdmitTime) = 0
+	entrySection.StartTime = new(int64)
+	*(entrySection.StartTime) = 1293998640 // is time 2011 01 02 1504 in EST
+	entrySection.DischargeTime = new(int64)
+	*(entrySection.DischargeTime) = 0
+	entrySection.EndTime = new(int64)
+	*(entrySection.EndTime) = 1262462640 // is time 2010 01 02 1504 in EST
 	ei.EntrySection = entrySection
 	rootNode = xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
 	assertXPath(t, rootNode, "//entry/encounter/effectiveTime/low", map[string]string{"value": "201101022004+0000"}, nil)

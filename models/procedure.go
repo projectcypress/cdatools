@@ -7,7 +7,7 @@ type Procedure struct {
 	Ordinality       Coded        `json:"ordinality,omitempty" bson:"ordinality,omitempty"`
 	Performer        Performer    `json:"performer,omitempty" bson:"performer,omitempty"`
 	AnatomicalTarget CodedConcept `json:"anatomical_target,omitempty" bson:"anatomical_target,omitempty"`
-	IncisionTime     int64        `json:"incision_time,omitempty" bson:"incision_time,omitempty"`
+	IncisionTime     *int64       `json:"incision_time,omitempty" bson:"incision_time,omitempty"`
 }
 
 type Performer struct {

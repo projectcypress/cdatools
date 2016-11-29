@@ -7,10 +7,10 @@ import (
 
 type Entry struct {
 	Coded
-	StartTime      int64               `json:"start_time,omitempty"`
+	StartTime      *int64              `json:"start_time,omitempty"`
 	BSONID         string              `json:"bson_id,omitempty"`
-	EndTime        int64               `json:"end_time,omitempty"`
-	Time           int64               `json:"time,omitempty"`
+	EndTime        *int64              `json:"end_time,omitempty"`
+	Time           *int64              `json:"time,omitempty"`
 	ID             CDAIdentifier       `json:"cda_identifier,omitempty"`
 	Oid            string              `json:"oid,omitempty"`
 	Description    string              `json:"description,omitempty"`
@@ -78,10 +78,10 @@ func (e *Entry) NegationReasonOrReason() CodedConcept {
 
 // In current implementation, this may give unexpected value if Time or StartTime
 // are set to zero, and not just as a default
-func (e *Entry) AsPointInTime() int64 {
-	if e.Time != 0 {
+func (e *Entry) AsPointInTime() *int64 {
+	if e.Time != nil {
 		return e.Time
-	} else if e.StartTime != 0 {
+	} else if e.StartTime != nil {
 		return e.StartTime
 	} else {
 		return e.EndTime

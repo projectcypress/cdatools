@@ -9,7 +9,6 @@
           <code code="77301-0" codeSystem="2.16.840.1.113883.6.1" displayName="reason" codeSystemName="LOINC"/>
         <statusCode code="completed"/>
           <effectiveTime>
-            <start_time_value>{{.EntrySection.StartTime}}</start_time_value>
             <low {{valueOrNullFlavor .EntrySection.StartTime}}/>
           </effectiveTime>
         <value xsi:type="CD" code="{{.EntrySection.Reason.Code}}" codeSystem="{{oidForCodeSystem .EntrySection.Reason.CodeSystem}}" sdtc:valueSet="{{$valueSetOid}}"/>

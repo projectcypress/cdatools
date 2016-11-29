@@ -25,6 +25,10 @@ func escape(i interface{}) string {
 		return escapeString(strconv.FormatInt(str, 10))
 	case int:
 		return escapeString(strconv.Itoa(str))
+	case *int64 && str != nil:
+		return escapeString(strconv.FormatInt(*str, 10))
+	case *int && str != nil:
+		return escapeString(strconv.Itoa(*str))
 	}
 	return ""
 }
@@ -52,11 +56,13 @@ func identifierFor(b []byte) string {
 func identifierForInterface(objs ...interface{}) string {
 	b := make([]byte, len(objs))
 	for _, obj := range objs {
-		switch obj.(type) {
+		switch otyped := obj.(type) {
 		case int64:
-			b = append(b, []byte(strconv.FormatInt(obj.(int64), 10))...)
+			b = append(b, []byte(strconv.FormatInt(otyped, 10))...)
+		case *int64 && otyped != nil:
+			b = append(b, []byte(strconv.FormatInt(*otyped, 10))...)
 		case string:
-			b = append(b, []byte(obj.(string))...)
+			b = append(b, []byte(otyped)...)
 		}
 	}
 	return identifierFor(b)
@@ -67,6 +73,17 @@ func identifierForInt(objs ...int64) string {
 	b := make([]byte, len(objs))
 	for _, val := range objs {
 		b = append(b, []byte(strconv.FormatInt(val, 10))...)
+	}
+	return identifierFor(b)
+}
+
+// IdentifierForInt generates an MD5 representation of a set of *int64s
+func identifierForIntp(objs ...*int64) string {
+	b := make([]byte, len(objs))
+	for _, val := range objs {
+		if val != nil {
+			b = append(b, []byte(strconv.FormatInt(*val, 10))...)
+		}
 	}
 	return identifierFor(b)
 }
@@ -120,6 +137,12 @@ func valueOrNullFlavor(i interface{}) string {
 	case int:
 		var t = time.Unix(int64(str), 0)
 		s = fmt.Sprintf("value='%s'", t.In(utc).Format("200601021504-0700"))
+	case *int64 && str != nil:
+		var t = time.Unix(*str, 0)
+		s = fmt.Sprintf("value='%s'", t.In(utc).Format("200601021504-0700"))
+	case *int && str != nil:
+		var t = time.Unix(int64(*str), 0)
+		s = fmt.Sprintf("value='%s'", t.In(utc).Format("200601021504-0700"))
 	default:
 		s = "nullFlavor='UNK'"
 	}
@@ -140,11 +163,22 @@ func valueOrDefault(val interface{}, def interface{}) interface{} {
 	return def
 }
 
-// conditional assignment. returns the second value only if the first value is zero
-// TODO: make arguments and return type interface{}. add "value is empty, zero, or nil" to description
-func condAssign(first int64, second int64) int64 {
-	if first != 0 {
-		return first
+
+// conditional assignment. returns the second value only if the first value is empty, zero, or nil
+func condAssign(first interface{}, second interface{}) interface{} {
+	switch val := first.(type) {
+		case string && val != "":
+			return first
+		case int64 && val != 0:
+			return first
+		case int && val != 0:
+			return first
+		case *int64 && val != nil:
+			return first
+		case *int && val != nil:
+			return first
+		default:
+			return second
 	}
 	return second
 }

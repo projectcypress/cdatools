@@ -7,7 +7,7 @@ type Header struct {
 }
 
 type Author struct {
-	Time int64
+	Time *int64
 	Person
 	Entity
 	Device
