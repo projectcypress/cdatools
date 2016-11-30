@@ -44,7 +44,7 @@ func (i *ImporterSuite) TestExtractDemograpics(c *C) {
 	ExtractDemographics(i.patient, i.patientElement)
 	c.Assert(i.patient.First, Equals, "Norman")
 	c.Assert(i.patient.Last, Equals, "Flores")
-	c.Assert(i.patient.Birthdate, Equals, int64(599646600))
+	c.Assert(*i.patient.Birthdate, Equals, int64(599646600))
 	c.Assert(i.patient.Race.Code, Equals, "1002-5")
 	c.Assert(i.patient.Race.CodeSystem, Equals, "CDC Race and Ethnicity")
 	c.Assert(i.patient.Ethnicity.Code, Equals, "2186-5")
@@ -65,8 +65,8 @@ func (i *ImporterSuite) TestExtractEncountersPerformed(c *C) {
 	c.Assert(encounter.ID.Root, Equals, "1.3.6.1.4.1.115")
 	c.Assert(encounter.ID.Extension, Equals, "50d3a288da5fe6e14000016c")
 	c.Assert(encounter.Codes["CPT"][0], Equals, "99201")
-	c.Assert(encounter.StartTime, Equals, int64(1288612800))
-	c.Assert(encounter.EndTime, Equals, int64(1288616400))
+	c.Assert(*encounter.StartTime, Equals, int64(1288612800))
+	c.Assert(*encounter.EndTime, Equals, int64(1288616400))
 	c.Assert(encounter.StatusCode["HL7 ActStatus"][0], Equals, "performed")
 }
 
@@ -87,8 +87,8 @@ func (i *ImporterSuite) TestExtractEncounterOrdered(c *C) {
 	c.Assert(encounter.Codes["CPT"][0], Equals, "90815")
 	c.Assert(encounter.Codes["ICD-9-CM"][0], Equals, "94.49")
 	c.Assert(encounter.Codes["ICD-10-PCS"][0], Equals, "GZHZZZZ")
-	c.Assert(encounter.StartTime, Equals, int64(1135608034))
-	c.Assert(encounter.EndTime, Equals, int64(1135608034))
+	c.Assert(*encounter.StartTime, Equals, int64(1135608034))
+	c.Assert(*encounter.EndTime, Equals, int64(1135608034))
 	c.Assert(encounter.StatusCode["HL7 ActStatus"][0], Equals, "ordered")
 }
 
@@ -106,8 +106,8 @@ func (i *ImporterSuite) TestExtractDiagnosesActive(c *C) {
 	c.Assert(firstDiagnosis.ID.Extension, Equals, "54c1142869702d2cd2520100")
 	c.Assert(firstDiagnosis.Codes["SNOMED-CT"][0], Equals, "195080001")
 	c.Assert(firstDiagnosis.Description, Equals, "Diagnosis, Active: Atrial Fibrillation/Flutter")
-	c.Assert(firstDiagnosis.StartTime, Equals, int64(1332775800))
-	c.Assert(firstDiagnosis.EndTime, Equals, int64(0))
+	c.Assert(*firstDiagnosis.StartTime, Equals, int64(1332775800))
+	c.Assert(firstDiagnosis.EndTime, Equals, (*int64)(nil))
 	c.Assert(firstDiagnosis.Severity.Code, Equals, "55561003")
 	c.Assert(firstDiagnosis.StatusCode["SNOMED-CT"][0], Equals, "55561003")
 	c.Assert(firstDiagnosis.StatusCode["HL7 ActStatus"][0], Equals, "active")
@@ -117,8 +117,8 @@ func (i *ImporterSuite) TestExtractDiagnosesActive(c *C) {
 	c.Assert(secondDiagnosis.ID.Extension, Equals, "54c1142969702d2cd2cd0200")
 	c.Assert(secondDiagnosis.Codes["SNOMED-CT"][0], Equals, "237244005")
 	c.Assert(secondDiagnosis.Description, Equals, "Diagnosis, Active: Pregnancy Dx")
-	c.Assert(secondDiagnosis.StartTime, Equals, int64(1362150000))
-	c.Assert(secondDiagnosis.EndTime, Equals, int64(1382284800))
+	c.Assert(*secondDiagnosis.StartTime, Equals, int64(1362150000))
+	c.Assert(*secondDiagnosis.EndTime, Equals, int64(1382284800))
 	c.Assert(secondDiagnosis.StatusCode["SNOMED-CT"][0], Equals, "55561003")
 	c.Assert(secondDiagnosis.StatusCode["HL7 ActStatus"][0], Equals, "active")
 
@@ -127,8 +127,8 @@ func (i *ImporterSuite) TestExtractDiagnosesActive(c *C) {
 	c.Assert(thirdDiagnosis.ID.Extension, Equals, "54c1142869702d2cd2760100")
 	c.Assert(thirdDiagnosis.Codes["SNOMED-CT"][0], Equals, "46635009")
 	c.Assert(thirdDiagnosis.Description, Equals, "Diagnosis, Active: Diabetes")
-	c.Assert(thirdDiagnosis.StartTime, Equals, int64(1361890800))
-	c.Assert(thirdDiagnosis.EndTime, Equals, int64(0))
+	c.Assert(*thirdDiagnosis.StartTime, Equals, int64(1361890800))
+	c.Assert(thirdDiagnosis.EndTime, Equals, (*int64)(nil))
 	c.Assert(thirdDiagnosis.StatusCode["SNOMED-CT"][0], Equals, "55561003")
 	c.Assert(thirdDiagnosis.StatusCode["HL7 ActStatus"][0], Equals, "active")
 }
@@ -147,8 +147,8 @@ func (i *ImporterSuite) TestExtractDiagnosesInactive(c *C) {
 	c.Assert(diagnosis.Codes["SNOMED-CT"][0], Equals, "76795007")
 	c.Assert(diagnosis.Codes["ICD-9-CM"][0], Equals, "V02.61")
 	c.Assert(diagnosis.Codes["ICD-10-CM"][0], Equals, "Z22.51")
-	c.Assert(diagnosis.StartTime, Equals, int64(1092658739))
-	c.Assert(diagnosis.EndTime, Equals, int64(1092686969))
+	c.Assert(*diagnosis.StartTime, Equals, int64(1092658739))
+	c.Assert(*diagnosis.EndTime, Equals, int64(1092686969))
 	c.Assert(diagnosis.StatusCode["SNOMED-CT"][0], Equals, "73425007")
 }
 
@@ -166,7 +166,7 @@ func (i *ImporterSuite) TestExtractLabResults(c *C) {
 	c.Assert(labResult.Oid, Equals, "2.16.840.1.113883.3.560.1.12")
 	c.Assert(labResult.ID.Extension, Equals, "50d3a288da5fe6e1400002a9")
 	c.Assert(labResult.Codes["LOINC"][0], Equals, "11268-0")
-	c.Assert(labResult.StartTime, Equals, int64(674670276))
+	c.Assert(*labResult.StartTime, Equals, int64(674670276))
 	c.Assert(len(labResult.Entry.Values), Equals, 1)
 	c.Assert(labResult.Entry.Values[0].Scalar, Equals, "positive")
 }
@@ -184,7 +184,7 @@ func (i *ImporterSuite) TestExtractLabOrders(c *C) {
 	c.Assert(labOrder.ID.Root, Equals, "50f84c1d7042f9877500039e")
 	c.Assert(labOrder.Oid, Equals, "2.16.840.1.113883.3.560.1.50")
 	c.Assert(labOrder.Codes["SNOMED-CT"][0], Equals, "8879006")
-	c.Assert(labOrder.StartTime, Equals, int64(674670276))
+	c.Assert(*labOrder.StartTime, Equals, int64(674670276))
 	c.Assert(labOrder.StatusCode["HL7 ActStatus"][0], Equals, "ordered")
 }
 
@@ -200,7 +200,7 @@ func (i *ImporterSuite) TestExtractInsuranceProviders(c *C) {
 	c.Assert(len(i.patient.InsuranceProviders), Equals, 1)
 	c.Assert(insuranceProvider.ID.Root, Equals, "1.3.6.1.4.1.115")
 	c.Assert(insuranceProvider.Codes["SOP"][0], Equals, "349")
-	c.Assert(insuranceProvider.StartTime, Equals, int64(1111851000)) // March 26, 2005 @ 15:30:00 GMT
+	c.Assert(*insuranceProvider.StartTime, Equals, int64(1111851000)) // March 26, 2005 @ 15:30:00 GMT
 }
 
 func (i *ImporterSuite) TestExtractDiagnosticStudyOrders(c *C) {
@@ -215,8 +215,8 @@ func (i *ImporterSuite) TestExtractDiagnosticStudyOrders(c *C) {
 	c.Assert(len(i.patient.Procedures), Equals, 1)
 	c.Assert(diagnosticStudyOrder.ID.Root, Equals, "50f84dbb7042f9366f00014c")
 	c.Assert(diagnosticStudyOrder.Codes["LOINC"][0], Equals, "69399-4")
-	c.Assert(diagnosticStudyOrder.StartTime, Equals, int64(629709860)) // start and end time should be equal for diagnostic study orders
-	c.Assert(diagnosticStudyOrder.EndTime, Equals, int64(629709860))
+	c.Assert(*diagnosticStudyOrder.StartTime, Equals, int64(629709860)) // start and end time should be equal for diagnostic study orders
+	c.Assert(*diagnosticStudyOrder.EndTime, Equals, int64(629709860))
 	c.Assert(diagnosticStudyOrder.StatusCode["HL7 ActStatus"][0], Equals, "ordered")
 }
 
@@ -232,8 +232,8 @@ func (i *ImporterSuite) TestExtractTransferFrom(c *C) {
 	c.Assert(len(i.patient.Encounters), Equals, 1)
 	c.Assert(transferFromEncounter.ID.Root, Equals, "49d75f61-0dec-4972-9a51-e2490b18c772")
 	c.Assert(transferFromEncounter.Codes["LOINC"][0], Equals, "77305-1")
-	c.Assert(transferFromEncounter.StartTime, Equals, int64(1415097000))
-	c.Assert(transferFromEncounter.TransferFrom.Time, Equals, int64(1415097000))
+	c.Assert(*transferFromEncounter.StartTime, Equals, int64(1415097000))
+	c.Assert(*transferFromEncounter.TransferFrom.Time, Equals, int64(1415097000))
 	c.Assert(transferFromEncounter.TransferFrom.Codes["SNOMED-CT"][0], Equals, "309911002")
 }
 
@@ -249,8 +249,8 @@ func (i *ImporterSuite) TestExtractTransferTo(c *C) {
 	c.Assert(len(i.patient.Encounters), Equals, 1)
 	c.Assert(transferToEncounter.ID.Root, Equals, "49d75f61-0dec-4972-9a51-e2490b18c772")
 	c.Assert(transferToEncounter.Codes["LOINC"][0], Equals, "77306-9")
-	c.Assert(transferToEncounter.StartTime, Equals, int64(1415097000))
-	c.Assert(transferToEncounter.TransferTo.Time, Equals, int64(1415097000))
+	c.Assert(*transferToEncounter.StartTime, Equals, int64(1415097000))
+	c.Assert(*transferToEncounter.TransferTo.Time, Equals, int64(1415097000))
 	c.Assert(transferToEncounter.TransferTo.Codes["SNOMED-CT"][0], Equals, "309911002")
 }
 
@@ -269,8 +269,8 @@ func (i *ImporterSuite) TestMedicationActive(c *C) {
 	c.Assert(medicationActive.AdministrationTiming.InstitutionSpecified, Equals, true)
 	c.Assert(medicationActive.AdministrationTiming.Period.Unit, Equals, "h")
 	c.Assert(medicationActive.AdministrationTiming.Period.Value, Equals, int64(6))
-	c.Assert(medicationActive.StartTime, Equals, int64(1092658739))
-	c.Assert(medicationActive.EndTime, Equals, int64(1092676026))
+	c.Assert(*medicationActive.StartTime, Equals, int64(1092658739))
+	c.Assert(*medicationActive.EndTime, Equals, int64(1092676026))
 	c.Assert(medicationActive.Oid, Equals, "2.16.840.1.113883.3.560.1.13")
 	c.Assert(medicationActive.Route.Code, Equals, "C38288")
 	c.Assert(medicationActive.Route.CodeSystemName, Equals, "NCI Thesaurus")
@@ -284,7 +284,7 @@ func (i *ImporterSuite) TestMedicationActive(c *C) {
 	c.Assert(medicationActive.OrderInformation[0].Fills, Equals, int64(1))
 	c.Assert(medicationActive.OrderInformation[0].QuantityOrdered.Value, Equals, int64(75))
 	c.Assert(medicationActive.OrderInformation[0].OrderNumber, Equals, "12345")
-	c.Assert(medicationActive.OrderInformation[0].OrderDate, Equals, int64(1092676026))
+	c.Assert(*medicationActive.OrderInformation[0].OrderDate, Equals, int64(1092676026))
 	c.Assert(medicationActive.StatusCode["SNOMED-CT"][0], Equals, "55561003")
 	c.Assert(medicationActive.StatusCode["HL7 ActStatus"][0], Equals, "active")
 
@@ -302,8 +302,8 @@ func (i *ImporterSuite) TestMedicationDispensed(c *C) {
 	c.Assert(len(i.patient.Medications), Equals, 1)
 	c.Assert(medicationDispensed.ID.Root, Equals, "50f84c1b7042f9877500023e")
 	c.Assert(medicationDispensed.Codes["RxNorm"][0], Equals, "977869")
-	c.Assert(medicationDispensed.StartTime, Equals, int64(822072083))
-	c.Assert(medicationDispensed.EndTime, Equals, int64(822089605))
+	c.Assert(*medicationDispensed.StartTime, Equals, int64(822072083))
+	c.Assert(*medicationDispensed.EndTime, Equals, int64(822089605))
 	c.Assert(medicationDispensed.StatusCode["HL7 ActStatus"][0], Equals, "dispensed")
 }
 
@@ -320,8 +320,8 @@ func (i *ImporterSuite) TestMedicationAdministered(c *C) {
 	c.Assert(medicationAdministered.ID.Root, Equals, "278dade0-4307-0130-0add-680688cbd736")
 	c.Assert(medicationAdministered.Oid, Equals, "2.16.840.1.113883.3.560.1.14")
 	c.Assert(medicationAdministered.Codes["CVX"][0], Equals, "33")
-	c.Assert(medicationAdministered.StartTime, Equals, int64(1165177036))
-	c.Assert(medicationAdministered.EndTime, Equals, int64(1165217102))
+	c.Assert(*medicationAdministered.StartTime, Equals, int64(1165177036))
+	c.Assert(*medicationAdministered.EndTime, Equals, int64(1165217102))
 	c.Assert(medicationAdministered.StatusCode["HL7 ActStatus"][0], Equals, "administered")
 }
 
@@ -338,8 +338,8 @@ func (i *ImporterSuite) TestMedicationOrdered(c *C) {
 	c.Assert(medicationOrdered.ID.Root, Equals, "50f84c1a7042f987750001d2")
 	c.Assert(medicationOrdered.Oid, Equals, "2.16.840.1.113883.3.560.1.17")
 	c.Assert(medicationOrdered.Codes["RxNorm"][0], Equals, "866439")
-	c.Assert(medicationOrdered.StartTime, Equals, int64(954202441))
-	c.Assert(medicationOrdered.EndTime, Equals, int64(954206964))
+	c.Assert(*medicationOrdered.StartTime, Equals, int64(954202441))
+	c.Assert(*medicationOrdered.EndTime, Equals, int64(954206964))
 	c.Assert(medicationOrdered.StatusCode["HL7 ActStatus"][0], Equals, "ordered")
 }
 
@@ -356,8 +356,8 @@ func (i *ImporterSuite) TestMedicationDischargeActive(c *C) {
 	c.Assert(medicationDischargeActive.ID.Root, Equals, "21305e00-4308-0130-0ade-680688cbd736")
 	c.Assert(medicationDischargeActive.Oid, Equals, "2.16.840.1.113883.3.560.1.199")
 	c.Assert(medicationDischargeActive.Codes["RxNorm"][0], Equals, "994435")
-	c.Assert(medicationDischargeActive.StartTime, Equals, int64(1114859893))
-	c.Assert(medicationDischargeActive.EndTime, Equals, int64(1114914106))
+	c.Assert(*medicationDischargeActive.StartTime, Equals, int64(1114859893))
+	c.Assert(*medicationDischargeActive.EndTime, Equals, int64(1114914106))
 	c.Assert(medicationDischargeActive.StatusCode["HL7 ActStatus"][0], Equals, "discharge")
 }
 
@@ -374,7 +374,7 @@ func (i *ImporterSuite) TestMedicationIntolerance(c *C) {
 	c.Assert(medicationIntolerance.ID.Root, Equals, "50f84c1a7042f987750001db")
 	c.Assert(medicationIntolerance.Oid, Equals, "2.16.840.1.113883.3.560.1.67")
 	c.Assert(medicationIntolerance.Codes["RxNorm"][0], Equals, "998695")
-	c.Assert(medicationIntolerance.StartTime, Equals, int64(1165177036))
+	c.Assert(*medicationIntolerance.StartTime, Equals, int64(1165177036))
 }
 
 func (i *ImporterSuite) TestMedicationAllergy(c *C) {
@@ -390,7 +390,7 @@ func (i *ImporterSuite) TestMedicationAllergy(c *C) {
 	c.Assert(medicationAllergy.ID.Root, Equals, "50f84db97042f9366f00000e")
 	c.Assert(medicationAllergy.Oid, Equals, "2.16.840.1.113883.3.560.1.1")
 	c.Assert(medicationAllergy.Codes["RxNorm"][0], Equals, "996994")
-	c.Assert(medicationAllergy.StartTime, Equals, int64(303055256))
+	c.Assert(*medicationAllergy.StartTime, Equals, int64(303055256))
 }
 
 func (i *ImporterSuite) TestMedEquipNotOrdered(c *C) {
@@ -421,7 +421,7 @@ func (i *ImporterSuite) TestCommunicationsProviderToProvider(c *C) {
 	c.Assert(communicationsProviderToProvider.ID.Root, Equals, "50f84c1d7042f987750003bf")
 	c.Assert(communicationsProviderToProvider.Oid, Equals, "2.16.840.1.113883.3.560.1.129")
 	c.Assert(communicationsProviderToProvider.Codes["SNOMED-CT"][0], Equals, "371545006")
-	c.Assert(communicationsProviderToProvider.StartTime, Equals, int64(362499961))
+	c.Assert(*communicationsProviderToProvider.StartTime, Equals, int64(362499961))
 }
 
 func (i *ImporterSuite) TestCommunicationsProviderToPatient(c *C) {
@@ -437,7 +437,7 @@ func (i *ImporterSuite) TestCommunicationsProviderToPatient(c *C) {
 	c.Assert(communicationProviderToPatient.ID.Root, Equals, "50cf48409eae47465700008f")
 	c.Assert(communicationProviderToPatient.Oid, Equals, "2.16.840.1.113883.3.560.1.31")
 	c.Assert(communicationProviderToPatient.Codes["LOINC"][0], Equals, "69981-9")
-	c.Assert(communicationProviderToPatient.StartTime, Equals, int64(1275775200))
+	c.Assert(*communicationProviderToPatient.StartTime, Equals, int64(1275775200))
 }
 
 func (i *ImporterSuite) TestAllergy(c *C) {
@@ -453,7 +453,7 @@ func (i *ImporterSuite) TestAllergy(c *C) {
 	c.Assert(len(i.patient.Allergies), Equals, 1)
 	c.Assert(medAllergy.ID.Root, Equals, "50f84db97042f9366f00000e")
 	c.Assert(medAllergy.Codes["RxNorm"][0], Equals, "996994")
-	c.Assert(medAllergy.StartTime, Equals, int64(303055256))
+	c.Assert(*medAllergy.StartTime, Equals, int64(303055256))
 	c.Assert(medAllergy.Type.Codes["ActCode"][0], Equals, "ASSERTION")
 	c.Assert(medAllergy.Reaction.Codes["SNOMED-CT"][0], Equals, "422587007")
 	c.Assert(medAllergy.Severity.Codes["SNOMED-CT"][0], Equals, "371924009")
@@ -471,8 +471,8 @@ func (i *ImporterSuite) TestProcedureIntolerance(c *C) {
 	c.Assert(procedureIntolerance.ID.Root, Equals, "5102936b944dfe3db4000016")
 	c.Assert(procedureIntolerance.Codes["CPT"][0], Equals, "90668")
 	c.Assert(procedureIntolerance.Codes["SNOMED-CT"][0], Equals, "86198006")
-	c.Assert(procedureIntolerance.StartTime, Equals, int64(1094992715))
-	c.Assert(procedureIntolerance.EndTime, Equals, int64(1095042729))
+	c.Assert(*procedureIntolerance.StartTime, Equals, int64(1094992715))
+	c.Assert(*procedureIntolerance.EndTime, Equals, int64(1095042729))
 	c.Assert(procedureIntolerance.Oid, Equals, "2.16.840.1.113883.3.560.1.61")
 	c.Assert(procedureIntolerance.Values[0].Codes["SNOMED-CT"][0], Equals, "102460003")
 }
@@ -537,8 +537,8 @@ func (i *ImporterSuite) TestSymptomActive(c *C) {
 	}
 	activeSymptom := i.patient.Conditions[0]
 	c.Assert(activeSymptom.Codes["SNOMED-CT"][0], Equals, "95815000")
-	c.Assert(activeSymptom.StartTime, Equals, int64(729814935))
-	c.Assert(activeSymptom.EndTime, Equals, int64(729867188))
+	c.Assert(*activeSymptom.StartTime, Equals, int64(729814935))
+	c.Assert(*activeSymptom.EndTime, Equals, int64(729867188))
 	c.Assert(activeSymptom.ID.Root, Equals, "50f84dbb7042f9366f0001ac")
 	c.Assert(activeSymptom.Oid, Equals, "2.16.840.1.113883.3.560.1.69")
 	c.Assert(activeSymptom.StatusCode["SNOMED-CT"][0], Equals, "55561003")
@@ -587,7 +587,7 @@ func (i *ImporterSuite) TestMedicalEquipmentApplied(c *C) {
 	}
 	medEquipApplied := i.patient.MedicalEquipment[0]
 	c.Assert(medEquipApplied.ID.Root, Equals, "510969b3944dfe9bd7000056")
-	c.Assert(medEquipApplied.StartTime, Equals, int64(481091888))
+	c.Assert(*medEquipApplied.StartTime, Equals, int64(481091888))
 	c.Assert(medEquipApplied.Codes["ICD-9-CM"][0], Equals, "37.98")
 	c.Assert(medEquipApplied.AnatomicalStructure.Code, Equals, "thigh")
 	c.Assert(medEquipApplied.AnatomicalStructure.CodeSystem, Equals, "2.16.840.1.113883.6.96")
@@ -609,9 +609,9 @@ func (i *ImporterSuite) TestExtractProcedurePerformed(c *C) {
 	c.Assert(procedurePerformed.Oid, Equals, "2.16.840.1.113883.3.560.1.6") // hqmf oid
 	c.Assert(procedurePerformed.Codes["SNOMED-CT"][0], Equals, "236211007")
 	c.Assert(procedurePerformed.Ordinality.Codes["SNOMED-CT"][0], Equals, "63161005")
-	c.Assert(procedurePerformed.StartTime, Equals, int64(506358845))
-	c.Assert(procedurePerformed.EndTime, Equals, int64(506409573))
-	c.Assert(procedurePerformed.IncisionTime, Equals, int64(506358905))
+	c.Assert(*procedurePerformed.StartTime, Equals, int64(506358845))
+	c.Assert(*procedurePerformed.EndTime, Equals, int64(506409573))
+	c.Assert(*procedurePerformed.IncisionTime, Equals, int64(506358905))
 	c.Assert(*procedurePerformed.NegationInd, Equals, true)
 	c.Assert(procedurePerformed.NegationReason, Equals, models.CodedConcept{}) // no negation reason
 
@@ -654,8 +654,8 @@ func (i *ImporterSuite) TestExtractPhysicalExamPerformed(c *C) {
 	c.Assert(physicalExamPerformed.ID.Root, Equals, "5101a4f7944dfe3db4000006")
 	c.Assert(physicalExamPerformed.Oid, Equals, "2.16.840.1.113883.3.560.1.57") // hqmf oid
 	c.Assert(physicalExamPerformed.Codes["LOINC"][0], Equals, "8462-4")
-	c.Assert(physicalExamPerformed.StartTime, Equals, int64(751003636))
-	c.Assert(physicalExamPerformed.EndTime, Equals, int64(751060302))
+	c.Assert(*physicalExamPerformed.StartTime, Equals, int64(751003636))
+	c.Assert(*physicalExamPerformed.EndTime, Equals, int64(751060302))
 	c.Assert(*physicalExamPerformed.NegationInd, Equals, true)
 	c.Assert(physicalExamPerformed.NegationReason, Equals, models.CodedConcept{})
 	c.Assert(physicalExamPerformed.StatusCode["HL7 ActStatus"][0], Equals, "performed")
@@ -677,7 +677,7 @@ func (i *ImporterSuite) TestExtractInterventionOrder(c *C) {
 	c.Assert(interventionOrder.Codes["ICD-9-CM"][0], Equals, "V65.3")
 	c.Assert(interventionOrder.Codes["ICD-10-CM"][0], Equals, "Z71.3")
 	c.Assert(interventionOrder.Codes["SNOMED-CT"][0], Equals, "304549008")
-	c.Assert(interventionOrder.StartTime, Equals, int64(1277424000))
+	c.Assert(*interventionOrder.StartTime, Equals, int64(1277424000))
 	c.Assert(interventionOrder.StatusCode["HL7 ActStatus"][0], Equals, "ordered")
 }
 
@@ -694,8 +694,8 @@ func (i *ImporterSuite) TestExtractInterventionPerformed(c *C) {
 	c.Assert(interventionPerformed.ID.Root, Equals, "510831719eae47faed00019f")
 	c.Assert(interventionPerformed.Oid, Equals, "2.16.840.1.113883.3.560.1.46")
 	c.Assert(interventionPerformed.Codes["SNOMED-CT"][0], Equals, "171207006")
-	c.Assert(interventionPerformed.StartTime, Equals, int64(1265371200))
-	c.Assert(interventionPerformed.EndTime, Equals, int64(1265371200))
+	c.Assert(*interventionPerformed.StartTime, Equals, int64(1265371200))
+	c.Assert(*interventionPerformed.EndTime, Equals, int64(1265371200))
 	c.Assert(interventionPerformed.StatusCode["HL7 ActStatus"][0], Equals, "performed")
 }
 
@@ -712,8 +712,8 @@ func (i *ImporterSuite) TestExtractProcedureInterventionResults(c *C) {
 	c.Assert(interventionResults.ID.Root, Equals, "50f84c1c7042f987750002d1")
 	c.Assert(interventionResults.Oid, Equals, "2.16.840.1.113883.3.560.1.47")
 	c.Assert(interventionResults.Codes["SNOMED-CT"][0], Equals, "428181000124104")
-	c.Assert(interventionResults.StartTime, Equals, int64(1097940444))
-	c.Assert(interventionResults.EndTime, Equals, int64(1097959712))
+	c.Assert(*interventionResults.StartTime, Equals, int64(1097940444))
+	c.Assert(*interventionResults.EndTime, Equals, int64(1097959712))
 }
 
 func (i *ImporterSuite) TestExtractProcedureOrder(c *C) {
@@ -733,7 +733,7 @@ func (i *ImporterSuite) TestExtractProcedureOrder(c *C) {
 	c.Assert(procedureOrder.Codes["SNOMED-CT"][0], Equals, "313020008")
 	c.Assert(procedureOrder.Codes["ICD-9-CM"][0], Equals, "94.27")
 
-	c.Assert(procedureOrder.Time, Equals, int64(1306230203))
+	c.Assert(*procedureOrder.Time, Equals, int64(1306230203))
 	c.Assert(procedureOrder.StatusCode["HL7 ActStatus"][0], Equals, "ordered")
 }
 
@@ -750,8 +750,8 @@ func (i *ImporterSuite) TestExtractProcedureResults(c *C) {
 	c.Assert(procedureResult.ID.Root, Equals, "51095fc3944dfe9bd7000012")
 	c.Assert(procedureResult.Oid, Equals, "2.16.840.1.113883.3.560.1.63")
 	c.Assert(procedureResult.Codes["SNOMED-CT"][0], Equals, "116783008")
-	c.Assert(procedureResult.StartTime, Equals, int64(1007264866))
-	c.Assert(procedureResult.EndTime, Equals, int64(1007316283))
+	c.Assert(*procedureResult.StartTime, Equals, int64(1007264866))
+	c.Assert(*procedureResult.EndTime, Equals, int64(1007316283))
 }
 
 func (i *ImporterSuite) TestExtractRiskCategoryAssessment(c *C) {
@@ -767,7 +767,7 @@ func (i *ImporterSuite) TestExtractRiskCategoryAssessment(c *C) {
 	c.Assert(riskCategoryAssessment.ID.Root, Equals, "510963e9944dfe9bd7000047")
 	c.Assert(riskCategoryAssessment.Oid, Equals, "2.16.840.1.113883.3.560.1.21")
 	c.Assert(riskCategoryAssessment.Codes["LOINC"][0], Equals, "72136-5")
-	c.Assert(riskCategoryAssessment.StartTime, Equals, int64(744555728))
+	c.Assert(*riskCategoryAssessment.StartTime, Equals, int64(744555728))
 	c.Assert(riskCategoryAssessment.Values[0].Scalar, Equals, "7")
 }
 
@@ -784,8 +784,8 @@ func (i *ImporterSuite) TestExtractDiagnosticStudyNotPerformed(c *C) {
 	c.Assert(diagnosticStudyNotPerformed.ID.Root, Equals, "50f84dbb7042f9366f000143")
 	c.Assert(diagnosticStudyNotPerformed.Oid, Equals, "2.16.840.1.113883.3.560.1.103")
 	c.Assert(diagnosticStudyNotPerformed.Codes["LOINC"][0], Equals, "69399-4")
-	c.Assert(diagnosticStudyNotPerformed.StartTime, Equals, int64(1225314966))
-	c.Assert(diagnosticStudyNotPerformed.EndTime, Equals, int64(1225321540))
+	c.Assert(*diagnosticStudyNotPerformed.StartTime, Equals, int64(1225314966))
+	c.Assert(*diagnosticStudyNotPerformed.EndTime, Equals, int64(1225321540))
 	c.Assert(diagnosticStudyNotPerformed.StatusCode["HL7 ActStatus"][0], Equals, "performed")
 }
 
@@ -802,8 +802,8 @@ func (i *ImporterSuite) TestExtractDiagnosticStudyResult(c *C) {
 	c.Assert(diagnosticStudyResult.ID.Root, Equals, "50f84c1b7042f987750001e7")
 	c.Assert(diagnosticStudyResult.Oid, Equals, "2.16.840.1.113883.3.560.1.11")
 	c.Assert(diagnosticStudyResult.Codes["LOINC"][0], Equals, "71485-7")
-	c.Assert(diagnosticStudyResult.StartTime, Equals, int64(622535563))
-	c.Assert(diagnosticStudyResult.EndTime, Equals, int64(622548751))
+	c.Assert(*diagnosticStudyResult.StartTime, Equals, int64(622535563))
+	c.Assert(*diagnosticStudyResult.EndTime, Equals, int64(622548751))
 	c.Assert(*diagnosticStudyResult.NegationInd, Equals, true)
 	c.Assert(diagnosticStudyResult.NegationReason, Equals, models.CodedConcept{Code: "79899007"})
 }
@@ -820,7 +820,7 @@ func (i *ImporterSuite) TestExtractCareGoal(c *C) {
 	c.Assert(len(i.patient.CareGoals), Equals, 1)
 	c.Assert(careGoal.Codes["SNOMED-CT"][0], Equals, "252465000")
 	c.Assert(careGoal.Oid, Equals, "2.16.840.1.113883.3.560.1.9")
-	c.Assert(careGoal.StartTime, Equals, int64(1293890400))
+	c.Assert(*careGoal.StartTime, Equals, int64(1293890400))
 }
 
 func (i *ImporterSuite) TestExtractClinicalTrialParticipants(c *C) {
@@ -835,7 +835,7 @@ func (i *ImporterSuite) TestExtractClinicalTrialParticipants(c *C) {
 	c.Assert(clincalTrialParticipant.ID.Root, Equals, "22ab92c0-4308-0130-0ade-680688cbd736")
 	c.Assert(clincalTrialParticipant.Oid, Equals, "2.16.840.1.113883.3.560.1.401")
 	c.Assert(clincalTrialParticipant.Codes["SNOMED-CT"][0], Equals, "428024001")
-	c.Assert(clincalTrialParticipant.StartTime, Equals, int64(1262304000))
+	c.Assert(*clincalTrialParticipant.StartTime, Equals, int64(1262304000))
 }
 
 func (i *ImporterSuite) TestExtractPatientCharacteristicExpired(c *C) {
@@ -860,7 +860,7 @@ func (i *ImporterSuite) TestExtractPatientCharacteristicExpired(c *C) {
 	c.Assert(len(i.patient.Conditions), Equals, 1)
 	c.Assert(patientExpired.ID.Root, Equals, "22aeb750-4308-0130-0ade-680688cbd736")
 	c.Assert(patientExpired.Oid, Equals, "2.16.840.1.113883.3.560.1.404")
-	c.Assert(i.patient.DeathDate, Equals, int64(1450141290))
+	c.Assert(*i.patient.DeathDate, Equals, int64(1450141290))
 }
 
 func (i *ImporterSuite) TestExtractRThreeOneDiagnosis(c *C) {
@@ -872,8 +872,8 @@ func (i *ImporterSuite) TestExtractRThreeOneDiagnosis(c *C) {
 	}
 
 	diagnosis := i.patient.Conditions[0]
-	c.Assert(diagnosis.StartTime, Equals, int64(620813702))
-	c.Assert(diagnosis.EndTime, Equals, int64(620883909))
+	c.Assert(*diagnosis.StartTime, Equals, int64(620813702))
+	c.Assert(*diagnosis.EndTime, Equals, int64(620883909))
 	c.Assert(diagnosis.Severity.Code, Equals, "55561003")
 	c.Assert(diagnosis.Severity.CodeSystem, Equals, "SNOMED-CT")
 	c.Assert(diagnosis.Codes["ICD-9-CM"][0], Equals, "999.34")
@@ -888,7 +888,7 @@ func (i *ImporterSuite) TestExtractImmunizationAdministered(c *C) {
 	}
 
 	immunAdmin := i.patient.Medications[0]
-	c.Assert(immunAdmin.StartTime, Equals, int64(610736807))
-	c.Assert(immunAdmin.EndTime, Equals, int64(610738644))
+	c.Assert(*immunAdmin.StartTime, Equals, int64(610736807))
+	c.Assert(*immunAdmin.EndTime, Equals, int64(610738644))
 	c.Assert(immunAdmin.Codes["CVX"][0], Equals, "33")
 }

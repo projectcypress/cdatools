@@ -46,6 +46,7 @@ func exporterFuncMap(cat1Template *template.Template, vsMap models.ValueSetMap) 
 		"hasPreferredCode":             hasPreferredCode,
 		"codeDisplayWithPreferredCode": codeDisplayWithPreferredCode,
 		"negationIndicator":            negationIndicator,
+		"isNil":                        isNil,
 	}
 }
 
@@ -78,11 +79,14 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 		asset, _ := Asset("templates/cat1/" + qrdaVersion + "/" + d)
 		template.Must(cat1Template.New(d).Parse(string(asset)))
 	}
-
+	var atime1 = new(int64)
+	var atime2 = new(int64)
+	*atime1 = 1449686219
+	*atime2 = 1449686219
 	h := &models.Header{
 		Authors: []models.Author{
 			models.Author{
-				Time: 1449686219,
+				Time: atime1,
 				Entity: models.Entity{
 					Ids: []models.CDAIdentifier{
 						models.CDAIdentifier{
@@ -202,7 +206,7 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 						},
 					},
 				},
-				Time: 1449686219,
+				Time: atime2,
 				Person: models.Person{
 					First: "Legal",
 					Last:  "Authenticator",

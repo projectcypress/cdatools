@@ -21,8 +21,8 @@ func TestValueOrNullFlavor(t *testing.T) {
 	val := int64(0)
 	assert.Equal(t, valueOrNullFlavor(nil), "nullFlavor='UNK'")
 	assert.Equal(t, valueOrNullFlavor(0), "value='197001010000+0000'")
-	assert.Equal(t, valueOrNullFlavor(val, "value='197001010000+0000'")
-	assert.Equal(t, valueOrNullFlavor(&val, "value='197001010000+0000'")
+	assert.Equal(t, valueOrNullFlavor(val), "value='197001010000+0000'")
+	assert.Equal(t, valueOrNullFlavor(&val), "value='197001010000+0000'")
 	assert.Equal(t, valueOrNullFlavor("0"), "value='197001010000+0000'")
 }
 
@@ -99,11 +99,11 @@ func TestCondAssign(t *testing.T) {
 	var first, second int64
 	second = 5
 	assert.Equal(t, second, condAssign(first, second))
-	assert.Equal(t, first, condAssign(&first, second))
+	assert.Equal(t, &first, condAssign(&first, second))
 	first = 3
 	assert.Equal(t, first, condAssign(first, second))
 	assert.Equal(t, second, condAssign(second, first))
-	assert.Equal(t, first, condAssign(&first, second))
+	assert.Equal(t, &first, condAssign(&first, second))
 }
 
 func TestCodeToDisplay(t *testing.T) {

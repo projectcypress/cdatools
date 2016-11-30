@@ -559,15 +559,16 @@ func FirstElementContent(xpath *xpath.Expression, xmlNode xml.Node) string {
 	return ""
 }
 
-func GetTimestamp(xpath *xpath.Expression, xmlNode xml.Node) int64 {
+func GetTimestamp(xpath *xpath.Expression, xmlNode xml.Node) *int64 {
 	attrValue := FirstElementContent(xpath, xmlNode)
 	if attrValue != "" {
 		return TimestampToSeconds(attrValue)
 	}
-	return 0
+	return nil
 }
 
-func TimestampToSeconds(timestamp string) int64 {
+func TimestampToSeconds(timestamp string) *int64 {
+	var desiredDateUnix = new(int64)
 	year, _ := strconv.ParseInt(timestamp[0:4], 10, 32)
 	month, _ := strconv.ParseInt(timestamp[4:6], 10, 32)
 	day, _ := strconv.ParseInt(timestamp[6:8], 10, 32)
@@ -575,7 +576,8 @@ func TimestampToSeconds(timestamp string) int64 {
 	minute, _ := strconv.ParseInt(timestamp[10:12], 10, 32)
 	second, _ := strconv.ParseInt(timestamp[12:14], 10, 32)
 	desiredDate := time.Date(int(year), time.Month(month), int(day), int(hour), int(minute), int(second), 0, time.UTC)
-	return desiredDate.Unix()
+	*desiredDateUnix = desiredDate.Unix()
+	return desiredDateUnix
 }
 
 // private

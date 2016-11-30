@@ -86,12 +86,14 @@ func xmlReasonRootNode(reason models.CodedConcept, negateReason bool, r2Compatab
 
 func getReasonData(reason models.CodedConcept, negateReason bool, r2CompatableQrdaOid bool) *models.EntryInfo {
 	encounter := models.Encounter{}
+	var stime = new(int64)
+	*stime = 0
 	if negateReason {
 		encounter.Entry = models.Entry{NegationReason: reason}
 	} else {
 		encounter.Entry = models.Entry{Reason: reason}
 	}
-	encounter.StartTime = int64(0)
+	encounter.StartTime = stime
 	if r2CompatableQrdaOid {
 		encounter.Entry.Oid = "2.16.840.1.113883.3.560.1.79" // a valid hqmf oid (Encounter Performed)
 	} else {
@@ -180,25 +182,21 @@ func TestEncounterPerformedTemplate(t *testing.T) {
 	ei := getDataForQrdaOid(qrdaOid)
 	entrySection := ei.EntrySection.(*models.Encounter)
 	entrySection.AdmitTime = new(int64)
-	*(entrySection.AdmitTime) = 1262462640 // is time 2010 01 02 1504 in EST
-	entrySection.StartTime = new(int64)
-	*(entrySection.StartTime) = 0
+	*entrySection.AdmitTime = 1262462640 // is time 2010 01 02 1504 in EST
+	entrySection.StartTime = nil
 	entrySection.DischargeTime = new(int64)
-	*(entrySection.DischargeTime) = 1293998640 // is time 2011 01 02 1504 in EST
-	entrySection.EndTime = new(int64)
-	*(entrySection.EndTime) = 0
+	*entrySection.DischargeTime = 1293998640 // is time 2011 01 02 1504 in EST
+	entrySection.EndTime = nil
 	ei.EntrySection = entrySection
 	rootNode = xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
 	assertXPath(t, rootNode, "//entry/encounter/effectiveTime/low", map[string]string{"value": "201001022004+0000"}, nil)
 	assertXPath(t, rootNode, "//entry/encounter/effectiveTime/high", map[string]string{"value": "201101022004+0000"}, nil)
-	entrySection.AdmitTime = new(int64)
-	*(entrySection.AdmitTime) = 0
+	entrySection.AdmitTime = nil
 	entrySection.StartTime = new(int64)
-	*(entrySection.StartTime) = 1293998640 // is time 2011 01 02 1504 in EST
-	entrySection.DischargeTime = new(int64)
-	*(entrySection.DischargeTime) = 0
+	*entrySection.StartTime = 1293998640 // is time 2011 01 02 1504 in EST
+	entrySection.DischargeTime = nil
 	entrySection.EndTime = new(int64)
-	*(entrySection.EndTime) = 1262462640 // is time 2010 01 02 1504 in EST
+	*entrySection.EndTime = 1262462640 // is time 2010 01 02 1504 in EST
 	ei.EntrySection = entrySection
 	rootNode = xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
 	assertXPath(t, rootNode, "//entry/encounter/effectiveTime/low", map[string]string{"value": "201101022004+0000"}, nil)

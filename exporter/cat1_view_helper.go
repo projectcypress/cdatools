@@ -25,10 +25,14 @@ func escape(i interface{}) string {
 		return escapeString(strconv.FormatInt(str, 10))
 	case int:
 		return escapeString(strconv.Itoa(str))
-	case *int64 && str != nil:
-		return escapeString(strconv.FormatInt(*str, 10))
-	case *int && str != nil:
-		return escapeString(strconv.Itoa(*str))
+	case *int64:
+		if str != nil {
+			return escapeString(strconv.FormatInt(*str, 10))
+		}
+	case *int:
+		if str != nil {
+			return escapeString(strconv.Itoa(*str))
+		}
 	}
 	return ""
 }
@@ -59,8 +63,10 @@ func identifierForInterface(objs ...interface{}) string {
 		switch otyped := obj.(type) {
 		case int64:
 			b = append(b, []byte(strconv.FormatInt(otyped, 10))...)
-		case *int64 && otyped != nil:
-			b = append(b, []byte(strconv.FormatInt(*otyped, 10))...)
+		case *int64:
+			if otyped != nil {
+				b = append(b, []byte(strconv.FormatInt(*otyped, 10))...)
+			}
 		case string:
 			b = append(b, []byte(otyped)...)
 		}
@@ -137,12 +143,20 @@ func valueOrNullFlavor(i interface{}) string {
 	case int:
 		var t = time.Unix(int64(str), 0)
 		s = fmt.Sprintf("value='%s'", t.In(utc).Format("200601021504-0700"))
-	case *int64 && str != nil:
-		var t = time.Unix(*str, 0)
-		s = fmt.Sprintf("value='%s'", t.In(utc).Format("200601021504-0700"))
-	case *int && str != nil:
-		var t = time.Unix(int64(*str), 0)
-		s = fmt.Sprintf("value='%s'", t.In(utc).Format("200601021504-0700"))
+	case *int64:
+		if str != nil {
+			var t = time.Unix(*str, 0)
+			s = fmt.Sprintf("value='%s'", t.In(utc).Format("200601021504-0700"))
+		} else {
+			s = "nullFlavor='UNK'"
+		}
+	case *int:
+		if str != nil {
+			var t = time.Unix(int64(*str), 0)
+			s = fmt.Sprintf("value='%s'", t.In(utc).Format("200601021504-0700"))
+		} else {
+			s = "nullFlavor='UNK'"
+		}
 	default:
 		s = "nullFlavor='UNK'"
 	}
@@ -163,24 +177,32 @@ func valueOrDefault(val interface{}, def interface{}) interface{} {
 	return def
 }
 
-
 // conditional assignment. returns the second value only if the first value is empty, zero, or nil
 func condAssign(first interface{}, second interface{}) interface{} {
-	switch val := first.(type) {
-		case string && val != "":
-			return first
-		case int64 && val != 0:
-			return first
-		case int && val != 0:
-			return first
-		case *int64 && val != nil:
-			return first
-		case *int && val != nil:
-			return first
-		default:
-			return second
+	result := second
+	switch first := first.(type) {
+	case string:
+		if first != "" {
+			result = first
+		}
+	case int64:
+		if first != 0 {
+			result = first
+		}
+	case int:
+		if first != 0 {
+			result = first
+		}
+	case *int64:
+		if first != nil {
+			result = first
+		}
+	case *int:
+		if first != nil {
+			result = first
+		}
 	}
-	return second
+	return result
 }
 
 func codeToDisplay(entrySection models.HasEntry, codeType string) (models.CodeDisplay, error) {
@@ -233,4 +255,8 @@ func hasPreferredCode(pc models.Concept) bool {
 
 func codeDisplayAttributeIsCodes(attribute string) bool {
 	return attribute == "codes"
+}
+
+func isNil(i interface{}) bool {
+	return i == nil
 }

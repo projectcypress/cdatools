@@ -76,8 +76,6 @@ func (e *Entry) NegationReasonOrReason() CodedConcept {
 	return e.Reason
 }
 
-// In current implementation, this may give unexpected value if Time or StartTime
-// are set to zero, and not just as a default
 func (e *Entry) AsPointInTime() *int64 {
 	if e.Time != nil {
 		return e.Time
@@ -95,7 +93,3 @@ func (e *Entry) IsValuesEmpty() bool {
 func (e *Entry) HasReason() bool {
 	return e.NegationReason != (CodedConcept{}) || e.Reason != (CodedConcept{})
 }
-
-
-
-

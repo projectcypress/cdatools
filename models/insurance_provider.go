@@ -27,9 +27,9 @@ func (ip *InsuranceProvider) GetEntry() *Entry {
 
 // ShiftDates adds dateDiff to start/end times/other times for Insurance Providers
 func (p *InsuranceProvider) ShiftDates(dateDiff int64) {
-	*(p.StartTime) = shiftDate(p.StartTime, dateDiff)
-	*(p.EndTime) = shiftDate(p.EndTime, dateDiff)
-	*(p.Time) = shiftDate(p.Time, dateDiff)
+	*p.StartTime = shiftDate(p.StartTime, dateDiff)
+	*p.EndTime = shiftDate(p.EndTime, dateDiff)
+	*p.Time = shiftDate(p.Time, dateDiff)
 	for _, g := range p.Guarantors {
 		g.ShiftDates(dateDiff)
 	}
@@ -37,8 +37,8 @@ func (p *InsuranceProvider) ShiftDates(dateDiff int64) {
 
 // ShiftDates adds dateDiff to start/end times for Guarantors
 func (g *Guarantor) ShiftDates(dateDiff int64) {
-	*(g.StartTime) = shiftDate(g.StartTime, dateDiff)
-	*(g.EndTime) = shiftDate(g.EndTime, dateDiff)
+	*g.StartTime = shiftDate(g.StartTime, dateDiff)
+	*g.EndTime = shiftDate(g.EndTime, dateDiff)
 }
 
 func shiftDate(date *int64, dateDiff int64) int64 {

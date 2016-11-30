@@ -8,7 +8,7 @@
     <effectiveTime>
       <!-- Attribute: Start Datetime -->
       <low {{valueOrNullFlavor .EntrySection.StartTime}}/>
-      {{if ne .EntrySection.EndTime 0}}
+      {{if not (isNil .EntrySection.EndTime)}}
         <high {{valueOrNullFlavor .EntrySection.EndTime}} />
       {{end}}
     </effectiveTime>

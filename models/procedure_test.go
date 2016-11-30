@@ -1,10 +1,11 @@
 package models
 
 import (
-	. "gopkg.in/check.v1"
-	"gopkg.in/mgo.v2/bson"
 	"log"
 	"testing"
+
+	. "gopkg.in/check.v1"
+	"gopkg.in/mgo.v2/bson"
 )
 
 type ProcedureSuite struct {
@@ -54,11 +55,13 @@ func (p *ProcedureSuite) TestUnmarshalOrdinality(c *C) {
 	}
 
 	// expect procedure to have Codes nested under Ordinality after SetBSON
+	var itime = new(int64)
+	*itime = 5
 	expectedProcedure := Procedure{
 		Ordinality: Coded{
 			Codes: map[string][]string{"SNOMED-CT": []string{"63161005"}},
 		},
-		IncisionTime: int64(5),
+		IncisionTime: itime,
 	}
 
 	var procedure Procedure
