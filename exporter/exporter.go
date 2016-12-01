@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"sync"
 	"text/template"
 	"time"
 
@@ -12,11 +11,8 @@ import (
 	"github.com/projectcypress/cdatools/models"
 )
 
-var vsMapInit sync.Once
-var vsMap map[string][]models.CodeSet
-
 type cat1data struct {
-	EntryInfos []entryInfo
+	EntryInfos []models.EntryInfo
 	Record     models.Record
 	Header     models.Header
 	Measures   []models.Measure
@@ -25,119 +21,26 @@ type cat1data struct {
 	EndDate    int64
 }
 
-func allDataCriteria(measures []models.Measure) []models.DataCriteria {
-	var dc []models.DataCriteria
-	for _, measure := range measures {
-		for _, crit := range measure.HQMFDocument.DataCriteria {
-			dc = append(dc, crit)
-		}
-	}
-	return dc
-}
-
-type dcKey struct {
-	DataCriteriaOid string
-	ValueSetOid     string
-}
-
-type mdc struct {
-	FieldOids    map[string][]string
-	ResultOids   []string
-	DataCriteria models.DataCriteria
-	dcKey
-}
-
-// passed into each qrda oid (entry) template
-// EntrySection should be a struct that includes entry attributes (ex. Procedure, Medication, ...)
-type entryInfo struct {
-	EntrySection    models.HasEntry
-	MapDataCriteria mdc
-}
-
-func uniqueDataCriteria(allDataCriteria []models.DataCriteria) []mdc {
-	mappedDataCriteria := map[dcKey]mdc{}
-	for _, dataCriteria := range allDataCriteria {
-		// Based on the data criteria, get the HQMF oid associated with it]
-		oid := dataCriteria.HQMFOid
-		if oid == "" {
-			oid = GetID(dataCriteria, false)
-			if oid == "" {
-				oid = GetID(dataCriteria, true)
-			}
-			if oid != "" {
-				dataCriteria.HQMFOid = oid
-			}
-		}
-		vsOid := dataCriteria.CodeListID
-
-		// Special cases for the valueSet OID, taken from Health Data Standards
-		if oid == "2.16.840.1.113883.3.560.1.71" {
-			vsOid = dataCriteria.FieldValues["TRANSFER_FROM"].CodeListID
-		} else if oid == "2.16.840.1.113883.3.560.1.72" {
-			vsOid = dataCriteria.FieldValues["TRANSFER_TO"].CodeListID
-		}
-
-		// Generate the key for the mappedDataCriteria
-		dc := dcKey{DataCriteriaOid: oid, ValueSetOid: vsOid}
-
-		var mappedDc = mappedDataCriteria[dc]
-		if mappedDc.FieldOids == nil {
-			mappedDc = mdc{DataCriteria: dataCriteria, FieldOids: make(map[string][]string)}
-		}
-
-		// Add all the codedValues onto the list of field OIDs
-		for field, descr := range dataCriteria.FieldValues {
-			if descr.Type == "CD" {
-				mappedDc.FieldOids[field] = append(mappedDc.FieldOids[field], descr.CodeListID)
-			}
-		}
-
-		// If the data criteria has a negation, add the reason onto the returned FieldOids
-		if dataCriteria.Negation {
-			mappedDc.FieldOids["REASON"] = append(mappedDc.FieldOids["REASON"], dataCriteria.NegationCodeListID)
-		}
-
-		// If the data criteria has a value, and it's a "coded" type, added the CodeListId into the result OID set
-		if dataCriteria.Value.Type == "CD" {
-			mappedDc.ResultOids = append(mappedDc.ResultOids, dataCriteria.CodeListID)
-		}
-
-		if dc.DataCriteriaOid != "" {
-			mappedDataCriteria[dc] = mappedDc
-		}
-	}
-
-	// Add the key to the value to get what HDS would have returned
-	var retDataCriteria []mdc
-	for key, value := range mappedDataCriteria {
-		value.DataCriteriaOid = key.DataCriteriaOid
-		value.ValueSetOid = key.ValueSetOid
-		retDataCriteria = append(retDataCriteria, value)
-	}
-	return retDataCriteria
-}
-
-func exporterFuncMap(cat1Template *template.Template) template.FuncMap {
+func exporterFuncMap(cat1Template *template.Template, vsMap models.ValueSetMap) template.FuncMap {
 	return template.FuncMap{
-		"timeNow":                      time.Now().UTC().Unix,
-		"newRandom":                    uuid.NewRandom,
-		"timeToFormat":                 timeToFormat,
-		"identifierForInt":             identifierForInt,
-		"identifierForString":          identifierForString,
-		"escape":                       escape,
-		"entryInfosForPatient":         entryInfosForPatient,
-		"executeTemplateForEntry":      generateExecuteTemplateForEntry(cat1Template),
-		"condAssign":                   condAssign,
-		"valueOrNullFlavor":            valueOrNullFlavor,
-		"dischargeDispositionDisplay":  dischargeDispositionDisplay,
-		"sdtcValueSetAttribute":        sdtcValueSetAttribute,
-		"getTransferOid":               getTransferOid,
-		"identifierForInterface":       identifierForInterface,
-		"codeToDisplay":                codeToDisplay,
-		"valueOrDefault":               valueOrDefault,
-		"reasonValueSetOid":            reasonValueSetOid,
-		"oidForCodeSystem":             oidForCodeSystem,
-		"oidForCode":                   oidForCode,
+		"timeNow":             time.Now().UTC().Unix,
+		"newRandom":           uuid.NewRandom,
+		"timeToFormat":        timeToFormat,
+		"identifierForInt":    identifierForInt,
+		"identifierForString": identifierForString,
+		"escape":              escape,
+		"executeTemplateForEntry":     generateExecuteTemplateForEntry(cat1Template),
+		"condAssign":                  condAssign,
+		"valueOrNullFlavor":           valueOrNullFlavor,
+		"dischargeDispositionDisplay": dischargeDispositionDisplay,
+		"sdtcValueSetAttribute":       sdtcValueSetAttribute,
+		"getTransferOid":              getTransferOid,
+		"identifierForInterface":      identifierForInterface,
+		"codeToDisplay":               codeToDisplay,
+		"valueOrDefault":              valueOrDefault,
+		"reasonValueSetOid":           vsMap.ReasonValueSetOid,
+		"oidForCodeSystem":            oidForCodeSystem,
+		"oidForCode":                   vsMap.OidForCode,
 		"codeDisplayAttributeIsCodes":  codeDisplayAttributeIsCodes,
 		"hasPreferredCode":             hasPreferredCode,
 		"codeDisplayWithPreferredCode": codeDisplayWithPreferredCode,
@@ -147,6 +50,16 @@ func exporterFuncMap(cat1Template *template.Template) template.FuncMap {
 
 //export GenerateCat1
 func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate int64, endDate int64, qrdaVersion string) string {
+
+	p := &models.Record{}
+	m := []models.Measure{}
+	vs := []models.ValueSet{}
+
+	json.Unmarshal(patient, p)
+	json.Unmarshal(measures, &m)
+	json.Unmarshal(valueSets, &vs)
+
+	vsMap := models.NewValueSetMap(vs)
 
 	if qrdaVersion == "" {
 		qrdaVersion = "r3"
@@ -158,16 +71,13 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 	}
 
 	cat1Template := template.New("cat1")
-	cat1Template.Funcs(exporterFuncMap(cat1Template))
+	cat1Template.Funcs(exporterFuncMap(cat1Template, vsMap))
 
 	for _, d := range data {
 		asset, _ := Asset("templates/cat1/" + qrdaVersion + "/" + d)
 		template.Must(cat1Template.New(d).Parse(string(asset)))
 	}
 
-	p := &models.Record{}
-	m := []models.Measure{}
-	vs := []models.ValueSet{}
 	h := &models.Header{
 		Authors: []models.Author{
 			models.Author{
@@ -312,13 +222,7 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 		},
 	}
 
-	json.Unmarshal(patient, p)
-	json.Unmarshal(measures, &m)
-	json.Unmarshal(valueSets, &vs)
-
-	initializeVsMap(vs)
-
-	c1d := cat1data{Record: *p, Header: *h, Measures: m, ValueSets: vs, StartDate: startDate, EndDate: endDate, EntryInfos: entryInfosForPatient(*p, m, vsMap)}
+	c1d := cat1data{Record: *p, Header: *h, Measures: m, ValueSets: vs, StartDate: startDate, EndDate: endDate, EntryInfos: p.EntryInfosForPatient(m, vsMap)}
 
 	var b bytes.Buffer
 
@@ -329,14 +233,4 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 	}
 
 	return b.String()
-}
-
-func initializeVsMap(vs []models.ValueSet) map[string][]models.CodeSet {
-	vsMapInit.Do(func() {
-		vsMap = map[string][]models.CodeSet{}
-		for _, valueSet := range vs {
-			vsMap[valueSet.Oid] = valueSet.CodeSetMap()
-		}
-	})
-	return vsMap
 }

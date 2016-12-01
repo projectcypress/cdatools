@@ -7,31 +7,30 @@ import (
 type Record struct {
 	Person
 	RecordGroup
-	MedicalRecordNumber   string                `json:"medical_record_number,omitempty"`
-	MedicalRecordAssigner string                `json:"medical_record_assigner,omitempty"`
-	BirthDate             int64                 `json:"birthdate,omitempty"`
-	DeathDate             int64                 `json:"deathdate,omitempty"`
-	Expired               bool                  `json:"expired,omitempty"`
+	MedicalRecordNumber   string `json:"medical_record_number,omitempty"`
+	MedicalRecordAssigner string `json:"medical_record_assigner,omitempty"`
+	BirthDate             int64  `json:"birthdate,omitempty"`
+	DeathDate             int64  `json:"deathdate,omitempty"`
+	Expired               bool   `json:"expired,omitempty"`
 	// Private values to handle querying of Entries
-	
+
 }
 
-
 type RecordGroup struct {
-	Encounters            EncounterGroup           `json:"encounters,omitempty"`
-	LabResults            LabResultsGroup           `json:"results,omitempty"`
-	ProviderPerformances  ProviderPerformanceGroup `json:"provider_performances,omitempty"`
-	InsuranceProviders    InsuranceProviderGroup   `json:"insurance_providers,omitempty"`
-	Procedures            ProcedureGroup           `json:"procedures,omitempty"`
-	Medications           MedicationGroup          `json:"medications, omitempty"`
-	Allergies             AllergyGroup             `json:"allergies,omitempty"`
-	Conditions            ConditionGroup           `json:"conditions,omitempty"`
-	
+	Encounters           EncounterGroup           `json:"encounters,omitempty"`
+	LabResults           LabResultsGroup          `json:"results,omitempty"`
+	ProviderPerformances ProviderPerformanceGroup `json:"provider_performances,omitempty"`
+	InsuranceProviders   InsuranceProviderGroup   `json:"insurance_providers,omitempty"`
+	Procedures           ProcedureGroup           `json:"procedures,omitempty"`
+	Medications          MedicationGroup          `json:"medications, omitempty"`
+	Allergies            AllergyGroup             `json:"allergies,omitempty"`
+	Conditions           ConditionGroup           `json:"conditions,omitempty"`
+
 	// These weren't in the Entries() method.
-	Languages             LanguagesGroup            `json:"languages,omitempty"`
-	Communications        CommunicationGroup       `json:"communications,omitempty"`
-	MedicalEquipment      MedicalEquipmentGroup    `json:"medical_equipment,omitempty"`
-	CareGoals             EntryGroup               `json:"care_goals,omitempty"`
+	Languages        LanguagesGroup        `json:"languages,omitempty"`
+	Communications   CommunicationGroup    `json:"communications,omitempty"`
+	MedicalEquipment MedicalEquipmentGroup `json:"medical_equipment,omitempty"`
+	CareGoals        EntryGroup            `json:"care_goals,omitempty"`
 }
 
 type Language struct {
@@ -51,7 +50,6 @@ type ConditionGroup []Condition
 type CommunicationGroup []Communication
 type MedicalEquipmentGroup []MedicalEquipment
 
-
 type EntryService interface {
 	EntriesForDataCriteria(DataCriteria) EntryGroup
 	EntriesForOid(oid string) EntryGroup
@@ -62,35 +60,35 @@ func (r *Record) Entries() []HasEntry {
 	var entries []HasEntry
 
 	// This whole "for loop for each of these things" is unavoidable, because elements must be copied individually to a []HasEntry
-	for i, _ := range r.Encounters {
+	for i := range r.Encounters {
 		entries = append(entries, &r.Encounters[i])
 	}
 
-	for i, _ := range r.LabResults {
+	for i := range r.LabResults {
 		entries = append(entries, &r.LabResults[i])
 	}
 
-	for i, _ := range r.InsuranceProviders {
+	for i := range r.InsuranceProviders {
 		entries = append(entries, &r.InsuranceProviders[i])
 	}
 
-	for i, _ := range r.ProviderPerformances {
+	for i := range r.ProviderPerformances {
 		entries = append(entries, &r.ProviderPerformances[i])
 	}
 
-	for i, _ := range r.Procedures {
+	for i := range r.Procedures {
 		entries = append(entries, &r.Procedures[i])
 	}
 
-	for i, _ := range r.Medications {
+	for i := range r.Medications {
 		entries = append(entries, &r.Medications[i])
 	}
 
-	for i, _ := range r.Allergies {
+	for i := range r.Allergies {
 		entries = append(entries, &r.Allergies[i])
 	}
 
-	for i, _ := range r.Conditions {
+	for i := range r.Conditions {
 		entries = append(entries, &r.Conditions[i])
 	}
 
@@ -141,12 +139,10 @@ func (r *Record) GetEntriesForOids(dataCriteria DataCriteria, codes []CodeSet, o
 	return entries
 }
 
-
-
 func (r *Record) EntriesForDataCriteria(dataCriteria DataCriteria, vsMap map[string][]CodeSet) []HasEntry {
 	dataCriteriaOid := dataCriteria.HQMFOid
 	var entries []HasEntry
-	
+
 	switch dataCriteriaOid {
 	case "2.16.840.1.113883.3.560.1.404":
 		entries = r.handlePatientExpired()
@@ -155,7 +151,7 @@ func (r *Record) EntriesForDataCriteria(dataCriteria DataCriteria, vsMap map[str
 	default:
 		var codes []CodeSet
 		codes = vsMap[dataCriteria.CodeListID]
-		
+
 		switch dataCriteriaOid {
 		case "2.16.840.1.113883.3.560.1.5", "2.16.840.1.113883.3.560.1.12":
 			// If Lab Test: Performed, look for Lab Test: Result too
@@ -175,20 +171,20 @@ func (r *Record) EntriesForDataCriteria(dataCriteria DataCriteria, vsMap map[str
 		default:
 			entries = r.GetEntriesForOids(dataCriteria, codes, dataCriteriaOid)
 		}
-		
-// Gonna have to do for now. First time I've ever made Go panic and I have no clue how it happened.
-		// Get a slice containing only unique entries
-//		ids := make(map[string]struct{})
-//		uniqueEntries := make([]HasEntry, len(entries))
-//		for _, entry := range entries {
-//			if _, ok := ids[entry.GetEntry().BSONID]; ok {
-//				continue
-//			}
-//			uniqueEntries = append(uniqueEntries, entry)
-//			ids[entry.GetEntry().BSONID] = *new(struct{})
-//		}
 
-		}
+		// Gonna have to do for now. First time I've ever made Go panic and I have no clue how it happened.
+		// Get a slice containing only unique entries
+		//		ids := make(map[string]struct{})
+		//		uniqueEntries := make([]HasEntry, len(entries))
+		//		for _, entry := range entries {
+		//			if _, ok := ids[entry.GetEntry().BSONID]; ok {
+		//				continue
+		//			}
+		//			uniqueEntries = append(uniqueEntries, entry)
+		//			ids[entry.GetEntry().BSONID] = *new(struct{})
+		//		}
+
+	}
 
 	return entries
 }
@@ -201,6 +197,91 @@ func (r *Record) handlePatientExpired() []HasEntry {
 	return nil
 }
 
+// create entryInfos for each entry. entryInfos have mapped data criteria (mdc) recieved from the uniqueDataCriteria() function
+// also adds code displays struct to each entry
+func (r *Record) EntryInfosForPatient(measures []Measure, vsMap map[string][]CodeSet) []EntryInfo {
+	mappedDataCriterias := UniqueDataCriteria(allDataCriteria(measures))
+	var entryInfos []EntryInfo
+	for _, mappedDataCriteria := range mappedDataCriterias {
+		var entrySections []HasEntry = r.EntriesForDataCriteria(mappedDataCriteria.DataCriteria, vsMap)
+		// add code displays struct to each entry
+		for i, entrySection := range entrySections {
+			if entrySection != nil {
+				entry := entrySections[i].GetEntry()
+				hds.SetCodeDisplaysForEntry(entry, mappedDataCriteria)
+			}
+		}
+		entryInfos = AppendEntryInfos(entryInfos, entrySections, mappedDataCriteria)
+	}
+	return entryInfos
+}
+
+// ResolveReference takes a Reference object, and finds the Entry that it refers to
+func (r *Record) ResolveReference(ref Reference) HasEntry {
+	switch ref.ReferencedType {
+	case "Conditions":
+		for _, entry := range r.Conditions {
+			if entry.GetEntry().ID.Extension == ref.ReferencedID {
+				return &entry
+			}
+		}
+	case "Allergies":
+		for _, entry := range r.Allergies {
+			if entry.GetEntry().ID.Extension == ref.ReferencedID {
+				return &entry
+			}
+		}
+	case "Medications":
+		for _, entry := range r.Medications {
+			if entry.GetEntry().ID.Extension == ref.ReferencedID {
+				return &entry
+			}
+		}
+	case "Procedures":
+		for _, entry := range r.Procedures {
+			if entry.GetEntry().ID.Extension == ref.ReferencedID {
+				return &entry
+			}
+		}
+	case "ProviderPerformances":
+		for _, entry := range r.ProviderPerformances {
+			if entry.GetEntry().ID.Extension == ref.ReferencedID {
+				return &entry
+			}
+		}
+	case "InsuranceProviders":
+		for _, entry := range r.InsuranceProviders {
+			if entry.GetEntry().ID.Extension == ref.ReferencedID {
+				return &entry
+			}
+		}
+	case "LabResults":
+		for _, entry := range r.LabResults {
+			if entry.GetEntry().ID.Extension == ref.ReferencedID {
+				return &entry
+			}
+		}
+	case "Encounters":
+		for _, entry := range r.Encounters {
+			if entry.GetEntry().ID.Extension == ref.ReferencedID {
+				return &entry
+			}
+		}
+	}
+	return nil
+}
+
+// TODO: This probably needs to be on MeasureGroup.
+func allDataCriteria(measures []Measure) []DataCriteria {
+	var dc []DataCriteria
+	for _, measure := range measures {
+		for _, crit := range measure.HQMFDocument.DataCriteria {
+			dc = append(dc, crit)
+		}
+	}
+	return dc
+}
+
 // TODO: most likely belongs on a `type InsuranceProvidersGroup []InsuranceProviders`
 func (r *Record) handlePayerInformation() []HasEntry {
 	providers := make([]HasEntry, len(r.InsuranceProviders))
@@ -210,8 +291,7 @@ func (r *Record) handlePayerInformation() []HasEntry {
 	return providers
 }
 
-
-// TODO: this belongs on CodeSet. 
+// TODO: this belongs on CodeSet.
 func reasonInCodes(code CodeSet, reason CodedConcept) bool {
 	for _, value := range code.Values {
 		if reason.Code == value.Code && reason.CodeSystem == value.CodeSystem {
@@ -219,59 +299,4 @@ func reasonInCodes(code CodeSet, reason CodedConcept) bool {
 		}
 	}
 	return false
-}
-
-// ResolveReference takes a Reference object, and finds the Entry that it refers to
-func (r *Record) ResolveReference(ref Reference) HasEntry {
-	switch ref.ReferencedType {
-		case "Conditions":
-			for _, entry := range r.Conditions {
-				if entry.GetEntry().ID.Extension == ref.ReferencedID {
-					return &entry
-				}
-			}
-		case "Allergies":
-			for _, entry := range r.Allergies {
-				if entry.GetEntry().ID.Extension == ref.ReferencedID {
-					return &entry
-				}
-			}
-		case "Medications":
-			for _, entry := range r.Medications {
-				if entry.GetEntry().ID.Extension == ref.ReferencedID {
-					return &entry
-				}
-			}
-		case "Procedures":
-			for _, entry := range r.Procedures {
-				if entry.GetEntry().ID.Extension == ref.ReferencedID {
-					return &entry
-				}
-			}
-		case "ProviderPerformances":
-			for _, entry := range r.ProviderPerformances {
-				if entry.GetEntry().ID.Extension == ref.ReferencedID {
-					return &entry
-				}
-			}
-		case "InsuranceProviders":
-			for _, entry := range r.InsuranceProviders {
-				if entry.GetEntry().ID.Extension == ref.ReferencedID {
-					return &entry
-				}
-			}
-		case "LabResults":
-			for _, entry := range r.LabResults {
-				if entry.GetEntry().ID.Extension == ref.ReferencedID {
-					return &entry
-				}
-			}
-		case "Encounters":
-			for _, entry := range r.Encounters {
-				if entry.GetEntry().ID.Extension == ref.ReferencedID {
-					return &entry
-				}
-			}
-	}
-	return nil
 }

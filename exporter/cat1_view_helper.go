@@ -6,6 +6,7 @@ import (
 	"encoding/hex"
 	"encoding/xml"
 	"fmt"
+	"log"
 	"strconv"
 	"strings"
 	"text/template"
@@ -76,66 +77,19 @@ func identifierForString(objs ...string) string {
 	return identifierFor([]byte(b))
 }
 
-// create entryInfos for each entry. entryInfos have mapped data criteria (mdc) recieved from the uniqueDataCriteria() function
-// also adds code displays struct to each entry
-func entryInfosForPatient(patient models.Record, measures []models.Measure, vsMap map[string][]models.CodeSet) []entryInfo {
-	mappedDataCriterias := uniqueDataCriteria(allDataCriteria(measures))
-	var entryInfos []entryInfo
-	for _, mappedDataCriteria := range mappedDataCriterias {
-		var entrySections []models.HasEntry = patient.EntriesForDataCriteria(mappedDataCriteria.DataCriteria, vsMap)
-		// add code displays struct to each entry
-		for i, entrySection := range entrySections {
-			if entrySection != nil {
-				entry := entrySections[i].GetEntry()
-				SetCodeDisplaysForEntry(entry, mappedDataCriteria)
-			}
-		}
-		entryInfos = appendEntryInfos(entryInfos, entrySections, mappedDataCriteria)
-	}
-	return entryInfos
-}
-
-func SetCodeDisplaysForEntry(e *models.Entry, mapDataCriteria mdc) {
-	codeDisplays := codeDisplayForQrdaOid(HqmfToQrdaOid(e.Oid, mapDataCriteria.dcKey.ValueSetOid))
-	allPerferredCodeSetsIfNeeded(codeDisplays)
-	for i, _ := range codeDisplays {
-		codeDisplays[i].Description = e.Description
-	}
-	e.CodeDisplays = codeDisplays
-}
-
-// adds all code system names to preferred code sets if "*" is present in the existant preferred code sets
-func allPerferredCodeSetsIfNeeded(cds []models.CodeDisplay) {
-	for i, _ := range cds {
-		if stringInSlice("*", cds[i].PreferredCodeSets) {
-			cds[i].PreferredCodeSets = models.CodeSystemNames()
-		}
-	}
-}
-
-// append an entryInfo to entryInfos for each entry
-func appendEntryInfos(entryInfos []entryInfo, entries []models.HasEntry, mappedDataCriteria mdc) []entryInfo {
-	for _, entry := range entries {
-		if entry != nil {
-			entryInfo := entryInfo{EntrySection: entry, MapDataCriteria: mappedDataCriteria}
-			entryInfos = append(entryInfos, entryInfo)
-		}
-	}
-	return entryInfos
-}
-
 // git blame schreiber
 // returns a function for executing a template based on the qrda oid
 //   this is done so we have access to cat1Template when calling this function from _patient_data.xml
-func generateExecuteTemplateForEntry(cat1Template *template.Template) func(entryInfo) string {
-	return func(ei entryInfo) string {
+func generateExecuteTemplateForEntry(cat1Template *template.Template) func(models.EntryInfo) string {
+	hds := models.NewHds()
+	return func(ei models.EntryInfo) string {
 		entry := ei.EntrySection.GetEntry()
-		qrdaOid := HqmfToQrdaOid(entry.Oid, ei.MapDataCriteria.dcKey.ValueSetOid)
+		qrdaOid := hds.HqmfToQrdaOid(entry.Oid, ei.MapDataCriteria.DcKey.ValueSetOid)
 
 		templateName := fmt.Sprintf("_%v.xml", qrdaOid)
 		var b bytes.Buffer
 		if err := cat1Template.ExecuteTemplate(&b, templateName, ei); err != nil {
-			panic(err)
+			log.Fatalln(err)
 		}
 
 		return b.String()
@@ -147,33 +101,6 @@ func negationIndicator(entry models.Entry) string {
 		return "negationInd='true'"
 	}
 	return ""
-}
-
-func reasonValueSetOid(codedValue models.CodedConcept, fieldOids map[string][]string) string {
-	return oidForCode(codedValue, fieldOids["REASON"])
-}
-
-func oidForCode(codedValue models.CodedConcept, valuesetOids []string) string {
-
-	for _, vsoid := range valuesetOids {
-		oidlist := vsMap[vsoid]
-		if codeSetContainsCode(oidlist, codedValue) {
-			return vsoid
-		}
-
-	}
-	return ""
-}
-
-func codeSetContainsCode(sets []models.CodeSet, codedValue models.CodedConcept) bool {
-	for _, cs := range sets {
-		for _, val := range cs.Values {
-			if val.CodeSystem == codedValue.CodeSystem && val.Code == codedValue.Code {
-				return true
-			}
-		}
-	}
-	return false
 }
 
 func valueOrNullFlavor(i interface{}) string {
@@ -272,13 +199,4 @@ func hasPreferredCode(pc models.Concept) bool {
 
 func codeDisplayAttributeIsCodes(attribute string) bool {
 	return attribute == "codes"
-}
-
-func stringInSlice(str string, list []string) bool {
-	for _, elem := range list {
-		if elem == str {
-			return true
-		}
-	}
-	return false
 }
