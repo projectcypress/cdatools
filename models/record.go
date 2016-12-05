@@ -9,8 +9,8 @@ type Record struct {
 	RecordGroup
 	MedicalRecordNumber   string `json:"medical_record_number,omitempty"`
 	MedicalRecordAssigner string `json:"medical_record_assigner,omitempty"`
-	BirthDate             int64  `json:"birthdate,omitempty"`
-	DeathDate             int64  `json:"deathdate,omitempty"`
+	BirthDate             *int64 `json:"birthdate,omitempty"`
+	DeathDate             *int64 `json:"deathdate,omitempty"`
 	Expired               bool   `json:"expired,omitempty"`
 	// Private values to handle querying of Entries
 

@@ -28,7 +28,7 @@ type doseRestriction struct {
 
 type FulfillmentHistory struct {
 	PrescriptionNumber string `json:"prescription_number,omitempty"`
-	DispenseDate       int64  `json:"dispense_date,omitempty"`
+	DispenseDate       *int64 `json:"dispense_date,omitempty"`
 	QuantityDispensed  Scalar `json:"quantity_dispensed,omitempty"`
 	FillNumber         int64  `json:"fill_number,omitempty"`
 	FillStatus         string `json:"fill_status"`
@@ -39,7 +39,7 @@ type OrderInformation struct {
 	Fills           int64  `json:"fills,omitempty"`
 	QuantityOrdered Scalar `json:"quantity_ordered,omitempty"`
 	OrderExpiration int64  `json:"order_expiration_date_time,omitempty"`
-	OrderDate       int64  `json:"order_date_time,omitempty"`
+	OrderDate       *int64 `json:"order_date_time,omitempty"`
 }
 
 func (med *Medication) GetEntry() *Entry {

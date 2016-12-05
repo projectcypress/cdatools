@@ -18,16 +18,20 @@ var resultOids = []string{"1.2.3.4.5.6.7.8.9.14"}
 var vsOid = "1.2.3.4.5.6.7.8.9"
 
 func TestValueOrNullFlavor(t *testing.T) {
+	val := int64(0)
 	assert.Equal(t, valueOrNullFlavor(nil), "nullFlavor='UNK'")
 	assert.Equal(t, valueOrNullFlavor(0), "value='197001010000+0000'")
-	assert.Equal(t, valueOrNullFlavor(int64(0)), "value='197001010000+0000'")
+	assert.Equal(t, valueOrNullFlavor(val), "value='197001010000+0000'")
+	assert.Equal(t, valueOrNullFlavor(&val), "value='197001010000+0000'")
 	assert.Equal(t, valueOrNullFlavor("0"), "value='197001010000+0000'")
 }
 
 func TestEscape(t *testing.T) {
+	val := int64(42)
 	assert.Equal(t, escape("&"), "&amp;")
 	assert.Equal(t, escape(1), "1")
-	assert.Equal(t, "42", escape(int64(42)))
+	assert.Equal(t, "42", escape(val))
+	assert.Equal(t, "42", escape(&val))
 	assert.Equal(t, escape(nil), "")
 }
 
@@ -42,6 +46,11 @@ func TestIdentifierForString(t *testing.T) {
 
 func TestIdentifierForInt(t *testing.T) {
 	assert.Equal(t, "0C34B280850AF1B31ED2973D71ED43DA", identifierForInt(42))
+}
+
+func TestIdentifierForIntp(t *testing.T) {
+	val := int64(42)
+	assert.Equal(t, "0C34B280850AF1B31ED2973D71ED43DA", identifierForIntp(&val))
 }
 
 func TestTimeToFormat(t *testing.T) {
@@ -60,6 +69,7 @@ func TestIdentifierForInterface(t *testing.T) {
 	str2 := "second string"
 	myInt := int64(5)
 	assert.NotEqual(t, identifierForInterface(str1, myInt), identifierForInterface(str2, myInt), "identifiers should not be equal for unequal strings")
+	assert.NotEqual(t, identifierForInterface(str1, &myInt), identifierForInterface(str2, &myInt), "identifiers should not be equal for unequal strings")
 }
 
 // This test needs to be fixed. entryInfosForPatient uses EntriesForDataCriteria to get entries.
@@ -89,9 +99,11 @@ func TestCondAssign(t *testing.T) {
 	var first, second int64
 	second = 5
 	assert.Equal(t, second, condAssign(first, second))
+	assert.Equal(t, &first, condAssign(&first, second))
 	first = 3
 	assert.Equal(t, first, condAssign(first, second))
 	assert.Equal(t, second, condAssign(second, first))
+	assert.Equal(t, &first, condAssign(&first, second))
 }
 
 func TestCodeToDisplay(t *testing.T) {

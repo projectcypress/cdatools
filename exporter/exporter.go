@@ -23,28 +23,30 @@ type cat1data struct {
 
 func exporterFuncMap(cat1Template *template.Template, vsMap models.ValueSetMap) template.FuncMap {
 	return template.FuncMap{
-		"timeNow":             time.Now().UTC().Unix,
-		"newRandom":           uuid.NewRandom,
-		"timeToFormat":        timeToFormat,
-		"identifierForInt":    identifierForInt,
-		"identifierForString": identifierForString,
-		"escape":              escape,
-		"executeTemplateForEntry":     generateExecuteTemplateForEntry(cat1Template),
-		"condAssign":                  condAssign,
-		"valueOrNullFlavor":           valueOrNullFlavor,
-		"dischargeDispositionDisplay": dischargeDispositionDisplay,
-		"sdtcValueSetAttribute":       sdtcValueSetAttribute,
-		"getTransferOid":              getTransferOid,
-		"identifierForInterface":      identifierForInterface,
-		"codeToDisplay":               codeToDisplay,
-		"valueOrDefault":              valueOrDefault,
-		"reasonValueSetOid":           vsMap.ReasonValueSetOid,
-		"oidForCodeSystem":            oidForCodeSystem,
+		"timeNow":                      time.Now().UTC().Unix,
+		"newRandom":                    uuid.NewRandom,
+		"timeToFormat":                 timeToFormat,
+		"identifierForInt":             identifierForInt,
+		"identifierForIntp":            identifierForIntp,
+		"identifierForString":          identifierForString,
+		"escape":                       escape,
+		"executeTemplateForEntry":      generateExecuteTemplateForEntry(cat1Template),
+		"condAssign":                   condAssign,
+		"valueOrNullFlavor":            valueOrNullFlavor,
+		"dischargeDispositionDisplay":  dischargeDispositionDisplay,
+		"sdtcValueSetAttribute":        sdtcValueSetAttribute,
+		"getTransferOid":               getTransferOid,
+		"identifierForInterface":       identifierForInterface,
+		"codeToDisplay":                codeToDisplay,
+		"valueOrDefault":               valueOrDefault,
+		"reasonValueSetOid":            vsMap.ReasonValueSetOid,
+		"oidForCodeSystem":             oidForCodeSystem,
 		"oidForCode":                   vsMap.OidForCode,
 		"codeDisplayAttributeIsCodes":  codeDisplayAttributeIsCodes,
 		"hasPreferredCode":             hasPreferredCode,
 		"codeDisplayWithPreferredCode": codeDisplayWithPreferredCode,
 		"negationIndicator":            negationIndicator,
+		"isNil":                        isNil,
 	}
 }
 
@@ -77,11 +79,14 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 		asset, _ := Asset("templates/cat1/" + qrdaVersion + "/" + d)
 		template.Must(cat1Template.New(d).Parse(string(asset)))
 	}
-
+	var atime1 = new(int64)
+	var atime2 = new(int64)
+	*atime1 = 1449686219
+	*atime2 = 1449686219
 	h := &models.Header{
 		Authors: []models.Author{
 			models.Author{
-				Time: 1449686219,
+				Time: atime1,
 				Entity: models.Entity{
 					Ids: []models.CDAIdentifier{
 						models.CDAIdentifier{
@@ -201,7 +206,7 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 						},
 					},
 				},
-				Time: 1449686219,
+				Time: atime2,
 				Person: models.Person{
 					First: "Legal",
 					Last:  "Authenticator",
