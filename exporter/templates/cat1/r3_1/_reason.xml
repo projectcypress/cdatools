@@ -12,7 +12,7 @@
             <start_time_value>{{.EntrySection.StartTime}}</start_time_value>
             <low {{valueOrNullFlavor .EntrySection.StartTime}}/>
           </effectiveTime>
-        <value xsi:type="CD" code="{{.EntrySection.Reason.Code}}" codeSystem="{{oidForCodeSystem .EntrySection.Reason.CodeSystem}}" sdtc:valueSet="{{$valueSetOid}}"/>
+        <value xsi:type="CD" code="{{$reason.Code}}" codeSystem="{{oidForCodeSystem $reason.CodeSystem}}" sdtc:valueSet="{{$valueSetOid}}"/>
       </observation>
     </entryRelationship>
   {{end}}
