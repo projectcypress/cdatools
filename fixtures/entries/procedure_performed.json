@@ -1,0 +1,36 @@
+{
+      "anatomical_approach": null,
+      "anatomical_target": null,
+      "codes": {
+        "ICD-10-PCS": [
+          "3E0F7DZ"
+        ],
+        "SNOMED-CT": [
+          "24277005"
+        ]
+      },
+      "description": "Procedure, Performed: General or Neuraxial Anesthesia",
+      "end_time": 1428397200,
+      "incisionTime": 1428396000,
+      "method": null,
+      "mood_code": "EVN",
+      "negationInd": null,
+      "negationReason": null,
+      "oid": "2.16.840.1.113883.3.560.1.6",
+      "ordinality": null,
+      "performer_id": null,
+      "radiation_dose": null,
+      "radiation_duration": null,
+      "reaction": null,
+      "reason": null,
+      "source": null,
+      "specifics": null,
+      "start_time": 1428395400,
+      "status_code": {
+        "HL7 ActStatus": [
+          "performed"
+        ]
+      },
+      "time": null,
+      "_type": "Procedure"
+    }

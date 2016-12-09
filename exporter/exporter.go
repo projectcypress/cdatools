@@ -40,6 +40,7 @@ func exporterFuncMap(cat1Template *template.Template, vsMap models.ValueSetMap) 
 		"codeToDisplay":                codeToDisplay,
 		"valueOrDefault":               valueOrDefault,
 		"reasonValueSetOid":            vsMap.ReasonValueSetOid,
+		"ordinalityValueSetOid":        vsMap.OrdinalityValueSetOid,
 		"oidForCodeSystem":             oidForCodeSystem,
 		"oidForCode":                   vsMap.OidForCode,
 		"codeDisplayAttributeIsCodes":  codeDisplayAttributeIsCodes,
@@ -47,6 +48,8 @@ func exporterFuncMap(cat1Template *template.Template, vsMap models.ValueSetMap) 
 		"codeDisplayWithPreferredCode": codeDisplayWithPreferredCode,
 		"negationIndicator":            negationIndicator,
 		"isNil":                        isNil,
+		"hasSetIncisionTime":           hasSetIncisionTime,
+		"hasSetOrdinality":             hasSetOrdinality,
 	}
 }
 

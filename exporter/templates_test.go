@@ -163,6 +163,28 @@ func getResultValueData() []models.EntryInfo {
 	return entryInfos
 }
 
+func TestOrdinalityTemplate(t *testing.T) {
+	ordinality := models.Ordinality{
+		CodedConcept: models.CodedConcept{Code: "ORDINAL_CODE_1", CodeSystem: "2.16.840.1.113883.6.1"}, Title: "Principal"}
+	rootNode := xmlOrdinalityRootNode(ordinality)
+
+	//"1.2.3.4.5.6.7.8.9.10"
+	assertXPath(t, rootNode, "//priorityCode", map[string]string{"code": "ORDINAL_CODE_1", "codeSystem": "2.16.840.1.113883.6.1", "sdtc:valueSet": "1.2.3.4.5.6.7.8.9.10"}, nil)
+
+}
+
+func xmlOrdinalityRootNode(ordinality models.Ordinality) *xml.ElementNode {
+	data := getOrdinalityData(ordinality)
+	setMapDataCriteria(data)
+	xmlString := generateXML("_ordinality.xml", *data)
+	return xmlRootNode(xmlString)
+}
+
+func getOrdinalityData(ordinality models.Ordinality) *models.EntryInfo {
+	procedure := models.Procedure{Ordinality: ordinality}
+	return &models.EntryInfo{EntrySection: &procedure}
+}
+
 // test _2.16.840.1.113883.10.20.24.3.23.xml
 func TestEncounterPerformedTemplate(t *testing.T) {
 	qrdaOid := "2.16.840.1.113883.10.20.24.3.23"
@@ -418,6 +440,89 @@ func TestPatientCharacteristicObservationAssertionTemplate(t *testing.T) {
 	assertXPath(t, xrn, "//entry/observation/effectiveTime/high", map[string]string{"value": "201510130800+0000"}, nil)
 }
 
+func TestProcedureIntoleranceTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.62"
+	dataCriteriaName := "procedure_intolerance"
+	entryName := "procedure_intolerance"
+
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Procedure{})
+
+	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+
+	assertXPath(t, xrn, "//entry/observation", map[string]string{"classCode": "OBS", "moodCode": "EVN"}, nil)
+	assertXPath(t, xrn, "//entry/observation/templateId[@root='2.16.840.1.113883.10.20.24.3.62']", nil, nil)
+	assertXPath(t, xrn, "//entry/observation/id", map[string]string{"root": "1.3.6.1.4.1.115"}, nil)
+	assertXPath(t, xrn, "//entry/observation/code", map[string]string{"code": "ASSERTION", "codeSystem": "2.16.840.1.113883.5.4", "codeSystemName": "ActCode", "displayName": "Assertion"}, nil)
+	assertContent(t, xrn, "//entry/observation/entryRelationship/procedure/text", "Procedure, Intolerance: Influenza Vaccination")
+	assertXPath(t, xrn, "//entry/observation/effectiveTime/low", map[string]string{"value": "201411101000+0000"}, nil)
+	assertXPath(t, xrn, "//entry/observation/entryRelationship/procedure/effectiveTime/high", map[string]string{"value": "201411101000+0000"}, nil)
+}
+
+func TestProcedureOrderTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.63"
+	dataCriteriaName := "procedure_order"
+	entryName := "procedure_order"
+
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Procedure{})
+
+	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+
+	assertXPath(t, xrn, "//entry/procedure", map[string]string{"classCode": "PROC", "moodCode": "RQO"}, nil)
+	assertXPath(t, xrn, "//entry/procedure/templateId[@root='2.16.840.1.113883.10.20.22.4.41']", nil, nil)
+	assertXPath(t, xrn, "//entry/procedure/id", map[string]string{"root": "1.3.6.1.4.1.115"}, nil)
+	assertContent(t, xrn, "//entry/procedure/text", "Procedure, Order: BH Counseling for Depression")
+	assertXPath(t, xrn, "//entry/procedure/author/time", map[string]string{"value": "201501220845+0000"}, nil)
+}
+
+func TestProcedurePerformedTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.64"
+	dataCriteriaName := "procedure_performed"
+	entryName := "procedure_performed"
+
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Procedure{})
+
+	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+
+	assertXPath(t, xrn, "//entry/procedure", map[string]string{"classCode": "PROC", "moodCode": "EVN"}, nil)
+	assertXPath(t, xrn, "//entry/procedure/templateId[@root='2.16.840.1.113883.10.20.24.3.64']", nil, nil)
+	assertXPath(t, xrn, "//entry/procedure/id", map[string]string{"root": "1.3.6.1.4.1.115"}, nil)
+	assertContent(t, xrn, "//entry/procedure/text", "Procedure, Performed: General or Neuraxial Anesthesia")
+	assertXPath(t, xrn, "//entry/procedure/effectiveTime/low", map[string]string{"value": "201504070830+0000"}, nil)
+	assertXPath(t, xrn, "//entry/procedure/entryRelationship/procedure/effectiveTime", map[string]string{"value": "201504070840+0000"}, nil)
+}
+
+func TestInterventionOrderTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.31"
+	dataCriteriaName := "intervention_order"
+	entryName := "intervention_order"
+
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Procedure{})
+
+	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+
+	assertXPath(t, xrn, "//entry/act", map[string]string{"classCode": "ACT", "moodCode": "RQO"}, nil)
+	assertXPath(t, xrn, "//entry/act/templateId[@root='2.16.840.1.113883.10.20.22.4.39']", nil, nil)
+	assertXPath(t, xrn, "//entry/act/id", map[string]string{"root": "1.3.6.1.4.1.115"}, nil)
+	assertContent(t, xrn, "//entry/act/text", "Intervention, Order: Comfort Measures")
+	assertXPath(t, xrn, "//entry/act/effectiveTime/low", map[string]string{"value": "201504201945+0000"}, nil)
+}
+
+func TestInterventionPerformedTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.32"
+	dataCriteriaName := "intervention_performed"
+	entryName := "intervention_performed"
+
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Procedure{})
+
+	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+
+	assertXPath(t, xrn, "//entry/act", map[string]string{"classCode": "ACT", "moodCode": "EVN"}, nil)
+	assertXPath(t, xrn, "//entry/act/templateId[@root='2.16.840.1.113883.10.20.22.4.12']", nil, nil)
+	assertXPath(t, xrn, "//entry/act/id", map[string]string{"root": "1.3.6.1.4.1.115"}, nil)
+	assertContent(t, xrn, "//entry/act/text", "Intervention, Performed: Chronic Wound Care")
+	assertXPath(t, xrn, "//entry/act/effectiveTime/low", map[string]string{"value": "201505121000+0000"}, nil)
+}
+
 // - - - - - - - - //
 //   H E L P E R   //
 // - - - - - - - - //
@@ -438,7 +543,6 @@ func generateDataForTemplate(dataCriteriaName string, entryName string, entry mo
 
 	udc := models.UniqueDataCriteria([]models.DataCriteria{dataCriteria})
 	hds.SetCodeDisplaysForEntry(entry.GetEntry(), udc[0])
-
 
 	ei := models.EntryInfo{
 		EntrySection:    entry,

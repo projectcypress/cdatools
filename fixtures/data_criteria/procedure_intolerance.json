@@ -1,0 +1,20 @@
+{
+        "title": "Influenza Vaccination",
+        "description": "Procedure, Intolerance: Influenza Vaccination",
+        "code_list_id": "2.16.840.1.113883.3.526.3.402",
+        "type": "procedures",
+        "definition": "procedure_intolerance",
+        "hard_status": false,
+        "negation": false,
+        "specific_occurrence": "A",
+        "specific_occurrence_const": "PROCEDURE_INTOLERANCE_INFLUENZA_VACCINATION",
+        "source_data_criteria": "OccurrenceAInfluenzaVaccination3",
+        "variable": false,
+        "temporal_references": [
+          {
+            "type": "SBE",
+            "reference": "MeasurePeriod"
+          }
+        ],
+        "hqmf_oid": "2.16.840.1.113883.3.560.1.61"
+      }

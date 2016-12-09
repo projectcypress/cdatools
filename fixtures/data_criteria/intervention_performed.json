@@ -1,0 +1,13 @@
+{
+        "title": "Comfort Measures ",
+        "description": "Intervention, Performed: Comfort Measures ",
+        "code_list_id": "1.3.6.1.4.1.33895.1.3.0.45",
+        "type": "interventions",
+        "definition": "intervention",
+        "status": "performed",
+        "hard_status": false,
+        "negation": false,
+        "source_data_criteria": "InterventionPerformedComfortMeasures",
+        "variable": false,
+        "hqmf_oid": "2.16.840.1.113883.3.560.1.46"
+      }

@@ -1,0 +1,29 @@
+{
+      "codes": {
+        "CPT": [
+          "90653"
+        ],
+        "SNOMED-CT": [
+          "86198006"
+        ]
+      },
+      "description": "Procedure, Intolerance: Influenza Vaccination",
+      "end_time": 1415613600,
+      "mood_code": "EVN",
+      "negationInd": null,
+      "negationReason": null,
+      "oid": "2.16.840.1.113883.3.560.1.61",
+      "reaction": null,
+      "reason": null,
+      "severity": null,
+      "specifics": null,
+      "start_time": 1415613600,
+      "status_code": {
+        "HL7 ActStatus": [
+          null
+        ]
+      },
+      "time": null,
+      "type": null,
+      "_type": "Allergy"
+    }

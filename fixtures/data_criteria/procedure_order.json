@@ -1,0 +1,13 @@
+{
+        "title": "BH Electroconvulsive Therapy",
+        "description": "Procedure, Order: BH Electroconvulsive Therapy",
+        "code_list_id": "2.16.840.1.113883.3.1257.1.1533",
+        "type": "procedures",
+        "definition": "procedure",
+        "status": "ordered",
+        "hard_status": true,
+        "negation": false,
+        "source_data_criteria": "ProcedureOrderBhElectroconvulsiveTherapy",
+        "variable": false,
+        "hqmf_oid": "2.16.840.1.113883.3.560.1.62"
+      }
