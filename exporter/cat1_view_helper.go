@@ -205,11 +205,6 @@ func condAssign(first interface{}, second interface{}) interface{} {
 	return result
 }
 
-func codeToDisplay(entrySection models.HasEntry, codeType string) (models.CodeDisplay, error) {
-	entry := entrySection.GetEntry()
-	return entry.GetCodeDisplay(codeType)
-}
-
 func codeDisplayWithPreferredCode(entry *models.Entry, coded *models.Coded, codeType string) models.CodeDisplay {
 	codeDisplay, err := entry.GetCodeDisplay(codeType)
 	util.CheckErr(err)

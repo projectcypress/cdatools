@@ -106,19 +106,6 @@ func TestCondAssign(t *testing.T) {
 	assert.Equal(t, &first, condAssign(&first, second))
 }
 
-func TestCodeToDisplay(t *testing.T) {
-	codeDisplays := []models.CodeDisplay{models.CodeDisplay{CodeType: "first code type"}, models.CodeDisplay{CodeType: "second code type"}}
-	entry := models.Entry{CodeDisplays: codeDisplays}
-	encounter := models.Encounter{Entry: entry}
-
-	codeDisplay, err := codeToDisplay(&encounter, "first code type")
-	assert.Nil(t, err)
-	assert.Equal(t, models.CodeDisplay{CodeType: "first code type"}, codeDisplay)
-
-	codeDisplay, err = codeToDisplay(&encounter, "not a code type")
-	assert.NotNil(t, err)
-}
-
 func TestCodeDisplayWithPreferredCode(t *testing.T) {
 	codeType := "my code type"
 	expectedCodeDisplay := models.CodeDisplay{CodeType: codeType, PreferredCodeSets: []string{"codeSetB"}}
