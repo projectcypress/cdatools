@@ -63,7 +63,6 @@ func (h *HdsMaps) importHqmfQrdaJSON() {
 
 // NOTE: Had to remove the use of the Asset function that exists in exporter/templates.go:1228
 // Now function just reads the json file directly.
-// TODO: remove r2 compatibility features
 func (h *HdsMaps) importHQMFTemplateJSON() {
 	data, err := ioutil.ReadFile("../exporter/hqmf_template_oid_map.json")
 	if err != nil {
@@ -73,32 +72,14 @@ func (h *HdsMaps) importHQMFTemplateJSON() {
 	for id, data := range h.HqmfMap {
 		h.IdMap[makeDefinitionKey(data.Definition, data.Status, data.Negation)] = id
 	}
-	data, err = ioutil.ReadFile("../exporter/hqmfr2_template_oid_map.json")
-	if err != nil {
-		log.Fatalf("Failed to read data file to make HdsMaps: %v \n", err)
-	}
-	json.Unmarshal(data, &h.HqmfR2Map)
-	for id, data := range h.HqmfR2Map {
-		h.IdR2Map[makeDefinitionKey(data.Definition, data.Status, data.Negation)] = id
-	}
 }
 
-// TODO: remove r2 compatibility features
-func (h *HdsMaps) GetTemplateDefinition(id string, r2Compat bool) DataCriteria {
-	if r2Compat {
-		return h.HqmfR2Map[id]
-	} else {
-		return h.HqmfMap[id]
-	}
+func (h *HdsMaps) GetTemplateDefinition(id string) DataCriteria {
+	return h.HqmfMap[id]
 }
 
-// TODO: remove r2 compatibility features
-func (h *HdsMaps) GetID(data DataCriteria, r2Compat bool) string {
-	if r2Compat {
-		return h.IdR2Map[makeDefinitionKey(data.Definition, data.Status, data.Negation)]
-	} else {
-		return h.IdMap[makeDefinitionKey(data.Definition, data.Status, data.Negation)]
-	}
+func (h *HdsMaps) GetID(data DataCriteria) string {
+	return h.IdMap[makeDefinitionKey(data.Definition, data.Status, data.Negation)]
 }
 
 func makeDefinitionKey(definition string, status string, negation bool) string {
