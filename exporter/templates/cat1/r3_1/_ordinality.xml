@@ -1,5 +1,5 @@
-{{if hasSetOrdinality .EntrySection}}
-    {{$valueSetOid := ordinalityValueSetOid .EntrySection.Ordinality.CodedConcept .MapDataCriteria.FieldOids}}
+{{if .EntrySection.HasSetOrdinality}}
+    {{$valueSetOid := oidForCodeForField .EntrySection.Ordinality.CodedConcept .MapDataCriteria.FieldOids "ORDINAL"}}
     <priorityCode  code="{{.EntrySection.Ordinality.Code}}" 
                 codeSystem="{{oidForCodeSystem .EntrySection.Ordinality.CodeSystem}}"
                 {{if $valueSetOid}} sdtc:valueSet="{{$valueSetOid}}" {{end}}

@@ -14,3 +14,11 @@ type Performer struct {
 func (proc *Procedure) GetEntry() *Entry {
 	return &proc.Entry
 }
+
+func (proc *Procedure) HasSetIncisionTime() bool {
+	return proc.IncisionTime != nil
+}
+
+func (proc *Procedure) HasSetOrdinality() bool {
+	return proc.Ordinality != Ordinality{}
+}

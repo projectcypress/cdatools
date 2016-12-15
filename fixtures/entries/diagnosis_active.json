@@ -1,0 +1,44 @@
+{
+      "anatomical_location": null,
+      "anatomical_target": null,
+      "causeOfDeath": null,
+      "codes": {
+        "SNOMED-CT": [
+          "134401001"
+        ]
+      },
+      "description": "Diagnosis, Active: Left Ventricular Systolic Dysfunction",
+      "end_time": null,
+      "laterality": {
+        "code_system": "SNOMED-CT",
+        "code": "7771000",
+        "title": "Left"
+      },
+      "mood_code": "EVN",
+      "name": null,
+      "negationInd": null,
+      "negationReason": null,
+      "oid": "2.16.840.1.113883.3.560.1.2",
+      "ordinality": null,
+      "priority": null,
+      "reason": null,
+      "severity": {
+        "code_system": "SNOMED-CT",
+        "code": "24484000",
+        "title": "Moderate or Severe"
+      },
+      "specifics": null,
+      "start_time": 1426149000,
+      "status_code": {
+        "SNOMED-CT": [
+          "55561003"
+        ],
+        "HL7 ActStatus": [
+          "active"
+        ]
+      },
+      "time": null,
+      "time_of_death": null,
+      "type": null,
+      "_type": "Condition"
+    }

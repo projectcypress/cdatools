@@ -217,6 +217,15 @@ func codeDisplayWithPreferredCode(entry *models.Entry, coded *models.Coded, code
 	return codeDisplay
 }
 
+func codeDisplayWithPreferredCodeAndLaterality(entry *models.Entry, coded *models.Coded, codeType string, laterality models.Laterality, MapDataCriteria models.Mdc) models.CodeDisplay {
+	codeDisplay, err := entry.GetCodeDisplay(codeType)
+	util.CheckErr(err)
+	codeDisplay.PreferredCode = coded.PreferredCode(codeDisplay.PreferredCodeSets)
+	codeDisplay.Laterality = laterality
+	codeDisplay.MapDataCriteria = MapDataCriteria
+	return codeDisplay
+}
+
 // dd stands for discharge disposition
 func dischargeDispositionDisplay(dd map[string]string) string {
 	// set code system
@@ -253,20 +262,14 @@ func hasPreferredCode(pc models.Concept) bool {
 	return pc.Code != "" && pc.CodeSystem != ""
 }
 
+func hasLaterality(l models.Laterality) bool {
+	return l != models.Laterality{}
+}
+
 func codeDisplayAttributeIsCodes(attribute string) bool {
 	return attribute == "codes"
 }
 
 func isNil(i interface{}) bool {
 	return i == nil
-}
-
-func hasSetIncisionTime(e models.HasEntry) bool {
-	proc, ok := e.(*models.Procedure)
-	return ok && proc.IncisionTime != nil
-}
-
-func hasSetOrdinality(e models.HasEntry) bool {
-	proc, ok := e.(*models.Procedure)
-	return ok && proc.Ordinality != (models.Ordinality{})
 }
