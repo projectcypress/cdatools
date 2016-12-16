@@ -4,12 +4,17 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"log"
 	"text/template"
 	"time"
 
 	"github.com/pborman/uuid"
 	"github.com/projectcypress/cdatools/models"
 )
+
+func init() {
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+}
 
 type cat1data struct {
 	EntryInfos []models.EntryInfo

@@ -12,8 +12,6 @@ import (
 	"text/template"
 	"time"
 
-	"github.com/pebbe/util"
-
 	"github.com/projectcypress/cdatools/models"
 )
 
@@ -46,7 +44,9 @@ func escapeString(s string) string {
 // TimeToFormat parses time from a seconds since Epoch value, and spits out a string in the supplied format
 func timeToFormat(t int64, f string) string {
 	utc, err := time.LoadLocation("UTC")
-	util.CheckErr(err, "Time Zone Location failed to load")
+	if err != nil {
+		log.Fatalln(err, "Time Zone Location failed to load")
+	}
 	parsedTime := time.Unix(t, 0)
 	return escapeString(parsedTime.In(utc).Format(f))
 }
@@ -129,7 +129,9 @@ func negationIndicator(entry models.Entry) string {
 func valueOrNullFlavor(i interface{}) string {
 	var s string
 	utc, err := time.LoadLocation("UTC")
-	util.CheckErr(err, "Time Zone Location failed to load")
+	if err != nil {
+		log.Fatalln(err, "Time Zone Location failed to load")
+	}
 	switch str := i.(type) {
 	case string:
 		ival, err := strconv.Atoi(str)
@@ -207,14 +209,18 @@ func condAssign(first interface{}, second interface{}) interface{} {
 
 func codeDisplayWithPreferredCode(entry *models.Entry, coded *models.Coded, codeType string) models.CodeDisplay {
 	codeDisplay, err := entry.GetCodeDisplay(codeType)
-	util.CheckErr(err)
+	if err != nil {
+		log.Fatalln(err)
+	}
 	codeDisplay.PreferredCode = coded.PreferredCode(codeDisplay.PreferredCodeSets)
 	return codeDisplay
 }
 
 func codeDisplayWithPreferredCodeAndLaterality(entry *models.Entry, coded *models.Coded, codeType string, laterality models.Laterality, MapDataCriteria models.Mdc) models.CodeDisplay {
 	codeDisplay, err := entry.GetCodeDisplay(codeType)
-	util.CheckErr(err)
+	if err != nil {
+		log.Fatal(err)
+	}
 	codeDisplay.PreferredCode = coded.PreferredCode(codeDisplay.PreferredCodeSets)
 	codeDisplay.Laterality = laterality
 	codeDisplay.MapDataCriteria = MapDataCriteria
