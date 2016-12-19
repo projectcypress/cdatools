@@ -47,10 +47,6 @@ type CodeSet struct {
 	Values []Concept
 }
 
-func (v *ValueSetMap) OidForCodeForField(codedValue CodedConcept, fieldOids map[string][]string, field string) string {
-	return v.OidForCode(codedValue, fieldOids[field])
-}
-
 func (v ValueSetMap) OidForCode(codedValue CodedConcept, valuesetOids []string) string {
 	for _, vsoid := range valuesetOids {
 		oidlist := v[vsoid]

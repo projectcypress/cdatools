@@ -16,7 +16,7 @@
         <name code='182353008' codeSystem='2.16.840.1.113883.6.96' displayName='Side' />
         <value xsi:type='CD' code='{{- .Laterality.Code}}' 
             displayName='{{- .Laterality.Title}}' 
-            sdtc:valueSet='{{- oidForCodeForField .Laterality.CodedConcept .MapDataCriteria.FieldOids "LATERALITY"}}'
+            sdtc:valueSet='{{- oidForCode .Laterality.CodedConcept (index .MapDataCriteria.FieldOids "LATERALITY")}}'
             codeSystem='{{- oidForCodeSystem .Laterality.CodeSystem}}'/>
     </qualifier>
   {{- end}}

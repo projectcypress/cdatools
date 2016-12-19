@@ -45,7 +45,7 @@
               {{if ne .EntrySection.Severity.Title ""}}
                 displayName="{{.EntrySection.Severity.Title}}"
               {{end}}
-                sdtc:valueSet="{{oidForCodeForField .EntrySection.Severity.CodedConcept .MapDataCriteria.FieldOids "SEVERITY"}}"
+                sdtc:valueSet="{{oidForCode .EntrySection.Severity.CodedConcept (index .MapDataCriteria.FieldOids "SEVERITY")}}"
             />
        </observation>
 

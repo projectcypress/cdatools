@@ -39,7 +39,6 @@ func exporterFuncMap(cat1Template *template.Template, vsMap models.ValueSetMap) 
 		"identifierForInterface":                    identifierForInterface,
 		"codeToDisplay":                             codeToDisplay,
 		"valueOrDefault":                            valueOrDefault,
-		"oidForCodeForField":                        vsMap.OidForCodeForField,
 		"oidForCodeSystem":                          oidForCodeSystem,
 		"oidForCode":                                vsMap.OidForCode,
 		"codeDisplayAttributeIsCodes":               codeDisplayAttributeIsCodes,
