@@ -42,6 +42,13 @@ func TestCodeTemplate(t *testing.T) {
 	rootNode = xmlCodeRootNode(codeDisplay)
 	assertXPath(t, rootNode, "//code/originalText", nil, nil)
 	assertContent(t, rootNode, "//code/originalText", "my lil description")
+
+	// laterality is included
+	ei := models.EntryInfo{}
+	setMapDataCriteria(&ei)
+	codeDisplay = models.CodeDisplay{CodeType: "my_code_type", TagName: "code",
+		Laterality: models.Laterality{CodedConcept: models.CodedConcept{Code: "LATERALITY_CODE_1", CodeSystem: "2.16.840.1.113883.6.1"}, Title: ""}, MapDataCriteria: ei.MapDataCriteria}
+	assertXPath(t, xmlCodeRootNode(codeDisplay), "//qualifier/value", map[string]string{"code": "LATERALITY_CODE_1"}, nil)
 }
 
 func xmlCodeRootNode(codeDisplay models.CodeDisplay) *xml.ElementNode {
@@ -521,6 +528,63 @@ func TestInterventionPerformedTemplate(t *testing.T) {
 	assertXPath(t, xrn, "//entry/act/id", map[string]string{"root": "1.3.6.1.4.1.115"}, nil)
 	assertContent(t, xrn, "//entry/act/text", "Intervention, Performed: Chronic Wound Care")
 	assertXPath(t, xrn, "//entry/act/effectiveTime/low", map[string]string{"value": "201505121000+0000"}, nil)
+}
+
+func TestDiagnosisActiveTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.11"
+	dataCriteriaName := "diagnosis_active"
+	entryName := "diagnosis_active"
+
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Condition{})
+
+	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+
+	assertXPath(t, xrn, "//entry/act", map[string]string{"classCode": "ACT", "moodCode": "EVN"}, nil)
+	assertXPath(t, xrn, "//entry/act/templateId[@root='2.16.840.1.113883.10.20.22.4.3']", nil, nil)
+	assertXPath(t, xrn, "//entry/act/effectiveTime/low", map[string]string{"value": "201503120830+0000"}, nil)
+	assertXPath(t, xrn, "//entry/act/entryRelationship/observation/entryRelationship[@typeCode='REFR']/observation/value", map[string]string{"displayName": "Moderate or Severe"}, nil)
+}
+
+func TestFamilyHistoryTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.12"
+	dataCriteriaName := "diagnosis_family_history"
+	entryName := "diagnosis_family_history"
+
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Condition{})
+
+	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+
+	assertXPath(t, xrn, "//entry/organizer", map[string]string{"classCode": "CLUSTER", "moodCode": "EVN"}, nil)
+	assertXPath(t, xrn, "//entry/organizer/templateId[@root='2.16.840.1.113883.10.20.24.3.12']", nil, nil)
+	assertXPath(t, xrn, "//entry/organizer/component/observation/effectiveTime/low", map[string]string{"value": "201503120830+0000"}, nil)
+}
+
+func TestDiagnosisInactiveTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.13"
+	dataCriteriaName := "diagnosis_inactive"
+	entryName := "diagnosis_inactive"
+
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Condition{})
+
+	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+
+	assertXPath(t, xrn, "//entry/act", map[string]string{"classCode": "ACT", "moodCode": "EVN"}, nil)
+	assertXPath(t, xrn, "//entry/act/templateId[@root='2.16.840.1.113883.10.20.22.4.3']", nil, nil)
+	assertXPath(t, xrn, "//entry/act/effectiveTime/high", map[string]string{"value": "201505100759+0000"}, nil)
+}
+
+func TestDiagnosisResolvedTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.14"
+	dataCriteriaName := "diagnosis_resolved"
+	entryName := "diagnosis_resolved"
+
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Condition{})
+
+	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+
+	assertXPath(t, xrn, "//entry/act", map[string]string{"classCode": "ACT", "moodCode": "EVN"}, nil)
+	assertXPath(t, xrn, "//entry/act/templateId[@root='2.16.840.1.113883.10.20.22.4.3']", nil, nil)
+	assertXPath(t, xrn, "//entry/act/effectiveTime/low", map[string]string{"value": "201405100801+0000"}, nil)
 }
 
 // - - - - - - - - //

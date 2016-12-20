@@ -1,0 +1,13 @@
+{
+        "title": "Uterine Rupture",
+        "description": "Diagnosis, Resolved: Uterine Rupture",
+        "code_list_id": "2.16.840.1.113883.3.117.1.7.1.138",
+        "type": "conditions",
+        "definition": "diagnosis",
+        "status": "resolved",
+        "hard_status": true,
+        "negation": false,
+        "source_data_criteria": "DiagnosisResolvedUterineRupture",
+        "variable": false,
+        "hqmf_oid": "2.16.840.1.113883.3.560.1.24"
+      }

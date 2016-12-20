@@ -1,0 +1,24 @@
+{
+        "title": "Family History CHD",
+        "description": "Diagnosis, Family History: Family History CHD",
+        "code_list_id": "2.16.840.1.113883.3.600.1557",
+        "type": "conditions",
+        "definition": "diagnosis",
+        "status": "family_history",
+        "hard_status": true,
+        "negation": false,
+        "source_data_criteria": "DiagnosisFamilyHistoryFamilyHistoryChd",
+        "variable": false,
+        "temporal_references": [
+          {
+            "type": "SBE",
+            "reference": "MeasurePeriod"
+          }
+        ],
+        "subset_operators": [
+          {
+            "type": "FIRST"
+          }
+        ],
+        "hqmf_oid": "2.16.840.1.113883.3.560.1.32"
+      }
