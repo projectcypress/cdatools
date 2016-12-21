@@ -1,0 +1,39 @@
+{
+      "anatomical_location": null,
+      "anatomical_target": null,
+      "causeOfDeath": null,
+      "codes": {
+        "ICD-10-CM": [
+          "B06.9"
+        ],
+        "SNOMED-CT": [
+          "36653000"
+        ],
+        "ICD-9-CM": [
+          "056.9"
+        ]
+      },
+      "description": "Diagnosis, Resolved: Rubella",
+      "end_time": null,
+      "laterality": null,
+      "mood_code": "EVN",
+      "name": null,
+      "negationInd": null,
+      "negationReason": null,
+      "oid": "2.16.840.1.113883.3.560.1.24",
+      "ordinality": null,
+      "priority": null,
+      "reason": null,
+      "severity": null,
+      "specifics": null,
+      "start_time": 1399708860,
+      "status_code": {
+        "SNOMED-CT": [
+          "413322009"
+        ]
+      },
+      "time": null,
+      "time_of_death": null,
+      "type": null,
+      "_type": "Condition"
+    }

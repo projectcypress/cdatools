@@ -9,12 +9,17 @@ type Condition struct {
 	Priority           int64        `json:"priority,omitempty"`
 	Name               string       `json:"name,omitempty"`
 	Ordinality         Ordinality   `json:"ordinality,omitempty"`
-	Severity           CodedConcept `json:"severity,omitempty"`
-	Laterality         CodedConcept `json:"laterality,omitempty"`
+	Severity           Severity     `json:"severity,omitempty"`
+	Laterality         Laterality   `json:"laterality,omitempty"`
 	AnatomicalLocation CodedConcept `json:"anatomical_location,omitempty"`
 }
 
 type Ordinality struct {
+	CodedConcept `bson:",inline"`
+	Title        string `json:"title,omitempty"`
+}
+
+type Severity struct {
 	CodedConcept `bson:",inline"`
 	Title        string `json:"title,omitempty"`
 }
@@ -26,4 +31,12 @@ type Laterality struct {
 
 func (con *Condition) GetEntry() *Entry {
 	return &con.Entry
+}
+
+func (con *Condition) HasSetOrdinality() bool {
+	return con.Ordinality != Ordinality{}
+}
+
+func (con *Condition) HasSetSeverity() bool {
+	return con.Severity != Severity{}
 }

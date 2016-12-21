@@ -1,6 +1,6 @@
 {{if .EntrySection.Entry.HasReason}}
   {{$reason := .EntrySection.Entry.NegationReasonOrReason}}
-  {{$valueSetOid := reasonValueSetOid $reason .MapDataCriteria.FieldOids}}
+  {{$valueSetOid := oidForCode $reason (index .MapDataCriteria.FieldOids "REASON")}}
   {{if $valueSetOid}}
     <entryRelationship typeCode="RSON">
       <observation classCode="OBS" moodCode="EVN">

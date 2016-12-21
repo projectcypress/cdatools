@@ -113,25 +113,65 @@
     "hqmf_name": "Diagnosis, Active",
     "hqmf_oid": "2.16.840.1.113883.3.560.1.2",
     "qrda_name": "Diagnosis Active",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.11"
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.11",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "value",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "xsi:type=\"CD\"",
+        "preferred_code_sets": ["LOINC", "SNOMED-CT", "ICD-9-CM", "ICD-10-CM"]
+      }
+    ]
   },
   {
     "hqmf_name": "Diagnosis, Family History",
     "hqmf_oid": "2.16.840.1.113883.3.560.1.32",
     "qrda_name": "Diagnosis Family History",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.12"
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.12",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "value",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "xsi:type=\"CD\"",
+        "preferred_code_sets": ["SNOMED-CT"]
+      }
+    ]
   },
   {
     "hqmf_name": "Diagnosis, Inactive",
     "hqmf_oid": "2.16.840.1.113883.3.560.1.23",
     "qrda_name": "Diagnosis Inactive",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.13"
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.13",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "value",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "xsi:type=\"CD\"",
+        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"]
+      }
+    ]
   },
   {
     "hqmf_name": "Diagnosis, Resolved",
     "hqmf_oid": "2.16.840.1.113883.3.560.1.24",
     "qrda_name": "Diagnosis Resolved",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.14"
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.14",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "value",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "xsi:type=\"CD\"",
+        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "CPT"]
+      }
+    ]
   },
   {
     "hqmf_name": "Diagnostic Study Adverse Event",

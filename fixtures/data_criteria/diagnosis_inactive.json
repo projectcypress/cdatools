@@ -1,0 +1,13 @@
+{
+        "title": "Venous Thromboembolism",
+        "description": "Diagnosis, Inactive: Venous Thromboembolism",
+        "code_list_id": "2.16.840.1.113883.3.117.1.7.1.279",
+        "type": "conditions",
+        "definition": "diagnosis",
+        "status": "inactive",
+        "hard_status": true,
+        "negation": false,
+        "source_data_criteria": "DiagnosisInactiveVenousThromboembolism",
+        "variable": false,
+        "hqmf_oid": "2.16.840.1.113883.3.560.1.23"
+      }
