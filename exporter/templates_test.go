@@ -61,28 +61,35 @@ func xmlCodeRootNode(codeDisplay models.CodeDisplay) *xml.ElementNode {
 func TestReasonTemplate(t *testing.T) {
 	// do not negate reason
 	reason := models.CodedConcept{Code: "REASON_CODE_1", CodeSystem: "2.16.840.1.113883.6.1"} // specified in cms9_26.json
-	rootNode := xmlReasonRootNode(reason, false, true)
+	rootNode := xmlReasonRootNode(reason, false)
+	assertXPath(t, rootNode, "//entryRelationship", map[string]string{"typeCode": "RSON"}, nil)
+	assertXPath(t, rootNode, "//entryRelationship/observation", map[string]string{"classCode": "OBS", "moodCode": "EVN"}, nil)
+	assertXPath(t, rootNode, "//entryRelationship/observation/templateId", map[string]string{"root": "2.16.840.1.113883.10.20.24.3.88", "extension": "2014-12-01"}, nil)
+	assertXPath(t, rootNode, "//entryRelationship/observation/id", map[string]string{"root": "1.3.6.1.4.1.115"}, nil)
+	assertXPath(t, rootNode, "//entryRelationship/observation/statusCode", map[string]string{"code": "completed"}, nil)
+	assertXPath(t, rootNode, "//entryRelationship/observation/effectiveTime/low", map[string]string{"value": "197001010000+0000"}, nil)
+	assertXPath(t, rootNode, "//entryRelationship/observation/value", map[string]string{"xsi:type": "CD", "code": "REASON_CODE_1", "codeSystem": "2.16.840.1.113883.6.1", "sdtc:valueSet": "1.2.3.4.5.6.7.8.9.11"}, nil)
 	assertXPath(t, rootNode, "//entryRelationship/observation/code", map[string]string{"code": "77301-0", "codeSystem": "2.16.840.1.113883.6.1", "displayName": "reason", "codeSystemName": "LOINC"}, nil)
 
 	// negate reason
-	rootNode = xmlReasonRootNode(reason, true, true)
+	rootNode = xmlReasonRootNode(reason, true)
 	assertXPath(t, rootNode, "//entryRelationship", nil, nil)
 
 	// reason that is not specifed by a measure
 	reason = models.CodedConcept{Code: "not_a_specified_code", CodeSystem: "¯\\_(ツ)_/¯"}
-	xmlString := generateXML("_reason.xml", getReasonData(reason, false, true))
+	xmlString := generateXML("_reason.xml", getReasonData(reason, false))
 	assert.Equal(t, "", strings.TrimSpace(xmlString))
 }
 
-func xmlReasonRootNode(reason models.CodedConcept, negateReason bool, r2CompatableQrdaOid bool) *xml.ElementNode {
-	data := getReasonData(reason, negateReason, r2CompatableQrdaOid)
+func xmlReasonRootNode(reason models.CodedConcept, negateReason bool) *xml.ElementNode {
+	data := getReasonData(reason, negateReason)
 	setMapDataCriteria(data)
 	xmlString := generateXML("_reason.xml", *data)
 	// printXmlString(xmlString)
 	return xmlRootNode(xmlString)
 }
 
-func getReasonData(reason models.CodedConcept, negateReason bool, r2CompatableQrdaOid bool) *models.EntryInfo {
+func getReasonData(reason models.CodedConcept, negateReason bool) *models.EntryInfo {
 	encounter := models.Encounter{}
 	var stime = new(int64)
 	*stime = 0
@@ -92,11 +99,6 @@ func getReasonData(reason models.CodedConcept, negateReason bool, r2CompatableQr
 		encounter.Entry = models.Entry{Reason: reason}
 	}
 	encounter.StartTime = stime
-	if r2CompatableQrdaOid {
-		encounter.Entry.Oid = "2.16.840.1.113883.3.560.1.79" // a valid hqmf oid (Encounter Performed)
-	} else {
-		encounter.Entry.Oid = "invalid_qrda_oid"
-	}
 	return &models.EntryInfo{EntrySection: &encounter}
 }
 
