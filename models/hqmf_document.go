@@ -86,10 +86,7 @@ func UniqueDataCriteria(allDataCriteria []DataCriteria) []Mdc {
 		// Based on the data criteria, get the HQMF oid associated with it]
 		oid := dataCriteria.HQMFOid
 		if oid == "" {
-			oid = hds.GetID(dataCriteria, false)
-			if oid == "" {
-				oid = hds.GetID(dataCriteria, true)
-			}
+			oid = hds.GetID(dataCriteria)
 			if oid != "" {
 				dataCriteria.HQMFOid = oid
 			}

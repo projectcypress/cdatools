@@ -10,11 +10,11 @@ import (
 )
 
 func TestImportHQMFTemplateJSON(t *testing.T) {
-	var origID = "2.16.840.1.113883.10.20.28.3.19"
-	var def = hds.GetTemplateDefinition(origID, true)
+	var origID = "2.16.840.1.113883.3.560.1.24"
+	var def = hds.GetTemplateDefinition(origID)
 	assert.Equal(t, def.Definition, "diagnosis")
 	assert.Equal(t, def.Status, "resolved")
-	var id = hds.GetID(def, true)
+	var id = hds.GetID(def)
 	assert.Equal(t, id, origID)
 }
 
