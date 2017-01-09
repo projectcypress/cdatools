@@ -1,0 +1,14 @@
+{
+        "title": "Aspirin ingredient specific",
+        "description": "Medication, Order: Aspirin ingredient specific",
+        "code_list_id": "2.16.840.1.113762.1.4.1021.3",
+        "type": "medications",
+        "definition": "medication",
+        "status": "ordered",
+        "hard_status": true,
+        "negation": true,
+        "negation_code_list_id": "2.16.840.1.113883.3.117.1.7.1.473",
+        "source_data_criteria": "MedicationOrderAspirinIngredientSpecific",
+        "variable": false,
+        "hqmf_oid": "2.16.840.1.113883.3.560.1.17"
+      }

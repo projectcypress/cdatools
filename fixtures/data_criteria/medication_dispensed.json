@@ -1,0 +1,19 @@
+{
+        "title": "Preferred Asthma Therapy",
+        "description": "Medication, Dispensed: Preferred Asthma Therapy",
+        "code_list_id": "2.16.840.1.113883.3.464.1003.196.12.1212",
+        "type": "medications",
+        "definition": "medication",
+        "status": "dispensed",
+        "hard_status": true,
+        "negation": false,
+        "source_data_criteria": "MedicationDispensedPreferredAsthmaTherapy",
+        "variable": false,
+        "temporal_references": [
+          {
+            "type": "DURING",
+            "reference": "MeasurePeriod"
+          }
+        ],
+        "hqmf_oid": "2.16.840.1.113883.3.560.1.8"
+      }

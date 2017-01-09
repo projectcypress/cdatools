@@ -1,0 +1,49 @@
+{
+      "active_datetime": null,
+      "administrationTiming": null,
+      "anatomical_approach": null,
+      "codes": {
+        "RxNorm": [
+          "309051"
+        ]
+      },
+      "cumulativeMedicationDuration": null,
+      "deliveryMethod": null,
+      "description": "Medication, Administered: IV, IM, PO Antimicrobial Medications",
+      "dose": {
+        "value": "500",
+        "unit": "mg"
+      },
+      "doseIndicator": null,
+      "doseRestriction": null,
+      "end_time": 1431684000,
+      "freeTextSig": null,
+      "fulfillmentHistory": [
+
+      ],
+      "fulfillmentInstructions": null,
+      "indication": null,
+      "method": null,
+      "mood_code": "EVN",
+      "negationInd": null,
+      "negationReason": null,
+      "oid": "2.16.840.1.113883.3.560.1.14",
+      "patientInstructions": null,
+      "productForm": null,
+      "reaction": null,
+      "reason": null,
+      "route": null,
+      "signed_datetime": null,
+      "specifics": null,
+      "start_time": 1431684000,
+      "statusOfMedication": null,
+      "status_code": {
+        "HL7 ActStatus": [
+          "administered"
+        ]
+      },
+      "time": null,
+      "typeOfMedication": null,
+      "vehicle": null,
+      "_type": "Medication"
+    }

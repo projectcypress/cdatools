@@ -1,0 +1,49 @@
+{
+        "title": "Antidepressant Medication",
+        "description": "Medication, Active: Antidepressant Medication",
+        "code_list_id": "2.16.840.1.113883.3.464.1003.196.12.1213",
+        "type": "medications",
+        "definition": "medication",
+        "status": "active",
+        "hard_status": false,
+        "negation": false,
+        "source_data_criteria": "MedicationActiveAntidepressantMedication",
+        "variable": false,
+        "field_values": {
+          "CUMULATIVE_MEDICATION_DURATION": {
+            "type": "ANYNonNull"
+          }
+        },
+        "temporal_references": [
+          {
+            "type": "EAS",
+            "reference": "GROUP_variable_CHILDREN_27",
+            "range": {
+              "type": "IVL_PQ",
+              "high": {
+                "type": "PQ",
+                "unit": "d",
+                "value": "231",
+                "inclusive?": true,
+                "derived?": false
+              }
+            }
+          }
+        ],
+        "subset_operators": [
+          {
+            "type": "SUM",
+            "value": {
+              "type": "IVL_PQ",
+              "low": {
+                "type": "PQ",
+                "unit": "d",
+                "value": "180",
+                "inclusive?": true,
+                "derived?": false
+              }
+            }
+          }
+        ],
+        "hqmf_oid": "2.16.840.1.113883.3.560.1.7"
+      }

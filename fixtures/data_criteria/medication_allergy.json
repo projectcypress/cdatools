@@ -1,0 +1,18 @@
+{
+        "title": "Statin Allergen",
+        "description": "Medication, Allergy: Statin Allergen",
+        "code_list_id": "2.16.840.1.113883.3.117.1.7.1.423",
+        "type": "medications",
+        "definition": "medication_allergy",
+        "hard_status": false,
+        "negation": false,
+        "source_data_criteria": "MedicationAllergyStatinAllergen",
+        "variable": false,
+        "temporal_references": [
+          {
+            "type": "SBCWE",
+            "reference": "GROUP_variable_CHILDREN_13"
+          }
+        ],
+        "hqmf_oid": "2.16.840.1.113883.3.560.1.1"
+      }

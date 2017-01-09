@@ -1,0 +1,26 @@
+{
+        "title": "Unfractionated Heparin",
+        "description": "Medication, Administered: Unfractionated Heparin",
+        "code_list_id": "2.16.840.1.113883.3.117.1.7.1.218",
+        "type": "medications",
+        "definition": "medication",
+        "status": "administered",
+        "hard_status": true,
+        "negation": false,
+        "source_data_criteria": "MedicationAdministeredUnfractionatedHeparin",
+        "variable": false,
+        "field_values": {
+          "ROUTE": {
+            "type": "CD",
+            "code_list_id": "2.16.840.1.113883.3.117.1.7.1.222",
+            "title": "Intravenous route"
+          }
+        },
+        "temporal_references": [
+          {
+            "type": "SDU",
+            "reference": "GROUP_variable_CHILDREN_19"
+          }
+        ],
+        "hqmf_oid": "2.16.840.1.113883.3.560.1.14"
+      }
