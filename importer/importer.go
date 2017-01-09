@@ -476,7 +476,7 @@ func ExtractScalar(scalar *models.Scalar, entryElement xml.Node, scalarPath *xpa
 			if unitAttr != nil {
 				scalar.Unit = unitAttr.String()
 			}
-			scalar.Value, err = strconv.ParseInt(valueAttr.String(), 10, 64)
+			scalar.Value = valueAttr.String()
 			util.CheckErr(err)
 		}
 	}
