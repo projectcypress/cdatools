@@ -2,12 +2,11 @@ package exporter
 
 import (
 	"encoding/json"
-	"io/ioutil"
-	"testing"
-
-	"github.com/pebbe/util"
 	"github.com/projectcypress/cdatools/models"
 	"github.com/stretchr/testify/assert"
+	"io/ioutil"
+	"log"
+	"testing"
 )
 
 var fieldOids = map[string][]string{"REASON": []string{"1.2.3.4.5.6.7.8.9.11"},
@@ -177,12 +176,18 @@ func TestHasPreferredCode(t *testing.T) {
 
 func setMeasures(measures *[]models.Measure) {
 	measureData, err := ioutil.ReadFile("../fixtures/measures/CMS9v4a.json")
-	util.CheckErr(err)
+	if err != nil {
+		log.Fatalln(err)
+	}
 	measureData2, err := ioutil.ReadFile("../fixtures/measures/CMS26v3.json")
-	util.CheckErr(err)
+	if err != nil {
+		log.Fatalln(err)
+	}
 	measureData = append([]byte("["), append(append(measureData, append([]byte(","), measureData2...)...), []byte("]")...)...)
 	err = json.Unmarshal(measureData, measures)
-	util.CheckErr(err)
+	if err != nil {
+		log.Fatalln(err)
+	}
 }
 
 func numNonNil(objs []models.HasEntry) int {

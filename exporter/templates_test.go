@@ -6,13 +6,13 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"strings"
 	"testing"
 	"text/template"
 
 	"github.com/jbowtie/gokogiri/xml"
 	"github.com/jbowtie/gokogiri/xpath"
-	"github.com/pebbe/util"
 	"github.com/projectcypress/cdatools/models"
 	"github.com/stretchr/testify/assert"
 )
@@ -750,10 +750,14 @@ func TestMedicationDischargeTemplate(t *testing.T) {
 func generateDataForTemplate(dataCriteriaName string, entryName string, entry models.HasEntry) models.EntryInfo {
 	hds := models.NewHds()
 	dc, err := ioutil.ReadFile(fmt.Sprintf("../fixtures/data_criteria/%s.json", dataCriteriaName))
-	util.CheckErr(err)
+	if err != nil {
+		log.Fatalln(err)
+	}
 
 	ent, err := ioutil.ReadFile(fmt.Sprintf("../fixtures/entries/%s.json", entryName))
-	util.CheckErr(err)
+	if err != nil {
+		log.Fatalln(err)
+	}
 
 	var dataCriteria models.DataCriteria
 	json.Unmarshal(dc, &dataCriteria)
@@ -777,7 +781,9 @@ func generateDataForTemplate(dataCriteriaName string, entryName string, entry mo
 func assertXPath(t *testing.T, elem *xml.ElementNode, pathString string, expectedAttributes map[string]string, unexpectedAttributes []string) {
 	path := xpath.Compile(pathString)
 	nodes, err := elem.Search(path)
-	util.CheckErr(err)
+	if err != nil {
+		log.Fatalln(err)
+	}
 	assert.NotEqual(t, len(nodes), 0)
 	for _, node := range nodes {
 		for attr, val := range expectedAttributes {
@@ -797,7 +803,9 @@ func assertXPath(t *testing.T, elem *xml.ElementNode, pathString string, expecte
 func assertNoXPath(t *testing.T, elem *xml.ElementNode, pathString string) {
 	path := xpath.Compile(pathString)
 	res, err := elem.Search(path)
-	util.CheckErr(err)
+	if err != nil {
+		log.Fatalln(err)
+	}
 	assert.Nil(t, res)
 }
 
@@ -805,7 +813,9 @@ func assertNoXPath(t *testing.T, elem *xml.ElementNode, pathString string) {
 func assertContent(t *testing.T, elem *xml.ElementNode, pathString string, content string) {
 	path := xpath.Compile(pathString)
 	nodes, err := elem.Search(path)
-	util.CheckErr(err)
+	if err != nil {
+		log.Fatalln(err)
+	}
 	for _, node := range nodes {
 		assert.Equal(t, content, node.Content())
 	}
@@ -842,14 +852,16 @@ func getDataForQrdaOid(qrdaOid string) models.EntryInfo {
 	setPatientMeasuresAndValueSets(&p, &m, &vs)
 	ei, err := getEntryInfo(p, m, qrdaOid, vs) // ei stands for entry info
 	if err != nil {
-		util.CheckErr(err)
+		log.Fatalln(err)
 	}
 	return ei
 }
 
 func xmlRootNode(xmlString string) *xml.ElementNode {
 	doc, err := xml.Parse([]byte(xmlString), nil, nil, xml.DefaultParseOption, xml.DefaultEncodingBytes)
-	util.CheckErr(err)
+	if err != nil {
+		log.Fatalln(err)
+	}
 	return doc.Root()
 }
 
@@ -864,14 +876,22 @@ func generateXML(fileName string, templateData interface{}) string {
 
 func setPatientMeasuresAndValueSets(patient *models.Record, measures *[]models.Measure, valueSets *[]models.ValueSet) {
 	patientData, err := ioutil.ReadFile("../fixtures/records/1_n_n_ami.json")
-	util.CheckErr(err)
+	if err != nil {
+		log.Fatalln(err)
+	}
 	measureData, err := ioutil.ReadFile("../fixtures/measures/CMS9v4a.json")
-	util.CheckErr(err)
+	if err != nil {
+		log.Fatalln(err)
+	}
 	measureData2, err := ioutil.ReadFile("../fixtures/measures/CMS26v3.json")
-	util.CheckErr(err)
+	if err != nil {
+		log.Fatalln(err)
+	}
 	measureData = append([]byte("["), append(append(measureData, append([]byte(","), measureData2...)...), []byte("]")...)...)
 	valueSetData, err := ioutil.ReadFile("../fixtures/value_sets/cms9_26.json")
-	util.CheckErr(err)
+	if err != nil {
+		log.Fatalln(err)
+	}
 	json.Unmarshal(patientData, patient)
 	json.Unmarshal(measureData, measures)
 	json.Unmarshal(valueSetData, valueSets)
@@ -885,11 +905,13 @@ func makeTemplate(qrdaVersion string, vsMap models.ValueSetMap) *template.Templa
 	temp.Funcs(exporterFuncMap(temp, vsMap))
 	fileNames, err := AssetDir("templates/cat1/" + qrdaVersion)
 	if err != nil {
-		util.CheckErr(err)
+		log.Fatalln(err)
 	}
 	for _, fileName := range fileNames {
 		asset, err := Asset("templates/cat1/" + qrdaVersion + "/" + fileName)
-		util.CheckErr(err)
+		if err != nil {
+			log.Fatalln(err)
+		}
 		template.Must(temp.New(fileName).Parse(string(asset)))
 	}
 	return temp
@@ -898,7 +920,9 @@ func makeTemplate(qrdaVersion string, vsMap models.ValueSetMap) *template.Templa
 func generateTemplateForFile(temp *template.Template, fileName string, templateData interface{}) string {
 	var buf bytes.Buffer
 	if err := temp.ExecuteTemplate(&buf, fileName, templateData); err != nil {
-		util.CheckErr(err)
+		if err != nil {
+			log.Fatalln(err)
+		}
 	}
 	return buf.String()
 }
