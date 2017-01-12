@@ -37,7 +37,6 @@ func exporterFuncMap(cat1Template *template.Template, vsMap models.ValueSetMap) 
 		"sdtcValueSetAttribute":                     sdtcValueSetAttribute,
 		"getTransferOid":                            getTransferOid,
 		"identifierForInterface":                    identifierForInterface,
-		"codeToDisplay":                             codeToDisplay,
 		"valueOrDefault":                            valueOrDefault,
 		"oidForCodeSystem":                          oidForCodeSystem,
 		"oidForCode":                                vsMap.OidForCode,
