@@ -26,12 +26,26 @@ func TestValueOrNullFlavor(t *testing.T) {
 }
 
 func TestEscape(t *testing.T) {
-	val := int64(42)
-	assert.Equal(t, escape("&"), "&amp;")
-	assert.Equal(t, escape(1), "1")
-	assert.Equal(t, "42", escape(val))
-	assert.Equal(t, "42", escape(&val))
-	assert.Equal(t, escape(nil), "")
+	// To explain the need to use &#39; (&quot;) and &#34; (&apos;)
+	// You can see on line 1841 of https://golang.org/src/encoding/xml/xml.go that xml.EscapeText
+	// uses these numbers instead of their english abbreviation conterparts because they are "shorter".
+	var tests = []struct {
+		n        string
+		expected string
+	}{
+		{"&", "&amp;"},
+		{"\"", "&#34;"},
+		{">", "&gt;"},
+		{"<", "&lt;"},
+		{"'", "&#39;"},
+		{"This should not be modified", "This should not be modified"},
+	}
+	for _, tt := range tests {
+		actual := escape(tt.n)
+		if actual != tt.expected {
+			t.Errorf("escape(%s): expected %s, actual %s", tt.n, tt.expected, actual)
+		}
+	}
 }
 
 func TestValueOrDefault(t *testing.T) {

@@ -21,7 +21,7 @@
       </effectiveTime>
     {{end}}
     {{if .EntrySection.AllowedAdministrations}}
-      <repeatNumber value="{{escape .EntrySection.AllowedAdministrations}}" />
+      <repeatNumber value="{{.EntrySection.AllowedAdministrations}}" />
     {{end}}
     {{template "_medication_details.xml" .}}
     <consumable>
