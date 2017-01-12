@@ -199,7 +199,7 @@ func (r *Record) handlePatientExpired() []HasEntry {
 
 // create entryInfos for each entry. entryInfos have mapped data criteria (mdc) recieved from the uniqueDataCriteria() function
 // also adds code displays struct to each entry
-func (r *Record) EntryInfosForPatient(measures []Measure, vsMap map[string][]CodeSet) []EntryInfo {
+func (r *Record) EntryInfosForPatient(measures []Measure, vsMap map[string][]CodeSet, qrdaVersion string) []EntryInfo {
 	mappedDataCriterias := UniqueDataCriteria(allDataCriteria(measures))
 	var entryInfos []EntryInfo
 	for _, mappedDataCriteria := range mappedDataCriterias {
@@ -208,7 +208,7 @@ func (r *Record) EntryInfosForPatient(measures []Measure, vsMap map[string][]Cod
 		for i, entrySection := range entrySections {
 			if entrySection != nil {
 				entry := entrySections[i].GetEntry()
-				hds.SetCodeDisplaysForEntry(entry, mappedDataCriteria)
+				hds.SetCodeDisplaysForEntry(entry, mappedDataCriteria, qrdaVersion)
 			}
 		}
 		entryInfos = AppendEntryInfos(entryInfos, entrySections, mappedDataCriteria)

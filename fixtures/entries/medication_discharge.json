@@ -1,0 +1,57 @@
+{
+      "active_datetime": null,
+      "administrationTiming": {
+        "period": {
+          "value": "1",
+          "unit": "d"
+        }
+      },
+      "anatomical_approach": null,
+      "codes": {
+        "RxNorm": [
+          "855312"
+        ]
+      },
+      "cumulativeMedicationDuration": null,
+      "deliveryMethod": null,
+      "description": "Medication, Discharge: Warfarin",
+      "dose": {
+        "value": "1",
+        "unit": "tablet(s)"
+      },
+      "doseIndicator": null,
+      "doseRestriction": null,
+      "end_time": 1429084800,
+      "freeTextSig": null,
+      "fulfillmentHistory": [
+
+      ],
+      "fulfillmentInstructions": null,
+      "indication": null,
+      "method": null,
+      "mood_code": "EVN",
+      "negationInd": null,
+      "negationReason": null,
+      "oid": "2.16.840.1.113883.3.560.1.199",
+      "patientInstructions": null,
+      "productForm": null,
+      "reaction": null,
+      "reason": null,
+      "route": {
+        "code_system": "2.16.840.1.113883.6.1",
+        "code": "ROUTE_CODE_1"
+      },
+      "signed_datetime": null,
+      "specifics": null,
+      "start_time": 1429084800,
+      "statusOfMedication": null,
+      "status_code": {
+        "HL7 ActStatus": [
+          "discharge"
+        ]
+      },
+      "time": null,
+      "typeOfMedication": null,
+      "vehicle": null,
+      "_type": "Medication"
+    }

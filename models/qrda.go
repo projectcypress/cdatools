@@ -56,5 +56,5 @@ type CDAIdentifier struct {
 
 type Scalar struct {
 	Unit  string `json:"unit,omitempty"`
-	Value int64  `json:"value,omitempty"`
+	Value string `json:"value,omitempty"`
 }

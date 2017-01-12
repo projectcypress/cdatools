@@ -273,3 +273,7 @@ func codeDisplayAttributeIsCodes(attribute string) bool {
 func isNil(i interface{}) bool {
 	return i == nil
 }
+
+func derefBool(i *bool) bool {
+	return *i
+}

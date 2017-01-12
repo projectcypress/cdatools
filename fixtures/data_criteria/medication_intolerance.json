@@ -1,0 +1,12 @@
+{
+        "title": "Tamoxifen or Aromatase Inhibitor Therapy",
+        "description": "Medication, Intolerance: Tamoxifen or Aromatase Inhibitor Therapy",
+        "code_list_id": "2.16.840.1.113883.3.526.3.1315",
+        "type": "medications",
+        "definition": "medication_intolerance",
+        "hard_status": false,
+        "negation": false,
+        "source_data_criteria": "MedicationIntoleranceTamoxifenOrAromataseInhibitorTherapy",
+        "variable": false,
+        "hqmf_oid": "2.16.840.1.113883.3.560.1.15"
+      }

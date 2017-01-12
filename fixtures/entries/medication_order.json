@@ -1,0 +1,62 @@
+{
+      "active_datetime": null,
+      "administrationTiming": {
+        "period": {
+          "value": "12",
+          "unit": "h"
+        }
+      },
+      "anatomical_approach": null,
+      "codes": {
+        "RxNorm": [
+          "313572"
+        ]
+      },
+      "cumulativeMedicationDuration": null,
+      "deliveryMethod": null,
+      "description": "Medication, Order: IV Vancomycin",
+      "dose": {
+        "value": "1000",
+        "unit": "mg"
+      },
+      "doseIndicator": null,
+      "doseRestriction": null,
+      "end_time": 1431590400,
+      "freeTextSig": null,
+      "fulfillmentHistory": [
+
+      ],
+      "fulfillmentInstructions": null,
+      "indication": null,
+      "method": null,
+      "mood_code": "EVN",
+      "negationInd": null,
+      "negationReason": null,
+      "oid": "2.16.840.1.113883.3.560.1.17",
+      "patientInstructions": null,
+      "productForm": null,
+      "reaction": null,
+      "reason": {
+        "code_system": "SNOMED-CT",
+        "code": "103321005",
+        "title": "Request of physician"
+      },
+      "route": {
+        "code_system": "SNOMED-CT",
+        "code": "255560000",
+        "title": "Substance or Medication Administration Route IV"
+      },
+      "signed_datetime": null,
+      "specifics": null,
+      "start_time": 1431590400,
+      "statusOfMedication": null,
+      "status_code": {
+        "HL7 ActStatus": [
+          "ordered"
+        ]
+      },
+      "time": null,
+      "typeOfMedication": null,
+      "vehicle": null,
+      "_type": "Medication"
+    }

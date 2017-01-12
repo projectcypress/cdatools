@@ -1,5 +1,5 @@
 <entry>
-  {{if (negationIndicator .EntrySection.Entry) not ""}}
+  {{if derefBool .EntrySection.Entry.NegationInd}}
   <supply classCode="SPLY" moodCode="RQO">
     <!-- Plan of Care Activity Supply -->
     <templateId root="2.16.840.1.113883.10.20.22.4.43" extension="2014-06-09"/>

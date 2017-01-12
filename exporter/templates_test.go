@@ -168,7 +168,6 @@ func TestOrdinalityTemplate(t *testing.T) {
 		CodedConcept: models.CodedConcept{Code: "ORDINAL_CODE_1", CodeSystem: "2.16.840.1.113883.6.1"}, Title: "Principal"}
 	rootNode := xmlOrdinalityRootNode(ordinality)
 
-	//"1.2.3.4.5.6.7.8.9.10"
 	assertXPath(t, rootNode, "//priorityCode", map[string]string{"code": "ORDINAL_CODE_1", "codeSystem": "2.16.840.1.113883.6.1", "sdtc:valueSet": "1.2.3.4.5.6.7.8.9.10"}, nil)
 
 }
@@ -183,6 +182,52 @@ func xmlOrdinalityRootNode(ordinality models.Ordinality) *xml.ElementNode {
 func getOrdinalityData(ordinality models.Ordinality) *models.EntryInfo {
 	procedure := models.Procedure{Ordinality: ordinality}
 	return &models.EntryInfo{EntrySection: &procedure}
+}
+
+func TestMedicationDetailsTemplate(t *testing.T) {
+	route := models.CodedConcept{Code: "ROUTE_CODE_1", CodeSystem: "2.16.840.1.113883.6.1"}
+	neg := true
+	dose := models.Scalar{Value: "1", Unit: "d"}
+
+	rootNode := xmlMedicationDetailsRootNode(&route, &neg, dose)
+
+	assertXPath(t, rootNode, "//routeCode", map[string]string{"code": "ROUTE_CODE_1", "codeSystem": "2.16.840.1.113883.6.1", "sdtc:valueSet": "1.2.3.4.5.6.7.8.9.12"}, nil)
+
+	rootNode = xmlMedicationDetailsRootNode(nil, &neg, dose)
+	assertXPath(t, rootNode, "//doseQuantity", map[string]string{"nullFlavor": "NA"}, nil)
+
+	rootNode = xmlMedicationDetailsRootNode(nil, nil, dose)
+	assertXPath(t, rootNode, "//doseQuantity", map[string]string{"value": "1", "unit": "d"}, nil)
+}
+
+func xmlMedicationDetailsRootNode(route *models.CodedConcept, neg *bool, dose models.Scalar) *xml.ElementNode {
+	med := models.Medication{
+		Route: route, Dose: dose, Entry: models.Entry{NegationInd: neg}}
+	data := &models.EntryInfo{EntrySection: &med}
+	setMapDataCriteria(data)
+	xmlString := generateXML("_medication_details.xml", *data)
+	return xmlRootNode(xmlString)
+}
+
+func TestMedicationDispenseTemplate(t *testing.T) {
+	dispenseDate := int64(1420581600)
+	quantityDispensed := models.Scalar{Value: "10", Unit: "c"}
+	fulfillmentHistory := [](models.FulfillmentHistory){models.FulfillmentHistory{DispenseDate: &dispenseDate, QuantityDispensed: quantityDispensed}}
+
+	rootNode := xmlMedicationDispenseRootNode(fulfillmentHistory)
+
+	assertXPath(t, rootNode, "//entryRelationship/supply/effectiveTime", map[string]string{"value": "201501062200+0000"}, nil)
+	assertXPath(t, rootNode, "//entryRelationship/supply/quantity", map[string]string{"value": "10", "unit": "c"}, nil)
+}
+
+func xmlMedicationDispenseRootNode(fulfillmentHistory [](models.FulfillmentHistory)) *xml.ElementNode {
+	expectedCodeDisplay := models.CodeDisplay{CodeType: "medicationDispense", PreferredCodeSets: []string{"SNOMED-CT"}}
+	med := models.Medication{
+		FulfillmentHistory: fulfillmentHistory, Entry: models.Entry{CodeDisplays: [](models.CodeDisplay){expectedCodeDisplay}}}
+	data := &models.EntryInfo{EntrySection: &med}
+	setMapDataCriteria(data)
+	xmlString := generateXML("_medication_dispense.xml", *data)
+	return xmlRootNode(xmlString)
 }
 
 // test _2.16.840.1.113883.10.20.24.3.23.xml
@@ -580,6 +625,123 @@ func TestDiagnosisResolvedTemplate(t *testing.T) {
 	assertXPath(t, xrn, "//entry/act/effectiveTime/low", map[string]string{"value": "201405100801+0000"}, nil)
 }
 
+func TestMedicationActiveTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.41"
+	dataCriteriaName := "medication_active"
+	entryName := "medication_active"
+
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Medication{})
+
+	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+
+	assertXPath(t, xrn, "//entry/substanceAdministration", map[string]string{"classCode": "SBADM", "moodCode": "EVN"}, nil)
+	assertXPath(t, xrn, "//entry/substanceAdministration/templateId[@root='2.16.840.1.113883.10.20.24.3.41']", nil, nil)
+	assertXPath(t, xrn, "//entry/substanceAdministration/effectiveTime/low", map[string]string{"value": "201501062200+0000"}, nil)
+	assertXPath(t, xrn, "//entry/substanceAdministration/effectiveTime[@operator='A']/period", map[string]string{"value": "1", "unit": "d"}, nil)
+}
+
+func TestMedicationAdministeredTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.42"
+	dataCriteriaName := "medication_administered"
+	entryName := "medication_administered"
+
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Medication{})
+
+	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+
+	assertXPath(t, xrn, "//entry/act", map[string]string{"classCode": "ACT", "moodCode": "EVN"}, nil)
+	assertXPath(t, xrn, "//entry/act/templateId[@root='2.16.840.1.113883.10.20.24.3.42']", nil, nil)
+	assertXPath(t, xrn, "//entry/act/entryRelationship[@typeCode='COMP']/substanceAdministration/effectiveTime/low", map[string]string{"value": "201505151000+0000"}, nil)
+}
+
+func TestMedicationAdverseEffectTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.43"
+	dataCriteriaName := "medication_adverse_effect"
+	entryName := "medication_adverse_effect"
+
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Medication{})
+
+	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+
+	assertXPath(t, xrn, "//entry/observation", map[string]string{"classCode": "OBS", "moodCode": "EVN"}, nil)
+	assertXPath(t, xrn, "//entry/observation/templateId[@root='2.16.840.1.113883.10.20.22.4.7']", nil, nil)
+	assertXPath(t, xrn, "//entry/observation/effectiveTime/low", map[string]string{"value": "201501062200+0000"}, nil)
+}
+
+func TestMedicationAllergyTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.44"
+	dataCriteriaName := "medication_allergy"
+	entryName := "medication_allergy"
+
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Medication{})
+
+	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+
+	assertXPath(t, xrn, "//entry/observation", map[string]string{"classCode": "OBS", "moodCode": "EVN"}, nil)
+	assertXPath(t, xrn, "//entry/observation/templateId[@root='2.16.840.1.113883.10.20.24.3.44']", nil, nil)
+	assertXPath(t, xrn, "//entry/observation/effectiveTime/low", map[string]string{"value": "201505190800+0000"}, nil)
+}
+
+func TestMedicationDispensedTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.45"
+	dataCriteriaName := "medication_dispensed"
+	entryName := "medication_dispensed"
+
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Medication{})
+
+	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+
+	assertXPath(t, xrn, "//entry/supply", map[string]string{"classCode": "SPLY", "moodCode": "EVN"}, nil)
+	assertXPath(t, xrn, "//entry/supply/templateId[@root='2.16.840.1.113883.10.20.22.4.18']", nil, nil)
+	assertXPath(t, xrn, "//entry/supply/effectiveTime/high", map[string]string{"value": "201410190815+0000"}, nil)
+}
+
+func TestMedicationIntoleranceTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.46"
+	dataCriteriaName := "medication_intolerance"
+	entryName := "medication_intolerance"
+
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Medication{})
+
+	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+
+	assertXPath(t, xrn, "//entry/observation", map[string]string{"classCode": "OBS", "moodCode": "EVN"}, nil)
+	assertXPath(t, xrn, "//entry/observation/templateId[@root='2.16.840.1.113883.10.20.22.4.7']", nil, nil)
+	assertXPath(t, xrn, "//entry/observation/effectiveTime/low", map[string]string{"value": "201512070830+0000"}, nil)
+}
+
+func TestMedicationOrderTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.47"
+	dataCriteriaName := "medication_order"
+	entryName := "medication_order"
+
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Medication{})
+
+	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+
+	assertXPath(t, xrn, "//entry/substanceAdministration", map[string]string{"classCode": "SBADM", "moodCode": "RQO"}, nil)
+	assertXPath(t, xrn, "//entry/substanceAdministration/templateId[@root='2.16.840.1.113883.10.20.22.4.42']", nil, nil)
+	assertXPath(t, xrn, "//entry/substanceAdministration/effectiveTime/low", map[string]string{"value": "201505140800+0000"}, nil)
+	assertXPath(t, xrn, "//entry/substanceAdministration/effectiveTime[@operator='A']/period", map[string]string{"value": "12", "unit": "h"}, nil)
+}
+
+func TestMedicationDischargeTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.105"
+	dataCriteriaName := "medication_discharge"
+	entryName := "medication_discharge"
+
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Medication{})
+
+	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+
+	assertXPath(t, xrn, "//entry/act", map[string]string{"classCode": "ACT", "moodCode": "EVN"}, nil)
+	assertXPath(t, xrn, "//entry/act/templateId[@root='2.16.840.1.113883.10.20.24.3.105']", nil, nil)
+	assertXPath(t, xrn, "//entry/act/effectiveTime/low", map[string]string{"value": "201504150800+0000"}, nil)
+	assertXPath(t, xrn, "//entry/act/entryRelationship[@typeCode='SUBJ']/substanceAdministration/effectiveTime[@operator='A']/period", map[string]string{"value": "1", "unit": "d"}, nil)
+	assertXPath(t, xrn, "//entry/act/entryRelationship[@typeCode='SUBJ']/substanceAdministration/routeCode", map[string]string{"code": "ROUTE_CODE_1", "codeSystem": "2.16.840.1.113883.6.1"}, nil)
+	assertXPath(t, xrn, "//entry/act/entryRelationship[@typeCode='SUBJ']/substanceAdministration/doseQuantity", map[string]string{"value": "1"}, nil)
+}
+
 // - - - - - - - - //
 //   H E L P E R   //
 // - - - - - - - - //
@@ -599,7 +761,7 @@ func generateDataForTemplate(dataCriteriaName string, entryName string, entry mo
 	json.Unmarshal(ent, &entry)
 
 	udc := models.UniqueDataCriteria([]models.DataCriteria{dataCriteria})
-	hds.SetCodeDisplaysForEntry(entry.GetEntry(), udc[0])
+	hds.SetCodeDisplaysForEntry(entry.GetEntry(), udc[0], "r3")
 
 	ei := models.EntryInfo{
 		EntrySection:    entry,
@@ -717,7 +879,7 @@ func setPatientMeasuresAndValueSets(patient *models.Record, measures *[]models.M
 
 func makeTemplate(qrdaVersion string, vsMap models.ValueSetMap) *template.Template {
 	if qrdaVersion == "" {
-		qrdaVersion = "r3_1"
+		qrdaVersion = "r3"
 	}
 	temp := template.New("cat1")
 	temp.Funcs(exporterFuncMap(temp, vsMap))
@@ -743,7 +905,7 @@ func generateTemplateForFile(temp *template.Template, fileName string, templateD
 
 func getEntryInfo(patient models.Record, measures []models.Measure, qrdaOid string, vs []models.ValueSet) (models.EntryInfo, error) {
 	hds := models.NewHds()
-	entryInfos := patient.EntryInfosForPatient(measures, models.NewValueSetMap(vs))
+	entryInfos := patient.EntryInfosForPatient(measures, models.NewValueSetMap(vs), "r3")
 	for _, ei := range entryInfos {
 		if qrdaOid == hds.HqmfToQrdaOid(ei.EntrySection.GetEntry().Oid, ei.MapDataCriteria.DcKey.ValueSetOid) {
 			return ei, nil

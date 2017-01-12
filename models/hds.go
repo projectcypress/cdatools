@@ -20,7 +20,7 @@ type HdsMaps struct {
 	// maps qrda oids to hqmf oids
 	HqmfQrdaMap map[string]map[string]string
 	// maps qrda oids to maps containing code display information
-	QrdaCodeDisplayMap map[string][]CodeDisplay
+	QrdaCodeDisplayMap map[string]map[string][]CodeDisplay
 }
 
 type HqmfQrdaOidsWithCodeDisplays struct {
@@ -34,23 +34,35 @@ type HqmfQrdaOidsWithCodeDisplays struct {
 // NOTE: Had to remove the use of the Asset function that exists in exporter/templates.go:1228
 // Now function just reads the json file directly.
 func (h *HdsMaps) importHqmfQrdaJSON() {
-	data, err := ioutil.ReadFile("../exporter/hqmf_qrda_oids.json")
+	data_r3, err := ioutil.ReadFile("../exporter/hqmf_qrda_oids.json")
+	if err != nil {
+		log.Fatalln(err)
+	}
+	data_r3_1, err := ioutil.ReadFile("../exporter/hqmf_qrda_oids_r3_1.json")
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	var hqmfQrdaOids []HqmfQrdaOidsWithCodeDisplays
-	if err := json.Unmarshal(data, &hqmfQrdaOids); err != nil {
+	var hqmfQrdaOids_r3 []HqmfQrdaOidsWithCodeDisplays
+	if err := json.Unmarshal(data_r3, &hqmfQrdaOids_r3); err != nil {
 		log.Fatalln(err)
 	}
-
-	for _, oidsElem := range hqmfQrdaOids {
-		h.QrdaCodeDisplayMap[oidsElem.QrdaOid] = oidsElem.CodeDisplays
+	var hqmfQrdaOids_r3_1 []HqmfQrdaOidsWithCodeDisplays
+	if err := json.Unmarshal(data_r3_1, &hqmfQrdaOids_r3_1); err != nil {
+		log.Fatalln(err)
+	}
+	h.QrdaCodeDisplayMap["r3"] = make(map[string][]CodeDisplay)
+	for _, oidsElem := range hqmfQrdaOids_r3 {
+		h.QrdaCodeDisplayMap["r3"][oidsElem.QrdaOid] = oidsElem.CodeDisplays
+	}
+	h.QrdaCodeDisplayMap["r3_1"] = make(map[string][]CodeDisplay)
+	for _, oidsElem := range hqmfQrdaOids_r3_1 {
+		h.QrdaCodeDisplayMap["r3_1"][oidsElem.QrdaOid] = oidsElem.CodeDisplays
 	}
 
 	// create hqmfQrdaMap (map) of hqmf oid to map[string]string
 	// containing "hqmf_name", "hqmf_oid", "qrda_name", and qrda_oid
-	for _, oidsElem := range hqmfQrdaOids {
+	for _, oidsElem := range hqmfQrdaOids_r3 {
 		hqmfQrdaMapElem := make(map[string]string)
 		hqmfQrdaMapElem["hqmf_name"] = oidsElem.HqmfName
 		hqmfQrdaMapElem["hqmf_oid"] = oidsElem.HqmfOid
@@ -102,15 +114,18 @@ func (h *HdsMaps) HqmfToQrdaOid(hqmfOid string, vsOid string) string {
 	return qrdaOidToReturn
 }
 
-func (h *HdsMaps) CodeDisplayForQrdaOid(oid string) []CodeDisplay {
-	if codeDisplays, ok := h.QrdaCodeDisplayMap[oid]; ok {
+func (h *HdsMaps) CodeDisplayForQrdaOid(oid string, version string) []CodeDisplay {
+	if codeDisplays, ok := h.QrdaCodeDisplayMap[version][oid]; ok {
+		return codeDisplays
+	} else if codeDisplays, ok := h.QrdaCodeDisplayMap["r3"][oid]; ok {
 		return codeDisplays
 	}
 	return nil
 }
 
-func (h *HdsMaps) SetCodeDisplaysForEntry(e *Entry, mapDataCriteria Mdc) {
-	codeDisplays := h.CodeDisplayForQrdaOid(h.HqmfToQrdaOid(e.Oid, mapDataCriteria.DcKey.ValueSetOid))
+// TODO: Add version stuff to here
+func (h *HdsMaps) SetCodeDisplaysForEntry(e *Entry, mapDataCriteria Mdc, qrdaVersion string) {
+	codeDisplays := h.CodeDisplayForQrdaOid(h.HqmfToQrdaOid(e.Oid, mapDataCriteria.DcKey.ValueSetOid), qrdaVersion)
 	allPerferredCodeSetsIfNeeded(codeDisplays)
 	for i := range codeDisplays {
 		codeDisplays[i].Description = e.Description

@@ -15,7 +15,7 @@ func init() {
 		HqmfR2Map:          make(map[string]DataCriteria),
 		HqmfMap:            make(map[string]DataCriteria),
 		HqmfQrdaMap:        make(map[string]map[string]string),
-		QrdaCodeDisplayMap: make(map[string][]CodeDisplay),
+		QrdaCodeDisplayMap: make(map[string]map[string][]CodeDisplay),
 	}
 	hds.importHqmfQrdaJSON()
 	hds.importHQMFTemplateJSON()

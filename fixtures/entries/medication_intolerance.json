@@ -1,0 +1,26 @@
+{
+      "codes": {
+        "RxNorm": [
+          "198240"
+        ]
+      },
+      "description": "Medication, Intolerance: Tamoxifen or Aromatase Inhibitor Therapy",
+      "end_time": null,
+      "mood_code": "EVN",
+      "negationInd": null,
+      "negationReason": null,
+      "oid": "2.16.840.1.113883.3.560.1.15",
+      "reaction": null,
+      "reason": null,
+      "severity": null,
+      "specifics": null,
+      "start_time": 1449477000,
+      "status_code": {
+        "HL7 ActStatus": [
+          null
+        ]
+      },
+      "time": null,
+      "type": null,
+      "_type": "Allergy"
+    }

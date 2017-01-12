@@ -30,11 +30,11 @@ func TestHqmfToQrdaOid(t *testing.T) {
 
 func TestCodeDisplayForQrdaOid(t *testing.T) {
 	// invalid qrda oid
-	codeDisplays := hds.CodeDisplayForQrdaOid("not a valid qrda oid")
+	codeDisplays := hds.CodeDisplayForQrdaOid("not a valid qrda oid", "r3")
 	assert.Equal(t, 0, len(codeDisplays))
 
 	// qrda oid with multiple code displays
-	codeDisplays = hds.CodeDisplayForQrdaOid("2.16.840.1.113883.10.20.24.3.23")
+	codeDisplays = hds.CodeDisplayForQrdaOid("2.16.840.1.113883.10.20.24.3.23", "r3_1")
 	assert.Equal(t, 3, len(codeDisplays))
 	if len(codeDisplays) > 0 {
 		assert.Equal(t, "entryCode", codeDisplays[0].CodeType)
@@ -86,7 +86,7 @@ func TestSetCodeDisplaysForEntry(t *testing.T) {
 	entry := &Entry{Oid: "2.16.840.1.113883.3.560.1.79"} // encounter performed hqmf oid
 	mapDataCriteria := Mdc{}
 	assert.Equal(t, 0, len(entry.CodeDisplays))
-	hds.SetCodeDisplaysForEntry(entry, mapDataCriteria)
+	hds.SetCodeDisplaysForEntry(entry, mapDataCriteria, "r3")
 	assert.Equal(t, 3, len(entry.CodeDisplays)) // three code displays the encounter performed entry
 }
 

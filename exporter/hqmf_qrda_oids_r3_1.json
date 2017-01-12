@@ -1,0 +1,146 @@
+[
+    {
+    "hqmf_name": "Medication, Administered",
+    "hqmf_oid": "2.16.840.1.113883.3.560.1.14",
+    "qrda_name": "Medication Administered",
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.42",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "",
+        "preferred_code_sets": ["*"]
+      }
+    ]
+  },
+  {
+    "hqmf_name": "Substance, Administered",
+    "hqmf_oid": "2.16.840.1.113883.3.560.1.64",
+    "qrda_name": "Medication Administered",
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.42",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "",
+        "preferred_code_sets": ["*"]
+      }
+    ]
+  },
+  {
+    "hqmf_name": "Medication, not Administered",
+    "hqmf_oid": "2.16.840.1.113883.3.560.1.114",
+    "qrda_name": "Medication Administered",
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.42",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "",
+        "preferred_code_sets": ["*"]
+      }
+    ]
+  },
+  {
+    "hqmf_name": "Substance, Administered not done",
+    "hqmf_oid": "2.16.840.1.113883.3.560.1.164",
+    "qrda_name": "Medication Administered",
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.42",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "",
+        "preferred_code_sets": ["*"]
+      }
+    ]
+  },
+  {
+    "hqmf_name": "Medication, Allergy",
+    "hqmf_oid": "2.16.840.1.113883.3.560.1.1",
+    "qrda_name": "Medication Allergy",
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.44",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "",
+        "preferred_code_sets": ["*"]
+      }
+    ]
+  },
+  {
+    "hqmf_name": "Substance, Allergy",
+    "hqmf_oid": "2.16.840.1.113883.3.560.1.66",
+    "qrda_name": "Medication Allergy",
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.44",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "",
+        "preferred_code_sets": ["*"]
+      }
+    ]
+  },
+  {
+    "hqmf_name": "Medication, Order",
+    "hqmf_oid": "2.16.840.1.113883.3.560.1.17",
+    "qrda_name": "Medication Order",
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.47",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "",
+        "preferred_code_sets": ["RxNorm"]
+      }
+    ]
+  },
+  {
+    "hqmf_name": "Substance, Order",
+    "hqmf_oid": "2.16.840.1.113883.3.560.1.68",
+    "qrda_name": "Medication Order",
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.47",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "",
+        "preferred_code_sets": ["RxNorm"]
+      }
+    ]
+  },
+  {
+    "hqmf_name": "Medication, Order not done",
+    "hqmf_oid": "2.16.840.1.113883.3.560.1.78",
+    "qrda_name": "Medication Order",
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.47",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "",
+        "preferred_code_sets": ["RxNorm"]
+      }
+    ]
+  }
+]

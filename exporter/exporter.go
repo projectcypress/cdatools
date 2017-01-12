@@ -48,6 +48,7 @@ func exporterFuncMap(cat1Template *template.Template, vsMap models.ValueSetMap) 
 		"codeDisplayWithPreferredCodeAndLaterality": codeDisplayWithPreferredCodeAndLaterality,
 		"negationIndicator":                         negationIndicator,
 		"isNil":                                     isNil,
+		"derefBool":                                 derefBool,
 	}
 }
 
@@ -228,7 +229,7 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 		},
 	}
 
-	c1d := cat1data{Record: *p, Header: *h, Measures: m, ValueSets: vs, StartDate: startDate, EndDate: endDate, EntryInfos: p.EntryInfosForPatient(m, vsMap)}
+	c1d := cat1data{Record: *p, Header: *h, Measures: m, ValueSets: vs, StartDate: startDate, EndDate: endDate, EntryInfos: p.EntryInfosForPatient(m, vsMap, qrdaVersion)}
 
 	var b bytes.Buffer
 
