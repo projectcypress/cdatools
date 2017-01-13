@@ -1,3 +1,6 @@
+package fixtures
+
+var Cms9_26 = []byte(`
 [{
         "concepts": [{
             "code": "M",
@@ -1688,3 +1691,4 @@
         "version": "Draft"
     }
 ]
+`)

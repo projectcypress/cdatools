@@ -1,3 +1,6 @@
+package fixtures
+
+var Cms26v3 = []byte(`
 {
   "id": "40280381-4B9A-3825-014B-BD8FA6B2062E",
   "nqf_id": "0338",
@@ -1120,3 +1123,4 @@
     "NUMER": "71B40FB7-90D3-41E4-AEFE-CCC1A174E368"
   }
 }
+`)

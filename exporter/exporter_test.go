@@ -2,9 +2,9 @@ package exporter
 
 import (
 	"fmt"
-	"io/ioutil"
-	"log"
 	"testing"
+
+	"github.com/projectcypress/cdatools/fixtures"
 )
 
 // This test is essentially a noop but it's useful to see what you're exporting.
@@ -12,19 +12,9 @@ import (
 //  HDS validation.
 func TestExport(t *testing.T) {
 	t.Skip()
-	patientData, err := ioutil.ReadFile("../fixtures/records/1_n_n_ami.json")
-	if err != nil {
-		log.Fatalln(err)
-	}
-	measureData, err := ioutil.ReadFile("../fixtures/measures/CMS9v4a.json")
-	measureData2, err := ioutil.ReadFile("../fixtures/measures/CMS26v3.json")
-	valueSetData, err := ioutil.ReadFile("../fixtures/value_sets/cms9_26.json")
-	measureData = append([]byte("["), append(append(measureData, append([]byte(","), measureData2...)...), []byte("]")...)...)
-	if err != nil {
-		log.Fatalln(err)
-	}
+	measureData := append([]byte("["), append(append(fixtures.Cms9v4a, append([]byte(","), fixtures.Cms26v3...)...), []byte("]")...)...)
 
 	startDate := int64(1451606400)
 	endDate := int64(1483228799)
-	fmt.Print(GenerateCat1(patientData, measureData, valueSetData, startDate, endDate, "r3"))
+	fmt.Print(GenerateCat1(fixtures.TestPatientDataAmi, measureData, fixtures.Cms9_26, startDate, endDate, "r3"))
 }

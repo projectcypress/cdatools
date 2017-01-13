@@ -2,10 +2,9 @@ package models
 
 import (
 	"encoding/json"
-	"io/ioutil"
-	"log"
 	"testing"
 
+	"github.com/projectcypress/cdatools/fixtures"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -46,26 +45,15 @@ func TestCodeDisplayForQrdaOid(t *testing.T) {
 
 func TestGetAllDataCriteriaForOneMeasure(t *testing.T) {
 	mes := make([]Measure, 1)
-	measureData, err := ioutil.ReadFile("../fixtures/measures/CMS9v4a.json")
-	if err != nil {
-		log.Fatalln(err)
-	}
-	measureData = append([]byte("["), append(measureData, []byte("]")...)...)
+	measureData := append([]byte("["), append(fixtures.Cms9v4a, []byte("]")...)...)
 	json.Unmarshal(measureData, &mes)
+
 	assert.Equal(t, len(allDataCriteria(mes)), 27)
 }
 
 func TestGetAllDatacriteriaForMultipleMeasures(t *testing.T) {
 	mes := make([]Measure, 2)
-	measureData, err := ioutil.ReadFile("../fixtures/measures/CMS9v4a.json")
-	if err != nil {
-		log.Fatalln(err)
-	}
-	measureData2, err := ioutil.ReadFile("../fixtures/measures/CMS26v3.json")
-	if err != nil {
-		log.Fatalln(err)
-	}
-	measureData = append([]byte("["), append(append(measureData, append([]byte(","), measureData2...)...), []byte("]")...)...)
+	measureData := append([]byte("["), append(append(fixtures.Cms9v4a, append([]byte(","), fixtures.Cms26v3...)...), []byte("]")...)...)
 	json.Unmarshal(measureData, &mes)
 
 	assert.Equal(t, len(allDataCriteria(mes)), 47)
@@ -73,11 +61,7 @@ func TestGetAllDatacriteriaForMultipleMeasures(t *testing.T) {
 
 func TestGetUniqueDataCriteriaForOneMeasure(t *testing.T) {
 	mes := make([]Measure, 1)
-	measureData, err := ioutil.ReadFile("../fixtures/measures/CMS9v4a.json")
-	if err != nil {
-		log.Fatalln(err)
-	}
-	measureData = append([]byte("["), append(measureData, []byte("]")...)...)
+	measureData := append([]byte("["), append(fixtures.Cms9v4a, []byte("]")...)...)
 	json.Unmarshal(measureData, &mes)
 	assert.Equal(t, len(UniqueDataCriteria(allDataCriteria(mes))), 14)
 }
