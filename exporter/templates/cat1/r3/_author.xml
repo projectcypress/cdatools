@@ -1,6 +1,6 @@
 <!-- SHALL have 1..* author. MAY be device or person. -->
 <author>
-  <time value="{{ escape .Time}}" />
+  <time value="{{.Time}}" />
   <assignedAuthor>
   {{range .Ids}}
     {{template "_id.xml" .}}

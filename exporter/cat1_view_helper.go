@@ -15,29 +15,12 @@ import (
 	"github.com/projectcypress/cdatools/models"
 )
 
-func escape(i interface{}) string {
-	switch str := i.(type) {
-	case string:
-		return escapeString(str)
-	case int64:
-		return escapeString(strconv.FormatInt(str, 10))
-	case int:
-		return escapeString(strconv.Itoa(str))
-	case *int64:
-		if str != nil {
-			return escapeString(strconv.FormatInt(*str, 10))
-		}
-	case *int:
-		if str != nil {
-			return escapeString(strconv.Itoa(*str))
-		}
-	}
-	return ""
-}
-
-func escapeString(s string) string {
+func escape(s string) string {
 	b := new(bytes.Buffer)
-	xml.Escape(b, []byte(s))
+	err := xml.EscapeText(b, []byte(s))
+	if err != nil {
+		log.Fatalln(err)
+	}
 	return b.String()
 }
 
@@ -48,13 +31,13 @@ func timeToFormat(t int64, f string) string {
 		log.Fatalln(err, "Time Zone Location failed to load")
 	}
 	parsedTime := time.Unix(t, 0)
-	return escapeString(parsedTime.In(utc).Format(f))
+	return escape(parsedTime.In(utc).Format(f))
 }
 
 // IdentifierFor MD5s a byte slice, and returns a String
 func identifierFor(b []byte) string {
 	md := md5.Sum(b)
-	return escapeString(strings.ToUpper(hex.EncodeToString(md[:])))
+	return escape(strings.ToUpper(hex.EncodeToString(md[:])))
 }
 
 func identifierForInterface(objs ...interface{}) string {
