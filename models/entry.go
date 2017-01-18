@@ -95,3 +95,12 @@ func (e *Entry) IsValuesEmpty() bool {
 func (e *Entry) HasReason() bool {
 	return e.NegationReason != (CodedConcept{}) || e.Reason != (CodedConcept{})
 }
+
+func (e *Entry) WrapResultValue(val ResultValue) ResultValueWrap {
+	return ResultValueWrap{ResultValueEntry: e, Values: []ResultValue{val}}
+
+}
+
+func (e *Entry) WrapResultValues(vals []ResultValue) ResultValueWrap {
+	return ResultValueWrap{ResultValueEntry: e, Values: vals}
+}

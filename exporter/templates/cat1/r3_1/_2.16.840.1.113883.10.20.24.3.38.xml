@@ -12,7 +12,7 @@
       <high {{valueOrNullFlavor .EntrySection.EndTime}}/>
     </effectiveTime>
     {{if not .EntrySection.Entry.IsValuesEmpty}}
-      {{template "_result_value.xml" .}}
+      {{template "_result_value.xml" (.EntrySection.Entry.WrapResultValues .EntrySection.Entry.Values)}}
     {{else}}
       <value xsi:type="PQ" nullFlavor="UNK"/>
     {{end}}

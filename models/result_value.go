@@ -21,3 +21,8 @@ func (r *ResultValue) GetScalarType() string {
 		return "other"
 	}
 }
+
+type ResultValueWrap struct {
+	ResultValueEntry *Entry
+	Values           []ResultValue
+}

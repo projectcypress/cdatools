@@ -137,7 +137,7 @@ func TestResultValueTemplate(t *testing.T) {
 }
 
 func xmlResultValueRootNode(eInfo models.EntryInfo) *xml.ElementNode {
-	xmlString := generateXML("_result_value.xml", eInfo)
+	xmlString := generateXML("_result_value.xml", eInfo.EntrySection.GetEntry().WrapResultValues(eInfo.EntrySection.GetEntry().Values))
 	return xmlRootNode(xmlString)
 }
 
@@ -834,14 +834,14 @@ func printXmlString(xmlString string) {
 
 func xmlRootNodeForQrdaOid(qrdaOid string) *xml.ElementNode {
 	fileName := "_" + qrdaOid + ".xml"
-	// printXmlString(generateXML(fileName, getDataForQrdaOid(qrdaOid)))
+	printXmlString(generateXML(fileName, getDataForQrdaOid(qrdaOid)))
 	return xmlRootNode(generateXML(fileName, getDataForQrdaOid(qrdaOid)))
 }
 
 // same as xmlRootNodeForQrdaOid() function but allows custom input data (should be an EntryInfo struct)
 func xmlRootNodeForQrdaOidWithData(qrdaOid string, data interface{}) *xml.ElementNode {
 	fileName := "_" + qrdaOid + ".xml"
-	// printXmlString(generateXML(fileName, data))
+	printXmlString(generateXML(fileName, data))
 	return xmlRootNode(generateXML(fileName, data))
 }
 
