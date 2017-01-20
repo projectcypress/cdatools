@@ -1,0 +1,40 @@
+{
+  "anatomical_approach": null,
+  "anatomical_target": null,
+  "codes": {
+    "LOINC": [
+      "72102-7"
+    ]
+  },
+  "description": "Functional Status, Performed: Functional Status Assessment for Knee Replacement",
+  "end_time": 1406905200,
+  "incisionTime": null,
+  "method": null,
+  "mood_code": "EVN",
+  "negationInd": null,
+  "negationReason": null,
+  "oid": "2.16.840.1.113883.3.560.1.85",
+  "ordinality": null,
+  "performer_id": null,
+  "radiation_dose": null,
+  "radiation_duration": null,
+  "reaction": null,
+  "reason": null,
+  "source": null,
+  "specifics": null,
+  "start_time": 1406901600,
+  "status_code": {
+    "HL7 ActStatus": [
+      "performed"
+    ]
+  },
+  "time": null,
+  "values": [
+    {
+      "scalar": "40",
+      "units": "",
+      "_type": "PhysicalQuantityResultValue"
+    }
+  ],
+  "_type": "Procedure"
+}

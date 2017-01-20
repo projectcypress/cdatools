@@ -1,5 +1,21 @@
 [
-    {
+  {
+    "hqmf_name": "Functional Status, Performed",
+    "hqmf_oid": "2.16.840.1.113883.3.560.1.85",
+    "qrda_name": "Functional Status Performed",
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.26",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "", 
+        "preferred_code_sets": ["*"]
+      }
+    ]
+  },
+  {
     "hqmf_name": "Medication, Administered",
     "hqmf_oid": "2.16.840.1.113883.3.560.1.14",
     "qrda_name": "Medication Administered",
@@ -140,6 +156,54 @@
         "exclude_null_flavor": false,
         "extra_content": "",
         "preferred_code_sets": ["RxNorm"]
+      }
+    ]
+  },
+  {
+    "hqmf_name": "Risk Category Assessment",
+    "hqmf_oid": "2.16.840.1.113883.3.560.1.21",
+    "qrda_name": "Risk Category Assessment",
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.69",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "",
+        "preferred_code_sets": ["*"]
+      },
+      {
+        "code_type": "resultValue",
+        "tag_name": "value",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "xsi:type=\"CD\"",
+        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"]
+      }
+    ]
+  },
+  {
+    "hqmf_name": "Risk Category Assessment not done",
+    "hqmf_oid": "2.16.840.1.113883.3.560.1.121",
+    "qrda_name": "Risk Category Assessment",
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.69",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "",
+        "preferred_code_sets": ["*"]
+      },
+      {
+        "code_type": "resultValue",
+        "tag_name": "value",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "xsi:type=\"CD\"",
+        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"]
       }
     ]
   }

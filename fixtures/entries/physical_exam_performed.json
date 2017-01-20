@@ -1,0 +1,40 @@
+{
+  "anatomical_approach": null,
+  "anatomical_target": null,
+  "codes": {
+    "SNOMED-CT": [
+      "444135009"
+    ]
+  },
+  "description": "Physical Exam, Performed: Estimated Gestational Age at Delivery",
+  "end_time": 1431925200,
+  "incisionTime": null,
+  "method": null,
+  "mood_code": "EVN",
+  "negationInd": null,
+  "negationReason": null,
+  "oid": "2.16.840.1.113883.3.560.1.57",
+  "ordinality": null,
+  "performer_id": null,
+  "radiation_dose": null,
+  "radiation_duration": null,
+  "reaction": null,
+  "reason": null,
+  "source": null,
+  "specifics": null,
+  "start_time": 1431925200,
+  "status_code": {
+    "HL7 ActStatus": [
+      "performed"
+    ]
+  },
+  "time": null,
+  "values": [
+    {
+      "scalar": "37",
+      "units": "wk",
+      "_type": "PhysicalQuantityResultValue"
+    }
+  ],
+  "_type": "Procedure"
+}

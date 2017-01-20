@@ -1,0 +1,17 @@
+{
+  "title": "Symptom Active",
+  "description": "Symptom, Active: Stuff happened",
+  "code_list_id": "2.16.840.1.113883.3.117.1.7.1.357",
+  "type": "symptom_active",
+  "definition": "symptom_active",
+  "hard_status": false,
+  "negation": false,
+  "source_data_criteria": "RiskCategoryAssessmentVteRiskAssessment",
+  "variable": false,
+  "value": {
+    "type": "CD",
+    "code_list_id": "2.16.840.1.113883.3.117.1.7.1.400",
+    "title": "Low Risk"
+  },
+  "hqmf_oid": "2.16.840.1.113883.3.560.1.69"
+}

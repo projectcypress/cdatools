@@ -162,7 +162,17 @@ var hqmf_qrda_oids = []byte(`[
     "hqmf_name": "Care Goal",
     "hqmf_oid": "2.16.840.1.113883.3.560.1.9",
     "qrda_name": "Care Goal",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.1"
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.1",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "",
+        "preferred_code_sets": []
+      }
+    ]
   },
   {
     "hqmf_name": "Communication: From Patient to Provider",
@@ -520,7 +530,25 @@ var hqmf_qrda_oids = []byte(`[
     "hqmf_name": "Functional Status, Performed",
     "hqmf_oid": "2.16.840.1.113883.3.560.1.85",
     "qrda_name": "Functional Status Performed",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.26"
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.26",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "", 
+        "preferred_code_sets": ["LOINC", "SNOMED-CT", "ICD-9-CM", "ICD-10-CM"]
+      },
+      {
+        "code_type": "resultValue",
+        "tag_name": "value",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "xsi:type=\"CD\"",
+        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"]
+      }
+    ]
   },
   {
     "hqmf_name": "Functional Status, Recommended",
@@ -940,7 +968,25 @@ var hqmf_qrda_oids = []byte(`[
     "hqmf_name": "Physical Exam, Performed",
     "hqmf_oid": "2.16.840.1.113883.3.560.1.57",
     "qrda_name": "Physical Exam Performed",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.59"
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.59",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "",
+        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"]
+      },
+      {
+        "code_type": "resultValue",
+        "tag_name": "value",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "xsi:type=\"CD\"",
+        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"]
+      }
+    ]
   },
   {
     "hqmf_name": "Physical Exam, Recommended",
@@ -1076,7 +1122,25 @@ var hqmf_qrda_oids = []byte(`[
     "hqmf_name": "Risk Category Assessment",
     "hqmf_oid": "2.16.840.1.113883.3.560.1.21",
     "qrda_name": "Risk Category Assessment",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.69"
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.69",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "",
+        "preferred_code_sets": ["LOINC", "SNOMED-CT"]
+      },
+      {
+        "code_type": "resultValue",
+        "tag_name": "value",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "xsi:type=\"CD\"",
+        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"]
+      }
+    ]
   },
   {
     "hqmf_name": "Severity (attribute)",
@@ -1180,7 +1244,25 @@ var hqmf_qrda_oids = []byte(`[
     "hqmf_name": "Symptom, Active",
     "hqmf_oid": "2.16.840.1.113883.3.560.1.69",
     "qrda_name": "Symptom Active",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.76"
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.76",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "value",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "xsi:type=\"CD\"",
+        "preferred_code_sets": ["SNOMED-CT"]
+      },
+      {
+        "code_type": "resultValue",
+        "tag_name": "value",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "xsi:type=\"CD\"",
+        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"]
+      }
+    ]
   },
   {
     "hqmf_name": "Symptom, Assessed",
@@ -1464,7 +1546,25 @@ var hqmf_qrda_oids = []byte(`[
     "hqmf_name": "Risk Category Assessment not done",
     "hqmf_oid": "2.16.840.1.113883.3.560.1.121",
     "qrda_name": "Risk Category Assessment",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.69"
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.69",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "",
+        "preferred_code_sets": ["LOINC", "SNOMED-CT"]
+      },
+      {
+        "code_type": "resultValue",
+        "tag_name": "value",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "xsi:type=\"CD\"",
+        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"]
+      }
+    ]
   },
   {
     "hqmf_name": "Communication: From Provider to Patient not done",
@@ -1486,13 +1586,47 @@ var hqmf_qrda_oids = []byte(`[
     "hqmf_name": "Physical Exam, Performed not done",
     "hqmf_oid": "2.16.840.1.113883.3.560.1.157",
     "qrda_name": "Physical Exam Performed",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.59"
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.59",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "",
+        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"]
+      },
+      {
+        "code_type": "resultValue",
+        "tag_name": "value",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "xsi:type=\"CD\"",
+        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"]
+      }
+    ]
   }
 ]
 `)
 
 var hqmf_qrda_oids_r3_1 = []byte(`[
-    {
+  {
+    "hqmf_name": "Functional Status, Performed",
+    "hqmf_oid": "2.16.840.1.113883.3.560.1.85",
+    "qrda_name": "Functional Status Performed",
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.26",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "", 
+        "preferred_code_sets": ["*"]
+      }
+    ]
+  },
+  {
     "hqmf_name": "Medication, Administered",
     "hqmf_oid": "2.16.840.1.113883.3.560.1.14",
     "qrda_name": "Medication Administered",
@@ -1633,6 +1767,54 @@ var hqmf_qrda_oids_r3_1 = []byte(`[
         "exclude_null_flavor": false,
         "extra_content": "",
         "preferred_code_sets": ["RxNorm"]
+      }
+    ]
+  },
+  {
+    "hqmf_name": "Risk Category Assessment",
+    "hqmf_oid": "2.16.840.1.113883.3.560.1.21",
+    "qrda_name": "Risk Category Assessment",
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.69",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "",
+        "preferred_code_sets": ["*"]
+      },
+      {
+        "code_type": "resultValue",
+        "tag_name": "value",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "xsi:type=\"CD\"",
+        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"]
+      }
+    ]
+  },
+  {
+    "hqmf_name": "Risk Category Assessment not done",
+    "hqmf_oid": "2.16.840.1.113883.3.560.1.121",
+    "qrda_name": "Risk Category Assessment",
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.69",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "",
+        "preferred_code_sets": ["*"]
+      },
+      {
+        "code_type": "resultValue",
+        "tag_name": "value",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "xsi:type=\"CD\"",
+        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"]
       }
     ]
   }

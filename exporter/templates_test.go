@@ -743,6 +743,76 @@ func TestMedicationDischargeTemplate(t *testing.T) {
 	assertXPath(t, xrn, "//entry/act/entryRelationship[@typeCode='SUBJ']/substanceAdministration/doseQuantity", map[string]string{"value": "1"}, nil)
 }
 
+func TestFunctionalStatusPerformedTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.26"
+	dataCriteriaName := "functional_status_performed"
+	entryName := "functional_status_performed"
+
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Procedure{})
+
+	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+
+	assertXPath(t, xrn, "//entry/observation", map[string]string{"classCode": "OBS", "moodCode": "EVN"}, nil)
+	assertXPath(t, xrn, "//entry/observation/templateId[@root='2.16.840.1.113883.10.20.22.4.13']", nil, nil)
+	assertXPath(t, xrn, "//entry/observation/effectiveTime/low", map[string]string{"value": "201408011400+0000"}, nil)
+}
+
+func TestPhysicalExamPerformedTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.59"
+	dataCriteriaName := "physical_exam_performed"
+	entryName := "physical_exam_performed"
+
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Procedure{})
+
+	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+
+	assertXPath(t, xrn, "//entry/observation", map[string]string{"classCode": "OBS", "moodCode": "EVN"}, nil)
+	assertXPath(t, xrn, "//entry/observation/templateId[@root='2.16.840.1.113883.10.20.22.4.13']", nil, nil)
+	assertXPath(t, xrn, "//entry/observation/effectiveTime/low", map[string]string{"value": "201505180500+0000"}, nil)
+}
+
+func TestRiskCategoryAssessmentTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.69"
+	dataCriteriaName := "risk_category_assessment"
+	entryName := "risk_category_assessment"
+
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Procedure{})
+
+	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+
+	assertXPath(t, xrn, "//entry/observation", map[string]string{"classCode": "OBS", "moodCode": "EVN"}, nil)
+	assertXPath(t, xrn, "//entry/observation/templateId[@root='2.16.840.1.113883.10.20.22.4.69']", nil, nil)
+	assertXPath(t, xrn, "//entry/observation/effectiveTime/low", map[string]string{"value": "201505101500+0000"}, nil)
+}
+
+func TestSymptomActiveTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.76"
+	dataCriteriaName := "symptom_active"
+	entryName := "symptom_active"
+
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Procedure{})
+
+	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+
+	assertXPath(t, xrn, "//entry/observation", map[string]string{"classCode": "OBS", "moodCode": "EVN"}, nil)
+	assertXPath(t, xrn, "//entry/observation/templateId[@root='2.16.840.1.113883.10.20.24.3.76']", nil, nil)
+	assertXPath(t, xrn, "//entry/observation/effectiveTime/low", map[string]string{"value": "201505101500+0000"}, nil)
+}
+
+func TestCareGoalTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.1"
+	dataCriteriaName := "care_goal"
+	entryName := "care_goal"
+
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Procedure{})
+
+	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+
+	assertXPath(t, xrn, "//entry/observation", map[string]string{"classCode": "OBS", "moodCode": "GOL"}, nil)
+	assertXPath(t, xrn, "//entry/observation/templateId[@root='2.16.840.1.113883.10.20.24.3.1']", nil, nil)
+	assertXPath(t, xrn, "//entry/observation/effectiveTime/low", map[string]string{"value": "201505101500+0000"}, nil)
+}
+
 // - - - - - - - - //
 //   H E L P E R   //
 // - - - - - - - - //
@@ -835,14 +905,14 @@ func printXmlString(xmlString string) {
 
 func xmlRootNodeForQrdaOid(qrdaOid string) *xml.ElementNode {
 	fileName := "_" + qrdaOid + ".xml"
-	printXmlString(generateXML(fileName, getDataForQrdaOid(qrdaOid)))
+	//printXmlString(generateXML(fileName, getDataForQrdaOid(qrdaOid)))
 	return xmlRootNode(generateXML(fileName, getDataForQrdaOid(qrdaOid)))
 }
 
 // same as xmlRootNodeForQrdaOid() function but allows custom input data (should be an EntryInfo struct)
 func xmlRootNodeForQrdaOidWithData(qrdaOid string, data interface{}) *xml.ElementNode {
 	fileName := "_" + qrdaOid + ".xml"
-	printXmlString(generateXML(fileName, data))
+	//printXmlString(generateXML(fileName, data))
 	return xmlRootNode(generateXML(fileName, data))
 }
 

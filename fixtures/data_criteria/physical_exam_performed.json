@@ -1,0 +1,29 @@
+{
+  "title": "Gestational age >= 37 weeks",
+  "description": "Physical Exam, Performed: Gestational age >= 37 weeks",
+  "code_list_id": "2.16.840.1.113883.3.666.5.1596",
+  "type": "physical_exams",
+  "definition": "physical_exam",
+  "status": "performed",
+  "hard_status": false,
+  "negation": false,
+  "source_data_criteria": "PhysicalExamPerformedGestationalAge37Weeks",
+  "variable": false,
+  "value": {
+    "type": "IVL_PQ",
+    "low": {
+      "type": "PQ",
+      "unit": "wk",
+      "value": "37",
+      "inclusive?": true,
+      "derived?": false
+    }
+  },
+  "temporal_references": [
+    {
+      "type": "SDU",
+      "reference": "GROUP_variable_CHILDREN_12"
+    }
+  ],
+  "hqmf_oid": "2.16.840.1.113883.3.560.1.57"
+}
