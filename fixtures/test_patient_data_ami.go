@@ -1,3 +1,6 @@
+package fixtures
+
+var TestPatientDataAmi = []byte(`
 {
   "birthdate": -725619600,
   "conditions": [
@@ -1413,3 +1416,4 @@
   ],
   "updated_at": "2016-02-10T21:36:34.324Z"
 }
+`)

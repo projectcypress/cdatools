@@ -2,20 +2,15 @@ package models
 
 import (
 	"encoding/json"
-	"io/ioutil"
-	"log"
 	"testing"
 
+	"github.com/projectcypress/cdatools/fixtures"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestOidForCode(t *testing.T) {
-	valueSets, err := ioutil.ReadFile("../fixtures/value_sets/cms9_26.json")
-	if err != nil {
-		log.Fatalln(err)
-	}
 	vs := []ValueSet{}
-	json.Unmarshal(valueSets, &vs)
+	json.Unmarshal(fixtures.Cms9_26, &vs)
 	vsMap := NewValueSetMap(vs)
 	coded := CodedConcept{Code: "3950001", CodeSystem: "2.16.840.1.113883.6.96"}
 	coded2 := CodedConcept{Code: "3950001222", CodeSystem: "2.16.840.1.113883.6.96"}

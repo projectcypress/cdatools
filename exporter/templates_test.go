@@ -13,6 +13,7 @@ import (
 
 	"github.com/jbowtie/gokogiri/xml"
 	"github.com/jbowtie/gokogiri/xpath"
+	"github.com/projectcypress/cdatools/fixtures"
 	"github.com/projectcypress/cdatools/models"
 	"github.com/stretchr/testify/assert"
 )
@@ -875,26 +876,10 @@ func generateXML(fileName string, templateData interface{}) string {
 }
 
 func setPatientMeasuresAndValueSets(patient *models.Record, measures *[]models.Measure, valueSets *[]models.ValueSet) {
-	patientData, err := ioutil.ReadFile("../fixtures/records/1_n_n_ami.json")
-	if err != nil {
-		log.Fatalln(err)
-	}
-	measureData, err := ioutil.ReadFile("../fixtures/measures/CMS9v4a.json")
-	if err != nil {
-		log.Fatalln(err)
-	}
-	measureData2, err := ioutil.ReadFile("../fixtures/measures/CMS26v3.json")
-	if err != nil {
-		log.Fatalln(err)
-	}
-	measureData = append([]byte("["), append(append(measureData, append([]byte(","), measureData2...)...), []byte("]")...)...)
-	valueSetData, err := ioutil.ReadFile("../fixtures/value_sets/cms9_26.json")
-	if err != nil {
-		log.Fatalln(err)
-	}
-	json.Unmarshal(patientData, patient)
+	measureData := append([]byte("["), append(append(fixtures.Cms9v4a, append([]byte(","), fixtures.Cms26v3...)...), []byte("]")...)...)
+	json.Unmarshal(fixtures.TestPatientDataAmi, patient)
 	json.Unmarshal(measureData, measures)
-	json.Unmarshal(valueSetData, valueSets)
+	json.Unmarshal(fixtures.Cms9_26, valueSets)
 }
 
 func makeTemplate(qrdaVersion string, vsMap models.ValueSetMap) *template.Template {

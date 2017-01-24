@@ -1,11 +1,8 @@
 package exporter
 
 import (
-	"encoding/json"
 	"github.com/projectcypress/cdatools/models"
 	"github.com/stretchr/testify/assert"
-	"io/ioutil"
-	"log"
 	"testing"
 )
 
@@ -187,29 +184,29 @@ func TestHasPreferredCode(t *testing.T) {
 // - - - - - - - - //
 //   H E L P E R   //
 // - - - - - - - - //
-
-func setMeasures(measures *[]models.Measure) {
-	measureData, err := ioutil.ReadFile("../fixtures/measures/CMS9v4a.json")
-	if err != nil {
-		log.Fatalln(err)
-	}
-	measureData2, err := ioutil.ReadFile("../fixtures/measures/CMS26v3.json")
-	if err != nil {
-		log.Fatalln(err)
-	}
-	measureData = append([]byte("["), append(append(measureData, append([]byte(","), measureData2...)...), []byte("]")...)...)
-	err = json.Unmarshal(measureData, measures)
-	if err != nil {
-		log.Fatalln(err)
-	}
-}
-
-func numNonNil(objs []models.HasEntry) int {
-	var sum int
-	for _, obj := range objs {
-		if obj != nil {
-			sum += 1
-		}
-	}
-	return sum
-}
+// This function is only used in the test function that needs to be fixed above. (Dead code for now)
+// func setMeasures(measures *[]models.Measure) {
+// 	measureData, err := ioutil.ReadFile("../fixtures/measures/CMS9v4a.json")
+// 	if err != nil {
+// 		log.Fatalln(err)
+// 	}
+// 	measureData2, err := ioutil.ReadFile("../fixtures/measures/CMS26v3.json")
+// 	if err != nil {
+// 		log.Fatalln(err)
+// 	}
+// 	measureData = append([]byte("["), append(append(measureData, append([]byte(","), measureData2...)...), []byte("]")...)...)
+// 	err = json.Unmarshal(measureData, measures)
+// 	if err != nil {
+// 		log.Fatalln(err)
+// 	}
+// }
+// This function is only used in the test function that needs to be fixed above. (Dead code for now)
+// func numNonNil(objs []models.HasEntry) int {
+// 	var sum int
+// 	for _, obj := range objs {
+// 		if obj != nil {
+// 			sum += 1
+// 		}
+// 	}
+// 	return sum
+// }

@@ -2,10 +2,9 @@ package models
 
 import (
 	"encoding/json"
-	"io/ioutil"
-	"log"
 	"testing"
 
+	"github.com/projectcypress/cdatools/fixtures"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -43,28 +42,14 @@ func TestAppendEntryInfos(t *testing.T) {
 }
 
 func TestEntriesForDataCriteria(t *testing.T) {
-	patientData, err := ioutil.ReadFile("../fixtures/records/1_n_n_ami.json")
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	measureData, err := ioutil.ReadFile("../fixtures/measures/CMS9v4a.json")
-	if err != nil {
-		log.Fatalln(err)
-	}
-
 	patient := &Record{}
 	measure := &Measure{}
-	valueSetData, err := ioutil.ReadFile("../fixtures/value_sets/cms9_26.json")
-	if err != nil {
-		log.Fatalln(err)
-	}
 	var vs []ValueSet
-	json.Unmarshal(valueSetData, &vs)
+	json.Unmarshal(fixtures.Cms9_26, &vs)
 	vsMap := NewValueSetMap(vs)
 
-	json.Unmarshal(patientData, patient)
-	json.Unmarshal(measureData, measure)
+	json.Unmarshal(fixtures.TestPatientDataAmi, patient)
+	json.Unmarshal(fixtures.Cms9v4a, measure)
 
 	var entries []HasEntry
 	for _, crit := range measure.HQMFDocument.DataCriteria {
