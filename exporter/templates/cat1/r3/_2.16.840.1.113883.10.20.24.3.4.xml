@@ -23,12 +23,7 @@
 				<code code="158965000" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Medical Practitioner"/>
 			</participantRole>
 		</participant>
-
 		{{template "_reason.xml" .}}
-
-		{{range .EntrySection.References}}
-				{{template "_fulfills.xml" .}}
-		{{end}}
-
+		{{template "_fulfills.xml" .EntrySection.Entry}}
 	</act>
 </entry>

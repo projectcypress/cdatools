@@ -166,6 +166,19 @@ func getResultValueData() []models.EntryInfo {
 	return entryInfos
 }
 
+func TestFulfillsTemplate(t *testing.T) {
+	var refs []models.Reference
+	refs = append(refs, models.Reference{Type: "other"})
+	refs = append(refs, models.Reference{Type: "fulfills", ReferencedID: "574734c402d4052a45000785"})
+	entry := models.Entry{}
+	entry.References = refs
+	rootNode := xmlRootNode(generateXML("_fulfills.xml", entry))
+	rootNode.DeclareNamespace("sdtc", "urn:hl7-org:sdtc")
+
+	// This should work, but gokogiri throws "XPath error : Undefined namespace prefix". This shouldn't be a problem when we switch to table tests.
+	//assertXPath(t, rootNode, "//sdtc:inFulfillmentOf1/sdtc:templateId/sdtc:actReference/sdtc:id", map[string]string{"extension": "574734c402d4052a45000785"}, nil)
+}
+
 func TestOrdinalityTemplate(t *testing.T) {
 	ordinality := models.Ordinality{
 		CodedConcept: models.CodedConcept{Code: "ORDINAL_CODE_1", CodeSystem: "2.16.840.1.113883.6.1"}, Title: "Principal"}
