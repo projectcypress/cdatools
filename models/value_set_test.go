@@ -8,6 +8,23 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestCodeDisplayWithPreferredCode(t *testing.T) {
+	vs := []ValueSet{}
+	json.Unmarshal(fixtures.Cms9_26, &vs)
+	vsMap := NewValueSetMap(vs)
+	codeType := "my code type"
+	expectedCodeDisplay := CodeDisplay{CodeType: codeType, PreferredCodeSets: []string{"codeSetB"}}
+	entry := Entry{CodeDisplays: []CodeDisplay{expectedCodeDisplay}}
+	codes := make(map[string][]string)
+	codes["codeSetA"] = []string{"third", "fourth"}
+	codes["codeSetB"] = []string{"first", "second"}
+	coded := Coded{Codes: codes}
+
+	actualCodeDisplay := vsMap.CodeDisplayWithPreferredCode(&entry, &coded, codeType)
+	expectedCodeDisplay.PreferredCode = Concept{Code: "first", CodeSystem: "codeSetB"}
+	assert.Equal(t, expectedCodeDisplay, actualCodeDisplay)
+}
+
 func TestOidForCode(t *testing.T) {
 	vs := []ValueSet{}
 	json.Unmarshal(fixtures.Cms9_26, &vs)

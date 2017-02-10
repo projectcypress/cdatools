@@ -1,5 +1,7 @@
 package models
 
+import "log"
+
 // It is very important that NewValueSetMap gets called to get a populated ValueSetMap
 type ValueSetMap map[string][]CodeSet
 
@@ -45,6 +47,26 @@ type Concept struct {
 type CodeSet struct {
 	Set    string
 	Values []Concept
+}
+
+func (v ValueSetMap) CodeDisplayWithPreferredCode(entry *Entry, coded *Coded, codeType string) CodeDisplay {
+	codeDisplay, err := entry.GetCodeDisplay(codeType)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	codeDisplay.PreferredCode = coded.PreferredCode(codeDisplay.PreferredCodeSets, codeDisplay.CodeSetRequired, codeDisplay.ValueSetPreferred, v)
+	return codeDisplay
+}
+
+func (v ValueSetMap) CodeDisplayWithPreferredCodeAndLaterality(entry *Entry, coded *Coded, codeType string, laterality Laterality, MapDataCriteria Mdc) CodeDisplay {
+	codeDisplay, err := entry.GetCodeDisplay(codeType)
+	if err != nil {
+		log.Fatal(err)
+	}
+	codeDisplay.PreferredCode = coded.PreferredCode(codeDisplay.PreferredCodeSets, codeDisplay.CodeSetRequired, codeDisplay.ValueSetPreferred, v)
+	codeDisplay.Laterality = laterality
+	codeDisplay.MapDataCriteria = MapDataCriteria
+	return codeDisplay
 }
 
 func (v ValueSetMap) OidForCode(codedValue CodedConcept, valuesetOids []string) string {

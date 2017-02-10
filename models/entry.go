@@ -38,6 +38,8 @@ type CodeDisplay struct {
 	ExcludeNullFlavor      bool       `json:"exclude_null_flavor,omitempty"`
 	ExtraContent           string     `json:"extra_content,omitempty"`
 	PreferredCodeSets      []string   `json:"preferred_code_sets,omitempty"`
+	CodeSetRequired        bool       `json:"code_set_required,omitempty"`
+	ValueSetPreferred      bool       `json:"value_set_preferred,omitempty"`
 	PreferredCode          Concept    `json:"preferred_code,omitempty"`
 	EntryFieldNameForCoded string     `json:"entry_field_name_for_coded"`
 	Description            string     `json:"description"`

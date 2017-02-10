@@ -170,7 +170,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": []
+        "preferred_code_sets": ["LOINC"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -186,7 +188,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["SNOMED-CT"]
+        "preferred_code_sets": ["*"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -202,7 +206,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["SNOMED-CT"]
+        "preferred_code_sets": ["*"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -218,7 +224,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["SNOMED-CT"]
+        "preferred_code_sets": ["*"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -246,7 +254,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["LOINC", "SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "CPT"]
+        "preferred_code_sets": ["LOINC", "SNOMED-CT"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -268,7 +278,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["LOINC", "SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "CPT"]
+        "preferred_code_sets": ["*"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -290,7 +302,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "xsi:type=\"CD\"",
-        "preferred_code_sets": ["LOINC", "SNOMED-CT", "ICD-9-CM", "ICD-10-CM"]
+        "preferred_code_sets": ["2.16.840.1.113883.3.88.12.3221.7.4"],
+        "code_set_required": true,
+        "value_set_preferred": true
       }
     ]
   },
@@ -306,7 +320,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "xsi:type=\"CD\"",
-        "preferred_code_sets": ["SNOMED-CT"]
+        "required_code_sets": ["2.16.840.1.113883.3.88.12.3221.7.4"],
+        "code_set_required": true,
+        "value_set_preferred": true
       }
     ]
   },
@@ -322,7 +338,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "xsi:type=\"CD\"",
-        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"]
+        "required_code_sets": ["2.16.840.1.113883.3.88.12.3221.7.2"],
+        "code_set_required": true,
+        "value_set_preferred": true
       }
     ]
   },
@@ -338,7 +356,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "xsi:type=\"CD\"",
-        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "CPT"]
+        "preferred_code_sets": ["2.16.840.1.113883.3.88.12.3221.7.4"],
+        "code_set_required": true,
+        "value_set_preferred": true
       }
     ]
   },
@@ -366,7 +386,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["LOINC"]
+        "preferred_code_sets": ["LOINC"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -382,7 +404,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["LOINC"]
+        "preferred_code_sets": ["LOINC"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -398,7 +422,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"]
+        "preferred_code_sets": ["LOINC", "SNOMED-CT"],
+        "code_set_required": false,
+        "value_set_preferred": false
       },
       {
         "code_type": "resultValue",
@@ -406,7 +432,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "xsi:type=\"CD\"",
-        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"]
+        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -422,7 +450,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"]
+        "preferred_code_sets": ["LOINC", "SNOMED-CT"],
+        "code_set_required": false,
+        "value_set_preferred": false
       },
       {
         "code_type": "resultValue",
@@ -430,7 +460,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "xsi:type=\"CD\"",
-        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"]
+        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -446,7 +478,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["LOINC"]
+        "preferred_code_sets": ["LOINC"],
+        "code_set_required": true,
+        "value_set_preferred": false
       }
     ]
   },
@@ -468,7 +502,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["RxNorm"]
+        "preferred_code_sets": ["2.16.840.1.113762.1.4.1010.4"],
+        "code_set_required": true,
+        "value_set_preferred": true
       }
     ]
   },
@@ -496,15 +532,21 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "CPT"]
+        "preferred_code_sets": ["2.16.840.1.113883.3.88.12.80.32"],
+        "code_set_required": false,
+        "value_set_preferred": true
       },
       {
         "code_type": "transferFrom",
-        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "CPT"]
+        "preferred_code_sets": ["*"],
+        "code_set_required": false,
+        "value_set_preferred": false
       },
       {
         "code_type": "transferTo",
-        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "CPT"]
+        "preferred_code_sets": ["*"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -537,8 +579,10 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "", 
-        "preferred_code_sets": ["LOINC", "SNOMED-CT", "ICD-9-CM", "ICD-10-CM"]
+        "extra_content": "",
+        "preferred_code_sets": ["LOINC", "SNOMED-CT"],
+        "code_set_required": false,
+        "value_set_preferred": false
       },
       {
         "code_type": "resultValue",
@@ -546,7 +590,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "xsi:type=\"CD\"",
-        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"]
+        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -592,7 +638,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["LOINC", "SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "HCPCS"]
+        "preferred_code_sets": ["LOINC", "SNOMED-CT"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -608,7 +656,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["LOINC", "SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "HCPCS"]
+        "preferred_code_sets": ["LOINC", "SNOMED-CT"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -624,7 +674,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["LOINC", "SNOMED-CT"]
+        "preferred_code_sets": ["LOINC", "SNOMED-CT"],
+        "code_set_required": false,
+        "value_set_preferred": false
       },
       {
         "code_type": "resultValue",
@@ -632,7 +684,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "xsi:type=\"CD\"",
-        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"]
+        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -672,7 +726,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["LOINC"]
+        "preferred_code_sets": ["*"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -688,7 +744,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["LOINC"]
+        "preferred_code_sets": ["*"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -704,7 +762,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["LOINC", "SNOMED-CT"]
+        "preferred_code_sets": ["*"],
+        "code_set_required": false,
+        "value_set_preferred": false
       },
       {
         "code_type": "resultValue",
@@ -712,7 +772,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "xsi:type=\"CD\"",
-        "preferred_code_sets": ["LOINC", "SNOMED-CT", "ICD-9-CM", "ICD-10-CM"]
+        "preferred_code_sets": ["LOINC", "SNOMED-CT", "ICD-9-CM", "ICD-10-CM"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -740,7 +802,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["LOINC", "SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "RxNorm"]
+        "preferred_code_sets": ["2.16.840.1.113762.1.4.1010.4"],
+        "code_set_required": true,
+        "value_set_preferred": true
       },
       {
         "code_type": "medicationDispense",
@@ -748,7 +812,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["RxNorm"]
+        "required_code_sets": ["2.16.840.1.113762.1.4.1010.4"],
+        "code_set_required": true,
+        "value_set_preferred": true
       }
     ]
   },
@@ -764,7 +830,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["RxNorm", "CVX", "SNOMED-CT"]
+        "preferred_code_sets": ["2.16.840.1.113762.1.4.1010.4"],
+        "code_set_required": true,
+        "value_set_preferred": true
       }
     ]
   },
@@ -780,7 +848,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["RxNorm", "SNOMED-CT"]
+        "preferred_code_sets": ["*"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -796,7 +866,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["RxNorm", "SNOMED-CT", "CVX"]
+        "preferred_code_sets": ["*"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -812,7 +884,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["RxNorm"]
+        "preferred_code_sets": ["2.16.840.1.113762.1.4.1010.4"],
+        "code_set_required": true,
+        "value_set_preferred": true
       }
     ]
   },
@@ -828,7 +902,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["RxNorm", "SNOMED-CT", "CVX"]
+        "preferred_code_sets": ["2.16.840.1.113762.1.4.1010.1"],
+        "code_set_required": true,
+        "value_set_preferred": true
       }
     ]
   },
@@ -844,7 +920,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["RxNorm", "SNOMED-CT"]
+        "preferred_code_sets": ["2.16.840.1.113762.1.4.1010.4"],
+        "code_set_required": true,
+        "value_set_preferred": true
       }
     ]
   },
@@ -871,8 +949,10 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "value",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "", 
-        "preferred_code_sets": ["SNOMED-CT", "LOINC", "ICD-9-CM", "ICD-10-CM"]
+        "extra_content": "",
+        "preferred_code_sets": ["*"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -887,8 +967,10 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "value",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "", 
-        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM"]
+        "extra_content": "",
+        "preferred_code_sets": ["*"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -903,8 +985,10 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "value",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "xsi:type=\"CD\" sdtc:valueSet=\"2.16.840.1.114222.4.11.3591\"", 
-        "preferred_code_sets": ["SOP","Source of Payment Typology"]
+        "extra_content": "xsi:type=\"CD\" sdtc:valueSet=\"2.16.840.1.114222.4.11.3591\"",
+        "preferred_code_sets": ["2.16.840.1.114222.4.11.3591"],
+        "code_set_required": true,
+        "value_set_preferred": true
       }
     ]
   },
@@ -919,8 +1003,10 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "value",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "xsi:type=\"CD\"", 
-        "preferred_code_sets": ["*"]
+        "extra_content": "xsi:type=\"CD\"",
+        "preferred_code_sets": ["*"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -976,7 +1062,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"]
+        "preferred_code_sets": ["SNOMED-CT", "LOINC"],
+        "code_set_required": false,
+        "value_set_preferred": false
       },
       {
         "code_type": "resultValue",
@@ -984,7 +1072,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "xsi:type=\"CD\"",
-        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"]
+        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -1011,8 +1101,10 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "", 
-        "preferred_code_sets": ["LOINC", "SNOMED-CT", "CPT"]
+        "extra_content": "",
+        "preferred_code_sets": ["LOINC", "SNOMED-CT"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -1028,7 +1120,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["LOINC", "SNOMED-CT", "ICD-9-PCS", "ICD-10-PCS"]
+        "preferred_code_sets": ["LOINC", "SNOMED-CT"],
+        "code_set_required": false,
+        "value_set_preferred": false
       },
       {
         "code_type": "resultValue",
@@ -1036,7 +1130,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "xsi:type=\"CD\"",
-        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"]
+        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -1052,7 +1148,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["LOINC", "SNOMED-CT", "CPT", "ICD-9-PCS", "ICD-10-PCS"]
+        "preferred_code_sets": ["LOINC", "SNOMED-CT"],
+        "code_set_required": false,
+        "value_set_preferred": false
       },
       {
         "code_type": "resultValue",
@@ -1060,7 +1158,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "xsi:type=\"CD\"",
-        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"]
+        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -1130,7 +1230,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["LOINC", "SNOMED-CT"]
+        "preferred_code_sets": ["LOINC", "SNOMED-CT"],
+        "code_set_required": false,
+        "value_set_preferred": false
       },
       {
         "code_type": "resultValue",
@@ -1138,7 +1240,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "xsi:type=\"CD\"",
-        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"]
+        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -1166,7 +1270,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["RxNorm", "CVX", "SNOMED-CT"]
+        "preferred_code_sets": ["2.16.840.1.113762.1.4.1010.4"],
+        "code_set_required": true,
+        "value_set_preferred": true
       }
     ]
   },
@@ -1182,7 +1288,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["RxNorm", "SNOMED-CT"]
+        "preferred_code_sets": ["*"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -1198,7 +1306,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["RxNorm", "SNOMED-CT", "CVX"]
+        "preferred_code_sets": ["*"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -1214,7 +1324,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["RxNorm", "SNOMED-CT", "CVX"]
+        "preferred_code_sets": ["2.16.840.1.113762.1.4.1010.1"],
+        "code_set_required": true,
+        "value_set_preferred": true
       }
     ]
   },
@@ -1230,7 +1342,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["RxNorm", "SNOMED-CT"]
+        "preferred_code_sets": ["2.16.840.1.113762.1.4.1010.4"],
+        "code_set_required": true,
+        "value_set_preferred": true
       }
     ]
   },
@@ -1252,7 +1366,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "xsi:type=\"CD\"",
-        "preferred_code_sets": ["SNOMED-CT"]
+        "preferred_code_sets": ["2.16.840.1.113883.3.88.12.3221.7.4"],
+        "code_set_required": true,
+        "value_set_preferred": true
       },
       {
         "code_type": "resultValue",
@@ -1260,7 +1376,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "xsi:type=\"CD\"",
-        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"]
+        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -1306,7 +1424,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["LOINC", "SNOMED-CT"]
+        "preferred_code_sets": ["*"],
+        "code_set_required": false,
+        "value_set_preferred": false
       },
       {
         "code_type": "resultValue",
@@ -1314,7 +1434,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "xsi:type=\"CD\"",
-        "preferred_code_sets": ["LOINC", "SNOMED-CT", "ICD-9-CM", "ICD-10-CM"]
+        "preferred_code_sets": ["LOINC", "SNOMED-CT", "ICD-9-CM", "ICD-10-CM"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -1330,7 +1452,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["RxNorm"]
+        "preferred_code_sets": ["2.16.840.1.113762.1.4.1010.4"],
+        "code_set_required": true,
+        "value_set_preferred": true
       }
     ]
   },
@@ -1346,7 +1470,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["LOINC", "SNOMED-CT", "CPT", "ICD-9-PCS", "ICD-10-PCS"]
+        "preferred_code_sets": ["LOINC", "SNOMED-CT"],
+        "code_set_required": false,
+        "value_set_preferred": false
       },
       {
         "code_type": "resultValue",
@@ -1354,7 +1480,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "xsi:type=\"CD\"",
-        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"]
+        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -1370,7 +1498,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["RxNorm", "CVX", "SNOMED-CT"]
+        "preferred_code_sets": ["2.16.840.1.113762.1.4.1010.4"],
+        "code_set_required": true,
+        "value_set_preferred": true
       }
     ]
   },
@@ -1386,7 +1516,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["LOINC", "SNOMED-CT"]
+        "preferred_code_sets": ["LOINC", "SNOMED-CT"],
+        "code_set_required": false,
+        "value_set_preferred": false
       },
       {
         "code_type": "resultValue",
@@ -1394,7 +1526,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "xsi:type=\"CD\"",
-        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"]
+        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -1410,7 +1544,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["LOINC", "SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "RxNorm"]
+        "preferred_code_sets": ["2.16.840.1.113762.1.4.1010.4"],
+        "code_set_required": true,
+        "value_set_preferred": true
       },
       {
         "code_type": "medicationDispense",
@@ -1418,7 +1554,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["RxNorm"]
+        "preferred_code_sets": ["2.16.840.1.113762.1.4.1010.4"],
+        "code_set_required": true,
+        "value_set_preferred": true
       }
     ]
   },
@@ -1434,7 +1572,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["RxNorm", "SNOMED-CT"]
+        "preferred_code_sets": ["2.16.840.1.113762.1.4.1010.4"],
+        "code_set_required": true,
+        "value_set_preferred": true
       }
     ]
   },
@@ -1450,7 +1590,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["LOINC", "SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "CPT"]
+        "preferred_code_sets": ["LOINC", "SNOMED-CT"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -1466,7 +1608,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["LOINC", "SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "CPT"]
+        "preferred_code_sets": ["*"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -1482,7 +1626,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["LOINC", "SNOMED-CT", "ICD-9-PCS", "ICD-10-PCS"]
+        "preferred_code_sets": ["LOINC", "SNOMED-CT"],
+        "code_set_required": false,
+        "value_set_preferred": false
       },
       {
         "code_type": "resultValue",
@@ -1490,7 +1636,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "xsi:type=\"CD\"",
-        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"]
+        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -1506,7 +1654,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["RxNorm", "CVX", "SNOMED-CT"]
+        "preferred_code_sets": ["2.16.840.1.113762.1.4.1010.4"],
+        "code_set_required": true,
+        "value_set_preferred": true
       }
     ]
   },
@@ -1522,7 +1672,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["SNOMED-CT"]
+        "preferred_code_sets": ["*"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -1538,7 +1690,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["SNOMED-CT"]
+        "preferred_code_sets": ["*"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -1554,7 +1708,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["LOINC", "SNOMED-CT"]
+        "preferred_code_sets": ["LOINC", "SNOMED-CT"],
+        "code_set_required": false,
+        "value_set_preferred": false
       },
       {
         "code_type": "resultValue",
@@ -1562,7 +1718,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "xsi:type=\"CD\"",
-        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"]
+        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -1578,7 +1736,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["SNOMED-CT"]
+        "preferred_code_sets": ["*"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -1594,7 +1754,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"]
+        "preferred_code_sets": ["SNOMED-CT", "LOINC"],
+        "code_set_required": false,
+        "value_set_preferred": false
       },
       {
         "code_type": "resultValue",
@@ -1602,7 +1764,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "xsi:type=\"CD\"",
-        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"]
+        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   }
@@ -1610,214 +1774,7 @@ var hqmf_qrda_oids = []byte(`[
 `)
 
 var hqmf_qrda_oids_r3_1 = []byte(`[
-  {
-    "hqmf_name": "Functional Status, Performed",
-    "hqmf_oid": "2.16.840.1.113883.3.560.1.85",
-    "qrda_name": "Functional Status Performed",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.26",
-    "code_displays": [
-      {
-        "code_type": "entryCode",
-        "tag_name": "code",
-        "attribute": "",
-        "exclude_null_flavor": false,
-        "extra_content": "", 
-        "preferred_code_sets": ["*"]
-      }
-    ]
-  },
-  {
-    "hqmf_name": "Medication, Administered",
-    "hqmf_oid": "2.16.840.1.113883.3.560.1.14",
-    "qrda_name": "Medication Administered",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.42",
-    "code_displays": [
-      {
-        "code_type": "entryCode",
-        "tag_name": "code",
-        "attribute": "",
-        "exclude_null_flavor": false,
-        "extra_content": "",
-        "preferred_code_sets": ["*"]
-      }
-    ]
-  },
-  {
-    "hqmf_name": "Substance, Administered",
-    "hqmf_oid": "2.16.840.1.113883.3.560.1.64",
-    "qrda_name": "Medication Administered",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.42",
-    "code_displays": [
-      {
-        "code_type": "entryCode",
-        "tag_name": "code",
-        "attribute": "",
-        "exclude_null_flavor": false,
-        "extra_content": "",
-        "preferred_code_sets": ["*"]
-      }
-    ]
-  },
-  {
-    "hqmf_name": "Medication, not Administered",
-    "hqmf_oid": "2.16.840.1.113883.3.560.1.114",
-    "qrda_name": "Medication Administered",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.42",
-    "code_displays": [
-      {
-        "code_type": "entryCode",
-        "tag_name": "code",
-        "attribute": "",
-        "exclude_null_flavor": false,
-        "extra_content": "",
-        "preferred_code_sets": ["*"]
-      }
-    ]
-  },
-  {
-    "hqmf_name": "Substance, Administered not done",
-    "hqmf_oid": "2.16.840.1.113883.3.560.1.164",
-    "qrda_name": "Medication Administered",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.42",
-    "code_displays": [
-      {
-        "code_type": "entryCode",
-        "tag_name": "code",
-        "attribute": "",
-        "exclude_null_flavor": false,
-        "extra_content": "",
-        "preferred_code_sets": ["*"]
-      }
-    ]
-  },
-  {
-    "hqmf_name": "Medication, Allergy",
-    "hqmf_oid": "2.16.840.1.113883.3.560.1.1",
-    "qrda_name": "Medication Allergy",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.44",
-    "code_displays": [
-      {
-        "code_type": "entryCode",
-        "tag_name": "code",
-        "attribute": "",
-        "exclude_null_flavor": false,
-        "extra_content": "",
-        "preferred_code_sets": ["*"]
-      }
-    ]
-  },
-  {
-    "hqmf_name": "Substance, Allergy",
-    "hqmf_oid": "2.16.840.1.113883.3.560.1.66",
-    "qrda_name": "Medication Allergy",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.44",
-    "code_displays": [
-      {
-        "code_type": "entryCode",
-        "tag_name": "code",
-        "attribute": "",
-        "exclude_null_flavor": false,
-        "extra_content": "",
-        "preferred_code_sets": ["*"]
-      }
-    ]
-  },
-  {
-    "hqmf_name": "Medication, Order",
-    "hqmf_oid": "2.16.840.1.113883.3.560.1.17",
-    "qrda_name": "Medication Order",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.47",
-    "code_displays": [
-      {
-        "code_type": "entryCode",
-        "tag_name": "code",
-        "attribute": "",
-        "exclude_null_flavor": false,
-        "extra_content": "",
-        "preferred_code_sets": ["RxNorm"]
-      }
-    ]
-  },
-  {
-    "hqmf_name": "Substance, Order",
-    "hqmf_oid": "2.16.840.1.113883.3.560.1.68",
-    "qrda_name": "Medication Order",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.47",
-    "code_displays": [
-      {
-        "code_type": "entryCode",
-        "tag_name": "code",
-        "attribute": "",
-        "exclude_null_flavor": false,
-        "extra_content": "",
-        "preferred_code_sets": ["RxNorm"]
-      }
-    ]
-  },
-  {
-    "hqmf_name": "Medication, Order not done",
-    "hqmf_oid": "2.16.840.1.113883.3.560.1.78",
-    "qrda_name": "Medication Order",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.47",
-    "code_displays": [
-      {
-        "code_type": "entryCode",
-        "tag_name": "code",
-        "attribute": "",
-        "exclude_null_flavor": false,
-        "extra_content": "",
-        "preferred_code_sets": ["RxNorm"]
-      }
-    ]
-  },
-  {
-    "hqmf_name": "Risk Category Assessment",
-    "hqmf_oid": "2.16.840.1.113883.3.560.1.21",
-    "qrda_name": "Risk Category Assessment",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.69",
-    "code_displays": [
-      {
-        "code_type": "entryCode",
-        "tag_name": "code",
-        "attribute": "",
-        "exclude_null_flavor": false,
-        "extra_content": "",
-        "preferred_code_sets": ["*"]
-      },
-      {
-        "code_type": "resultValue",
-        "tag_name": "value",
-        "attribute": "",
-        "exclude_null_flavor": false,
-        "extra_content": "xsi:type=\"CD\"",
-        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"]
-      }
-    ]
-  },
-  {
-    "hqmf_name": "Risk Category Assessment not done",
-    "hqmf_oid": "2.16.840.1.113883.3.560.1.121",
-    "qrda_name": "Risk Category Assessment",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.69",
-    "code_displays": [
-      {
-        "code_type": "entryCode",
-        "tag_name": "code",
-        "attribute": "",
-        "exclude_null_flavor": false,
-        "extra_content": "",
-        "preferred_code_sets": ["*"]
-      },
-      {
-        "code_type": "resultValue",
-        "tag_name": "value",
-        "attribute": "",
-        "exclude_null_flavor": false,
-        "extra_content": "xsi:type=\"CD\"",
-        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "LOINC"]
-      }
-    ]
-  }
+  
 ]`)
 
 var hqmf_template_oid_map = []byte(`{
