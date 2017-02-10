@@ -142,11 +142,11 @@ func Read_patient(document string) string {
 		patient.Medications = append(patient.Medications, rawMedicationOrdereds[i].(models.Medication))
 	}
 
-	//discharge medication active
-	var medicationDischargeActiveXPath = xpath.Compile("//cda:entry/cda:act[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.105']/cda:entryRelationship/cda:substanceAdministration[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.41']")
-	rawMedicationDischargeActives := ExtractSection(patientElement, medicationDischargeActiveXPath, MedicationExtractor, "2.16.840.1.113883.3.560.1.199", "discharge")
-	for i := range rawMedicationDischargeActives {
-		patient.Medications = append(patient.Medications, rawMedicationDischargeActives[i].(models.Medication))
+	//discharge medication activity
+	var medicationDischargeActivityXPath = xpath.Compile("//cda:entry/cda:act[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.105']/cda:entryRelationship/cda:substanceAdministration[cda:templateId/@root='2.16.840.1.113883.10.20.22.4.16']")
+	rawMedicationDischargeActivities := ExtractSection(patientElement, medicationDischargeActivityXPath, MedicationExtractor, "2.16.840.1.113883.3.560.1.199", "discharge")
+	for i := range rawMedicationDischargeActivities {
+		patient.Medications = append(patient.Medications, rawMedicationDischargeActivities[i].(models.Medication))
 	}
 
 	// medication intolerance
