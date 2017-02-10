@@ -39,7 +39,7 @@ func TestCodeDisplayForQrdaOid(t *testing.T) {
 		assert.Equal(t, "entryCode", codeDisplays[0].CodeType)
 		assert.Equal(t, "code", codeDisplays[0].TagName)
 		assert.Equal(t, false, codeDisplays[0].ExcludeNullFlavor)
-		assert.Equal(t, []string{"SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "CPT"}, codeDisplays[0].PreferredCodeSets)
+		assert.Equal(t, []string{"2.16.840.1.113883.3.88.12.80.32"}, codeDisplays[0].PreferredCodeSets)
 	}
 }
 

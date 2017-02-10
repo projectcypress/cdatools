@@ -190,26 +190,6 @@ func condAssign(first interface{}, second interface{}) interface{} {
 	return result
 }
 
-func codeDisplayWithPreferredCode(entry *models.Entry, coded *models.Coded, codeType string) models.CodeDisplay {
-	codeDisplay, err := entry.GetCodeDisplay(codeType)
-	if err != nil {
-		log.Fatalln(err)
-	}
-	codeDisplay.PreferredCode = coded.PreferredCode(codeDisplay.PreferredCodeSets)
-	return codeDisplay
-}
-
-func codeDisplayWithPreferredCodeAndLaterality(entry *models.Entry, coded *models.Coded, codeType string, laterality models.Laterality, MapDataCriteria models.Mdc) models.CodeDisplay {
-	codeDisplay, err := entry.GetCodeDisplay(codeType)
-	if err != nil {
-		log.Fatal(err)
-	}
-	codeDisplay.PreferredCode = coded.PreferredCode(codeDisplay.PreferredCodeSets)
-	codeDisplay.Laterality = laterality
-	codeDisplay.MapDataCriteria = MapDataCriteria
-	return codeDisplay
-}
-
 // dd stands for discharge disposition
 func dischargeDispositionDisplay(dd map[string]string) string {
 	// set code system

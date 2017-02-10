@@ -1,9 +1,10 @@
 package exporter
 
 import (
+	"testing"
+
 	"github.com/projectcypress/cdatools/models"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 var fieldOids = map[string][]string{"REASON": []string{"1.2.3.4.5.6.7.8.9.11"},
@@ -114,20 +115,6 @@ func TestCondAssign(t *testing.T) {
 	assert.Equal(t, first, condAssign(first, second))
 	assert.Equal(t, second, condAssign(second, first))
 	assert.Equal(t, &first, condAssign(&first, second))
-}
-
-func TestCodeDisplayWithPreferredCode(t *testing.T) {
-	codeType := "my code type"
-	expectedCodeDisplay := models.CodeDisplay{CodeType: codeType, PreferredCodeSets: []string{"codeSetB"}}
-	entry := models.Entry{CodeDisplays: []models.CodeDisplay{expectedCodeDisplay}}
-	codes := make(map[string][]string)
-	codes["codeSetA"] = []string{"third", "fourth"}
-	codes["codeSetB"] = []string{"first", "second"}
-	coded := models.Coded{Codes: codes}
-
-	actualCodeDisplay := codeDisplayWithPreferredCode(&entry, &coded, codeType)
-	expectedCodeDisplay.PreferredCode = models.Concept{Code: "first", CodeSystem: "codeSetB"}
-	assert.Equal(t, expectedCodeDisplay, actualCodeDisplay)
 }
 
 func TestDischargeDispositionDisplay(t *testing.T) {

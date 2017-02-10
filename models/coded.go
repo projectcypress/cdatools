@@ -86,7 +86,30 @@ func computeIntersection(a []string, b []string) []string {
 	return intersect
 }
 
-func (c *Coded) PreferredCode(preferredCodeSets []string) Concept {
+func (c *Coded) PreferredCode(preferredCodeSets []string, codeSetRequired bool, valueSetPreferred bool, vsMap ValueSetMap) Concept {
+	if len(c.Codes) == 0 {
+		return Concept{}
+	}
+	if valueSetPreferred {
+		for codeSystem := range c.Codes {
+			for _, code := range c.Codes[codeSystem] {
+				for _, vsOid := range preferredCodeSets {
+					valueSet := vsMap[vsOid]
+					if codeSetContainsCode(valueSet, CodedConcept{CodeSystem: codeSystem, Code: code}) {
+						return Concept{CodeSystem: codeSystem, Code: code}
+					}
+				}
+			}
+		}
+
+		if codeSetRequired {
+			return Concept{}
+		}
+		for codeSystem := range c.Codes {
+			return Concept{CodeSystem: codeSystem, Code: c.Codes[codeSystem][0]}
+		}
+		return Concept{}
+	}
 	codeTypes := make([]string, len(c.Codes))
 	i := 0
 	for k := range c.Codes {
@@ -96,8 +119,12 @@ func (c *Coded) PreferredCode(preferredCodeSets []string) Concept {
 	codes := computeIntersection(preferredCodeSets, codeTypes)
 	if len(codes) > 0 {
 		return Concept{CodeSystem: codes[0], Code: c.Codes[codes[0]][0]}
+	} else if codeSetRequired {
+		return Concept{}
+	} else {
+		return Concept{CodeSystem: codeTypes[0], Code: c.Codes[codeTypes[0]][0]}
 	}
-	return Concept{}
+
 }
 
 func (c *Coded) IsCodesPresent() bool {
