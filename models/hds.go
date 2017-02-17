@@ -169,7 +169,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["LOINC"],
         "code_set_required": false,
         "value_set_preferred": false
@@ -187,7 +187,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["*"],
         "code_set_required": false,
         "value_set_preferred": false
@@ -205,7 +205,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["*"],
         "code_set_required": false,
         "value_set_preferred": false
@@ -223,7 +223,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["*"],
         "code_set_required": false,
         "value_set_preferred": false
@@ -253,7 +253,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["LOINC", "SNOMED-CT"],
         "code_set_required": false,
         "value_set_preferred": false
@@ -277,7 +277,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["*"],
         "code_set_required": false,
         "value_set_preferred": false
@@ -301,7 +301,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "value",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "xsi:type=\"CD\"",
+        "extra_content": "xsi:type=\"CD\" sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["2.16.840.1.113883.3.88.12.3221.7.4"],
         "code_set_required": true,
         "value_set_preferred": true
@@ -319,7 +319,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "value",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "xsi:type=\"CD\"",
+        "extra_content": "xsi:type=\"CD\" sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "required_code_sets": ["2.16.840.1.113883.3.88.12.3221.7.4"],
         "code_set_required": true,
         "value_set_preferred": true
@@ -337,7 +337,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "value",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "xsi:type=\"CD\"",
+        "extra_content": "xsi:type=\"CD\" sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "required_code_sets": ["2.16.840.1.113883.3.88.12.3221.7.2"],
         "code_set_required": true,
         "value_set_preferred": true
@@ -355,7 +355,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "value",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "xsi:type=\"CD\"",
+        "extra_content": "xsi:type=\"CD\" sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["2.16.840.1.113883.3.88.12.3221.7.4"],
         "code_set_required": true,
         "value_set_preferred": true
@@ -385,7 +385,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["LOINC"],
         "code_set_required": false,
         "value_set_preferred": false
@@ -403,7 +403,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["LOINC"],
         "code_set_required": false,
         "value_set_preferred": false
@@ -421,7 +421,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["LOINC", "SNOMED-CT"],
         "code_set_required": false,
         "value_set_preferred": false
@@ -449,7 +449,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["LOINC", "SNOMED-CT"],
         "code_set_required": false,
         "value_set_preferred": false
@@ -501,7 +501,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["2.16.840.1.113762.1.4.1010.4"],
         "code_set_required": true,
         "value_set_preferred": true
@@ -531,7 +531,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["2.16.840.1.113883.3.88.12.80.32"],
         "code_set_required": false,
         "value_set_preferred": true
@@ -579,7 +579,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["LOINC", "SNOMED-CT"],
         "code_set_required": false,
         "value_set_preferred": false
@@ -637,7 +637,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["LOINC", "SNOMED-CT"],
         "code_set_required": false,
         "value_set_preferred": false
@@ -655,7 +655,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["LOINC", "SNOMED-CT"],
         "code_set_required": false,
         "value_set_preferred": false
@@ -673,7 +673,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["LOINC", "SNOMED-CT"],
         "code_set_required": false,
         "value_set_preferred": false
@@ -725,7 +725,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["*"],
         "code_set_required": false,
         "value_set_preferred": false
@@ -743,7 +743,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["*"],
         "code_set_required": false,
         "value_set_preferred": false
@@ -761,7 +761,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["*"],
         "code_set_required": false,
         "value_set_preferred": false
@@ -801,7 +801,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["2.16.840.1.113762.1.4.1010.4"],
         "code_set_required": true,
         "value_set_preferred": true
@@ -829,7 +829,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["2.16.840.1.113762.1.4.1010.4"],
         "code_set_required": true,
         "value_set_preferred": true
@@ -847,7 +847,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["*"],
         "code_set_required": false,
         "value_set_preferred": false
@@ -865,7 +865,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["*"],
         "code_set_required": false,
         "value_set_preferred": false
@@ -883,7 +883,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["2.16.840.1.113762.1.4.1010.4"],
         "code_set_required": true,
         "value_set_preferred": true
@@ -901,7 +901,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["2.16.840.1.113762.1.4.1010.1"],
         "code_set_required": true,
         "value_set_preferred": true
@@ -919,7 +919,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["2.16.840.1.113762.1.4.1010.4"],
         "code_set_required": true,
         "value_set_preferred": true
@@ -949,7 +949,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "value",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "xsi:type=\"CD\" sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["*"],
         "code_set_required": false,
         "value_set_preferred": false
@@ -967,7 +967,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "value",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "xsi:type=\"CD\"",
         "preferred_code_sets": ["*"],
         "code_set_required": false,
         "value_set_preferred": false
@@ -1003,7 +1003,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "value",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "xsi:type=\"CD\"",
+        "extra_content": "xsi:type=\"CD\" sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["*"],
         "code_set_required": false,
         "value_set_preferred": false
@@ -1061,7 +1061,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["SNOMED-CT", "LOINC"],
         "code_set_required": false,
         "value_set_preferred": false
@@ -1101,7 +1101,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["LOINC", "SNOMED-CT"],
         "code_set_required": false,
         "value_set_preferred": false
@@ -1119,7 +1119,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["LOINC", "SNOMED-CT"],
         "code_set_required": false,
         "value_set_preferred": false
@@ -1147,7 +1147,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["LOINC", "SNOMED-CT"],
         "code_set_required": false,
         "value_set_preferred": false
@@ -1229,7 +1229,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["LOINC", "SNOMED-CT"],
         "code_set_required": false,
         "value_set_preferred": false
@@ -1269,7 +1269,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["2.16.840.1.113762.1.4.1010.4"],
         "code_set_required": true,
         "value_set_preferred": true
@@ -1287,7 +1287,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["*"],
         "code_set_required": false,
         "value_set_preferred": false
@@ -1305,7 +1305,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["*"],
         "code_set_required": false,
         "value_set_preferred": false
@@ -1323,7 +1323,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["2.16.840.1.113762.1.4.1010.1"],
         "code_set_required": true,
         "value_set_preferred": true
@@ -1341,7 +1341,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["2.16.840.1.113762.1.4.1010.4"],
         "code_set_required": true,
         "value_set_preferred": true
@@ -1365,7 +1365,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "value",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "xsi:type=\"CD\"",
+        "extra_content": "xsi:type=\"CD\" sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["2.16.840.1.113883.3.88.12.3221.7.4"],
         "code_set_required": true,
         "value_set_preferred": true
@@ -1423,7 +1423,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["*"],
         "code_set_required": false,
         "value_set_preferred": false
@@ -1451,7 +1451,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["2.16.840.1.113762.1.4.1010.4"],
         "code_set_required": true,
         "value_set_preferred": true
@@ -1469,7 +1469,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["LOINC", "SNOMED-CT"],
         "code_set_required": false,
         "value_set_preferred": false
@@ -1497,7 +1497,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["2.16.840.1.113762.1.4.1010.4"],
         "code_set_required": true,
         "value_set_preferred": true
@@ -1515,7 +1515,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["LOINC", "SNOMED-CT"],
         "code_set_required": false,
         "value_set_preferred": false
@@ -1543,7 +1543,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["2.16.840.1.113762.1.4.1010.4"],
         "code_set_required": true,
         "value_set_preferred": true
@@ -1571,7 +1571,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["2.16.840.1.113762.1.4.1010.4"],
         "code_set_required": true,
         "value_set_preferred": true
@@ -1589,7 +1589,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["LOINC", "SNOMED-CT"],
         "code_set_required": false,
         "value_set_preferred": false
@@ -1607,7 +1607,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["*"],
         "code_set_required": false,
         "value_set_preferred": false
@@ -1625,7 +1625,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["LOINC", "SNOMED-CT"],
         "code_set_required": false,
         "value_set_preferred": false
@@ -1653,7 +1653,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["2.16.840.1.113762.1.4.1010.4"],
         "code_set_required": true,
         "value_set_preferred": true
@@ -1671,7 +1671,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["*"],
         "code_set_required": false,
         "value_set_preferred": false
@@ -1689,7 +1689,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["*"],
         "code_set_required": false,
         "value_set_preferred": false
@@ -1707,7 +1707,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["LOINC", "SNOMED-CT"],
         "code_set_required": false,
         "value_set_preferred": false
@@ -1735,7 +1735,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["*"],
         "code_set_required": false,
         "value_set_preferred": false
@@ -1753,7 +1753,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["SNOMED-CT", "LOINC"],
         "code_set_required": false,
         "value_set_preferred": false
