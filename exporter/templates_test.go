@@ -21,9 +21,11 @@ import (
 func TestCodeTemplate(t *testing.T) {
 	// tag name is "code", has preferred code, attribute is not "codes"
 	preferredCode := models.Concept{Code: "my_code", CodeSystem: "SNOMED-CT"}
-	codeDisplay := models.CodeDisplay{CodeType: "my_code_type", TagName: "code", Attribute: "my_attr", PreferredCode: preferredCode, ExtraContent: "my_extra_content=\"extra_content_value\""}
+	codeDisplay := models.CodeDisplay{CodeType: "my_code_type", TagName: "code", Attribute: "my_attr", PreferredCode: preferredCode,
+		ExtraContent:    "valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
+		MapDataCriteria: models.Mdc{DcKey: models.DcKey{ValueSetOid: "1.1.1.1.1"}}}
 	rootNode := xmlCodeRootNode(codeDisplay)
-	assertXPath(t, rootNode, "//code", map[string]string{"code": "my_code", "codeSystem": "2.16.840.1.113883.6.96", "my_extra_content": "extra_content_value"}, nil)
+	assertXPath(t, rootNode, "//code", map[string]string{"code": "my_code", "codeSystem": "2.16.840.1.113883.6.96", "valueSet": "1.1.1.1.1"}, nil)
 	assertNoXPath(t, rootNode, "//code/originalText")
 
 	// tag name is not "code"

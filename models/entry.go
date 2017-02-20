@@ -1,8 +1,11 @@
 package models
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
+	"html/template"
+	"log"
 )
 
 type Entry struct {
@@ -105,4 +108,17 @@ func (e *Entry) WrapResultValue(val ResultValue) ResultValueWrap {
 
 func (e *Entry) WrapResultValues(vals []ResultValue) ResultValueWrap {
 	return ResultValueWrap{ResultValueEntry: e, Values: vals}
+}
+
+func (c CodeDisplay) RenderExtraContent() string {
+	var tmplOut bytes.Buffer
+	tmpl, err := template.New("renderExtraContent").Parse(c.ExtraContent)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	err = tmpl.Execute(&tmplOut, c)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	return tmplOut.String()
 }
