@@ -95,7 +95,7 @@ func (c *Coded) PreferredCode(preferredCodeSets []string, codeSetRequired bool, 
 			for _, code := range c.Codes[codeSystem] {
 				for _, vsOid := range preferredCodeSets {
 					valueSet := vsMap[vsOid]
-					if codeSetContainsCode(valueSet, CodedConcept{CodeSystem: codeSystem, Code: code}) {
+					if len(valueSet) == 0 || codeSetContainsCode(valueSet, CodedConcept{CodeSystem: codeSystem, Code: code}) {
 						return Concept{CodeSystem: codeSystem, Code: code}
 					}
 				}
