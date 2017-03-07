@@ -44,7 +44,7 @@ func (i *ImporterSuite) TestExtractDemograpics(c *C) {
 	ExtractDemographics(i.patient, i.patientElement)
 	c.Assert(i.patient.First, Equals, "Norman")
 	c.Assert(i.patient.Last, Equals, "Flores")
-	c.Assert(*i.patient.Birthdate, Equals, int64(599646600))
+	c.Assert(*i.patient.BirthDate, Equals, int64(599646600))
 	c.Assert(i.patient.Race.Code, Equals, "1002-5")
 	c.Assert(i.patient.Race.CodeSystem, Equals, "CDC Race and Ethnicity")
 	c.Assert(i.patient.Ethnicity.Code, Equals, "2186-5")
