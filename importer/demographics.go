@@ -14,7 +14,7 @@ func ExtractDemographics(patient *models.Record, patientElement xml.Node) {
 	var genderXPath = xpath.Compile("cda:administrativeGenderCode/@code")
 	patient.Gender = FirstElementContent(genderXPath, patientElement)
 	var birthTimeXPath = xpath.Compile("cda:birthTime/@value")
-	patient.Birthdate = GetTimestamp(birthTimeXPath, patientElement)
+	patient.BirthDate = GetTimestamp(birthTimeXPath, patientElement)
 
 	patient.Race = &models.CodedConcept{}
 	var raceXPath = xpath.Compile("cda:raceCode/@code")
