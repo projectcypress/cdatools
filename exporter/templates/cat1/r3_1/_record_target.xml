@@ -35,12 +35,12 @@
         <family>{{escape .Last}}</family>
       </name>
       <administrativeGenderCode code="{{escape .Gender}}" codeSystem="2.16.840.1.113883.5.1" codeSystemName="HL7 AdministrativeGender"/>
-      <birthTime value="{{timeToFormat .Birthdate "20060102"}}"/>
+      <birthTime value="{{timeToFormat .BirthDate "20060102"}}"/>
       {{if .Race}}
-        <raceCode code="{{escape .Race.Code}}" {{if .Race.Name }}displayName="{{escape .Race.Name}}"{{end}} codeSystemName="CDC Race and Ethnicity" codeSystem="2.16.840.1.113883.6.238"/>
+        <raceCode code="{{escape .Race.Code}}" {{if .Race.DisplaName }}displayName="{{escape .Race.DisplayName}}"{{end}} codeSystemName="CDC Race and Ethnicity" codeSystem="2.16.840.1.113883.6.238"/>
       {{end}}
       {{if .Ethnicity }}
-        <ethnicGroupCode code="{{escape .Ethnicity.Code}}" {{ if .Ethnicity.Name }}displayName="{{escape .Ethnicity.Name }}"{{end}} codeSystemName="CDC Race and Ethnicity" codeSystem="2.16.840.1.113883.6.238"/>
+        <ethnicGroupCode code="{{escape .Ethnicity.Code}}" {{ if .Ethnicity.DisplayName }}displayName="{{escape .Ethnicity.DisplayName }}"{{end}} codeSystemName="CDC Race and Ethnicity" codeSystem="2.16.840.1.113883.6.238"/>
       {{end}}
       {{if .Languages}}
         {{range .Languages}}

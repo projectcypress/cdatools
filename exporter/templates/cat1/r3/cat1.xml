@@ -45,7 +45,7 @@
     <!-- SHALL -->
     <legalAuthenticator>
       <!-- SHALL -->
-      <time value="{{escape .Header.Authenticator.Time}}"/>
+      <time value="{{timeToFormat .Header.Authenticator.Time "20060102150405-700"}}"/>
       <!-- SHALL -->
       <signatureCode code="S"/>
       <assignedEntity>

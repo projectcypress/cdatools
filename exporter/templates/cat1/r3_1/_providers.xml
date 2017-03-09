@@ -3,14 +3,14 @@
   {{if .ProviderPerformances}}
     {{range .ProviderPerformances }}
       <effectiveTime>
-        <low value="{{timeToFormat .StartDate "20060102"}}"/>
-        <high value="{{timeToFormat .EndDate "20060102"}}"/>
+        <low {{valueOrNullFlavor .StartDate}}/>
+        <high {{valueOrNullFlavor .EndDate}}/>
       </effectiveTime>
       <!-- You can include multiple performers, each with an NPI, TIN, CCN. -->
       <performer typeCode="PRF">
         <time>
-          <low value="{{timeToFormat .StartDate "20060102"}}"/>
-          <high value="{{timeToFormat .EndDate "20060102"}}"/>
+          <low {{valueOrNullFlavor .StartDate}}/>
+          <high {{valueOrNullFlavor .EndDate}}/>
         </time>
         <assignedEntity>
           {{range .Provider.CDAIdentidiers}}
