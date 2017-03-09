@@ -7,6 +7,7 @@ type CodedConcept struct {
 	CodeSystem     string `json:"code_system,omitempty"`
 	CodeSystemName string `json:"code_system_name,omitempty"`
 	CodeSystemOid  string `json:"code_system_oid,omitempty"`
+	DisplayName    string `json:"display_name,omitempty"`
 }
 
 func (c *CodedConcept) AddCodeIfPresent(codeElement xml.Node) {

@@ -21,10 +21,14 @@ func ExtractDemographics(patient *models.Record, patientElement xml.Node) {
 	patient.Race.Code = FirstElementContent(raceXPath, patientElement)
 	var raceCodeSetXPath = xpath.Compile("cda:raceCode/@codeSystemName")
 	patient.Race.CodeSystem = FirstElementContent(raceCodeSetXPath, patientElement)
+	var raceDisplayNameXPath = xpath.Compile("cda:raceCode/@displayName")
+	patient.Race.DisplayName = FirstElementContent(raceDisplayNameXPath, patientElement)
 
 	patient.Ethnicity = &models.CodedConcept{}
 	var ethnicityXPath = xpath.Compile("cda:ethnicGroupCode/@code")
 	patient.Ethnicity.Code = FirstElementContent(ethnicityXPath, patientElement)
 	var ethnicityCodeSetXPath = xpath.Compile("cda:ethnicGroupCode/@codeSystemName")
 	patient.Ethnicity.CodeSystem = FirstElementContent(ethnicityCodeSetXPath, patientElement)
+	var ethnicityDisplayNameXPath = xpath.Compile("cda:ethnicityCode/@displayName")
+	patient.Ethnicity.DisplayName = FirstElementContent(ethnicityDisplayNameXPath, patientElement)
 }
