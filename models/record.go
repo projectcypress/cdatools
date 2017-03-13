@@ -111,6 +111,9 @@ func (r *Record) GetEntriesForOids(dataCriteria DataCriteria, codes []CodeSet, o
 					}
 				} else if dataCriteriaOid == "2.16.840.1.113883.3.560.1.71" {
 					if transferFrom := &entry.(*Encounter).TransferFrom; transferFrom != nil {
+						if transferFrom.Codes == nil {
+							transferFrom.Codes = make(map[string][]string)
+						}
 						transferFrom.Codes[transferFrom.CodeSystem] = []string{transferFrom.Code}
 						tfc := transferFrom.Coded.CodesInCodeSet(codes[0].Set)
 						if len(tfc) > 0 {
@@ -119,6 +122,9 @@ func (r *Record) GetEntriesForOids(dataCriteria DataCriteria, codes []CodeSet, o
 					}
 				} else if dataCriteriaOid == "2.16.840.1.113883.3.560.1.72" {
 					if transferTo := &entry.(*Encounter).TransferTo; transferTo != nil {
+						if transferTo.Codes == nil {
+							transferTo.Codes = make(map[string][]string)
+						}
 						transferTo.Codes[transferTo.CodeSystem] = []string{transferTo.Code}
 						if len(transferTo.Coded.CodesInCodeSet(codes[0].Set)) > 0 {
 							entries = append(entries, entry)
@@ -163,8 +169,12 @@ func (r *Record) EntriesForDataCriteria(dataCriteria DataCriteria, vsMap map[str
 		case "2.16.840.1.113883.3.560.1.71", "2.16.840.1.113883.3.560.1.72":
 			// Transfers (either from or to)
 			if dataCriteria.FieldValues != nil {
-				if dataCriteria.FieldValues["TRANSFER_FROM"].CodeListID == "" {
-					codes = vsMap[dataCriteria.FieldValues["TRANSFER_TO"].CodeListID]
+				if codeListID := dataCriteria.FieldValues["TRANSFER_FROM"].CodeListID; codeListID == "" {
+					if codeListID = dataCriteria.FieldValues["TRANSFER_TO"].CodeListID; codeListID != "" {
+						codes = vsMap[codeListID]
+					}
+				} else {
+					codes = vsMap[codeListID]
 				}
 			}
 			entries = r.GetEntriesForOids(dataCriteria, codes, dataCriteriaOid, "2.16.840.1.113883.3.560.1.79")
