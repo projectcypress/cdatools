@@ -27,7 +27,7 @@
           <tr>
             <td>{{escape .Name}}</td>
             <td>{{escape .HQMFSetID}}</td>
-            <td>{{escape .HQMFVersionNumber}}</td>
+            <td>{{.HQMFVersionNumber}}</td>
             <td>{{escape .HQMFID}}</td>
             <td></td>
           </tr>
@@ -55,7 +55,7 @@
             <!-- SHOULD: setId is the eMeasure version neutral id  -->
             <setId root="{{escape .HQMFSetID}}"/>
             <!-- This is the sequential eMeasure Version number -->
-            <versionNumber value="{{escape .HQMFVersionNumber}}"/>
+            <versionNumber value="{{.HQMFVersionNumber}}"/>
           </externalDocument>
         </reference>
       </organizer>
