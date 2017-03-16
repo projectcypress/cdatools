@@ -1,5 +1,5 @@
 <entry>
-  <encounter classCode="ENC" moodCode="ENV">
+  <encounter classCode="ENC" moodCode="EVN">
     <!-- Encounter activities template -->
     <templateId root="2.16.840.1.113883.10.20.22.4.49" extension="2014-06-09" />
     <!-- Encounter performed template -->
