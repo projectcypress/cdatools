@@ -246,6 +246,24 @@ func xmlMedicationDispenseRootNode(fulfillmentHistory [](models.FulfillmentHisto
 	return xmlRootNode(xmlString)
 }
 
+// test _2.16.840.1.113883.10.20.24.3.22.xml
+func TestEncounterOrderTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.22"
+	dataCriteriaName := "encounter_order"
+	entryName := "encounter_order"
+
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Encounter{})
+
+	rootNode := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+	assertXPath(t, rootNode, "//entry/encounter", map[string]string{"classCode": "ENC", "moodCode": "RQO"}, nil)
+	assertXPath(t, rootNode, "//entry/encounter/templateId[@root='2.16.840.1.113883.10.20.22.4.40']", map[string]string{"extension": "2014-06-09"}, nil)
+	assertXPath(t, rootNode, "//entry/encounter/templateId[@root='2.16.840.1.113883.10.20.24.3.22']", map[string]string{"extension": "2014-12-01"}, nil)
+	assertXPath(t, rootNode, "//entry/encounter/id", map[string]string{"root": "1.3.6.1.4.1.115"}, nil)
+	assertContent(t, rootNode, "//entry/encounter/text", "Encounter, Order: Decision to Admit to Hospital Inpatient")
+	assertXPath(t, rootNode, "//entry/encounter/statusCode", map[string]string{"code": "active"}, nil)
+	assertContent(t, rootNode, "//entry/encounter/time", "1432110600")
+}
+
 // test _2.16.840.1.113883.10.20.24.3.23.xml
 func TestEncounterPerformedTemplate(t *testing.T) {
 	qrdaOid := "2.16.840.1.113883.10.20.24.3.23"

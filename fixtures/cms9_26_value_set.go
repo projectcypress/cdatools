@@ -2,6 +2,41 @@ package fixtures
 
 var Cms9_26 = []byte(`
 [{
+  "concepts": [
+    {
+      "code": "10378005",
+      "code_system": "2.16.840.1.113883.6.96",
+      "code_system_name": "SNOMED-CT",
+      "code_system_version": null,
+      "display_name": "Hospital admission, emergency, from emergency room, accidental injury (procedure)"
+    },
+    {
+      "code": "19951005",
+      "code_system": "2.16.840.1.113883.6.96",
+      "code_system_name": "SNOMED-CT",
+      "code_system_version": null,
+      "display_name": "Hospital admission, emergency, from emergency room, medical nature (procedure)"
+    },
+    {
+      "code": "73607007",
+      "code_system": "2.16.840.1.113883.6.96",
+      "code_system_name": "SNOMED-CT",
+      "code_system_version": null,
+      "display_name": "Hospital admission, emergency, from emergency room (procedure)"
+    },
+    {
+      "code": "76464004",
+      "code_system": "2.16.840.1.113883.6.96",
+      "code_system_name": "SNOMED-CT",
+      "code_system_version": null,
+      "display_name": "Hospital admission, for observation (procedure)"
+    }
+  ],
+  "display_name": "Decision to Admit to Hospital Inpatient",
+  "oid": "2.16.840.1.113883.3.117.1.7.1.295",
+  "version": "Draft"
+},
+{
         "concepts": [{
             "code": "M",
             "code_system": "2.16.840.1.113883.5.1",

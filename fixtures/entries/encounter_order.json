@@ -1,0 +1,28 @@
+{
+	"admitTime": null,
+	"admitType": null,
+	"codes": {
+		"SNOMED-CT": [
+			"73607007"
+		]
+	},
+	"description": "Encounter, Order: Decision to Admit to Hospital Inpatient",
+	"dischargeDisposition": null,
+	"dischargeTime": null,
+	"end_time": 1432110600,
+	"mood_code": "EVN",
+	"negationInd": null,
+	"negationReason": null,
+	"oid": "2.16.840.1.113883.3.560.1.83",
+	"performer_id": null,
+	"reason": null,
+	"specifics": null,
+	"start_time": 1432110600,
+	"status_code": {
+		"HL7 ActStatus": [
+			"ordered"
+		]
+	},
+	"time": null,
+	"_type": "Encounter"
+}

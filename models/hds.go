@@ -518,7 +518,17 @@ var hqmf_qrda_oids = []byte(`[
     "hqmf_name": "Encounter, Order",
     "hqmf_oid": "2.16.840.1.113883.3.560.1.83",
     "qrda_name": "Encounter Order",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.22"
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.22",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "",
+        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "CPT", "HCPCS", "CDT"]
+      }
+    ]
   },
   {
     "hqmf_name": "Encounter, Performed",
