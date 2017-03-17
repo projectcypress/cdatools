@@ -48,7 +48,7 @@ func TestGetAllDataCriteriaForOneMeasure(t *testing.T) {
 	measureData := append([]byte("["), append(fixtures.Cms9v4a, []byte("]")...)...)
 	json.Unmarshal(measureData, &mes)
 
-	assert.Equal(t, len(allDataCriteria(mes)), 27)
+	assert.Equal(t, len(allDataCriteria(mes)), 28)
 }
 
 func TestGetAllDatacriteriaForMultipleMeasures(t *testing.T) {
@@ -56,14 +56,14 @@ func TestGetAllDatacriteriaForMultipleMeasures(t *testing.T) {
 	measureData := append([]byte("["), append(append(fixtures.Cms9v4a, append([]byte(","), fixtures.Cms26v3...)...), []byte("]")...)...)
 	json.Unmarshal(measureData, &mes)
 
-	assert.Equal(t, len(allDataCriteria(mes)), 47)
+	assert.Equal(t, len(allDataCriteria(mes)), 48)
 }
 
 func TestGetUniqueDataCriteriaForOneMeasure(t *testing.T) {
 	mes := make([]Measure, 1)
 	measureData := append([]byte("["), append(fixtures.Cms9v4a, []byte("]")...)...)
 	json.Unmarshal(measureData, &mes)
-	assert.Equal(t, len(UniqueDataCriteria(allDataCriteria(mes))), 14)
+	assert.Equal(t, len(UniqueDataCriteria(allDataCriteria(mes))), 15)
 }
 
 func TestSetCodeDisplaysForEntry(t *testing.T) {

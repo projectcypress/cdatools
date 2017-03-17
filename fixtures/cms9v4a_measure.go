@@ -255,6 +255,18 @@ var Cms9v4a = []byte(`
       }
     },
     "data_criteria": {
+      "EncounterOrderDecisionToAdmitToHospitalInpatient": {
+        "title": "Decision to Admit to Hospital Inpatient",
+        "description": "Encounter, Order: Decision to Admit to Hospital Inpatient",
+        "code_list_id": "2.16.840.1.113883.3.117.1.7.1.295",
+        "type": "encounters",
+        "definition": "encounter",
+        "status": "ordered",
+        "hard_status": true,
+        "negation": false,
+        "source_data_criteria": "EncounterOrderDecisionToAdmitToHospitalInpatient",
+        "variable": false
+      },
       "PatientCharacteristicSexOncAdministrativeSex": {
         "title": "ONC Administrative Sex",
         "description": "Patient Characteristic Sex: ONC Administrative Sex",
