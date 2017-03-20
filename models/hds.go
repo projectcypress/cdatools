@@ -468,7 +468,7 @@ var hqmf_qrda_oids = []byte(`[
   },
   {
     "hqmf_name": "Diagnostic Study, Recommended",
-    "hqmf_oid": "2.16.840.1.113883.3.560.1.40",
+    "hqmf_oid": "2.16.840.1.113883.10.20.28.3.24",
     "qrda_name": "Diagnostic Study Recommended",
     "qrda_oid": "2.16.840.1.113883.10.20.24.3.19",
     "code_displays": [
