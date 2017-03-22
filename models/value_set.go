@@ -49,11 +49,12 @@ type CodeSet struct {
 	Values []Concept
 }
 
-func (v ValueSetMap) CodeDisplayWithPreferredCode(entry *Entry, coded *Coded, codeType string) CodeDisplay {
+func (v ValueSetMap) CodeDisplayWithPreferredCode(entry *Entry, coded *Coded, MapDataCriteria Mdc, codeType string) CodeDisplay {
 	codeDisplay, err := entry.GetCodeDisplay(codeType)
 	if err != nil {
 		log.Fatalln(err)
 	}
+	codeDisplay.MapDataCriteria = MapDataCriteria
 	codeDisplay.PreferredCode = coded.PreferredCode(codeDisplay.PreferredCodeSets, codeDisplay.CodeSetRequired, codeDisplay.ValueSetPreferred, v)
 	return codeDisplay
 }
