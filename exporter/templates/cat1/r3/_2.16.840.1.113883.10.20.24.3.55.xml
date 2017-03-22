@@ -12,7 +12,7 @@
         <high {{valueOrNullFlavor .EntrySection.EndTime}} />
       {{end}}
     </effectiveTime>
-    {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded "entryCode"}}
+    {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
 
   </observation>            
 </entry>
