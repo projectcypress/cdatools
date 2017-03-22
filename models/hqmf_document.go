@@ -73,6 +73,10 @@ type Mdc struct {
 	DcKey
 }
 
+func EmptyMdc() Mdc {
+	return Mdc{}
+}
+
 // passed into each qrda oid (entry) template
 // EntrySection should be a struct that includes entry attributes (ex. Procedure, Medication, ...)
 type EntryInfo struct {
