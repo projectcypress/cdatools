@@ -53,6 +53,7 @@ func exporterFuncMap(cat1Template *template.Template, vsMap models.ValueSetMap) 
 		"negationIndicator":                         negationIndicator,
 		"isNil":                                     isNil,
 		"derefBool":                                 derefBool,
+		"emptyMdc":                                  models.EmptyMdc,
 	}
 }
 

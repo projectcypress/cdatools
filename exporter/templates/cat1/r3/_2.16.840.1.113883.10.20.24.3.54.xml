@@ -21,7 +21,7 @@
                 codeSystem="2.16.840.1.113883.5.4"
                 codeSystemName="HL7ActCode"/>
           <statusCode code="completed"/>
-          {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded "entryCode"}}
+          {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
           <text>{{.EntrySection.Entry.Description}}</text>
         </observation>
       </entryRelationship>
