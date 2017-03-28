@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/pborman/uuid"
+	"github.com/projectcypress/cdatools/exporter/document/cat3/r2"
 	"github.com/projectcypress/cdatools/models"
 )
 
@@ -26,7 +27,7 @@ type cat1data struct {
 	EndDate    int64
 }
 
-func exporterFuncMap(cat1Template *template.Template, vsMap models.ValueSetMap) template.FuncMap {
+func exporterFuncMapCat1(cat1Template *template.Template, vsMap models.ValueSetMap) template.FuncMap {
 	return template.FuncMap{
 		"timeNow":                                   time.Now().UTC().Unix,
 		"newRandom":                                 uuid.NewRandom,
@@ -57,6 +58,33 @@ func exporterFuncMap(cat1Template *template.Template, vsMap models.ValueSetMap) 
 	}
 }
 
+func exporterFuncMapCat3(cat3Template *template.Template) template.FuncMap {
+	return template.FuncMap{
+		"timeNow":                     time.Now().UTC().Unix,
+		"newRandom":                   uuid.NewRandom,
+		"timeToFormat":                timeToFormat,
+		"identifierForInt":            identifierForInt,
+		"identifierForIntp":           identifierForIntp,
+		"identifierForString":         identifierForString,
+		"escape":                      escape,
+		"executeTemplateForEntry":     generateExecuteTemplateForEntry(cat3Template),
+		"condAssign":                  condAssign,
+		"valueOrNullFlavor":           valueOrNullFlavor,
+		"dischargeDispositionDisplay": dischargeDispositionDisplay,
+		"sdtcValueSetAttribute":       sdtcValueSetAttribute,
+		"getTransferOid":              getTransferOid,
+		"identifierForInterface":      identifierForInterface,
+		"valueOrDefault":              valueOrDefault,
+		"oidForCodeSystem":            oidForCodeSystem,
+		"codeDisplayAttributeIsCodes": codeDisplayAttributeIsCodes,
+		"hasPreferredCode":            hasPreferredCode,
+		"hasLaterality":               hasLaterality,
+		"negationIndicator":           negationIndicator,
+		"isNil":                       isNil,
+		"derefBool":                   derefBool,
+	}
+}
+
 //export GenerateCat1
 func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate int64, endDate int64, qrdaVersion string) string {
 
@@ -80,7 +108,7 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 	}
 
 	cat1Template := template.New("cat1")
-	cat1Template.Funcs(exporterFuncMap(cat1Template, vsMap))
+	cat1Template.Funcs(exporterFuncMapCat1(cat1Template, vsMap))
 
 	for _, d := range data {
 		asset, _ := Asset("templates/cat1/" + qrdaVersion + "/" + d)
@@ -239,6 +267,44 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 	var b bytes.Buffer
 
 	err = cat1Template.ExecuteTemplate(&b, "cat1.xml", c1d)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return b.String()
+}
+
+func GenerateCat3(measures []byte, header []byte, effectiveDate int64, startDate int64, endDate int64, version string) string {
+	m := []models.Measure{}
+	h := &models.Header{}
+	// TODO: Finish these pieces, including getting results, record with providerperformances
+
+	json.Unmarshal(measures, &m)
+	json.Unmarshal(header, h)
+
+	if version == "" {
+		version = "r2"
+	}
+
+	data, err := AssetDir("templates/cat3/" + version)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	cat3Template := template.New("cat3")
+	cat3Template.Funcs(exporterFuncMapCat3(cat3Template))
+
+	for _, d := range data {
+		asset, _ := Asset("templates/cat3/" + version + "/" + d)
+		template.Must(cat3Template.New(d).Parse(string(asset)))
+	}
+
+	var b bytes.Buffer
+
+	c3d := document.NewCat3Data(*h, models.Record{}, m, startDate, endDate)
+
+	err = cat3Template.ExecuteTemplate(&b, "_show.xml", c3d) //TODO: implement, fix
 
 	if err != nil {
 		fmt.Println(err)
