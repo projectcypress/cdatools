@@ -988,7 +988,7 @@ func makeTemplate(qrdaVersion string, vsMap models.ValueSetMap) *template.Templa
 		qrdaVersion = "r3"
 	}
 	temp := template.New("cat1")
-	temp.Funcs(exporterFuncMap(temp, vsMap))
+	temp.Funcs(exporterFuncMapCat1(temp, vsMap))
 	fileNames, err := AssetDir("templates/cat1/" + qrdaVersion)
 	if err != nil {
 		log.Fatalln(err)
