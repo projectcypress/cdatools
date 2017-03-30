@@ -95,13 +95,14 @@ func (r *Record) Entries() []HasEntry {
 	return entries
 }
 
+var negationRegexp *regexp.Regexp = regexp.MustCompile(`2\.16\.840\.1\.113883\.3\.526\.3\.100[7-9]`)
+
 // GetEntriesForOids returns all the entries which include the list of OIDs given
 func (r *Record) GetEntriesForOids(dataCriteria DataCriteria, codes []CodeSet, oids ...string) []HasEntry {
 	var entries []HasEntry
 	for _, entry := range r.Entries() {
 		for _, oid := range oids {
 			if entry.GetEntry().Oid == oid {
-				negationRegexp := regexp.MustCompile(`2\.16\.840\.1\.113883\.3\.526\.3\.100[7-9]`)
 				entryData := entry.GetEntry()
 				dataCriteriaOid := dataCriteria.HQMFOid
 				if negationRegexp.FindStringIndex(dataCriteria.CodeListID) != nil {
