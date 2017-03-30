@@ -1,8 +1,8 @@
 build:
-	go-bindata -o exporter/templates.go -pkg exporter --prefix "exporter/" exporter/templates/*/*/*.xml exporter/hqmf_template_oid_map.json exporter/hqmf_qrda_oids.json exporter/hqmf_qrda_oids_r3_1.json
+	go-bindata -no-compress -o exporter/templates.go -pkg exporter --prefix "exporter/" exporter/templates/*/*/*.xml exporter/hqmf_template_oid_map.json exporter/hqmf_qrda_oids.json exporter/hqmf_qrda_oids_r3_1.json
 
 debug:
-	go-bindata -o exporter/templates.go -pkg exporter --debug --prefix "exporter/" exporter/templates/*/*/*.xml exporter/hqmf_template_oid_map.json exporter/hqmf_qrda_oids.json exporter/hqmf_qrda_oids_r3_1.json
+	go-bindata -no-compress -o exporter/templates.go -pkg exporter --debug --prefix "exporter/" exporter/templates/*/*/*.xml exporter/hqmf_template_oid_map.json exporter/hqmf_qrda_oids.json exporter/hqmf_qrda_oids_r3_1.json
 
 # fake out clean and install
 clean:
