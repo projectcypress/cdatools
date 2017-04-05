@@ -7,11 +7,12 @@ import (
 type Record struct {
 	Person
 	RecordGroup
-	MedicalRecordNumber   string `json:"medical_record_number,omitempty"`
-	MedicalRecordAssigner string `json:"medical_record_assigner,omitempty"`
-	BirthDate             *int64 `json:"birthdate,omitempty"`
-	DeathDate             *int64 `json:"deathdate,omitempty"`
-	Expired               bool   `json:"expired,omitempty"`
+	MedicalRecordNumber   string                `json:"medical_record_number,omitempty"`
+	MedicalRecordAssigner string                `json:"medical_record_assigner,omitempty"`
+	BirthDate             *int64                `json:"birthdate,omitempty"`
+	DeathDate             *int64                `json:"deathdate,omitempty"`
+	Expired               bool                  `json:"expired,omitempty"`
+	ProviderPerformances  []ProviderPerformance `json:"provider_performances,omitempty"`
 	// Private values to handle querying of Entries
 
 }

@@ -893,3 +893,24 @@ func (i *ImporterSuite) TestExtractImmunizationAdministered(c *C) {
 	c.Assert(*immunAdmin.EndTime, Equals, int64(610738644))
 	c.Assert(immunAdmin.Codes["CVX"][0], Equals, "33")
 }
+
+func (i *ImporterSuite) TestExtractProviderPerformances(c *C) {
+	var providerXPath = xpath.Compile("//cda:documentationOf/cda:serviceEvent/cda:performer")
+	providerPerformances := ProviderPerformanceExtractor(i.patientElement, providerXPath)
+	i.patient.ProviderPerformances = providerPerformances
+
+	pp := i.patient.ProviderPerformances[0]
+	c.Assert(*pp.StartDate, Equals, int64(1026777600))
+	c.Assert(*pp.EndDate, Equals, int64(1189814400))
+	c.Assert(pp.Provider.Title, Equals, "Dr.")
+	c.Assert(pp.Provider.GivenName, Equals, "Stanley")
+	c.Assert(pp.Provider.FamilyName, Equals, "Strangelove")
+	c.Assert(pp.Provider.Npi, Equals, "808401234567893")
+	c.Assert(pp.Provider.Organization.Name, Equals, "Kubrick Permanente")
+	c.Assert(len(pp.Provider.CDAIdentifiers), Equals, 2)
+	c.Assert(pp.Provider.CDAIdentifiers[0].Root, Equals, "2.16.840.1.113883.4.6")
+	c.Assert(pp.Provider.CDAIdentifiers[0].Extension, Equals, "808401234567893")
+	c.Assert(pp.Provider.CDAIdentifiers[1].Root, Equals, "Division")
+	c.Assert(pp.Provider.CDAIdentifiers[1].Extension, Equals, "12345")
+
+}
