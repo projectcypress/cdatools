@@ -121,22 +121,42 @@
         <high value="20100915"/>
       </effectiveTime>
       <!-- You can include multiple performers, each with an NPI, TIN, CCN. -->
-      <performer typeCode="PRF">
-        <time>
-          <low value="20020716"/>
-          <high value="20070915"/>
-        </time>
-        <assignedEntity>
-          <!-- This is the provider NPI -->
-          <id root="2.16.840.1.113883.4.6" extension="111111111" />
-          <representedOrganization>
-            <!-- This is the organization TIN -->
-            <id root="2.16.840.1.113883.4.2" extension="1234567" />
-            <!-- This is the organization CCN -->
-            <id root="2.16.840.1.113883.4.336" extension="54321" />
-          </representedOrganization>
-        </assignedEntity>
-      </performer>
+       <performer typeCode="PRF">
+           <templateId root="2.16.840.1.113883.3.88.11.83.4" assigningAuthorityName="HITSP C83"/>
+           <templateId root="1.3.6.1.4.1.19376.1.5.3.1.2.3" assigningAuthorityName="IHE PCC"/>
+           <functionCode code="PP" displayName="Primary Care Provider" codeSystem="2.16.840.1.113883.12.443" codeSystemName="Provider Role">
+             <originalText>Primary Care Provider</originalText>
+           </functionCode>
+           <time>
+             <low value="20020716"/>
+             <high value="20070915"/>
+           </time>
+           <assignedEntity>
+
+             <id root="2.16.840.1.113883.4.6" extension="808401234567893"/>
+             <id root="Division" extension="12345"/>
+             <code code="200000000X" displayName="Allopathic and Osteopathic Physicians" codeSystemName="Provider Codes" codeSystem="2.16.840.1.113883.6.101"/>
+             <addr/>
+             <telecom value="tel:+1-301-975-3251" use="HP"/>
+             <assignedPerson>
+               <name>
+                 <prefix>Dr.</prefix>
+                 <given>Stanley</given>
+                 <family>Strangelove</family>
+               </name>
+               <sdtc:birthTime nullFlavor="ASKU"/>
+             </assignedPerson>
+             <representedOrganization>
+               <id root="2.16.840.1.113883.3.72.5"/>
+               <name>Kubrick Permanente</name>
+               <telecom/>
+               <addr/>
+             </representedOrganization>
+             <sdtc:patient>
+               <sdtc:id/>
+             </sdtc:patient>
+           </assignedEntity>
+         </performer>
     </serviceEvent>
   </documentationOf>
   <component>

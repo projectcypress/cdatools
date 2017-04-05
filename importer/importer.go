@@ -375,6 +375,11 @@ func Read_patient(document string) string {
 		patient.Conditions = append(patient.Conditions, rawPatientExpireds[i].(models.Condition))
 	}
 
+	// Provider Performances
+	var providerXPath = xpath.Compile("//cda:documentationOf/cda:serviceEvent/cda:performer")
+	providerPerformances := ProviderPerformanceExtractor(patientElement, providerXPath)
+	patient.ProviderPerformances = providerPerformances
+
 	// set Expired and DeathDate if patient is dead
 	set_patient_expired(patient, patientElement)
 
@@ -572,9 +577,17 @@ func TimestampToSeconds(timestamp string) *int64 {
 	year, _ := strconv.ParseInt(timestamp[0:4], 10, 32)
 	month, _ := strconv.ParseInt(timestamp[4:6], 10, 32)
 	day, _ := strconv.ParseInt(timestamp[6:8], 10, 32)
-	hour, _ := strconv.ParseInt(timestamp[8:10], 10, 32)
-	minute, _ := strconv.ParseInt(timestamp[10:12], 10, 32)
-	second, _ := strconv.ParseInt(timestamp[12:14], 10, 32)
+	var hour, minute, second int64
+	if len(timestamp) > 8 {
+		hour, _ = strconv.ParseInt(timestamp[8:10], 10, 32)
+		minute, _ = strconv.ParseInt(timestamp[10:12], 10, 32)
+		second, _ = strconv.ParseInt(timestamp[12:14], 10, 32)
+	} else {
+		hour = 0
+		minute = 0
+		second = 0
+	}
+
 	desiredDate := time.Date(int(year), time.Month(month), int(day), int(hour), int(minute), int(second), 0, time.UTC)
 	*desiredDateUnix = desiredDate.Unix()
 	return desiredDateUnix
