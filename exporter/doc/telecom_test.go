@@ -1,21 +1,21 @@
-package document_test
+package doc_test
 
 import (
 	"fmt"
 	"strings"
 	"testing"
 
-	"github.com/projectcypress/cdatools/exporter/document/cat3/r2"
+	"github.com/projectcypress/cdatools/exporter/doc"
 	"github.com/projectcypress/cdatools/models"
 )
 
 func TestTelecomsPrint(t *testing.T) {
 	var tests = []struct {
-		n        document.Telecoms
+		n        doc.Telecoms
 		expected string
 	}{
 		{
-			document.NewTelecoms([]models.Telecom{models.Telecom{
+			doc.NewTelecoms([]models.Telecom{models.Telecom{
 				Use: "use", Value: "value"}}),
 			fmt.Sprintf(telecomsCat3TestTemplate, "use", "value"),
 		},

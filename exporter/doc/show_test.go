@@ -1,11 +1,11 @@
-package document_test
+package doc_test
 
 import (
 	"fmt"
 	"strings"
 	"testing"
 
-	"github.com/projectcypress/cdatools/exporter/document/cat3/r2"
+	"github.com/projectcypress/cdatools/exporter/doc"
 	"github.com/projectcypress/cdatools/models"
 )
 
@@ -14,18 +14,18 @@ func TestShowPrint(t *testing.T) {
 	endDate := int64(1)   // with timeToFormat, converted to 19700101
 	timestamp := int64(1) // with timeToFormat, converted to 19700101
 	var tests = []struct {
-		n        document.Cat3Data
+		n        doc.Cat3Data
 		expected string
 	}{
 		{
-			document.Cat3Data{
-				Header: document.NewHeader(models.Header{
+			doc.Cat3Data{
+				Header: doc.NewHeader(models.Header{
 					Identifier: models.CDAIdentifier{}, Authenticator: models.Authenticator{Author: models.Author{Time: &startDate,
 						Person: models.Person{First: "first", Last: "last"}},
 					}}),
-				Record: document.Record{
+				Record: doc.Record{
 					Record:               models.Record{},
-					ProviderPerformances: document.ProviderPerformances{Timestamp: timestamp},
+					ProviderPerformances: doc.ProviderPerformances{Timestamp: timestamp},
 				},
 				Measures:  []models.Measure{},
 				StartDate: startDate,
@@ -153,84 +153,3 @@ var showCat3TestTemplate = `<?xml version="1.0" encoding="utf-8"?>
 	</serviceEvent>
 </documentationOf>
 </ClinicalDocument>`
-
-/* Not yet rewritten
-<!--
-********************************************************
-CDA Body
-********************************************************
--->
-<component>
-	<structuredBody>
-	<!--
-********************************************************
-QRDA Category III Reporting Parameters
-********************************************************
--->
-<%== render :partial => 'reporting_parameters', :locals => {:start_date => start_date, :end_date => end_date} %>
-	<!--
-********************************************************
-Measure Section
-********************************************************
--->
-	<component>
-		<section>
-		<!-- Implied template Measure Section templateId -->
-		<templateId root="2.16.840.1.113883.10.20.24.2.2"/>
-		<!-- In this case the query is using an eMeasure -->
-		<!-- QRDA Category III Measure Section template -->
-		<templateId root="2.16.840.1.113883.10.20.27.2.1" extension="2016-09-01"/>
-		<code code="55186-1" codeSystem="2.16.840.1.113883.6.1"/>
-		<title>Measure Section</title>
-		<text>
-
-		</text>
-		<% measures.each do |measure| %>
-		<entry>
-			<organizer classCode="CLUSTER" moodCode="EVN">
-			<!-- Implied template Measure Reference templateId -->
-			<templateId root="2.16.840.1.113883.10.20.24.3.98"/>
-			<!-- SHALL 1..* (one for each referenced measure) Measure Reference and Results template -->
-			<templateId root="2.16.840.1.113883.10.20.27.3.1" extension="2016-09-01"/>
-			<id extension="<%= measure['id'] || UUID.generate %>"/>
-			<statusCode code="completed"/>
-			<reference typeCode="REFR">
-				<externalDocument classCode="DOC" moodCode="EVN">
-				<!-- SHALL: required Id but not restricted to the eMeasure Document/Id-->
-				<!-- QualityMeasureDocument/id This is the version specific identifier for eMeasure -->
-				<id root="2.16.840.1.113883.4.738" extension="<%= measure['hqmf_id'] %>"/>
-
-				<!-- SHOULD This is the title of the eMeasure -->
-				<text><%= measure['name'] %></text>
-				<!-- SHOULD: setId is the eMeasure version neutral id  -->
-				<setId root="<%= measure['hqmf_set_id'] %>"/>
-				<!-- This is the sequential eMeasure Version number -->
-				<versionNumber value="1"/>
-				</externalDocument>
-			</reference>
-
-			<% result = results[measure['hqmf_id']]
-				unless result.is_cv?
-				result.population_groups.each do |pg|
-			-%>
-			<component>
-			<%== render :partial => 'performance_rate', :locals => {:population_group => pg, :qrda3_version => qrda3_version} %>
-			</component>
-			<% end
-				end -%>
-			<% result.populations.each do |pop|
-				unless pop.type == 'OBSERV' -%>
-			<component>
-			<%== render :partial => 'measure_data', :locals => {:aggregate_count => result, :population => pop, :qrda3_version => qrda3_version} %>
-			</component>
-			<%   end
-				end -%>
-			</organizer>
-		</entry>
-		<% end %>
-		</section>
-	</component>
-	</structuredBody>
-</component>
-
-*/

@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/pborman/uuid"
-	"github.com/projectcypress/cdatools/exporter/document/cat3/r2"
+	"github.com/projectcypress/cdatools/exporter/doc"
 	"github.com/projectcypress/cdatools/models"
 )
 
@@ -303,7 +303,7 @@ func GenerateCat3(measures []byte, header []byte, effectiveDate int64, startDate
 
 	var b bytes.Buffer
 
-	c3d := document.NewCat3Data(*h, models.Record{}, m, startDate, endDate)
+	c3d := doc.NewCat3Data(*h, models.Record{}, m, startDate, endDate)
 
 	err = cat3Template.ExecuteTemplate(&b, "_show.xml", c3d) //TODO: implement, fix
 

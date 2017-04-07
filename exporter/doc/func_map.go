@@ -1,4 +1,4 @@
-package document
+package doc
 
 import (
 	"text/template"

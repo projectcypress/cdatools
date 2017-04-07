@@ -1,23 +1,23 @@
-package document_test
+package doc_test
 
 import (
 	"fmt"
 	"strings"
 	"testing"
 
-	"github.com/projectcypress/cdatools/exporter/document/cat3/r2"
+	"github.com/projectcypress/cdatools/exporter/doc"
 	"github.com/projectcypress/cdatools/models"
 )
 
 func TestIdPrint(t *testing.T) {
 	var tests = []struct {
-		n        document.CDAIdentifiers
+		n        doc.CDAIdentifiers
 		expected string
 	}{
 		{
-			document.NewCDAIdentifiers([]models.CDAIdentifier{models.CDAIdentifier{
+			doc.CDAIdentifiers{CDAIdentifiers: []models.CDAIdentifier{models.CDAIdentifier{
 				Root: "root", Extension: "extension"},
-				models.CDAIdentifier{Extension: "extension"}}),
+				models.CDAIdentifier{Extension: "extension"}}},
 			fmt.Sprintf(cdaIdentifiersCat3TestTemplate1, "root", "extension", "extension"),
 		},
 	}

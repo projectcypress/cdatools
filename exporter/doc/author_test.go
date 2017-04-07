@@ -1,22 +1,22 @@
-package document_test
+package doc_test
 
 import (
 	"fmt"
 	"strings"
 	"testing"
 
-	"github.com/projectcypress/cdatools/exporter/document/cat3/r2"
+	"github.com/projectcypress/cdatools/exporter/doc"
 	"github.com/projectcypress/cdatools/models"
 )
 
 func TestAuthorsPrint(t *testing.T) {
 	aTime := int64(1)
 	var tests = []struct {
-		n        document.Authors
+		n        doc.Authors
 		expected string
 	}{
 		{
-			document.NewAuthors([]models.Author{models.Author{
+			doc.NewAuthors([]models.Author{models.Author{
 				Time: &aTime, Person: models.Person{First: "first", Last: "last"}},
 				models.Author{Time: &aTime, Device: models.Device{Model: "model", Name: "name"}}}),
 			fmt.Sprintf(authorsCat3TestTemplate1, 1, "first", "last", 1, "model", "name"),
