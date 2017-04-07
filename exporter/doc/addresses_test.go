@@ -1,21 +1,21 @@
-package document_test
+package doc_test
 
 import (
 	"fmt"
 	"strings"
 	"testing"
 
-	"github.com/projectcypress/cdatools/exporter/document/cat3/r2"
+	"github.com/projectcypress/cdatools/exporter/doc"
 	"github.com/projectcypress/cdatools/models"
 )
 
 func TestAddressesPrint(t *testing.T) {
 	var tests = []struct {
-		n        document.Addresses
+		n        doc.Addresses
 		expected string
 	}{
 		{
-			document.NewAddresses([]models.Address{models.Address{
+			doc.NewAddresses([]models.Address{models.Address{
 				Street: []string{"line 1", "line 2"}, City: "city", State: "state", Zip: "zip", Country: "country", Use: "use"}}),
 			fmt.Sprintf(addressesCat3TestTemplate, "use", "line 1", "line 2", "city", "state", "zip", "country"),
 		},

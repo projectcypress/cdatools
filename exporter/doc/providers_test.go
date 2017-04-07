@@ -1,11 +1,11 @@
-package document_test
+package doc_test
 
 import (
 	"fmt"
 	"strings"
 	"testing"
 
-	"github.com/projectcypress/cdatools/exporter/document/cat3/r2"
+	"github.com/projectcypress/cdatools/exporter/doc"
 	"github.com/projectcypress/cdatools/models"
 )
 
@@ -15,16 +15,16 @@ func TestProvidersPrint(t *testing.T) {
 	timestamp := int64(1)
 
 	var tests = []struct {
-		n        document.ProviderPerformances
+		n        doc.ProviderPerformances
 		expected string
 	}{
 		{
-			document.ProviderPerformances{
+			doc.ProviderPerformances{
 				Timestamp: timestamp,
 				ProviderPerformances: []models.ProviderPerformance{
 					models.ProviderPerformance{StartDate: &startDate, EndDate: &endDate,
 						Provider: models.Provider{
-							Ids: []models.CDAIdentifier{
+							CDAIdentifiers: []models.CDAIdentifier{
 								models.CDAIdentifier{Root: "root", Extension: "extension"},
 								models.CDAIdentifier{Root: "2.16.840.1.113883.4.2", Extension: "extension2"}}}}}}, // TODO: Find out what's going on with the provider stuff
 			fmt.Sprintf(providerPerformancesCat3TestTemplate, 19700101, 19700101, 19700101, 19700101, "root", "extension", "extension2"),

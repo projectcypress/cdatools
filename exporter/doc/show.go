@@ -1,4 +1,4 @@
-package document
+package doc
 
 import (
 	"bytes"
@@ -6,7 +6,6 @@ import (
 	"text/template"
 	"time"
 
-	"github.com/projectcypress/cdatools/exporter/document"
 	"github.com/projectcypress/cdatools/models"
 )
 
@@ -71,7 +70,7 @@ func NewCat3Data(h models.Header, r models.Record, m []models.Measure, start int
 
 func (c Cat3Data) Print() string {
 	tmpl := template.New("")
-	tmpl, err := tmpl.Funcs(document.ExporterFuncMapCat3(tmpl)).Parse(c.cat3Template())
+	tmpl, err := tmpl.Funcs(ExporterFuncMapCat3(tmpl)).Parse(c.cat3Template())
 	if err != nil {
 		fmt.Println("error making template:")
 		fmt.Println(err)
@@ -87,11 +86,6 @@ func (c Cat3Data) Print() string {
 	return b.String()
 }
 
-// NOTE: Need to add this into the template above .Description
-// <!--<%== code_display(entry,'value_set_map'
-// => filtered_vs_map, 'preferred_code_sets'
-// => ['RxNorm', 'SNOMED-CT', 'CVX'], 'extra_content'
-// => "sdtc:valueSet=\"#{value_set_oid}\"") %>-->
 func (c Cat3Data) cat3Template() string {
 	t := `<?xml version="1.0" encoding="utf-8"?>
 <ClinicalDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"

@@ -1,21 +1,21 @@
-package document_test
+package doc_test
 
 import (
 	"fmt"
 	"strings"
 	"testing"
 
-	"github.com/projectcypress/cdatools/exporter/document/cat3/r2"
+	"github.com/projectcypress/cdatools/exporter/doc"
 	"github.com/projectcypress/cdatools/models"
 )
 
 func TestOrganizationPrint(t *testing.T) {
 	var tests = []struct {
-		n        document.Organization
+		n        doc.Organization
 		expected string
 	}{
 		{
-			document.NewOrganization(models.Organization{
+			doc.NewOrganization(models.Organization{
 				Name: "name", TagName: "tag"}),
 			fmt.Sprintf(organizationCat3TestTemplate, "tag", "name", "tag"),
 		},

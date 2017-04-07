@@ -1,4 +1,4 @@
-package document
+package doc
 
 import (
 	"bytes"
@@ -6,7 +6,6 @@ import (
 	"text/template"
 	"time"
 
-	"github.com/projectcypress/cdatools/exporter/document"
 	"github.com/projectcypress/cdatools/models"
 )
 
@@ -22,7 +21,7 @@ func NewProviderPerformances(p []models.ProviderPerformance) ProviderPerformance
 
 func (p ProviderPerformances) Print() string {
 	tmpl := template.New("")
-	tmpl, err := tmpl.Funcs(document.ExporterFuncMapCat3(tmpl)).Parse(p.cat3Template())
+	tmpl, err := tmpl.Funcs(ExporterFuncMapCat3(tmpl)).Parse(p.cat3Template())
 	if err != nil {
 		fmt.Println("error making template:")
 		fmt.Println(err)
@@ -38,11 +37,6 @@ func (p ProviderPerformances) Print() string {
 	return b.String()
 }
 
-// NOTE: Need to add this into the template above .Description
-// <!--<%== code_display(entry,'value_set_map'
-// => filtered_vs_map, 'preferred_code_sets'
-// => ['RxNorm', 'SNOMED-CT', 'CVX'], 'extra_content'
-// => "sdtc:valueSet=\"#{value_set_oid}\"") %>-->
 func (p ProviderPerformances) cat3Template() string {
 	t := `<documentationOf typeCode="DOC">
 	<serviceEvent classCode="PCPR"> <!-- care provision -->
@@ -59,13 +53,13 @@ func (p ProviderPerformances) cat3Template() string {
 				<high value="{{timeToFormat .EndDate "20060102"}}"/>
 			</time>
 			<assignedEntity>
-				{{range .Provider.Ids -}}
+				{{range .Provider.CDAIdentifiers -}}
 				{{if ne .Root "2.16.840.1.113883.4.2" -}}
 					<id root="{{ escape .Root}}" extension="{{ escape .Extension}}" />
 				{{end -}}
 				{{end -}}
 				<representedOrganization>
-					{{range .Provider.Ids -}}
+					{{range .Provider.CDAIdentifiers -}}
 					{{if eq .Root "2.16.840.1.113883.4.2" -}}
 						<id root="2.16.840.1.113883.4.2" extension="{{ escape .Extension}}" />
 					{{end -}}

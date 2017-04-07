@@ -1,11 +1,10 @@
-package document
+package doc
 
 import (
 	"bytes"
 	"fmt"
 	"text/template"
 
-	"github.com/projectcypress/cdatools/exporter/document"
 	"github.com/projectcypress/cdatools/models"
 )
 
@@ -19,7 +18,7 @@ func NewCDAIdentifier(i models.CDAIdentifier) CDAIdentifier {
 
 func (i CDAIdentifier) Print() string {
 	tmpl := template.New("")
-	tmpl, err := tmpl.Funcs(document.ExporterFuncMapCat3(tmpl)).Parse(i.cat3Template())
+	tmpl, err := tmpl.Funcs(ExporterFuncMapCat3(tmpl)).Parse(i.cat3Template())
 	if err != nil {
 		fmt.Println("error making template:")
 		fmt.Println(err)
@@ -35,11 +34,6 @@ func (i CDAIdentifier) Print() string {
 	return b.String()
 }
 
-// NOTE: Need to add this into the template above .Description
-// <!--<%== code_display(entry,'value_set_map'
-// => filtered_vs_map, 'preferred_code_sets'
-// => ['RxNorm', 'SNOMED-CT', 'CVX'], 'extra_content'
-// => "sdtc:valueSet=\"#{value_set_oid}\"") %>-->
 func (i CDAIdentifier) cat3Template() string {
 	t := `
 <id {{if .Root}}root="{{escape .Root}}"{{end}} extension="{{escape .Extension}}" />`
@@ -59,7 +53,7 @@ func NewCDAIdentifiers(i []models.CDAIdentifier) CDAIdentifiers {
 
 func (i CDAIdentifiers) Print() string {
 	tmpl := template.New("")
-	tmpl, err := tmpl.Funcs(document.ExporterFuncMapCat3(tmpl)).Parse(i.cat3Template())
+	tmpl, err := tmpl.Funcs(ExporterFuncMapCat3(tmpl)).Parse(i.cat3Template())
 	if err != nil {
 		fmt.Println("error making template:")
 		fmt.Println(err)
