@@ -13,13 +13,13 @@
           <high {{valueOrNullFlavor .EndDate}}/>
         </time>
         <assignedEntity>
-          {{range .Provider.CDAIdentidiers}}
+          {{range .Provider.CDAIdentifiers}}
             {{if ne .Root "2.16.840.1.113883.4.2"}}
               <id root="{{ escape .Root}}" extension="{{ escape .Extension}}" />
             {{end}}
           {{end}}
           <representedOrganization>
-            {{range .Provider.CDAIdentidiers}}
+            {{range .Provider.CDAIdentifiers}}
               {{if eq .Root "2.16.840.1.113883.4.2"}}
                 <id root="2.16.840.1.113883.4.2" extension="{{ escape .Extension}}" />
               {{end}}

@@ -21,8 +21,45 @@
       {{dischargeDispositionDisplay .EntrySection.DischargeDisposition}}
     {{end}}
 
-    {{/* - - - facility code goes here - - - */}}
-
+    {{if not .EntrySection.Facility.IsEmpty}}
+      <participant typeCode="LOC">
+        <!-- Facility Location template -->
+        <templateId root="2.16.840.1.113883.10.20.24.3.100"/>
+        <time>
+          <!-- Attribute: facility location arrival datetime -->
+          <low {{valueOrNullFlavor .EntrySection.Facility.StartTime}}/>
+          <!-- Attribute: facility location departure datetime -->
+          <high {{valueOrNullFlavor .EntrySection.Facility.StartTime}}/>
+        </time>
+        <participantRole classCode="SDLOC">
+          {{if .EntrySection.Facility.Code}}
+            {{$vset := oidForCode .EntrySection.Facility.Code (index .MapDataCriteria.FieldOids "FACILITY_LOCATION")}}
+            {{if ne $vset ""}}
+              <code code="{{.EntrySection.Facility.Code.Code}}"
+                codeSystem="{{oidForCodeSystem .EntrySection.Facility.Code.CodeSystem}}" sdtc:valueSet="{{$vset}}"/>
+            {{else}}
+              <code nullFlavor="UNK"/>
+            {{end}}
+          {{else}}
+            <code nullFlavor="UNK"/>
+          {{end}}
+          {{if gt (len .EntrySection.Facility.Addresses) 0}}
+            {{$firstAddr := index .EntrySection.Facility.Addresses 0}}
+            <addr>
+              <streetAddressLine>{{$firstAddr.Street}}</streetAddressLine>
+              <city>{{$firstAddr.City}}</city>
+              <state>{{$firstAddr.State}}</state>
+              <postalCode>{{$firstAddr.Zip}}</postalCode>
+              <country>{{$firstAddr.Country}}</country>
+            </addr>
+          {{end}}
+          <telecom nullFlavor="UNK"/>
+          <playingEntity classCode="PLC">
+            <name>{{.EntrySection.Facility.Name}}</name>
+          </playingEntity>
+        </participantRole>
+      </participant>
+    {{end}}
     {{if .EntrySection.Reason}}
       {{template "_reason.xml" .}}
     {{end}}

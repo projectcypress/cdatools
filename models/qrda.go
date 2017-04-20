@@ -57,4 +57,8 @@ type CDAIdentifier struct {
 type Scalar struct {
 	Unit  string `json:"unit,omitempty"`
 	Value string `json:"value,omitempty"`
+
+	// This is a temporary band-aid because a Medication.Dose can have either the two fields above (precoordinated) or the two fields below (postcoordinated)
+	Scalar string `json:"scalar,omitempty"`
+	Units  string `json:"units,omitempty"`
 }

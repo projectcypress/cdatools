@@ -203,7 +203,7 @@ func getOrdinalityData(ordinality models.Ordinality) *models.EntryInfo {
 func TestMedicationDetailsTemplate(t *testing.T) {
 	route := models.CodedConcept{Code: "ROUTE_CODE_1", CodeSystem: "2.16.840.1.113883.6.1"}
 	neg := true
-	dose := models.Scalar{Value: "1", Unit: "d"}
+	dose := models.Scalar{Scalar: "1", Units: "d"}
 
 	rootNode := xmlMedicationDetailsRootNode(&route, &neg, dose)
 
