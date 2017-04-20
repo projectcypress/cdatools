@@ -83,7 +83,10 @@ func (v ValueSetMap) OidForCode(codedValue CodedConcept, valuesetOids []string) 
 func codeSetContainsCode(sets []CodeSet, codedValue CodedConcept) bool {
 	for _, cs := range sets {
 		for _, val := range cs.Values {
-			if val.CodeSystem == codedValue.CodeSystem && val.Code == codedValue.Code {
+			if (val.CodeSystem == codedValue.CodeSystem ||
+				val.CodeSystemName == codedValue.CodeSystemName ||
+				val.CodeSystemName == codedValue.CodeSystem) &&
+				val.Code == codedValue.Code {
 				return true
 			}
 		}

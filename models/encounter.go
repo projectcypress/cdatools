@@ -30,3 +30,9 @@ type Transfer struct {
 func (enc *Encounter) GetEntry() *Entry {
 	return &enc.Entry
 }
+
+// IsEmpty determines if any fields in a Facility have been set to their non-zero values
+func (f Facility) IsEmpty() bool {
+	return f.Name == "" && f.Code == nil && f.StartTime == nil && f.EndTime == nil &&
+		len(f.Addresses) == 0 && len(f.Telecoms) == 0
+}

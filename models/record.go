@@ -117,8 +117,7 @@ func (r *Record) GetEntriesForOids(dataCriteria DataCriteria, codes []CodeSet, o
 							transferFrom.Codes = make(map[string][]string)
 						}
 						transferFrom.Codes[transferFrom.CodeSystem] = []string{transferFrom.Code}
-						tfc := transferFrom.Coded.CodesInCodeSet(codes[0].Set)
-						if len(tfc) > 0 {
+						if len(codes) > 0 && len(transferFrom.Coded.CodesInCodeSet(codes[0].Set)) > 0 {
 							entries = append(entries, entry)
 						}
 					}
@@ -128,7 +127,7 @@ func (r *Record) GetEntriesForOids(dataCriteria DataCriteria, codes []CodeSet, o
 							transferTo.Codes = make(map[string][]string)
 						}
 						transferTo.Codes[transferTo.CodeSystem] = []string{transferTo.Code}
-						if len(transferTo.Coded.CodesInCodeSet(codes[0].Set)) > 0 {
+						if len(codes) > 0 && len(transferTo.Coded.CodesInCodeSet(codes[0].Set)) > 0 {
 							entries = append(entries, entry)
 						}
 					}

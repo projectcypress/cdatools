@@ -66,7 +66,7 @@ func (med *Medication) DoseQuantity() string {
 		}
 		return "value=\"1\""
 	}
-	return "value=\"" + med.Dose.Value + "\" unit=\"" + med.Dose.Unit + "\""
+	return "value=\"" + med.Dose.Scalar + "\" unit=\"" + med.Dose.Units + "\""
 }
 
 func ucumForDoseQuantity(dose string) string {
