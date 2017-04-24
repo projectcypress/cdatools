@@ -48,7 +48,7 @@ func ConditionExtractor(entry *models.Entry, entryElement xml.Node) interface{} 
 	ExtractSeverity(&condition, entryElement, severityXPath)
 
 	//extract laterality
-	var lateralityXPath = xpath.Compile("cda:targetSiteCode")
+	var lateralityXPath = xpath.Compile("cda:value/cda:qualifier/cda:value")
 	ExtractLaterality(&condition, entryElement, lateralityXPath)
 
 	return condition
