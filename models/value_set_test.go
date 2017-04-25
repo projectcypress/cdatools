@@ -13,7 +13,7 @@ func TestCodeDisplayWithPreferredCode(t *testing.T) {
 	json.Unmarshal(fixtures.Cms9_26, &vs)
 	vsMap := NewValueSetMap(vs)
 	codeType := "my code type"
-	mapDataCriteria := Mdc{DcKey: DcKey{ValueSetOid: "1.2.3.4.5"}}
+	mapDataCriteria := Mdc{DcKey: DcKey{ValueSetOid: "2.16.840.1.113883.3.117.1.7.1.279"}}
 	expectedCodeDisplay := CodeDisplay{CodeType: codeType, PreferredCodeSets: []string{"codeSetB"}, MapDataCriteria: mapDataCriteria}
 	entry := Entry{CodeDisplays: []CodeDisplay{expectedCodeDisplay}}
 	codes := make(map[string][]string)

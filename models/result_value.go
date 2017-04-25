@@ -24,5 +24,6 @@ func (r *ResultValue) GetScalarType() string {
 
 type ResultValueWrap struct {
 	ResultValueEntry *Entry
+	ResultValueMdc   Mdc
 	Values           []ResultValue
 }
