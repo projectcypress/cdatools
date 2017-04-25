@@ -86,16 +86,18 @@ func computeIntersection(a []string, b []string) []string {
 	return intersect
 }
 
-func (c *Coded) PreferredCode(preferredCodeSets []string, codeSetRequired bool, valueSetPreferred bool, vsMap ValueSetMap) Concept {
+func (c *Coded) PreferredCode(preferredCodeSets []string, codeSetRequired bool, valueSetPreferred bool, vsMap ValueSetMap, mdcOid string) Concept {
 	if len(c.Codes) == 0 {
 		return Concept{}
 	}
+	mdcValueSet := vsMap[mdcOid]
 	if valueSetPreferred {
 		for codeSystem := range c.Codes {
 			for _, code := range c.Codes[codeSystem] {
 				for _, vsOid := range preferredCodeSets {
-					valueSet := vsMap[vsOid]
-					if len(valueSet) == 0 || codeSetContainsCode(valueSet, CodedConcept{CodeSystem: codeSystem, Code: code}) {
+					prefValueSet := vsMap[vsOid]
+					if ((len(prefValueSet) == 0 || codeSetContainsCode(prefValueSet, CodedConcept{CodeSystem: codeSystem, Code: code})) &&
+						codeSetContainsCode(mdcValueSet, CodedConcept{CodeSystem: codeSystem, Code: code})) {
 						return Concept{CodeSystem: codeSystem, Code: code}
 					}
 				}
@@ -105,10 +107,6 @@ func (c *Coded) PreferredCode(preferredCodeSets []string, codeSetRequired bool, 
 		if codeSetRequired {
 			return Concept{}
 		}
-		for codeSystem := range c.Codes {
-			return Concept{CodeSystem: codeSystem, Code: c.Codes[codeSystem][0]}
-		}
-		return Concept{}
 	}
 	codeTypes := make([]string, len(c.Codes))
 	i := 0
@@ -118,13 +116,25 @@ func (c *Coded) PreferredCode(preferredCodeSets []string, codeSetRequired bool, 
 	}
 	codes := computeIntersection(preferredCodeSets, codeTypes)
 	if len(codes) > 0 {
-		return Concept{CodeSystem: codes[0], Code: c.Codes[codes[0]][0]}
-	} else if codeSetRequired {
-		return Concept{}
-	} else {
-		return Concept{CodeSystem: codeTypes[0], Code: c.Codes[codeTypes[0]][0]}
+		for codeSystemInd := range codes {
+			for codeInd := range c.Codes[codes[codeSystemInd]] {
+				if codeSetContainsCode(mdcValueSet, CodedConcept{CodeSystem: codes[codeSystemInd], Code: c.Codes[codes[codeSystemInd]][codeInd]}) {
+					return Concept{CodeSystem: codes[codeSystemInd], Code: c.Codes[codes[codeSystemInd]][codeInd]}
+				}
+			}
+		}
 	}
-
+	if codeSetRequired {
+		return Concept{}
+	}
+	for codeSystem := range c.Codes {
+		for _, code := range c.Codes[codeSystem] {
+			if codeSetContainsCode(mdcValueSet, CodedConcept{CodeSystem: codeSystem, Code: code}) {
+				return Concept{CodeSystem: codeSystem, Code: code}
+			}
+		}
+	}
+	return Concept{}
 }
 
 func (c *Coded) IsCodesPresent() bool {

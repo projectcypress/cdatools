@@ -1724,6 +1724,98 @@ var Cms9_26 = []byte(`
         "display_name": "ResultVS",
         "oid": "1.2.3.4.5.6.7.8.9.14",
         "version": "Draft"
+    }, {
+        "concepts": [{
+            "code": "3950001",
+            "code_system": "2.16.840.1.113883.6.96",
+            "code_system_name": "SNOMED-CT",
+            "code_system_version": null,
+            "display_name": "Birth (finding)"
+        }, {
+            "code": "first",
+            "code_system": "codeSetB",
+            "code_system_name": "RxNorm",
+            "code_system_version": null,
+            "display_name": "Testing For RxNorm Codes"
+        }, {
+            "code": "first",
+            "code_system": "SNOMED-CT",
+            "code_system_name": "RxNorm",
+            "code_system_version": null,
+            "display_name": "Testing For RxNorm Codes"
+        }],
+        "display_name": "mdcVS",
+        "oid": "2.16.840.1.113883.3.117.1.7.1.279",
+        "version": "Draft"
+    }, {
+        "concepts": [{
+            "code": "315640000",
+            "code_system": "2.16.840.1.113883.6.96",
+            "code_system_name": "SNOMED-CT",
+            "code_system_version": null,
+            "display_name": "Birth (finding)"
+        }, {
+            "code": "first",
+            "code_system": "codeSetB",
+            "code_system_name": "RxNorm",
+            "code_system_version": null,
+            "display_name": "Testing For RxNorm Codes"
+        }, {
+            "code": "first",
+            "code_system": "SNOMED-CT",
+            "code_system_name": "RxNorm",
+            "code_system_version": null,
+            "display_name": "Testing For RxNorm Codes"
+        }],
+        "display_name": "mdcVS2",
+        "oid": "2.16.840.1.113883.3.526.3.1185",
+        "version": "Draft"
+    }, {
+        "concepts": [{
+            "code": "312904009",
+            "code_system": "2.16.840.1.113883.6.96",
+            "code_system_name": "SNOMED-CT",
+            "code_system_version": null,
+            "display_name": "Birth (finding)"
+        }, {
+            "code": "first",
+            "code_system": "codeSetB",
+            "code_system_name": "RxNorm",
+            "code_system_version": null,
+            "display_name": "Testing For RxNorm Codes"
+        }, {
+            "code": "first",
+            "code_system": "SNOMED-CT",
+            "code_system_name": "RxNorm",
+            "code_system_version": null,
+            "display_name": "Testing For RxNorm Codes"
+        }],
+        "display_name": "mdcVS3",
+        "oid": "2.16.840.1.113883.3.526.3.1283",
+        "version": "Draft"
+    }, {
+        "concepts": [{
+            "code": "410264007",
+            "code_system": "2.16.840.1.113883.6.96",
+            "code_system_name": "SNOMED-CT",
+            "code_system_version": null,
+            "display_name": "Birth (finding)"
+        }, {
+            "code": "first",
+            "code_system": "codeSetB",
+            "code_system_name": "RxNorm",
+            "code_system_version": null,
+            "display_name": "Testing For RxNorm Codes"
+        }, {
+            "code": "first",
+            "code_system": "SNOMED-CT",
+            "code_system_name": "RxNorm",
+            "code_system_version": null,
+            "display_name": "Testing For RxNorm Codes"
+        }],
+        "display_name": "mdcVS4",
+        "oid": "2.16.840.1.113883.3.117.1.7.1.415",
+        "version": "Draft"
     }
 ]
 `)

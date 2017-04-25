@@ -55,7 +55,7 @@ func (v ValueSetMap) CodeDisplayWithPreferredCode(entry *Entry, coded *Coded, Ma
 		log.Fatalln(err)
 	}
 	codeDisplay.MapDataCriteria = MapDataCriteria
-	codeDisplay.PreferredCode = coded.PreferredCode(codeDisplay.PreferredCodeSets, codeDisplay.CodeSetRequired, codeDisplay.ValueSetPreferred, v)
+	codeDisplay.PreferredCode = coded.PreferredCode(codeDisplay.PreferredCodeSets, codeDisplay.CodeSetRequired, codeDisplay.ValueSetPreferred, v, MapDataCriteria.ValueSetOid)
 	return codeDisplay
 }
 
@@ -64,7 +64,7 @@ func (v ValueSetMap) CodeDisplayWithPreferredCodeAndLaterality(entry *Entry, cod
 	if err != nil {
 		log.Fatal(err)
 	}
-	codeDisplay.PreferredCode = coded.PreferredCode(codeDisplay.PreferredCodeSets, codeDisplay.CodeSetRequired, codeDisplay.ValueSetPreferred, v)
+	codeDisplay.PreferredCode = coded.PreferredCode(codeDisplay.PreferredCodeSets, codeDisplay.CodeSetRequired, codeDisplay.ValueSetPreferred, v, MapDataCriteria.ValueSetOid)
 	codeDisplay.Laterality = laterality
 	codeDisplay.MapDataCriteria = MapDataCriteria
 	return codeDisplay

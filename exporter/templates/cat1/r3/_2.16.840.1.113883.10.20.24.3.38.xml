@@ -13,6 +13,6 @@
     </effectiveTime>
     {{template "_reason.xml" .}}
 
-    {{template "_result_value.xml" (.EntrySection.Entry.WrapResultValues .EntrySection.Entry.Values)}}
+    {{template "_result_value.xml" (.EntrySection.Entry.WrapResultValues .EntrySection.Entry.Values .MapDataCriteria)}}
     </observation>
 </entry>

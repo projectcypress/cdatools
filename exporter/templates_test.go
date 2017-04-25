@@ -140,14 +140,14 @@ func TestResultValueTemplate(t *testing.T) {
 }
 
 func xmlResultValueRootNode(eInfo models.EntryInfo) *xml.ElementNode {
-	xmlString := generateXML("_result_value.xml", eInfo.EntrySection.GetEntry().WrapResultValues(eInfo.EntrySection.GetEntry().Values))
+	xmlString := generateXML("_result_value.xml", eInfo.EntrySection.GetEntry().WrapResultValues(eInfo.EntrySection.GetEntry().Values, eInfo.MapDataCriteria))
 	return xmlRootNode(xmlString)
 }
 
 func getResultValueData() []models.EntryInfo {
 	// Sample ResultValue objects to be embedded in the entries.
 	expectedCodeDisplay := models.CodeDisplay{CodeType: "resultValue", PreferredCodeSets: []string{"SNOMED-CT"}}
-	coded := models.Coded{Codes: map[string][]string{"codeSetA": []string{"third", "fourth"}, "SNOMED-CT": []string{"first"}}}
+	coded := models.Coded{Codes: map[string][]string{"codeSetB": []string{"first", "second"}, "SNOMED-CT": []string{"first"}}}
 
 	// Several entries created to test different paths in the template
 	var entries []models.Entry
@@ -161,7 +161,7 @@ func getResultValueData() []models.EntryInfo {
 		entrySections = append(entrySections, &models.Encounter{Entry: entry})
 	}
 	entrySections = append(entrySections, nil)
-	entryInfos := models.AppendEntryInfos([]models.EntryInfo{}, entrySections, models.Mdc{})
+	entryInfos := models.AppendEntryInfos([]models.EntryInfo{}, entrySections, models.Mdc{DcKey: models.DcKey{ValueSetOid: "2.16.840.1.113883.3.117.1.7.1.279"}})
 
 	return entryInfos
 }
@@ -312,7 +312,6 @@ func TestCommunicationFromPatientToProviderTemplate(t *testing.T) {
 	entryName := "communication_patient_to_provider"
 
 	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Communication{})
-
 	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
 
 	assertXPath(t, xrn, "//entry/act/templateId", map[string]string{"root": "2.16.840.1.113883.10.20.24.3.2"}, nil)

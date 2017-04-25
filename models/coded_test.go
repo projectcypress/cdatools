@@ -21,6 +21,7 @@ func TestIntersection(t *testing.T) {
 }
 
 func TestPreferredCode(t *testing.T) {
+	mdcOid := "2.16.840.1.113883.3.117.1.7.1.279"
 	codes := make(map[string][]string, 2)
 	codes["a"] = []string{"aa", "ab"}
 	codes["b"] = []string{"ba", "bb"}
@@ -29,19 +30,21 @@ func TestPreferredCode(t *testing.T) {
 	codes2["a"] = []string{"ba", "ab"}
 	codes2["b"] = []string{"ba", "bb"}
 	coded := Coded{Codes: codes}
-	prefCode := coded.PreferredCode([]string{"b"}, true, false, nil)
-	if prefCode.Code != "ba" {
-		t.Error("Returned incorrect code, expected", "ba", "got", prefCode.Code)
-	}
-
+	prefCode := coded.PreferredCode([]string{"b"}, true, false, nil, mdcOid)
+	assert.Equal(t, prefCode.Code, "")
+	prefCode = coded.PreferredCode([]string{"b"}, false, false, nil, mdcOid)
+	assert.Equal(t, prefCode.Code, "")
+	// new mdc valuesetoid 2.16.840.1.113883.3.117.1.7.1.279
 	vs := []ValueSet{}
 	json.Unmarshal(fixtures.Cms9_26, &vs)
 	vsMap := NewValueSetMap(vs)
-	prefCode = coded.PreferredCode([]string{"2.16.840.1.113883.3.117.1.7.1.70"}, true, true, vsMap)
+	prefCode = coded.PreferredCode([]string{"b"}, true, false, vsMap, mdcOid) // TODO: move this below, add a new case where nothing is found
+	assert.Equal(t, prefCode.Code, "")
+	prefCode = coded.PreferredCode([]string{"2.16.840.1.113883.3.117.1.7.1.70"}, true, true, vsMap, mdcOid)
 	assert.Equal(t, prefCode.Code, "3950001")
-	prefCode = coded.PreferredCode([]string{"2.16.840.1.113883.3.117.1.7.1.26"}, true, true, vsMap)
+	prefCode = coded.PreferredCode([]string{"2.16.840.1.113883.3.117.1.7.1.26"}, true, true, vsMap, mdcOid)
 	assert.Equal(t, prefCode.Code, "")
 	coded = Coded{Codes: codes2}
-	prefCode = coded.PreferredCode([]string{"2.16.840.1.113883.3.117.1.7.1.26"}, false, true, vsMap)
-	assert.Equal(t, prefCode.Code, "ba")
+	prefCode = coded.PreferredCode([]string{"2.16.840.1.113883.3.117.1.7.1.26"}, false, true, vsMap, mdcOid)
+	assert.Equal(t, prefCode.Code, "")
 }

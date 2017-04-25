@@ -107,13 +107,12 @@ func (e *Entry) HasReason() bool {
 	return e.NegationReason != (CodedConcept{}) || e.Reason != (CodedConcept{})
 }
 
-func (e *Entry) WrapResultValue(val ResultValue) ResultValueWrap {
-	return ResultValueWrap{ResultValueEntry: e, Values: []ResultValue{val}}
-
+func (e *Entry) WrapResultValue(val ResultValue, MapDataCriteria Mdc) ResultValueWrap {
+	return ResultValueWrap{ResultValueEntry: e, ResultValueMdc: MapDataCriteria, Values: []ResultValue{val}}
 }
 
-func (e *Entry) WrapResultValues(vals []ResultValue) ResultValueWrap {
-	return ResultValueWrap{ResultValueEntry: e, Values: vals}
+func (e *Entry) WrapResultValues(vals []ResultValue, MapDataCriteria Mdc) ResultValueWrap {
+	return ResultValueWrap{ResultValueEntry: e, ResultValueMdc: MapDataCriteria, Values: vals}
 }
 
 func (e *Entry) NonEmptyResultValueArray() []ResultValue {
