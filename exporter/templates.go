@@ -180,7 +180,7 @@ var _templatesCat1R3_216840111388310202431Xml = []byte(`<entry>
     <!-- Conforms to C-CDA R2 Goal Observation -->
     <templateId root="2.16.840.1.113883.10.20.22.4.121" />
     <templateId root="2.16.840.1.113883.10.20.24.3.1" extension="2014-12-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
     <text>{{.EntrySection.Description}}</text>
     <statusCode code="active"/>
@@ -200,7 +200,7 @@ func templatesCat1R3_216840111388310202431Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.1.xml", size: 653, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.1.xml", size: 670, mode: os.FileMode(420), modTime: time.Unix(1493380120, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -208,7 +208,7 @@ func templatesCat1R3_216840111388310202431Xml() (*asset, error) {
 var _templatesCat1R3_21684011138831020243103Xml = []byte(`<entry>
   <observation classCode="OBS" moodCode="EVN">
     <templateId root="2.16.840.1.113883.10.20.24.3.103" extension="2014-12-01"/> 
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     <code code="ASSERTION" codeSystem="2.16.840.1.113883.5.4" />
     <statusCode code="completed" />
     <effectiveTime>
@@ -231,7 +231,7 @@ func templatesCat1R3_21684011138831020243103Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.103.xml", size: 707, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.103.xml", size: 724, mode: os.FileMode(420), modTime: time.Unix(1493382575, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -240,7 +240,7 @@ var _templatesCat1R3_21684011138831020243105Xml = []byte(`<entry>
   <act classCode="ACT" moodCode="EVN" {{negationIndicator .EntrySection.Entry}}>
     <!-- Discharge Medication Entry -->
     <templateId root="2.16.840.1.113883.10.20.24.3.105" extension="2014-12-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     <code code="10183-2"
           codeSystem="2.16.840.1.113883.6.1" 
           codeSystemName="LOINC" 
@@ -314,7 +314,7 @@ func templatesCat1R3_21684011138831020243105Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.105.xml", size: 3106, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.105.xml", size: 3123, mode: os.FileMode(420), modTime: time.Unix(1493382655, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -341,7 +341,7 @@ var _templatesCat1R3_2168401113883102024311Xml = []byte(`<entry>
     <templateId root="2.16.840.1.113883.10.20.22.4.4" extension="2014-06-09"/>
     <!--  Diagnosis active template -->
     <templateId root="2.16.840.1.113883.10.20.24.3.11" extension="2014-12-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     <code code="29308-4" displayName="diagnosis" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
     <text>{{ .EntrySection.Description }}</text>
     <statusCode code="completed"/>
@@ -387,7 +387,7 @@ func templatesCat1R3_2168401113883102024311Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.11.xml", size: 2785, mode: os.FileMode(420), modTime: time.Unix(1489008555, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.11.xml", size: 2802, mode: os.FileMode(420), modTime: time.Unix(1493380739, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -425,7 +425,7 @@ var _templatesCat1R3_2168401113883102024312Xml = []byte(`<entry typeCode="DRIV">
     <component>
       <observation classCode="OBS" moodCode="EVN">
         <templateId root="2.16.840.1.113883.10.20.22.4.46" extension="2014-06-09"/>
-        <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+        <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
         <code code="55607006" displayName="Problem" 
               codeSystemName="SNOMED CT" 
               codeSystem="2.16.840.1.113883.6.96"/>
@@ -451,7 +451,7 @@ func templatesCat1R3_2168401113883102024312Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.12.xml", size: 2073, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.12.xml", size: 2090, mode: os.FileMode(420), modTime: time.Unix(1493380752, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -477,7 +477,7 @@ var _templatesCat1R3_2168401113883102024313Xml = []byte(`<entry>
   <templateId root="2.16.840.1.113883.10.20.22.4.4" extension="2014-06-09"/>
   <!-- Diagnosis, inactive template -->
   <templateId root="2.16.840.1.113883.10.20.24.3.13" extension="2014-12-01"/>
-  <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+  <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
   <code code="29308-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="diagnosis"/>
   
   <statusCode code="completed"/>
@@ -506,7 +506,7 @@ func templatesCat1R3_2168401113883102024313Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.13.xml", size: 1685, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.13.xml", size: 1702, mode: os.FileMode(420), modTime: time.Unix(1493380766, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -532,7 +532,7 @@ var _templatesCat1R3_2168401113883102024314Xml = []byte(`<entry>
     <templateId root="2.16.840.1.113883.10.20.22.4.4" extension="2014-06-09"/>
     <!-- Diagnosis, resolved template -->
     <templateId root="2.16.840.1.113883.10.20.24.3.14" extension="2014-12-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     <code code="29308-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="diagnosis"/>
     
     <statusCode code="completed"/>
@@ -560,7 +560,7 @@ func templatesCat1R3_2168401113883102024314Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.14.xml", size: 1715, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.14.xml", size: 1732, mode: os.FileMode(420), modTime: time.Unix(1493380778, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -572,7 +572,7 @@ var _templatesCat1R3_2168401113883102024317Xml = []byte(`<entry>
     <templateId root="2.16.840.1.113883.10.20.22.4.44" extension="2014-06-09"/>
     <!-- Diagnostic Study, Order template -->
     <templateId root="2.16.840.1.113883.10.20.24.3.17" extension="2014-12-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{newRandom}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
     <text>{{.EntrySection.Entry.Description}}</text>
     <statusCode code="active"/>
@@ -607,7 +607,7 @@ func templatesCat1R3_2168401113883102024317Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.17.xml", size: 1388, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.17.xml", size: 1418, mode: os.FileMode(420), modTime: time.Unix(1493380786, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -620,7 +620,7 @@ var _templatesCat1R3_2168401113883102024318Xml = []byte(`{{range .EntrySection.E
       <templateId root="2.16.840.1.113883.10.20.22.4.13" extension="2014-06-09"/>
       <!-- Diagnostic Study, Performed template -->
       <templateId root="2.16.840.1.113883.10.20.24.3.18" extension="2014-12-01"/>
-      <id root="1.3.6.1.4.1.115" extension="{{newRandom}}"/>
+      <id root="1.3.6.1.4.1.115" extension="{{$.EntrySection.Entry.ObjectIdentifier.ID}}"/>
       {{template "_code.xml" codeDisplayWithPreferredCode $.EntrySection.Entry $.EntrySection.Entry.Coded $.MapDataCriteria "entryCode"}}
       <text>{{$.EntrySection.Entry.Description}}</text>
       <statusCode code="completed"/>
@@ -647,7 +647,7 @@ func templatesCat1R3_2168401113883102024318Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.18.xml", size: 1150, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.18.xml", size: 1181, mode: os.FileMode(420), modTime: time.Unix(1493384794, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -656,7 +656,7 @@ var _templatesCat1R3_216840111388310202432Xml = []byte(`<entry>
   <act classCode="ACT" moodCode="EVN" {{ negationIndicator .EntrySection.Entry}}>
     <!-- Communication from patient to provider -->
     <templateId root="2.16.840.1.113883.10.20.24.3.2" extension="2014-12-01" />
-    <id root="1.3.6.1.4.1.115" extension="{{newRandom}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     {{/*$extraContent := "sdtc:valueSet=\"#{value_set_oid}\""*/}}
 
     {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}} 
@@ -698,7 +698,7 @@ func templatesCat1R3_216840111388310202432Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.2.xml", size: 1324, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.2.xml", size: 1354, mode: os.FileMode(420), modTime: time.Unix(1493380140, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -709,7 +709,7 @@ var _templatesCat1R3_2168401113883102024322Xml = []byte(`<entry>
     <templateId root="2.16.840.1.113883.10.20.22.4.40" extension="2014-06-09"/>
     <!-- Encounter order template -->
     <templateId root="2.16.840.1.113883.10.20.24.3.22" extension="2014-12-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{newRandom}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
 		{{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
     <text>{{.EntrySection.Description}}</text>
     <statusCode code="active"/>
@@ -737,7 +737,7 @@ func templatesCat1R3_2168401113883102024322Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.22.xml", size: 866, mode: os.FileMode(420), modTime: time.Unix(1491588695, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.22.xml", size: 896, mode: os.FileMode(420), modTime: time.Unix(1493380808, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -748,7 +748,7 @@ var _templatesCat1R3_2168401113883102024323Xml = []byte(`<entry>
     <templateId root="2.16.840.1.113883.10.20.22.4.49" extension="2014-06-09" />
     <!-- Encounter performed template -->
     <templateId root="2.16.840.1.113883.10.20.24.3.23" extension="2014-12-01" />
-    <id root="1.3.6.1.4.1.115" extension="{{newRandom}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     {{/*$extraContent := "sdtc:valueSet=\"#{value_set_oid}\""*/}}
 
     {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
@@ -821,7 +821,7 @@ func templatesCat1R3_2168401113883102024323Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.23.xml", size: 3090, mode: os.FileMode(420), modTime: time.Unix(1492690407, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.23.xml", size: 3120, mode: os.FileMode(420), modTime: time.Unix(1493380817, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -832,7 +832,7 @@ var _templatesCat1R3_2168401113883102024326Xml = []byte(`<entry>
     <templateId root="2.16.840.1.113883.10.20.22.4.13" extension="2014-06-09"/>
     <!-- Functional Status, Performed template -->
     <templateId root="2.16.840.1.113883.10.20.24.3.26" extension="2014-12-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
     <text>{{.EntrySection.Description}}</text>
     <statusCode code="completed"/>
@@ -861,7 +861,7 @@ func templatesCat1R3_2168401113883102024326Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.26.xml", size: 1055, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.26.xml", size: 1072, mode: os.FileMode(420), modTime: time.Unix(1493380833, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -870,7 +870,7 @@ var _templatesCat1R3_216840111388310202433Xml = []byte(`<entry>
   <act classCode="ACT" moodCode="EVN" {{ negationIndicator .EntrySection.Entry}}>
     <!-- Communication from provider to patient -->
     <templateId root="2.16.840.1.113883.10.20.24.3.3" extension="2014-12-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{newRandom}}"/>  
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>  
     {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
     <text>{{.EntrySection.Entry.Description}}</text>
     <statusCode code="completed"/>
@@ -904,7 +904,7 @@ func templatesCat1R3_216840111388310202433Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.3.xml", size: 1078, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.3.xml", size: 1108, mode: os.FileMode(420), modTime: time.Unix(1493380159, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -915,7 +915,7 @@ var _templatesCat1R3_2168401113883102024331Xml = []byte(`<entry>
     <templateId root="2.16.840.1.113883.10.20.22.4.39" extension="2014-06-09"/>
     <!-- Intervention Order template -->
     <templateId root="2.16.840.1.113883.10.20.24.3.31" extension="2014-12-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
     <text>{{ .EntrySection.Description }}</text>
     <statusCode code="active"/>
@@ -943,7 +943,7 @@ func templatesCat1R3_2168401113883102024331Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.31.xml", size: 1008, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.31.xml", size: 1025, mode: os.FileMode(420), modTime: time.Unix(1493380844, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -953,7 +953,7 @@ var _templatesCat1R3_2168401113883102024332Xml = []byte(`<entry>
     <!-- Consolidation CDA: Procedure Activity Act template -->
     <templateId root="2.16.840.1.113883.10.20.22.4.12" extension="2014-06-09"/>
     <templateId root="2.16.840.1.113883.10.20.24.3.32" extension="2014-12-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
     <text>{{ .EntrySection.Description }}</text>
     <statusCode code="completed"/>
@@ -979,7 +979,7 @@ func templatesCat1R3_2168401113883102024332Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.32.xml", size: 977, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.32.xml", size: 994, mode: os.FileMode(420), modTime: time.Unix(1493380855, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -990,7 +990,7 @@ var _templatesCat1R3_2168401113883102024337Xml = []byte(`<entry>
     <templateId root="2.16.840.1.113883.10.20.22.4.44" extension="2014-06-09"/>
     <!-- Lab Test Order -->
     <templateId root="2.16.840.1.113883.10.20.24.3.37" extension="2014-12-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
     <text>{{.EntrySection.Entry.Description}}</text>
     <statusCode code="active"/>
@@ -1017,7 +1017,7 @@ func templatesCat1R3_2168401113883102024337Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.37.xml", size: 978, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.37.xml", size: 995, mode: os.FileMode(420), modTime: time.Unix(1493380864, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1026,7 +1026,7 @@ var _templatesCat1R3_2168401113883102024338Xml = []byte(`<entry>
   <observation classCode="OBS" moodCode="EVN" {{ negationIndicator .EntrySection.Entry}}>
     <!-- Lab test performed -->
     <templateId root="2.16.840.1.113883.10.20.24.3.38" extension="2014-12-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
     <text>{{.EntrySection.Entry.Description}}</text>
     <statusCode code="completed"/>
@@ -1051,7 +1051,7 @@ func templatesCat1R3_2168401113883102024338Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.38.xml", size: 826, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.38.xml", size: 843, mode: os.FileMode(420), modTime: time.Unix(1493380874, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1060,7 +1060,7 @@ var _templatesCat1R3_216840111388310202434Xml = []byte(`<entry>
 	<act classCode="ACT" moodCode="EVN" {{negationIndicator .EntrySection.Entry}}>
 		<!-- Communication from provider to provider -->
 		<templateId root="2.16.840.1.113883.10.20.24.3.4" extension="2014-12-01"/>
-		<id root="1.3.6.1.4.1.115" extension="{{newRandom}}"/>
+		<id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
 		{{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
 		<text>{{ .EntrySection.Description }}</text>
 		<statusCode code="completed"/>
@@ -1097,7 +1097,7 @@ func templatesCat1R3_216840111388310202434Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.4.xml", size: 1213, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.4.xml", size: 1243, mode: os.FileMode(420), modTime: time.Unix(1493380176, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1109,7 +1109,7 @@ var _templatesCat1R3_2168401113883102024341Xml = []byte(`<entry>
     <!-- Medication, Active template -->
     <templateId root="2.16.840.1.113883.10.20.24.3.41" extension="2014-12-01"/>
 
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     <text>{{.EntrySection.Description}}</text>
     <statusCode code="active"/>
     <effectiveTime xsi:type="IVL_TS">
@@ -1158,7 +1158,7 @@ func templatesCat1R3_2168401113883102024341Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.41.xml", size: 1968, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.41.xml", size: 1985, mode: os.FileMode(420), modTime: time.Unix(1493380884, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1167,7 +1167,7 @@ var _templatesCat1R3_2168401113883102024342Xml = []byte(`<entry>
   <act classCode="ACT" moodCode="EVN" {{negationIndicator .EntrySection.Entry}}>
     <!-- Medication, Administered template -->
     <templateId root="2.16.840.1.113883.10.20.24.3.42" extension="2014-12-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     <code code="416118004" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Administration"/>
     <statusCode code="completed"/>
     <effectiveTime xsi:type="IVL_TS">
@@ -1212,7 +1212,7 @@ func templatesCat1R3_2168401113883102024342Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.42.xml", size: 1880, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.42.xml", size: 1897, mode: os.FileMode(420), modTime: time.Unix(1493380897, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1223,7 +1223,7 @@ var _templatesCat1R3_2168401113883102024343Xml = []byte(`<entry>
     <templateId root="2.16.840.1.113883.10.20.22.4.7" extension="2014-06-09"/>
     <!--  Medication Allergy -->
     <templateId root="2.16.840.1.113883.10.20.24.3.43" extension="2014-12-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     <code code="ASSERTION" displayName="Assertion" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
     <statusCode code="completed"/>
     <effectiveTime>
@@ -1252,7 +1252,7 @@ func templatesCat1R3_2168401113883102024343Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.43.xml", size: 1169, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.43.xml", size: 1186, mode: os.FileMode(420), modTime: time.Unix(1493380910, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1263,7 +1263,7 @@ var _templatesCat1R3_2168401113883102024344Xml = []byte(`<entry>
     <templateId root="2.16.840.1.113883.10.20.22.4.7" extension="2014-06-09"/>
     <!--  Medication Allergy -->
     <templateId root="2.16.840.1.113883.10.20.24.3.44" extension="2014-12-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     <code code="ASSERTION" displayName="Assertion" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
     <statusCode code="completed"/>
     <effectiveTime>
@@ -1293,7 +1293,7 @@ func templatesCat1R3_2168401113883102024344Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.44.xml", size: 1221, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.44.xml", size: 1238, mode: os.FileMode(420), modTime: time.Unix(1493380918, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1305,7 +1305,7 @@ var _templatesCat1R3_2168401113883102024345Xml = []byte(`<entry>
     <templateId root="2.16.840.1.113883.10.20.24.3.45" extension="2014-12-01"/>
     <!-- Medication Dispense template -->
     <templateId root="2.16.840.1.113883.10.20.22.4.18" extension="2014-06-09"/>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     <text>{{.EntrySection.Description}}</text>
     <statusCode code="completed"/>
     <effectiveTime xsi:type="IVL_TS">
@@ -1335,7 +1335,7 @@ func templatesCat1R3_2168401113883102024345Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.45.xml", size: 1167, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.45.xml", size: 1184, mode: os.FileMode(420), modTime: time.Unix(1493380929, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1345,7 +1345,7 @@ var _templatesCat1R3_2168401113883102024346Xml = []byte(`<entry>
     <!-- consolidation CDA Allergy Observation template -->
     <templateId root="2.16.840.1.113883.10.20.22.4.7" extension="2014-06-09"/>
     <templateId root="2.16.840.1.113883.10.20.24.3.46" extension="2014-12-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     <code code="ASSERTION" 
           displayName="Assertion" 
           codeSystem="2.16.840.1.113883.5.4" 
@@ -1381,7 +1381,7 @@ func templatesCat1R3_2168401113883102024346Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.46.xml", size: 1213, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.46.xml", size: 1230, mode: os.FileMode(420), modTime: time.Unix(1493380938, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1392,7 +1392,7 @@ var _templatesCat1R3_2168401113883102024347Xml = []byte(`<entry>
     <templateId root="2.16.840.1.113883.10.20.22.4.42" extension="2014-06-09"/>
     <!-- Medication, Order template -->
     <templateId root="2.16.840.1.113883.10.20.24.3.47" extension="2014-12-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     <text>{{.EntrySection.Description}}</text>
     <statusCode code="active"/>
     <effectiveTime xsi:type="IVL_TS">
@@ -1444,7 +1444,7 @@ func templatesCat1R3_2168401113883102024347Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.47.xml", size: 2177, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.47.xml", size: 2194, mode: os.FileMode(420), modTime: time.Unix(1493380946, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1486,7 +1486,7 @@ var _templatesCat1R3_2168401113883102024354Xml = []byte(`<entry>
     <templateId root="2.16.840.1.113883.10.20.22.4.79" extension="2014-06-09"/>
     <!-- Patient Characteristic Expired -->
     <templateId root="2.16.840.1.113883.10.20.24.3.54" extension="2014-12-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     <code code="ASSERTION" codeSystem="2.16.840.1.113883.5.4" codeSystemName="HL7ActCode"/>
     <statusCode code="completed"/>
     <effectiveTime>
@@ -1520,7 +1520,7 @@ func templatesCat1R3_2168401113883102024354Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.54.xml", size: 1421, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.54.xml", size: 1438, mode: os.FileMode(420), modTime: time.Unix(1493380963, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1529,7 +1529,7 @@ var _templatesCat1R3_2168401113883102024355Xml = []byte(`<entry>
   <!-- Patient Characteristic Payer -->
   <observation classCode="OBS" moodCode="EVN">
     <templateId root="2.16.840.1.113883.10.20.24.3.55"/>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     <code code="48768-6" codeSystemName="LOINC" codeSystem="2.16.840.1.113883.6.1" displayName="Payment source"/> 
     <statusCode code="completed"/>
     <effectiveTime>
@@ -1554,7 +1554,7 @@ func templatesCat1R3_2168401113883102024355Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.55.xml", size: 796, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.55.xml", size: 813, mode: os.FileMode(420), modTime: time.Unix(1493380972, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1566,7 +1566,7 @@ var _templatesCat1R3_2168401113883102024359Xml = []byte(`{{range .EntrySection.E
     <templateId root="2.16.840.1.113883.10.20.22.4.13" extension="2014-06-09"/>
     <!-- Physical Exam, Performed template -->
     <templateId root="2.16.840.1.113883.10.20.24.3.59" extension="2014-12-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{$.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{$.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     {{template "_code.xml" codeDisplayWithPreferredCode $.EntrySection.Entry $.EntrySection.Entry.Coded $.MapDataCriteria "entryCode"}}
     <text>{{$.EntrySection.Description}}</text>
     <statusCode code="completed"/>
@@ -1590,7 +1590,7 @@ func templatesCat1R3_2168401113883102024359Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.59.xml", size: 1005, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.59.xml", size: 1022, mode: os.FileMode(420), modTime: time.Unix(1493381056, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1599,7 +1599,7 @@ var _templatesCat1R3_2168401113883102024362Xml = []byte(`<entry>
   <observation classCode="OBS" moodCode="EVN">
     <templateId root="2.16.840.1.113883.10.20.24.3.62" extension="2014-12-01"/>
     <templateId root="2.16.840.1.113883.10.20.24.3.104" extension="2014-12-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     <code code="ASSERTION" 
           codeSystem="2.16.840.1.113883.5.4"
           codeSystemName="ActCode"
@@ -1619,7 +1619,7 @@ var _templatesCat1R3_2168401113883102024362Xml = []byte(`<entry>
         <templateId root="2.16.840.1.113883.10.20.24.3.64" extension="2014-12-01"/>
         <!-- Procedure Activity Procedure-->
         <templateId root="2.16.840.1.113883.10.20.22.4.14" extension="2014-06-09"/>
-        <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+        <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
         {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
         <text>{{ .EntrySection.Description }}</text>
         <statusCode code="completed"/>
@@ -1642,7 +1642,7 @@ func templatesCat1R3_2168401113883102024362Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.62.xml", size: 1672, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.62.xml", size: 1706, mode: os.FileMode(420), modTime: time.Unix(1493381072, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1653,7 +1653,7 @@ var _templatesCat1R3_2168401113883102024363Xml = []byte(`<entry>
     <templateId root="2.16.840.1.113883.10.20.22.4.41" extension="2014-06-09"/> 
     <!-- QRDA Procedure, Order TemplateId --> 
     <templateId root="2.16.840.1.113883.10.20.24.3.63" extension="2014-12-01"/> 
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
     <text>{{ .EntrySection.Description }}</text>
     <statusCode code="active"/>
@@ -1679,7 +1679,7 @@ func templatesCat1R3_2168401113883102024363Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.63.xml", size: 994, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.63.xml", size: 1011, mode: os.FileMode(420), modTime: time.Unix(1493381105, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1690,7 +1690,7 @@ var _templatesCat1R3_2168401113883102024364Xml = []byte(`<entry>
     <templateId root="2.16.840.1.113883.10.20.24.3.64" extension="2014-12-01"/>
     <!-- Procedure Activity Procedure-->
     <templateId root="2.16.840.1.113883.10.20.22.4.14" extension="2014-06-09"/>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
     <text>{{ .EntrySection.Description }}</text>
     <statusCode code="completed"/>
@@ -1704,7 +1704,7 @@ var _templatesCat1R3_2168401113883102024364Xml = []byte(`<entry>
     <entryRelationship typeCode="REFR">
       <procedure classCode="PROC" moodCode="EVN">
         <templateId root="2.16.840.1.113883.10.20.24.3.89"/>
-        <id root="1.3.6.1.4.1.115" extension="{{identifierForInterface .EntrySection.Entry.ID .EntrySection.IncisionTime}}" />
+        <id root="1.3.6.1.4.1.115" extension="{{identifierForInterface .EntrySection.Entry.ObjectIdentifier.ID .EntrySection.IncisionTime}}" />
         <code code="34896006" 
               codeSystem="2.16.840.1.113883.6.96"
               codeSystemName="SNOMED CT" 
@@ -1746,7 +1746,7 @@ func templatesCat1R3_2168401113883102024364Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.64.xml", size: 2502, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.64.xml", size: 2536, mode: os.FileMode(420), modTime: time.Unix(1493381126, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1758,7 +1758,7 @@ var _templatesCat1R3_2168401113883102024369Xml = []byte(`{{range .EntrySection.E
     <templateId root="2.16.840.1.113883.10.20.22.4.69"/>
     <!-- Risk Category Assessment -->
     <templateId root="2.16.840.1.113883.10.20.24.3.69" extension="2014-12-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{$.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{$.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     {{template "_code.xml" codeDisplayWithPreferredCode $.EntrySection.Entry $.EntrySection.Entry.Coded $.MapDataCriteria "entryCode"}}
     <text>{{$.EntrySection.Description}}</text>
     <statusCode code="completed"/>
@@ -1783,7 +1783,7 @@ func templatesCat1R3_2168401113883102024369Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.69.xml", size: 975, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.69.xml", size: 992, mode: os.FileMode(420), modTime: time.Unix(1493382534, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1794,7 +1794,7 @@ var _templatesCat1R3_216840111388310202437Xml = []byte(`<entry>
     <templateId root="2.16.840.1.113883.10.20.22.4.14" extension="2014-06-09"/>
     <!-- Device Applied -->
     <templateId root="2.16.840.1.113883.10.20.24.3.7" extension="2014-12-01"/>
-    <id root="1.3.6.1.4.1.115" extension={{newRandom}}/>
+    <id root="1.3.6.1.4.1.115" extension={{.EntrySection.Entry.ObjectIdentifier.ID}}/>
     <code code="360030002" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="application of device"/>
     <text>{{.EntrySection.Entry.Description}}</text>
     <statusCode code="completed"/>
@@ -1830,7 +1830,7 @@ func templatesCat1R3_216840111388310202437Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.7.xml", size: 1464, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.7.xml", size: 1494, mode: os.FileMode(420), modTime: time.Unix(1493380194, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1841,7 +1841,7 @@ var _templatesCat1R3_2168401113883102024376Xml = []byte(`<entry>
     <templateId root="2.16.840.1.113883.10.20.22.4.4" extension="2014-06-09"/>
     <!-- Symptom, active template -->
     <templateId root="2.16.840.1.113883.10.20.24.3.76" extension="2014-12-01"/>  
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     <code code="418799008" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Symptom"/>
     <text>{{.EntrySection.Description}}</text>
     <statusCode code="completed"/> 
@@ -1865,7 +1865,7 @@ func templatesCat1R3_2168401113883102024376Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.76.xml", size: 891, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.76.xml", size: 908, mode: os.FileMode(420), modTime: time.Unix(1493382558, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1877,7 +1877,7 @@ var _templatesCat1R3_216840111388310202439Xml = []byte(`<entry>
     <templateId root="2.16.840.1.113883.10.20.22.4.43" extension="2014-06-09"/>
     <!-- Device, Order -->
     <templateId root="2.16.840.1.113883.10.20.24.3.9" extension="2014-12-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     <text>{{.EntrySection.Entry.Description}}</text>
     <statusCode code="active"/>
 
@@ -1903,7 +1903,7 @@ var _templatesCat1R3_216840111388310202439Xml = []byte(`<entry>
   </supply>
   {{else}}
   <act classCode="ACT" moodCode="RQO" {{negationIndicator .EntrySection.Entry}}>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     <code code="SPLY" codeSystem="2.16.840.1.113883.5.6"/>
     <text>{{.EntrySection.Entry.Description}}</text>
     <statusCode code="active"/>
@@ -1942,7 +1942,7 @@ func templatesCat1R3_216840111388310202439Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.9.xml", size: 2411, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.9.xml", size: 2445, mode: os.FileMode(420), modTime: time.Unix(1493380689, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -2412,7 +2412,7 @@ func templatesCat1R3_providersXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_providers.xml", size: 2078, mode: os.FileMode(420), modTime: time.Unix(1492690407, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_providers.xml", size: 2078, mode: os.FileMode(420), modTime: time.Unix(1493329154, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -2780,7 +2780,7 @@ func templatesCat1R3Cat1Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/cat1.xml", size: 5208, mode: os.FileMode(420), modTime: time.Unix(1492690407, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/cat1.xml", size: 5208, mode: os.FileMode(420), modTime: time.Unix(1493036773, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -2807,7 +2807,7 @@ var _templatesCat1R3_1_216840111388310202431Xml = []byte(`<entry>
     <!-- Conforms to C-CDA R2 Goal Observation -->
     <templateId root="2.16.840.1.113883.10.20.22.4.121" />
     <templateId root="2.16.840.1.113883.10.20.24.3.1" extension="2016-02-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
     <text>{{.EntrySection.Description}}</text>
     <statusCode code="active"/>
@@ -2827,7 +2827,7 @@ func templatesCat1R3_1_216840111388310202431Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.1.xml", size: 653, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.1.xml", size: 670, mode: os.FileMode(420), modTime: time.Unix(1493383068, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -2835,7 +2835,7 @@ func templatesCat1R3_1_216840111388310202431Xml() (*asset, error) {
 var _templatesCat1R3_1_21684011138831020243103Xml = []byte(`<entry>
   <observation classCode="OBS" moodCode="EVN">
     <templateId root="2.16.840.1.113883.10.20.24.3.103" extension="2014-12-01"/> 
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     <code code="ASSERTION" codeSystem="2.16.840.1.113883.5.4" />
     <statusCode code="completed" />
     <effectiveTime>
@@ -2858,7 +2858,7 @@ func templatesCat1R3_1_21684011138831020243103Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.103.xml", size: 707, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.103.xml", size: 724, mode: os.FileMode(420), modTime: time.Unix(1493384223, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -2867,7 +2867,7 @@ var _templatesCat1R3_1_21684011138831020243105Xml = []byte(`<entry>
   <act classCode="ACT" moodCode="RQO" {{negationIndicator .EntrySection.Entry}}>
     <!-- Discharge Medication Entry -->
     <templateId root="2.16.840.1.113883.10.20.24.3.105" extension="2016-02-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     <code code="75311-1"
           codeSystem="2.16.840.1.113883.6.1" 
           codeSystemName="LOINC" 
@@ -2941,7 +2941,7 @@ func templatesCat1R3_1_21684011138831020243105Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.105.xml", size: 3107, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.105.xml", size: 3124, mode: os.FileMode(420), modTime: time.Unix(1493384231, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -2968,7 +2968,7 @@ var _templatesCat1R3_1_2168401113883102024311Xml = []byte(`<entry>
     <templateId root="2.16.840.1.113883.10.20.22.4.4" extension="2014-06-09"/>
     <!--  Diagnosis active template -->
     <templateId root="2.16.840.1.113883.10.20.24.3.11" extension="2014-12-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     <code code="29308-4" displayName="diagnosis" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
     <text>{{ .EntrySection.Description }}</text>
     <statusCode code="completed"/>
@@ -3014,7 +3014,7 @@ func templatesCat1R3_1_2168401113883102024311Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.11.xml", size: 2785, mode: os.FileMode(420), modTime: time.Unix(1489008555, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.11.xml", size: 2802, mode: os.FileMode(420), modTime: time.Unix(1493383352, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3052,7 +3052,7 @@ var _templatesCat1R3_1_2168401113883102024312Xml = []byte(`<entry typeCode="DRIV
     <component>
       <observation classCode="OBS" moodCode="EVN">
         <templateId root="2.16.840.1.113883.10.20.22.4.46" extension="2014-06-09"/>
-        <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+        <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
         <code code="55607006" displayName="Problem" 
               codeSystemName="SNOMED CT" 
               codeSystem="2.16.840.1.113883.6.96"/>
@@ -3078,7 +3078,7 @@ func templatesCat1R3_1_2168401113883102024312Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.12.xml", size: 2073, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.12.xml", size: 2090, mode: os.FileMode(420), modTime: time.Unix(1493380590, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3104,7 +3104,7 @@ var _templatesCat1R3_1_2168401113883102024313Xml = []byte(`<entry>
   <templateId root="2.16.840.1.113883.10.20.22.4.4" extension="2014-06-09"/>
   <!-- Diagnosis, inactive template -->
   <templateId root="2.16.840.1.113883.10.20.24.3.13" extension="2014-12-01"/>
-  <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+  <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
   <code code="29308-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="diagnosis"/>
   
   <statusCode code="completed"/>
@@ -3133,7 +3133,7 @@ func templatesCat1R3_1_2168401113883102024313Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.13.xml", size: 1685, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.13.xml", size: 1702, mode: os.FileMode(420), modTime: time.Unix(1493383400, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3159,7 +3159,7 @@ var _templatesCat1R3_1_2168401113883102024314Xml = []byte(`<entry>
     <templateId root="2.16.840.1.113883.10.20.22.4.4" extension="2014-06-09"/>
     <!-- Diagnosis, resolved template -->
     <templateId root="2.16.840.1.113883.10.20.24.3.14" extension="2014-12-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     <code code="29308-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="diagnosis"/>
     
     <statusCode code="completed"/>
@@ -3187,7 +3187,7 @@ func templatesCat1R3_1_2168401113883102024314Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.14.xml", size: 1715, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.14.xml", size: 1732, mode: os.FileMode(420), modTime: time.Unix(1493380653, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3199,7 +3199,7 @@ var _templatesCat1R3_1_2168401113883102024317Xml = []byte(`<entry>
     <templateId root="2.16.840.1.113883.10.20.22.4.44" extension="2014-06-09"/>
     <!-- Diagnostic Study, Order template -->
     <templateId root="2.16.840.1.113883.10.20.24.3.17" extension="2016-02-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{newRandom}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
     <text>{{.EntrySection.Entry.Description}}</text>
     <statusCode code="active"/>
@@ -3225,7 +3225,7 @@ func templatesCat1R3_1_2168401113883102024317Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.17.xml", size: 1094, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.17.xml", size: 1124, mode: os.FileMode(420), modTime: time.Unix(1493380664, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3238,7 +3238,7 @@ var _templatesCat1R3_1_2168401113883102024318Xml = []byte(`{{range .EntrySection
       <templateId root="2.16.840.1.113883.10.20.22.4.13" extension="2014-06-09"/>
       <!-- Diagnostic Study, Performed template -->
       <templateId root="2.16.840.1.113883.10.20.24.3.18" extension="2016-02-01"/>
-      <id root="1.3.6.1.4.1.115" extension="{{newRandom}}"/>
+      <id root="1.3.6.1.4.1.115" extension="{{$.EntrySection.Entry.ObjectIdentifier.ID}}"/>
       {{template "_code.xml" codeDisplayWithPreferredCode $.EntrySection.Entry $.EntrySection.Entry.Coded $.MapDataCriteria "entryCode"}}
       <text>{{$.EntrySection.Entry.Description}}</text>
       <statusCode code="completed"/>
@@ -3265,7 +3265,7 @@ func templatesCat1R3_1_2168401113883102024318Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.18.xml", size: 1150, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.18.xml", size: 1181, mode: os.FileMode(420), modTime: time.Unix(1493384812, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3274,7 +3274,7 @@ var _templatesCat1R3_1_216840111388310202432Xml = []byte(`<entry>
   <act classCode="ACT" moodCode="EVN" {{ negationIndicator .EntrySection.Entry}}>
     <!-- Communication from patient to provider -->
     <templateId root="2.16.840.1.113883.10.20.24.3.2" extension="2014-12-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{newRandom}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     {{/*$extraContent := "sdtc:valueSet=\"#{value_set_oid}\""*/}}
 
     {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}} 
@@ -3316,7 +3316,7 @@ func templatesCat1R3_1_216840111388310202432Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.2.xml", size: 1323, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.2.xml", size: 1353, mode: os.FileMode(420), modTime: time.Unix(1493383080, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3327,7 +3327,7 @@ var _templatesCat1R3_1_2168401113883102024322Xml = []byte(`<entry>
     <templateId root="2.16.840.1.113883.10.20.22.4.40" extension="2014-06-09"/>
     <!-- Encounter order template -->
     <templateId root="2.16.840.1.113883.10.20.24.3.22" extension="2016-02-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{newRandom}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
 		{{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
     <text>{{.EntrySection.Description}}</text>
     <statusCode code="active"/>
@@ -3355,7 +3355,7 @@ func templatesCat1R3_1_2168401113883102024322Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.22.xml", size: 866, mode: os.FileMode(420), modTime: time.Unix(1491588695, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.22.xml", size: 896, mode: os.FileMode(420), modTime: time.Unix(1493383551, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3439,7 +3439,7 @@ func templatesCat1R3_1_2168401113883102024323Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.23.xml", size: 3090, mode: os.FileMode(420), modTime: time.Unix(1492690407, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.23.xml", size: 3090, mode: os.FileMode(420), modTime: time.Unix(1493380044, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3450,7 +3450,7 @@ var _templatesCat1R3_1_2168401113883102024326Xml = []byte(`<entry>
     <templateId root="2.16.840.1.113883.10.20.22.4.13" extension="2014-06-09"/>
     <!-- Functional Status, Performed template -->
     <templateId root="2.16.840.1.113883.10.20.24.3.26" extension="2016-02-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
     <text>{{.EntrySection.Description}}</text>
     <statusCode code="completed"/>
@@ -3479,7 +3479,7 @@ func templatesCat1R3_1_2168401113883102024326Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.26.xml", size: 1055, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.26.xml", size: 1072, mode: os.FileMode(420), modTime: time.Unix(1493383838, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3488,7 +3488,7 @@ var _templatesCat1R3_1_216840111388310202433Xml = []byte(`<entry>
   <act classCode="ACT" moodCode="EVN" {{ negationIndicator .EntrySection.Entry}}>
     <!-- Communication from provider to patient -->
     <templateId root="2.16.840.1.113883.10.20.24.3.3" extension="2014-12-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{newRandom}}"/>  
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>  
     {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
     <text>{{.EntrySection.Entry.Description}}</text>
     <statusCode code="completed"/>
@@ -3522,7 +3522,7 @@ func templatesCat1R3_1_216840111388310202433Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.3.xml", size: 1078, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.3.xml", size: 1108, mode: os.FileMode(420), modTime: time.Unix(1493383091, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3533,7 +3533,7 @@ var _templatesCat1R3_1_2168401113883102024331Xml = []byte(`<entry>
     <templateId root="2.16.840.1.113883.10.20.22.4.39" extension="2014-06-09"/>
     <!-- Intervention Order template -->
     <templateId root="2.16.840.1.113883.10.20.24.3.31" extension="2016-02-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
     <text>{{ .EntrySection.Description }}</text>
     <statusCode code="active"/>
@@ -3562,7 +3562,7 @@ func templatesCat1R3_1_2168401113883102024331Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.31.xml", size: 1066, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.31.xml", size: 1083, mode: os.FileMode(420), modTime: time.Unix(1493383857, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3572,7 +3572,7 @@ var _templatesCat1R3_1_2168401113883102024332Xml = []byte(`<entry>
     <!-- Consolidation CDA: Procedure Activity Act template -->
     <templateId root="2.16.840.1.113883.10.20.22.4.12" extension="2014-06-09"/>
     <templateId root="2.16.840.1.113883.10.20.24.3.32" extension="2016-02-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
     <text>{{ .EntrySection.Description }}</text>
     <statusCode code="completed"/>
@@ -3598,7 +3598,7 @@ func templatesCat1R3_1_2168401113883102024332Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.32.xml", size: 977, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.32.xml", size: 994, mode: os.FileMode(420), modTime: time.Unix(1493383868, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3609,7 +3609,7 @@ var _templatesCat1R3_1_2168401113883102024337Xml = []byte(`<entry>
     <templateId root="2.16.840.1.113883.10.20.22.4.44" extension="2014-06-09"/>
     <!-- Lab Test Order -->
     <templateId root="2.16.840.1.113883.10.20.24.3.37" extension="2016-02-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
     <text>{{.EntrySection.Entry.Description}}</text>
     <statusCode code="active"/>
@@ -3636,7 +3636,7 @@ func templatesCat1R3_1_2168401113883102024337Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.37.xml", size: 977, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.37.xml", size: 994, mode: os.FileMode(420), modTime: time.Unix(1493383882, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3645,7 +3645,7 @@ var _templatesCat1R3_1_2168401113883102024338Xml = []byte(`<entry>
   <observation classCode="OBS" moodCode="EVN" {{negationIndicator .EntrySection.Entry}}>
     <!-- Lab test performed -->
     <templateId root="2.16.840.1.113883.10.20.24.3.38" extension="2016-02-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
     <text>{{.EntrySection.Entry.Description}}</text>
     <statusCode code="completed"/>
@@ -3673,7 +3673,7 @@ func templatesCat1R3_1_2168401113883102024338Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.38.xml", size: 946, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.38.xml", size: 963, mode: os.FileMode(420), modTime: time.Unix(1493383896, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3682,7 +3682,7 @@ var _templatesCat1R3_1_216840111388310202434Xml = []byte(`<entry>
 	<act classCode="ACT" moodCode="EVN" {{negationIndicator .EntrySection.Entry}}>
 		<!-- Communication from provider to provider -->
 		<templateId root="2.16.840.1.113883.10.20.24.3.4" extension="2014-12-01"/>
-		<id root="1.3.6.1.4.1.115" extension="{{newRandom}}"/>
+		<id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
 		{{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
 		<text>{{ .EntrySection.Description }}</text>
 		<statusCode code="completed"/>
@@ -3724,7 +3724,7 @@ func templatesCat1R3_1_216840111388310202434Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.4.xml", size: 1247, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.4.xml", size: 1277, mode: os.FileMode(420), modTime: time.Unix(1493383096, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3736,7 +3736,7 @@ var _templatesCat1R3_1_2168401113883102024341Xml = []byte(`<entry>
     <!-- Medication, Active template -->
     <templateId root="2.16.840.1.113883.10.20.24.3.41" extension="2016-02-01"/>
 
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     <text>{{.EntrySection.Description}}</text>
     <statusCode code="active"/>
     <effectiveTime xsi:type="IVL_TS">
@@ -3784,7 +3784,7 @@ func templatesCat1R3_1_2168401113883102024341Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.41.xml", size: 1893, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.41.xml", size: 1910, mode: os.FileMode(420), modTime: time.Unix(1493383914, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3793,7 +3793,7 @@ var _templatesCat1R3_1_2168401113883102024342Xml = []byte(`<entry>
   <act classCode="ACT" moodCode="EVN" {{negationIndicator .EntrySection.Entry}}>
     <!-- Medication, Administered template -->
     <templateId root="2.16.840.1.113883.10.20.24.3.42" extension="2016-02-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     <code code="416118004" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Administration"/>
     <statusCode code="completed"/>
     <effectiveTime xsi:type="IVL_TS">
@@ -3838,7 +3838,7 @@ func templatesCat1R3_1_2168401113883102024342Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.42.xml", size: 1880, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.42.xml", size: 1897, mode: os.FileMode(420), modTime: time.Unix(1493383926, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3849,7 +3849,7 @@ var _templatesCat1R3_1_2168401113883102024343Xml = []byte(`<entry>
     <templateId root="2.16.840.1.113883.10.20.22.4.7" extension="2014-06-09"/>
     <!--  Medication Allergy -->
     <templateId root="2.16.840.1.113883.10.20.24.3.43" extension="2014-12-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     <code code="ASSERTION" displayName="Assertion" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
     <statusCode code="completed"/>
     <effectiveTime>
@@ -3878,7 +3878,7 @@ func templatesCat1R3_1_2168401113883102024343Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.43.xml", size: 1169, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.43.xml", size: 1186, mode: os.FileMode(420), modTime: time.Unix(1493383934, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3889,7 +3889,7 @@ var _templatesCat1R3_1_2168401113883102024344Xml = []byte(`<entry>
     <templateId root="2.16.840.1.113883.10.20.22.4.7" extension="2014-06-09"/>
     <!--  Medication Allergy -->
     <templateId root="2.16.840.1.113883.10.20.24.3.44" extension="2016-02-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     <code code="ASSERTION" displayName="Assertion" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
     <statusCode code="completed"/>
     <effectiveTime>
@@ -3919,7 +3919,7 @@ func templatesCat1R3_1_2168401113883102024344Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.44.xml", size: 1221, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.44.xml", size: 1238, mode: os.FileMode(420), modTime: time.Unix(1493383942, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3937,7 +3937,7 @@ var _templatesCat1R3_1_2168401113883102024345Xml = []byte(`<entry>
         <templateId root="2.16.840.1.113883.10.20.24.3.45" extension="2016-02-01"/>
         <!-- Medication Dispense template -->
         <templateId root="2.16.840.1.113883.10.20.22.4.18" extension="2014-06-09"/>
-        <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+        <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
         <text>{{.EntrySection.Description}}</text>
         <statusCode code="completed"/>
         <effectiveTime xsi:type="IVL_TS">
@@ -3970,7 +3970,7 @@ func templatesCat1R3_1_2168401113883102024345Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.45.xml", size: 1685, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.45.xml", size: 1702, mode: os.FileMode(420), modTime: time.Unix(1493383954, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3980,7 +3980,7 @@ var _templatesCat1R3_1_2168401113883102024346Xml = []byte(`<entry>
     <!-- consolidation CDA Allergy Observation template -->
     <templateId root="2.16.840.1.113883.10.20.22.4.7" extension="2014-06-09"/>
     <templateId root="2.16.840.1.113883.10.20.24.3.46" extension="2016-02-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     <code code="ASSERTION" 
           displayName="Assertion" 
           codeSystem="2.16.840.1.113883.5.4" 
@@ -4016,7 +4016,7 @@ func templatesCat1R3_1_2168401113883102024346Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.46.xml", size: 1213, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.46.xml", size: 1230, mode: os.FileMode(420), modTime: time.Unix(1493383964, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4027,7 +4027,7 @@ var _templatesCat1R3_1_2168401113883102024347Xml = []byte(`<entry>
     <templateId root="2.16.840.1.113883.10.20.22.4.42" extension="2014-06-09"/>
     <!-- Medication, Order template -->
     <templateId root="2.16.840.1.113883.10.20.24.3.47" extension="2016-02-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     <text>{{.EntrySection.Description}}</text>
     <statusCode code="active"/>
     <effectiveTime xsi:type="IVL_TS">
@@ -4079,7 +4079,7 @@ func templatesCat1R3_1_2168401113883102024347Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.47.xml", size: 2177, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.47.xml", size: 2194, mode: os.FileMode(420), modTime: time.Unix(1493383970, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4121,7 +4121,7 @@ var _templatesCat1R3_1_2168401113883102024354Xml = []byte(`<entry>
     <templateId root="2.16.840.1.113883.10.20.22.4.79" extension="2015-08-01"/>
     <!-- Patient Characteristic Expired -->
     <templateId root="2.16.840.1.113883.10.20.24.3.54" extension="2016-02-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     <code code="ASSERTION" codeSystem="2.16.840.1.113883.5.4" codeSystemName="HL7ActCode"/>
     <statusCode code="completed"/>
     <effectiveTime>
@@ -4155,7 +4155,7 @@ func templatesCat1R3_1_2168401113883102024354Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.54.xml", size: 1439, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.54.xml", size: 1456, mode: os.FileMode(420), modTime: time.Unix(1493383986, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4164,7 +4164,7 @@ var _templatesCat1R3_1_2168401113883102024355Xml = []byte(`<entry>
   <!-- Patient Characteristic Payer -->
   <observation classCode="OBS" moodCode="EVN">
     <templateId root="2.16.840.1.113883.10.20.24.3.55"/>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     <code code="48768-6" codeSystemName="LOINC" codeSystem="2.16.840.1.113883.6.1" displayName="Payment source"/> 
     <statusCode code="completed"/>
     <effectiveTime>
@@ -4189,7 +4189,7 @@ func templatesCat1R3_1_2168401113883102024355Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.55.xml", size: 796, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.55.xml", size: 813, mode: os.FileMode(420), modTime: time.Unix(1493383994, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4201,7 +4201,7 @@ var _templatesCat1R3_1_2168401113883102024359Xml = []byte(`{{range .EntrySection
     <templateId root="2.16.840.1.113883.10.20.22.4.13" extension="2014-06-09"/>
     <!-- Physical Exam, Performed template -->
     <templateId root="2.16.840.1.113883.10.20.24.3.59" extension="2016-02-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{$.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{$.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     {{template "_code.xml" codeDisplayWithPreferredCode $.EntrySection.Entry $.EntrySection.Entry.Coded $.MapDataCriteria "entryCode"}}
     <text>{{$.EntrySection.Description}}</text>
     <statusCode code="completed"/>
@@ -4225,7 +4225,7 @@ func templatesCat1R3_1_2168401113883102024359Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.59.xml", size: 1005, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.59.xml", size: 1022, mode: os.FileMode(420), modTime: time.Unix(1493384005, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4234,7 +4234,7 @@ var _templatesCat1R3_1_2168401113883102024362Xml = []byte(`<entry>
   <observation classCode="OBS" moodCode="EVN">
     <templateId root="2.16.840.1.113883.10.20.24.3.62" extension="2016-02-01"/>
     <templateId root="2.16.840.1.113883.10.20.24.3.104" extension="2016-02-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     <code code="ASSERTION" 
           codeSystem="2.16.840.1.113883.5.4"
           codeSystemName="ActCode"
@@ -4254,7 +4254,7 @@ var _templatesCat1R3_1_2168401113883102024362Xml = []byte(`<entry>
         <templateId root="2.16.840.1.113883.10.20.24.3.64" extension="2016-02-01"/>
         <!-- Procedure Activity Procedure-->
         <templateId root="2.16.840.1.113883.10.20.22.4.14" extension="2014-06-09"/>
-        <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+        <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
         {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
         <text>{{ .EntrySection.Description }}</text>
         <statusCode code="completed"/>
@@ -4277,7 +4277,7 @@ func templatesCat1R3_1_2168401113883102024362Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.62.xml", size: 1672, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.62.xml", size: 1706, mode: os.FileMode(420), modTime: time.Unix(1493384053, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4288,7 +4288,7 @@ var _templatesCat1R3_1_2168401113883102024363Xml = []byte(`<entry>
     <templateId root="2.16.840.1.113883.10.20.22.4.41" extension="2014-06-09"/> 
     <!-- QRDA Procedure, Order TemplateId --> 
     <templateId root="2.16.840.1.113883.10.20.24.3.63" extension="2014-12-01"/> 
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
     <text>{{ .EntrySection.Description }}</text>
     <statusCode code="active"/>
@@ -4314,7 +4314,7 @@ func templatesCat1R3_1_2168401113883102024363Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.63.xml", size: 994, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.63.xml", size: 1011, mode: os.FileMode(420), modTime: time.Unix(1493384066, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4325,7 +4325,7 @@ var _templatesCat1R3_1_2168401113883102024364Xml = []byte(`<entry>
     <templateId root="2.16.840.1.113883.10.20.24.3.64" extension="2016-02-01"/>
     <!-- Procedure Activity Procedure-->
     <templateId root="2.16.840.1.113883.10.20.22.4.14" extension="2014-06-09"/>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
     <text>{{ .EntrySection.Description }}</text>
     <statusCode code="completed"/>
@@ -4339,7 +4339,7 @@ var _templatesCat1R3_1_2168401113883102024364Xml = []byte(`<entry>
     <entryRelationship typeCode="REFR">
       <procedure classCode="PROC" moodCode="EVN">
         <templateId root="2.16.840.1.113883.10.20.24.3.89"/>
-        <id root="1.3.6.1.4.1.115" extension="{{identifierForInterface .EntrySection.Entry.ID .EntrySection.IncisionTime}}" />
+        <id root="1.3.6.1.4.1.115" extension="{{identifierForInterface .EntrySection.Entry.ObjectIdentifier.ID .EntrySection.IncisionTime}}" />
         <code code="34896006" 
               codeSystem="2.16.840.1.113883.6.96"
               codeSystemName="SNOMED CT" 
@@ -4381,7 +4381,7 @@ func templatesCat1R3_1_2168401113883102024364Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.64.xml", size: 2502, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.64.xml", size: 2536, mode: os.FileMode(420), modTime: time.Unix(1493384086, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4393,7 +4393,7 @@ var _templatesCat1R3_1_2168401113883102024369Xml = []byte(`{{range .EntrySection
     <templateId root="2.16.840.1.113883.10.20.22.4.69"/>
     <!-- Risk Category Assessment -->
     <templateId root="2.16.840.1.113883.10.20.24.3.69" extension="2016-02-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{$.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{$.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     {{template "_code.xml" codeDisplayWithPreferredCode $.EntrySection.Entry $.EntrySection.Entry.Coded $.MapDataCriteria "entryCode"}}
     <text>{{$.EntrySection.Description}}</text>
     <statusCode code="completed"/>
@@ -4418,7 +4418,7 @@ func templatesCat1R3_1_2168401113883102024369Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.69.xml", size: 975, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.69.xml", size: 992, mode: os.FileMode(420), modTime: time.Unix(1493384119, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4429,7 +4429,7 @@ var _templatesCat1R3_1_216840111388310202437Xml = []byte(`<entry>
     <templateId root="2.16.840.1.113883.10.20.22.4.14" extension="2014-06-09"/>
     <!-- Device Applied -->
     <templateId root="2.16.840.1.113883.10.20.24.3.7" extension="2014-12-01"/>
-    <id root="1.3.6.1.4.1.115" extension={{newRandom}}/>
+    <id root="1.3.6.1.4.1.115" extension={{.EntrySection.Entry.ObjectIdentifier.ID}}/>
     <code code="360030002" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="application of device"/>
     <text>{{.EntrySection.Entry.Description}}</text>
     <statusCode code="completed"/>
@@ -4465,7 +4465,7 @@ func templatesCat1R3_1_216840111388310202437Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.7.xml", size: 1464, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.7.xml", size: 1494, mode: os.FileMode(420), modTime: time.Unix(1493383104, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4476,7 +4476,7 @@ var _templatesCat1R3_1_2168401113883102024376Xml = []byte(`<entry>
     <templateId root="2.16.840.1.113883.10.20.22.4.4" extension="2014-06-09"/>
     <!-- Symptom, active template -->
     <templateId root="2.16.840.1.113883.10.20.24.3.76" extension="2014-12-01"/>  
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     <code code="418799008" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Symptom"/>
     <text>{{.EntrySection.Description}}</text>
     <statusCode code="completed"/> 
@@ -4500,7 +4500,7 @@ func templatesCat1R3_1_2168401113883102024376Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.76.xml", size: 891, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.76.xml", size: 908, mode: os.FileMode(420), modTime: time.Unix(1493384138, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4512,7 +4512,7 @@ var _templatesCat1R3_1_216840111388310202439Xml = []byte(`<entry>
     <templateId root="2.16.840.1.113883.10.20.22.4.43" extension="2014-06-09"/>
     <!-- Device, Order -->
     <templateId root="2.16.840.1.113883.10.20.24.3.9" extension="2014-12-01"/>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     <text>{{.EntrySection.Entry.Description}}</text>
     <statusCode code="active"/>
 
@@ -4538,7 +4538,7 @@ var _templatesCat1R3_1_216840111388310202439Xml = []byte(`<entry>
   </supply>
   {{else}}
   <act classCode="ACT" moodCode="RQO" {{negationIndicator .EntrySection.Entry}}>
-    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ID}}"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     <code code="SPLY" codeSystem="2.16.840.1.113883.5.6"/>
     <text>{{.EntrySection.Entry.Description}}</text>
     <statusCode code="active"/>
@@ -4577,7 +4577,7 @@ func templatesCat1R3_1_216840111388310202439Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.9.xml", size: 2411, mode: os.FileMode(420), modTime: time.Unix(1490276480, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.9.xml", size: 2445, mode: os.FileMode(420), modTime: time.Unix(1493383159, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -5047,7 +5047,7 @@ func templatesCat1R3_1_providersXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_providers.xml", size: 2078, mode: os.FileMode(420), modTime: time.Unix(1492690407, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_providers.xml", size: 2078, mode: os.FileMode(420), modTime: time.Unix(1493036773, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
