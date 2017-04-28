@@ -10,20 +10,21 @@ import (
 
 type Entry struct {
 	Coded
-	StartTime      *int64              `json:"start_time,omitempty"`
-	BSONID         string              `json:"bson_id,omitempty"`
-	EndTime        *int64              `json:"end_time,omitempty"`
-	Time           *int64              `json:"time,omitempty"`
-	ID             CDAIdentifier       `json:"cda_identifier,omitempty"`
-	Oid            string              `json:"oid,omitempty"`
-	Description    string              `json:"description,omitempty"`
-	NegationInd    *bool               `json:"negationInd,omitempty"`
-	NegationReason CodedConcept        `json:"negationReason,omitempty"`
-	Values         []ResultValue       `json:"values,omitempty"`
-	StatusCode     map[string][]string `json:"status_code,omitempty"`
-	Reason         CodedConcept        `json:"reason,omitempty"`
-	References     []Reference         `json:"references,omitempty"`
-	CodeDisplays   []CodeDisplay       `json:"code_displays,omitempty"`
+	StartTime        *int64              `json:"start_time,omitempty"`
+	BSONID           string              `json:"bson_id,omitempty"`
+	EndTime          *int64              `json:"end_time,omitempty"`
+	Time             *int64              `json:"time,omitempty"`
+	ID               CDAIdentifier       `json:"cda_identifier,omitempty"`
+	Oid              string              `json:"oid,omitempty"`
+	ObjectIdentifier ObjectIdentifier    `json:"_id,omitempty"`
+	Description      string              `json:"description,omitempty"`
+	NegationInd      *bool               `json:"negationInd,omitempty"`
+	NegationReason   CodedConcept        `json:"negationReason,omitempty"`
+	Values           []ResultValue       `json:"values,omitempty"`
+	StatusCode       map[string][]string `json:"status_code,omitempty"`
+	Reason           CodedConcept        `json:"reason,omitempty"`
+	References       []Reference         `json:"references,omitempty"`
+	CodeDisplays     []CodeDisplay       `json:"code_displays,omitempty"`
 }
 
 // Reference is a link from one entry to another, used in "fulfills" among others
@@ -48,6 +49,11 @@ type CodeDisplay struct {
 	Description            string     `json:"description"`
 	Laterality             Laterality `json:"laterality,omitempty"`
 	MapDataCriteria        Mdc
+}
+
+// Used to uniquely identify an entry
+type ObjectIdentifier struct {
+	ID string `json:"$oid,omitempty"`
 }
 
 type HasEntry interface {
