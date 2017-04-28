@@ -34,11 +34,11 @@ func TestPreferredCode(t *testing.T) {
 	assert.Equal(t, prefCode.Code, "")
 	prefCode = coded.PreferredCode([]string{"b"}, false, false, nil, mdcOid)
 	assert.Equal(t, prefCode.Code, "")
-	// new mdc valuesetoid 2.16.840.1.113883.3.117.1.7.1.279
+
 	vs := []ValueSet{}
 	json.Unmarshal(fixtures.Cms9_26, &vs)
 	vsMap := NewValueSetMap(vs)
-	prefCode = coded.PreferredCode([]string{"b"}, true, false, vsMap, mdcOid) // TODO: move this below, add a new case where nothing is found
+	prefCode = coded.PreferredCode([]string{"b"}, true, false, vsMap, mdcOid)
 	assert.Equal(t, prefCode.Code, "")
 	prefCode = coded.PreferredCode([]string{"2.16.840.1.113883.3.117.1.7.1.70"}, true, true, vsMap, mdcOid)
 	assert.Equal(t, prefCode.Code, "3950001")

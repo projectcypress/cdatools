@@ -161,7 +161,7 @@ func getResultValueData() []models.EntryInfo {
 		entrySections = append(entrySections, &models.Encounter{Entry: entry})
 	}
 	entrySections = append(entrySections, nil)
-	entryInfos := models.AppendEntryInfos([]models.EntryInfo{}, entrySections, models.Mdc{DcKey: models.DcKey{ValueSetOid: "2.16.840.1.113883.3.117.1.7.1.279"}})
+	entryInfos := models.AppendEntryInfos([]models.EntryInfo{}, entrySections, models.Mdc{DcKey: models.DcKey{ValueSetOid: "2.16.840.1.113883.3.117.1.7.1.279"}, ResultOids: []string{"2.16.840.1.113883.3.117.1.7.1.279"}})
 
 	return entryInfos
 }

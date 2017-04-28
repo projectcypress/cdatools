@@ -37,9 +37,10 @@ type Val struct {
 }
 
 type MetaValue struct {
-	Type   string `json:"type,omitempty"`
-	System string `json:"system,omitempty"`
-	Code   string `json:"code,omitempty"`
+	Type       string `json:"type,omitempty"`
+	System     string `json:"system,omitempty"`
+	Code       string `json:"code,omitempty"`
+	CodeListID string `json:"code_list_id"`
 	Val
 	Coded
 	Range
@@ -126,7 +127,7 @@ func UniqueDataCriteria(allDataCriteria []DataCriteria) []Mdc {
 
 		// If the data criteria has a value, and it's a "coded" type, added the CodeListId into the result OID set
 		if dataCriteria.Value.Type == "CD" {
-			mappedDc.ResultOids = append(mappedDc.ResultOids, dataCriteria.CodeListID)
+			mappedDc.ResultOids = append(mappedDc.ResultOids, dataCriteria.Value.CodeListID)
 		}
 
 		if dc.DataCriteriaOid != "" {
