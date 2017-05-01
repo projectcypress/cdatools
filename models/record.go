@@ -181,18 +181,18 @@ func (r *Record) EntriesForDataCriteria(dataCriteria DataCriteria, vsMap map[str
 			entries = r.GetEntriesForOids(dataCriteria, codes, "2.16.840.1.113883.3.560.1.6", "2.16.840.1.113883.3.560.1.63")
 		case "2.16.840.1.113883.3.560.1.3", "2.16.840.1.113883.3.560.1.11":
 			entries = r.GetEntriesForOids(dataCriteria, codes, "2.16.840.1.113883.3.560.1.3", "2.16.840.1.113883.3.560.1.11")
-		case "2.16.840.1.113883.3.560.1.71", "2.16.840.1.113883.3.560.1.72":
+		//case "2.16.840.1.113883.3.560.1.71", "2.16.840.1.113883.3.560.1.72":
 			// Transfers (either from or to)
-			if dataCriteria.FieldValues != nil {
-				if codeListID := dataCriteria.FieldValues["TRANSFER_FROM"].CodeListID; codeListID == "" {
-					if codeListID = dataCriteria.FieldValues["TRANSFER_TO"].CodeListID; codeListID != "" {
-						codes = vsMap[codeListID]
-					}
-				} else {
-					codes = vsMap[codeListID]
-				}
-			}
-			entries = r.GetEntriesForOids(dataCriteria, codes, dataCriteriaOid, "2.16.840.1.113883.3.560.1.79")
+		//	if dataCriteria.FieldValues != nil {
+		//		if codeListID := dataCriteria.FieldValues["TRANSFER_FROM"].CodeListID; codeListID == "" {
+		//			if codeListID = dataCriteria.FieldValues["TRANSFER_TO"].CodeListID; codeListID != "" {
+		//				codes = vsMap[codeListID]
+		//			}
+		//		} else {
+		//			codes = vsMap[codeListID]
+		//		}
+		//	}
+		//	entries = r.GetEntriesForOids(dataCriteria, codes, dataCriteriaOid, "2.16.840.1.113883.3.560.1.79")
 		default:
 			entries = r.GetEntriesForOids(dataCriteria, codes, dataCriteriaOid)
 		}
@@ -210,14 +210,13 @@ func (r *Record) EntriesForDataCriteria(dataCriteria DataCriteria, vsMap map[str
 		//		}
 
 	}
-
 	return entries
 }
 
 func (r *Record) handlePatientExpired() []HasEntry {
 	if r.Expired {
-		exp := make([]HasEntry, 1)
-		return append(exp, &Entry{StartTime: r.DeathDate})
+		exp := make([]HasEntry, 0)
+		return append(exp, &Entry{StartTime: r.DeathDate, Oid: "2.16.840.1.113883.3.560.1.404"})
 	}
 	return nil
 }
