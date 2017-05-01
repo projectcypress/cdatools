@@ -25,7 +25,7 @@
     <statusCode code="completed"/>
     <effectiveTime>
       <!-- Attribute: Start Datetime -->
-      <low{{valueOrNullFlavor .EntrySection.StartTime}}/>
+      <low {{valueOrNullFlavor .EntrySection.StartTime}}/>
       <!-- Attribute: Stop Datetime -->
       <high {{valueOrNullFlavor .EntrySection.EndTime}}/>
     </effectiveTime>
