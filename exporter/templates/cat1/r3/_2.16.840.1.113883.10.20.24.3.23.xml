@@ -17,7 +17,7 @@
       <low {{valueOrNullFlavor $startTime}}/>
       <high {{valueOrNullFlavor $endTime}}/>
     </effectiveTime>
-    {{if .EntrySection.DischargeDisposition}}
+    {{if len .EntrySection.DischargeDisposition}}
       {{dischargeDispositionDisplay .EntrySection.DischargeDisposition}}
     {{end}}
 
