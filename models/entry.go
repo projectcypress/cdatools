@@ -116,6 +116,14 @@ func (e *Entry) WrapResultValues(vals []ResultValue) ResultValueWrap {
 	return ResultValueWrap{ResultValueEntry: e, Values: vals}
 }
 
+func (e *Entry) NonEmptyResultValueArray() []ResultValue {
+	if len(e.Values) > 0 {
+		return e.Values
+	} else {
+		return []ResultValue{ResultValue{}}
+	}
+}
+
 func (c CodeDisplay) RenderExtraContent() string {
 	var tmplOut bytes.Buffer
 	tmpl, err := template.New("renderExtraContent").Parse(c.ExtraContent)

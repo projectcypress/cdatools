@@ -1,5 +1,5 @@
 {{if not .ResultValueEntry.IsValuesEmpty}}
-    {{range .ResultValueEntry.Values}}
+    {{range .Values}}
         {{if .IsCodesPresent}}
             {{template "_code.xml" codeDisplayWithPreferredCode $.ResultValueEntry .Coded emptyMdc "resultValue"}}
         {{else if eq .GetScalarType "num"}}

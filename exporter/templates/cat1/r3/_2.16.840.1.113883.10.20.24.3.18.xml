@@ -1,4 +1,4 @@
-{{range .EntrySection.Entry.Values}}
+{{range .EntrySection.Entry.NonEmptyResultValueArray}}
   <entry>
     <observation classCode="OBS" moodCode="EVN" {{negationIndicator $.EntrySection.Entry}}>
       <!-- Consolidated Procedure Activity Observation templateId 
