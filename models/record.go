@@ -2,6 +2,8 @@ package models
 
 import (
 	"regexp"
+
+	"github.com/pborman/uuid"
 )
 
 type Record struct {
@@ -131,9 +133,17 @@ func (r *Record) GetEntriesForOids(dataCriteria DataCriteria, codes []CodeSet, o
 							transferFrom.Codes = make(map[string][]string)
 						}
 						transferFrom.Codes[transferFrom.CodeSystem] = []string{transferFrom.Code}
-						if len(codes) > 0 && len(transferFrom.Coded.CodesInCodeSet(codes[0].Set)) > 0 {
-							entries = append(entries, entry)
+						if (len(codes) > 0 && codeSetContainsCode(codes,transferFrom.CodedConcept)) {
+							newId := ObjectIdentifier{ID: uuid.New()}
+							newEntry := Entry{Oid: "2.16.840.1.113883.3.560.1.71", ObjectIdentifier: newId}
+							newEntry.StartTime = transferFrom.Time
+							newEntry.EndTime = transferFrom.Time
+							newTransCode := CodedConcept{Code: transferFrom.Code, CodeSystem: transferFrom.CodeSystem}
+							newTrans := Transfer{CodedConcept: newTransCode, Time: transferFrom.Time}
+							var newTransElm HasEntry = &Encounter{Entry: newEntry, TransferFrom: newTrans}
+							entries = append(entries, newTransElm)
 						}
+						
 					}
 				} else if dataCriteriaOid == "2.16.840.1.113883.3.560.1.72" {
 					if transferTo := &entry.(*Encounter).TransferTo; transferTo != nil {
@@ -141,8 +151,15 @@ func (r *Record) GetEntriesForOids(dataCriteria DataCriteria, codes []CodeSet, o
 							transferTo.Codes = make(map[string][]string)
 						}
 						transferTo.Codes[transferTo.CodeSystem] = []string{transferTo.Code}
-						if len(codes) > 0 && len(transferTo.Coded.CodesInCodeSet(codes[0].Set)) > 0 {
-							entries = append(entries, entry)
+						if len(codes) > 0 && codeSetContainsCode(codes,transferTo.CodedConcept) {
+							newId := ObjectIdentifier{ID: uuid.New()}
+							newEntry := Entry{Oid: "2.16.840.1.113883.3.560.1.72", ObjectIdentifier: newId}
+							newEntry.StartTime = transferTo.Time
+							newEntry.EndTime = transferTo.Time
+							newTransCode := CodedConcept{Code: transferTo.Code, CodeSystem: transferTo.CodeSystem}
+							newTrans := Transfer{CodedConcept: newTransCode, Time: transferTo.Time}
+							var newTransElm HasEntry = &Encounter{Entry: newEntry, TransferTo: newTrans}
+							entries = append(entries, newTransElm)
 						}
 					}
 				} else {
@@ -181,18 +198,17 @@ func (r *Record) EntriesForDataCriteria(dataCriteria DataCriteria, vsMap map[str
 			entries = r.GetEntriesForOids(dataCriteria, codes, "2.16.840.1.113883.3.560.1.6", "2.16.840.1.113883.3.560.1.63")
 		case "2.16.840.1.113883.3.560.1.3", "2.16.840.1.113883.3.560.1.11":
 			entries = r.GetEntriesForOids(dataCriteria, codes, "2.16.840.1.113883.3.560.1.3", "2.16.840.1.113883.3.560.1.11")
-		//case "2.16.840.1.113883.3.560.1.71", "2.16.840.1.113883.3.560.1.72":
-			// Transfers (either from or to)
-		//	if dataCriteria.FieldValues != nil {
-		//		if codeListID := dataCriteria.FieldValues["TRANSFER_FROM"].CodeListID; codeListID == "" {
-		//			if codeListID = dataCriteria.FieldValues["TRANSFER_TO"].CodeListID; codeListID != "" {
-		//				codes = vsMap[codeListID]
-		//			}
-		//		} else {
-		//			codes = vsMap[codeListID]
-		//		}
-		//	}
-		//	entries = r.GetEntriesForOids(dataCriteria, codes, dataCriteriaOid, "2.16.840.1.113883.3.560.1.79")
+		case "2.16.840.1.113883.3.560.1.71", "2.16.840.1.113883.3.560.1.72":
+	//		// Transfers (either from or to)
+			if dataCriteria.FieldValues != nil {
+				if dataCriteria.FieldValues["TRANSFER_FROM"].CodeListID != "" {
+					codes = vsMap[dataCriteria.FieldValues["TRANSFER_FROM"].CodeListID]
+					entries = r.GetEntriesForOids(dataCriteria, codes, dataCriteriaOid, "2.16.840.1.113883.3.560.1.79")
+				} else if dataCriteria.FieldValues["TRANSFER_TO"].CodeListID != "" {
+					codes = vsMap[dataCriteria.FieldValues["TRANSFER_TO"].CodeListID]
+					entries = r.GetEntriesForOids(dataCriteria, codes, dataCriteriaOid, "2.16.840.1.113883.3.560.1.79")
+				}
+			}
 		default:
 			entries = r.GetEntriesForOids(dataCriteria, codes, dataCriteriaOid)
 		}
