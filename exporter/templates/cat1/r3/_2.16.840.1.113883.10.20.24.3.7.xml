@@ -14,10 +14,10 @@
       <high {{valueOrNullFlavor .EntrySection.Entry.EndTime}}/>
     </effectiveTime>
 
-    {{$vset := oidForCode .EntrySection.AnatomicalTarget (index .MapDataCriteria.FieldOids "LATERALITY")}}
+    {{$vset := oidForCode .EntrySection.AnatomicalStructure (index .MapDataCriteria.FieldOids "LATERALITY")}}
     {{if ne $vset ""}}
-      <targetSiteCode code="{{.EntrySection.AnatomicalTarget.Code}}"
-        codeSystem="{{oidForCodeSystem .EntrySection.AnatomicalTarget}}" sdtc:valueSet="{{$vset}}"/>
+      <targetSiteCode code="{{.EntrySection.AnatomicalStructure.Code}}"
+        codeSystem="{{oidForCodeSystem .EntrySection.AnatomicalStructure}}" sdtc:valueSet="{{$vset}}"/>
     {{end}}
     <participant typeCode="DEV">
       <participantRole classCode="MANU">

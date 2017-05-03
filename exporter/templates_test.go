@@ -363,7 +363,7 @@ func TestDeviceAppliedTemplate(t *testing.T) {
 	dataCriteriaName := "device_applied"
 	entryName := "device_applied"
 
-	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Procedure{})
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.MedicalEquipment{})
 
 	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
 
