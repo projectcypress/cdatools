@@ -4,7 +4,7 @@ type Encounter struct {
 	Entry                `bson:",inline"`
 	AdmitTime            *int64            `json:"admitTime,omitempty"`
 	DischargeTime        *int64            `json:"discharge_time,omitempty"`
-	DischargeDisposition map[string]string `json:"discharge_disposition,omitempty"`
+	DischargeDisposition map[string]string `json:"dischargeDisposition,omitempty"`
 	TransferTo           Transfer          `json:"transferTo,omitempty"`
 	TransferFrom         Transfer          `json:"transferFrom,omitempty"`
 	Facility             Facility          `json:"facility,omitempty"`
