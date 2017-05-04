@@ -538,7 +538,7 @@ var _templatesCat1R3_2168401113883102024314Xml = []byte(`<entry>
     <statusCode code="completed"/>
     <effectiveTime>
       <!-- Attribute: Start Datetime -->
-      <low{{valueOrNullFlavor .EntrySection.StartTime}}/>
+      <low {{valueOrNullFlavor .EntrySection.StartTime}}/>
       <!-- Attribute: Stop Datetime -->
       <high {{valueOrNullFlavor .EntrySection.EndTime}}/>
     </effectiveTime>
@@ -560,7 +560,7 @@ func templatesCat1R3_2168401113883102024314Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.14.xml", size: 1732, mode: os.FileMode(420), modTime: time.Unix(1493898679, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.14.xml", size: 1733, mode: os.FileMode(420), modTime: time.Unix(1493898743, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1035,9 +1035,8 @@ var _templatesCat1R3_2168401113883102024338Xml = []byte(`<entry>
       <low {{valueOrNullFlavor .EntrySection.StartTime}}/>
       <high {{valueOrNullFlavor .EntrySection.EndTime}}/>
     </effectiveTime>
-    {{template "_reason.xml" .}}
-
     {{template "_result_value.xml" (.EntrySection.Entry.WrapResultValues .EntrySection.Entry.Values .MapDataCriteria)}}
+    {{template "_reason.xml" .}}
     </observation>
 </entry>`)
 
@@ -1051,7 +1050,7 @@ func templatesCat1R3_2168401113883102024338Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.38.xml", size: 860, mode: os.FileMode(420), modTime: time.Unix(1493898679, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.38.xml", size: 859, mode: os.FileMode(420), modTime: time.Unix(1493898743, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -2025,7 +2024,7 @@ var _templatesCat1R3_codeXml = []byte(`<{{- valueOrDefault .TagName "code" -}}
   {{- if hasPreferredCode .PreferredCode}} code='{{- .PreferredCode.Code}}' codeSystem='{{- oidForCodeSystem .PreferredCode.CodeSystem}}' {{.RenderExtraContent}}
   {{- else}}
     {{- $excludeNullFlavor := valueOrDefault .ExcludeNullFlavor false}}
-    {{- if $excludeNullFlavor}}{{- else}} nillFlavor='UNK'
+    {{- if $excludeNullFlavor}}{{- else}} nullFlavor='UNK'
     {{- end}}
   {{- end -}}
 >
@@ -2055,7 +2054,7 @@ func templatesCat1R3_codeXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_code.xml", size: 1097, mode: os.FileMode(420), modTime: time.Unix(1493898679, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_code.xml", size: 1097, mode: os.FileMode(420), modTime: time.Unix(1493898743, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3165,7 +3164,7 @@ var _templatesCat1R3_1_2168401113883102024314Xml = []byte(`<entry>
     <statusCode code="completed"/>
     <effectiveTime>
       <!-- Attribute: Start Datetime -->
-      <low{{valueOrNullFlavor .EntrySection.StartTime}}/>
+      <low {{valueOrNullFlavor .EntrySection.StartTime}}/>
       <!-- Attribute: Stop Datetime -->
       <high {{valueOrNullFlavor .EntrySection.EndTime}}/>
     </effectiveTime>
@@ -3187,7 +3186,7 @@ func templatesCat1R3_1_2168401113883102024314Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.14.xml", size: 1732, mode: os.FileMode(420), modTime: time.Unix(1493898679, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.14.xml", size: 1733, mode: os.FileMode(420), modTime: time.Unix(1493898743, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }

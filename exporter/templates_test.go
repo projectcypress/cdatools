@@ -38,7 +38,7 @@ func TestCodeTemplate(t *testing.T) {
 
 	// tag name is "code", no preferred code, exclude null flavor false
 	codeDisplay = models.CodeDisplay{CodeType: "my_code_type", TagName: "code", Attribute: "my_attr", ExcludeNullFlavor: false, ExtraContent: "extra_stuff"}
-	assertXPath(t, xmlCodeRootNode(codeDisplay), "//code", map[string]string{"nillFlavor": "UNK"}, nil)
+	assertXPath(t, xmlCodeRootNode(codeDisplay), "//code", map[string]string{"nullFlavor": "UNK"}, nil)
 
 	// attribute is "codes"
 	codeDisplay = models.CodeDisplay{CodeType: "my_code_type", Attribute: "codes"}
