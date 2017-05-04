@@ -26,12 +26,13 @@ type RecordGroup struct {
 	Medications          MedicationGroup          `json:"medications, omitempty"`
 	Allergies            AllergyGroup             `json:"allergies,omitempty"`
 	Conditions           ConditionGroup           `json:"conditions,omitempty"`
+	VitalSigns           VitalSignGroup           `json:"vital_signs,omitempty"`
+	Communications       CommunicationGroup       `json:"communications,omitempty"`
+	MedicalEquipment     MedicalEquipmentGroup    `json:"medical_equipment,omitempty"`
 
 	// These weren't in the Entries() method.
-	Languages        LanguagesGroup        `json:"languages,omitempty"`
-	Communications   CommunicationGroup    `json:"communications,omitempty"`
-	MedicalEquipment MedicalEquipmentGroup `json:"medical_equipment,omitempty"`
-	CareGoals        EntryGroup            `json:"care_goals,omitempty"`
+	Languages LanguagesGroup `json:"languages,omitempty"`
+	CareGoals EntryGroup     `json:"care_goals,omitempty"`
 }
 
 type Language struct {
@@ -50,6 +51,7 @@ type AllergyGroup []Allergy
 type ConditionGroup []Condition
 type CommunicationGroup []Communication
 type MedicalEquipmentGroup []MedicalEquipment
+type VitalSignGroup []VitalSign
 
 type EntryService interface {
 	EntriesForDataCriteria(DataCriteria) EntryGroup
@@ -91,6 +93,18 @@ func (r *Record) Entries() []HasEntry {
 
 	for i := range r.Conditions {
 		entries = append(entries, &r.Conditions[i])
+	}
+
+	for i := range r.VitalSigns {
+		entries = append(entries, &r.VitalSigns[i])
+	}
+
+	for i := range r.Communications {
+		entries = append(entries, &r.Communications[i])
+	}
+
+	for i := range r.MedicalEquipment {
+		entries = append(entries, &r.MedicalEquipment[i])
 	}
 
 	return entries
