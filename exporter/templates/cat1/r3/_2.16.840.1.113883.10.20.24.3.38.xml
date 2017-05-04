@@ -11,8 +11,7 @@
       <low {{valueOrNullFlavor .EntrySection.StartTime}}/>
       <high {{valueOrNullFlavor .EntrySection.EndTime}}/>
     </effectiveTime>
-    {{template "_reason.xml" .}}
-
     {{template "_result_value.xml" (.EntrySection.Entry.WrapResultValues .EntrySection.Entry.Values .MapDataCriteria)}}
+    {{template "_reason.xml" .}}
     </observation>
 </entry>
