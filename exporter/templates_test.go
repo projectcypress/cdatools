@@ -437,8 +437,7 @@ func TestDiagnosticStudyOrderTemplate(t *testing.T) {
 	assertContent(t, xrn, "//entry/observation/text", "Diagnostic Study, Order: VTE Diagnostic Test")
 	assertXPath(t, xrn, "//entry/observation/effectiveTime/low", map[string]string{"value": "201505050700+0000"}, nil)
 	assertXPath(t, xrn, "//entry/observation/effectiveTime/high", map[string]string{"value": "201505050700+0000"}, nil)
-	assertXPath(t, xrn, "//entry/observation/author/time/low", map[string]string{"value": "201505050700+0000"}, nil)
-	assertXPath(t, xrn, "//entry/observation/author/time/high", map[string]string{"value": "201505050700+0000"}, nil)
+	assertXPath(t, xrn, "//entry/observation/author/time", map[string]string{"value": "201505050700+0000"}, nil)
 }
 
 func TestDiagnosticStudyPerformedTemplate(t *testing.T) {
