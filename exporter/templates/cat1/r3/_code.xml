@@ -2,7 +2,7 @@
   {{- if hasPreferredCode .PreferredCode}} code='{{- .PreferredCode.Code}}' codeSystem='{{- oidForCodeSystem .PreferredCode.CodeSystem}}' {{.RenderExtraContent}}
   {{- else}}
     {{- $excludeNullFlavor := valueOrDefault .ExcludeNullFlavor false}}
-    {{- if $excludeNullFlavor}}{{- else}} nullFlavor='UNK'
+    {{- if $excludeNullFlavor}}{{- else}} nullFlavor='UNK' xsi:type="CD"
     {{- end}}
   {{- end -}}
 >
