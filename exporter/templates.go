@@ -2006,7 +2006,7 @@ var _templatesCat1R3_codeXml = []byte(`<{{- valueOrDefault .TagName "code" -}}
   {{- if hasPreferredCode .PreferredCode}} code='{{- .PreferredCode.Code}}' codeSystem='{{- oidForCodeSystem .PreferredCode.CodeSystem}}' {{.RenderExtraContent}}
   {{- else}}
     {{- $excludeNullFlavor := valueOrDefault .ExcludeNullFlavor false}}
-    {{- if $excludeNullFlavor}}{{- else}} nullFlavor='UNK'
+    {{- if $excludeNullFlavor}}{{- else}} nullFlavor='UNK' xsi:type="CD"
     {{- end}}
   {{- end -}}
 >
@@ -2036,7 +2036,7 @@ func templatesCat1R3_codeXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_code.xml", size: 1097, mode: os.FileMode(420), modTime: time.Unix(1494268262, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_code.xml", size: 1111, mode: os.FileMode(420), modTime: time.Unix(1494268322, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4623,7 +4623,7 @@ var _templatesCat1R3_1_codeXml = []byte(`<{{- valueOrDefault .TagName "code" -}}
   {{- if hasPreferredCode .PreferredCode}} code='{{- .PreferredCode.Code}}' codeSystem='{{- oidForCodeSystem .PreferredCode.CodeSystem}}' {{.RenderExtraContent}}
   {{- else}}
     {{- $excludeNullFlavor := valueOrDefault .ExcludeNullFlavor false}}
-    {{- if $excludeNullFlavor}}{{- else}} nullFlavor='UNK'
+    {{- if $excludeNullFlavor}}{{- else}} nullFlavor='UNK' xsi:type="CD"
     {{- end}}
   {{- end -}}
 >
@@ -4653,7 +4653,7 @@ func templatesCat1R3_1_codeXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_code.xml", size: 1097, mode: os.FileMode(420), modTime: time.Unix(1494268262, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_code.xml", size: 1111, mode: os.FileMode(420), modTime: time.Unix(1494268334, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
