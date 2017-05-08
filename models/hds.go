@@ -525,7 +525,7 @@ var hqmf_qrda_oids = []byte(`[
         "tag_name": "code",
         "attribute": "",
         "exclude_null_flavor": false,
-        "extra_content": "",
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "CPT", "HCPCS", "CDT"]
       }
     ]
