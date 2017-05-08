@@ -15,7 +15,13 @@
       <high {{valueOrNullFlavor .EntrySection.Entry.EndTime}}/>
     </effectiveTime>
     <!-- Attribute: datetime -->
-    {{template "_author.xml" .EntrySection.Entry}}
+    <author>
+      <templateId root="2.16.840.1.113883.10.20.22.4.119"/>
+      <time {{valueOrNullFlavor .EntrySection.AsPointInTime}}/>
+      <assignedAuthor>
+        <id nullFlavor="NA" root="{{newRandom}}"/>
+      </assignedAuthor>
+    </author>
     {{template "_reason.xml" .}}
   </observation>
 </entry>

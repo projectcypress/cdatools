@@ -584,10 +584,7 @@ var _templatesCat1R3_2168401113883102024317Xml = []byte(`<entry>
     <!-- Attribute: datetime -->
     <author>
       <templateId root="2.16.840.1.113883.10.20.22.4.119"/>
-      <time>
-        <low {{valueOrNullFlavor .EntrySection.Entry.StartTime}}/>
-        <high {{valueOrNullFlavor .EntrySection.Entry.EndTime}}/>
-      </time>
+      <time {{valueOrNullFlavor .EntrySection.AsPointInTime}}/>
       <assignedAuthor>
         <id nullFlavor="NA" root="{{newRandom}}"/>
       </assignedAuthor>
@@ -607,7 +604,7 @@ func templatesCat1R3_2168401113883102024317Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.17.xml", size: 1418, mode: os.FileMode(420), modTime: time.Unix(1494268262, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.17.xml", size: 1322, mode: os.FileMode(420), modTime: time.Unix(1494268345, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3190,7 +3187,13 @@ var _templatesCat1R3_1_2168401113883102024317Xml = []byte(`<entry>
       <high {{valueOrNullFlavor .EntrySection.Entry.EndTime}}/>
     </effectiveTime>
     <!-- Attribute: datetime -->
-    {{template "_author.xml" .EntrySection.Entry}}
+    <author>
+      <templateId root="2.16.840.1.113883.10.20.22.4.119"/>
+      <time {{valueOrNullFlavor .EntrySection.AsPointInTime}}/>
+      <assignedAuthor>
+        <id nullFlavor="NA" root="{{newRandom}}"/>
+      </assignedAuthor>
+    </author>
     {{template "_reason.xml" .}}
   </observation>
 </entry>
@@ -3206,7 +3209,7 @@ func templatesCat1R3_1_2168401113883102024317Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.17.xml", size: 1124, mode: os.FileMode(420), modTime: time.Unix(1494268262, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.17.xml", size: 1322, mode: os.FileMode(420), modTime: time.Unix(1494268345, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
