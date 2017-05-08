@@ -216,8 +216,8 @@ func (r *Record) EntriesForDataCriteria(dataCriteria DataCriteria, vsMap map[str
 
 func (r *Record) handlePatientExpired() []HasEntry {
 	if r.Expired {
-		exp := make([]HasEntry, 1)
-		return append(exp, &Entry{StartTime: r.DeathDate})
+		var exp []HasEntry
+		return append(exp, &Entry{StartTime: r.DeathDate, Oid: "2.16.840.1.113883.3.560.1.404"})
 	}
 	return nil
 }
