@@ -320,7 +320,7 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "xsi:type=\"CD\" sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
-        "required_code_sets": ["2.16.840.1.113883.3.88.12.3221.7.4"],
+        "preferred_code_sets": ["2.16.840.1.113883.3.88.12.3221.7.4"],
         "code_set_required": true,
         "value_set_preferred": true
       }
@@ -338,7 +338,7 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "xsi:type=\"CD\" sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
-        "required_code_sets": ["2.16.840.1.113883.3.88.12.3221.7.2"],
+        "preferred_code_sets": ["2.16.840.1.113883.3.88.12.3221.7.2"],
         "code_set_required": true,
         "value_set_preferred": true
       }
@@ -822,7 +822,7 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "",
-        "required_code_sets": ["2.16.840.1.113762.1.4.1010.4"],
+        "preferred_code_sets": ["2.16.840.1.113762.1.4.1010.4"],
         "code_set_required": true,
         "value_set_preferred": true
       }
