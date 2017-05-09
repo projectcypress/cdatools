@@ -58,35 +58,49 @@ func exporterFuncMap(cat1Template *template.Template, vsMap models.ValueSetMap) 
 	}
 }
 
-//export GenerateCat1
-func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate int64, endDate int64, qrdaVersion string) string {
+// Global template for Cat1
+var cat1Template *template.Template
 
-	p := &models.Record{}
-	m := []models.Measure{}
-	vs := []models.ValueSet{}
+// Global Measure Data for a batch of patients
+var m []models.Measure
 
-	json.Unmarshal(patient, p)
+// Global Value Set Data for a batch of patients
+var vs []models.ValueSet
+
+// Global ValueSetMap for a batch of patients
+var vsMap models.ValueSetMap
+
+//export ExporterCat1Init
+func ExporterCat1Init(measures []byte, valueSets []byte, version string) {
 	json.Unmarshal(measures, &m)
 	json.Unmarshal(valueSets, &vs)
 
-	vsMap := models.NewValueSetMap(vs)
+	vsMap = models.NewValueSetMap(vs)
+
+	cat1Template = template.New("cat1" + version)
+	cat1Template.Funcs(exporterFuncMap(cat1Template, vsMap))
+
+	data, err := AssetDir("templates/cat1/" + version)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	for _, d := range data {
+		asset, _ := Asset("templates/cat1/" + version + "/" + d)
+		template.Must(cat1Template.New(d).Parse(string(asset)))
+	}
+}
+
+//export GenerateCat1
+func GenerateCat1(patient []byte, startDate int64, endDate int64, qrdaVersion string) string {
+
+	p := &models.Record{}
+	json.Unmarshal(patient, p)
 
 	if qrdaVersion == "" {
 		qrdaVersion = "r3"
 	}
 
-	data, err := AssetDir("templates/cat1/" + qrdaVersion)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	cat1Template := template.New("cat1")
-	cat1Template.Funcs(exporterFuncMap(cat1Template, vsMap))
-
-	for _, d := range data {
-		asset, _ := Asset("templates/cat1/" + qrdaVersion + "/" + d)
-		template.Must(cat1Template.New(d).Parse(string(asset)))
-	}
 	var atime1 = new(int64)
 	var atime2 = new(int64)
 	*atime1 = 1449686219
@@ -239,7 +253,7 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 
 	var b bytes.Buffer
 
-	err = cat1Template.ExecuteTemplate(&b, "cat1.xml", c1d)
+	err := cat1Template.ExecuteTemplate(&b, "cat1.xml", c1d)
 
 	if err != nil {
 		fmt.Println(err)
