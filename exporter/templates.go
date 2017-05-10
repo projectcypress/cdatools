@@ -3761,9 +3761,7 @@ var _templatesCat1R3_1_216840111388310202434Xml = []byte(`<entry>
 
 		{{template "_reason.xml" .}}
 
-		{{range .EntrySection.References}}
-				{{template "_fulfills.xml" .}}
-		{{end}}
+		{{template "_fulfills.xml" .EntrySection.Entry}}
 
 	</act>
 </entry>
@@ -3779,7 +3777,7 @@ func templatesCat1R3_1_216840111388310202434Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.4.xml", size: 1277, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.4.xml", size: 1246, mode: os.FileMode(420), modTime: time.Unix(1494446619, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }

@@ -7,7 +7,7 @@ import (
 )
 
 type PopulationGroup struct {
-	Populations []Population
+	Populations []Population `json:"populations,omitempty"`
 }
 
 // Find Finds the type of population given.
