@@ -120,7 +120,7 @@ var TestPatientDataAmi = []byte(`
       },
       "time": null,
       "transferFrom": {
-        "code": "73770003",
+        "code": "434771000124107",
         "code_system": "SNOMED-CT",
         "codes": {
         },
