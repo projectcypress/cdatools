@@ -34,7 +34,7 @@ func TestCodeDisplayForQrdaOid(t *testing.T) {
 
 	// qrda oid with multiple code displays
 	codeDisplays = hds.CodeDisplayForQrdaOid("2.16.840.1.113883.10.20.24.3.23", "r3_1")
-	assert.Equal(t, 3, len(codeDisplays))
+	assert.Equal(t, 4, len(codeDisplays))
 	if len(codeDisplays) > 0 {
 		assert.Equal(t, "entryCode", codeDisplays[0].CodeType)
 		assert.Equal(t, "code", codeDisplays[0].TagName)
@@ -71,7 +71,7 @@ func TestSetCodeDisplaysForEntry(t *testing.T) {
 	mapDataCriteria := Mdc{}
 	assert.Equal(t, 0, len(entry.CodeDisplays))
 	hds.SetCodeDisplaysForEntry(entry, mapDataCriteria, "r3")
-	assert.Equal(t, 3, len(entry.CodeDisplays)) // three code displays the encounter performed entry
+	assert.Equal(t, 4, len(entry.CodeDisplays)) // three code displays the encounter performed entry
 }
 
 func TestAllPreferredCodeSetsIfNeeded(t *testing.T) {
