@@ -4,6 +4,22 @@ var Cms9_26 = []byte(`
 [{
   "concepts": [
     {
+      "black_list": false,
+      "code": "434771000124107",
+      "code_system": "2.16.840.1.113883.6.96",
+      "code_system_name": "SNOMED-CT",
+      "code_system_version": "2015-03",
+      "display_name": "Acute care hospital (environment)",
+      "white_list": false
+    }
+  ],
+  "display_name": "Acute care hospital",
+  "oid": "2.16.840.1.113883.3.666.5.684",
+  "version": "20150430"
+ },
+ {
+  "concepts": [
+    {
       "code": "10378005",
       "code_system": "2.16.840.1.113883.6.96",
       "code_system_name": "SNOMED-CT",
