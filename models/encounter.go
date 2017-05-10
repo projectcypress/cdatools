@@ -8,7 +8,7 @@ type Encounter struct {
 	TransferTo           Transfer          `json:"transferTo,omitempty"`
 	TransferFrom         Transfer          `json:"transferFrom,omitempty"`
 	Facility             Facility          `json:"facility,omitempty"`
-	PrincipalDiagnosis   Coded             `json:"principal_diagnosis,omitempty"`
+	PrincipalDiagnosis   Coded             `json:"principalDiagnosis,omitempty"`
 	Diagnosis            Coded             `json:"diagnosis,omitempty"`
 }
 
