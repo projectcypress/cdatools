@@ -61,5 +61,13 @@
     {{if .EntrySection.Reason}}
       {{template "_reason.xml" .}}
     {{end}}
+    {{if .EntrySection.PrincipalDiagnosis}}
+      <entryRelationship typeCode="REFR">
+          <observation classCode="OBS" moodCode="EVN">
+            <code code="8319008" codeSystem="2.16.840.1.113883.6.96" displayName="Principal Diagnosis" codeSystemName="SNOMED CT"/>
+            {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.PrincipalDiagnosis .MapDataCriteria "principalDiagnosis"}}
+          </observation>
+      </entryRelationship
+    {{end}}
   </encounter>
 </entry>
