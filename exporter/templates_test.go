@@ -308,6 +308,13 @@ func TestEncounterPerformedTemplate(t *testing.T) {
 	assertXPath(t, rootNode, "//entry/encounter/entryRelationship/observation/value", map[string]string{"code": "8715000", "codeSystem": "2.16.840.1.113883.6.96"}, nil)
 }
 
+func TestTransferFromTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.81"
+
+	rootNode := xmlRootNodeForQrdaOid(qrdaOid)
+	assertXPath(t, rootNode, "//entry/act/entryRelationship/encounter/templateId[@root='2.16.840.1.113883.10.20.24.3.81']", nil, nil)
+}
+
 func TestCommunicationFromPatientToProviderTemplate(t *testing.T) {
 	qrdaOid := "2.16.840.1.113883.10.20.24.3.2"
 	dataCriteriaName := "communication_patient_to_provider"
