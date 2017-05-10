@@ -34,7 +34,16 @@ func TestMeasureSectionPrint(t *testing.T) {
 	}
 }
 
-var measureSectionCat3TestTemplate = `<entry>
+var measureSectionCat3TestTemplate = `<component><structuredBody><component><section>
+	<!-- Implied template Measure Section templateId -->
+	<templateId root="2.16.840.1.113883.10.20.24.2.2"/>
+	<!-- In this case the query is using an eMeasure -->
+	<!-- QRDA Category III Measure Section template -->
+	<templateId extension="2016-09-01" root="2.16.840.1.113883.10.20.27.2.1"/>
+	<code code="55186-1" codeSystem="2.16.840.1.113883.6.1"/>
+	<title>Measure Section</title>
+	<text/>
+	<entry>
 <organizer classCode="CLUSTER" moodCode="EVN">
 	<!-- Implied template Measure Reference templateId -->
 	<templateId root="2.16.840.1.113883.10.20.24.3.98"/>
@@ -57,4 +66,7 @@ var measureSectionCat3TestTemplate = `<entry>
 	</externalDocument>
 	</reference>
 </organizer>
-</entry>`
+</entry></section>
+	</component>
+	</structuredBody>
+	</component>`

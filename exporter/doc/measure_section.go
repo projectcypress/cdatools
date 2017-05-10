@@ -67,7 +67,16 @@ func (ms MeasureSection) Print() string {
 
 // TODO: UUID.generate for when ID does not exist
 func (ms MeasureSection) cat3Template() string {
-	t := `{{ $ms := . }}<entry>
+	t := `{{ $ms := . }}<component><structuredBody><component><section>
+	<!-- Implied template Measure Section templateId -->
+	<templateId root="2.16.840.1.113883.10.20.24.2.2"/>
+	<!-- In this case the query is using an eMeasure -->
+	<!-- QRDA Category III Measure Section template -->
+	<templateId extension="2016-09-01" root="2.16.840.1.113883.10.20.27.2.1"/>
+	<code code="55186-1" codeSystem="2.16.840.1.113883.6.1"/>
+	<title>Measure Section</title>
+	<text/>
+	<entry>
 <organizer classCode="CLUSTER" moodCode="EVN">
 	<!-- Implied template Measure Reference templateId -->
 	<templateId root="2.16.840.1.113883.10.20.24.3.98"/>
@@ -99,11 +108,14 @@ func (ms MeasureSection) cat3Template() string {
 	{{- end }}
 	{{- range $pop := $aggregateCount.Populations }}
 	{{- if (ne $pop.Type "OBSERV") }}
-	{{- $md := $ms.CreateMeasureData $pop $aggregateCount.FindObserv }}
+	{{- $md := $ms.CreateMeasureData $pop $pop }}
 	{{- $md.Print }}
 	{{- end }}
 	{{- end }}
 </organizer>
-</entry>`
+</entry></section>
+	</component>
+	</structuredBody>
+	</component>`
 	return t
 }

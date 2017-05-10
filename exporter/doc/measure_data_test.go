@@ -41,6 +41,7 @@ func TestMeasureDataPrint(t *testing.T) {
 }
 
 var measureDataCat3TestTemplate = `<!--	MEASURE DATA REPORTING FOR	%s %s	-->
+<component>
 <observation classCode="OBS" moodCode="EVN">
 	<!--	Measure Data template	-->
 	<templateId root="2.16.840.1.113883.10.20.27.3.5" extension="2016-09-01"/>
@@ -147,4 +148,4 @@ var measureDataCat3TestTemplate = `<!--	MEASURE DATA REPORTING FOR	%s %s	-->
 				<id root="%s"/>
 		 </externalObservation>
 	</reference>
-</observation>`
+</observation></component>`

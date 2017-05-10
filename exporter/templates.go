@@ -63,6 +63,7 @@
 // exporter/templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.11.xml
 // exporter/templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.12.xml
 // exporter/templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.13.xml
+// exporter/templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.135.xml
 // exporter/templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.14.xml
 // exporter/templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.17.xml
 // exporter/templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.18.xml
@@ -93,6 +94,8 @@
 // exporter/templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.69.xml
 // exporter/templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.7.xml
 // exporter/templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.76.xml
+// exporter/templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.81.xml
+// exporter/templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.82.xml
 // exporter/templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.9.xml
 // exporter/templates/cat1/r3_1/_address.xml
 // exporter/templates/cat1/r3_1/_author.xml
@@ -171,7 +174,7 @@ func templatesCat1R3_Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_.xml", size: 48, mode: os.FileMode(420), modTime: time.Unix(1475851234, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_.xml", size: 48, mode: os.FileMode(420), modTime: time.Unix(1493311295, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -201,7 +204,7 @@ func templatesCat1R3_216840111388310202431Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.1.xml", size: 670, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.1.xml", size: 670, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -232,7 +235,7 @@ func templatesCat1R3_21684011138831020243103Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.103.xml", size: 724, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.103.xml", size: 724, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -315,7 +318,7 @@ func templatesCat1R3_21684011138831020243105Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.105.xml", size: 3123, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.105.xml", size: 3123, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -388,7 +391,7 @@ func templatesCat1R3_2168401113883102024311Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.11.xml", size: 2802, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.11.xml", size: 2802, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -452,7 +455,7 @@ func templatesCat1R3_2168401113883102024312Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.12.xml", size: 2090, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.12.xml", size: 2090, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -507,7 +510,7 @@ func templatesCat1R3_2168401113883102024313Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.13.xml", size: 1702, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.13.xml", size: 1702, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -561,7 +564,7 @@ func templatesCat1R3_2168401113883102024314Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.14.xml", size: 1732, mode: os.FileMode(420), modTime: time.Unix(1494460523, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.14.xml", size: 1732, mode: os.FileMode(420), modTime: time.Unix(1494510705, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -608,7 +611,7 @@ func templatesCat1R3_2168401113883102024317Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.17.xml", size: 1418, mode: os.FileMode(420), modTime: time.Unix(1494460523, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.17.xml", size: 1418, mode: os.FileMode(420), modTime: time.Unix(1494510705, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -648,7 +651,7 @@ func templatesCat1R3_2168401113883102024318Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.18.xml", size: 1217, mode: os.FileMode(420), modTime: time.Unix(1494449609, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.18.xml", size: 1217, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -699,7 +702,7 @@ func templatesCat1R3_216840111388310202432Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.2.xml", size: 1354, mode: os.FileMode(420), modTime: time.Unix(1494460523, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.2.xml", size: 1354, mode: os.FileMode(420), modTime: time.Unix(1494510705, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -738,7 +741,7 @@ func templatesCat1R3_2168401113883102024322Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.22.xml", size: 896, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.22.xml", size: 896, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -822,7 +825,7 @@ func templatesCat1R3_2168401113883102024323Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.23.xml", size: 3120, mode: os.FileMode(420), modTime: time.Unix(1494460523, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.23.xml", size: 3120, mode: os.FileMode(420), modTime: time.Unix(1494510705, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -862,7 +865,7 @@ func templatesCat1R3_2168401113883102024326Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.26.xml", size: 1089, mode: os.FileMode(420), modTime: time.Unix(1494449609, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.26.xml", size: 1089, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -905,7 +908,7 @@ func templatesCat1R3_216840111388310202433Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.3.xml", size: 1108, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.3.xml", size: 1108, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -944,7 +947,7 @@ func templatesCat1R3_2168401113883102024331Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.31.xml", size: 1025, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.31.xml", size: 1025, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -980,7 +983,7 @@ func templatesCat1R3_2168401113883102024332Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.32.xml", size: 1011, mode: os.FileMode(420), modTime: time.Unix(1494449609, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.32.xml", size: 1011, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1018,7 +1021,7 @@ func templatesCat1R3_2168401113883102024337Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.37.xml", size: 995, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.37.xml", size: 995, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1052,7 +1055,7 @@ func templatesCat1R3_2168401113883102024338Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.38.xml", size: 860, mode: os.FileMode(420), modTime: time.Unix(1494460523, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.38.xml", size: 860, mode: os.FileMode(420), modTime: time.Unix(1494510705, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1098,7 +1101,7 @@ func templatesCat1R3_216840111388310202434Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.4.xml", size: 1243, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.4.xml", size: 1243, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1159,7 +1162,7 @@ func templatesCat1R3_2168401113883102024341Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.41.xml", size: 1985, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.41.xml", size: 1985, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1213,7 +1216,7 @@ func templatesCat1R3_2168401113883102024342Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.42.xml", size: 1897, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.42.xml", size: 1897, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1253,7 +1256,7 @@ func templatesCat1R3_2168401113883102024343Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.43.xml", size: 1186, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.43.xml", size: 1186, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1294,7 +1297,7 @@ func templatesCat1R3_2168401113883102024344Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.44.xml", size: 1238, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.44.xml", size: 1238, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1336,7 +1339,7 @@ func templatesCat1R3_2168401113883102024345Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.45.xml", size: 1184, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.45.xml", size: 1184, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1382,7 +1385,7 @@ func templatesCat1R3_2168401113883102024346Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.46.xml", size: 1230, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.46.xml", size: 1230, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1445,7 +1448,7 @@ func templatesCat1R3_2168401113883102024347Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.47.xml", size: 2194, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.47.xml", size: 2194, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1475,7 +1478,7 @@ func templatesCat1R3_2168401113883102024351Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.51.xml", size: 616, mode: os.FileMode(420), modTime: time.Unix(1490660114, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.51.xml", size: 616, mode: os.FileMode(420), modTime: time.Unix(1492793736, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1521,7 +1524,7 @@ func templatesCat1R3_2168401113883102024354Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.54.xml", size: 1438, mode: os.FileMode(420), modTime: time.Unix(1494460523, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.54.xml", size: 1438, mode: os.FileMode(420), modTime: time.Unix(1494510705, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1555,7 +1558,7 @@ func templatesCat1R3_2168401113883102024355Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.55.xml", size: 813, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.55.xml", size: 813, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1591,7 +1594,7 @@ func templatesCat1R3_2168401113883102024359Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.59.xml", size: 1058, mode: os.FileMode(420), modTime: time.Unix(1494449609, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.59.xml", size: 1058, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1643,7 +1646,7 @@ func templatesCat1R3_2168401113883102024362Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.62.xml", size: 1706, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.62.xml", size: 1706, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1680,7 +1683,7 @@ func templatesCat1R3_2168401113883102024363Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.63.xml", size: 1011, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.63.xml", size: 1011, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1747,7 +1750,7 @@ func templatesCat1R3_2168401113883102024364Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.64.xml", size: 2554, mode: os.FileMode(420), modTime: time.Unix(1494449609, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.64.xml", size: 2554, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1784,7 +1787,7 @@ func templatesCat1R3_2168401113883102024369Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.69.xml", size: 1027, mode: os.FileMode(420), modTime: time.Unix(1494449609, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.69.xml", size: 1027, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1831,7 +1834,7 @@ func templatesCat1R3_216840111388310202437Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.7.xml", size: 1494, mode: os.FileMode(420), modTime: time.Unix(1494460523, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.7.xml", size: 1494, mode: os.FileMode(420), modTime: time.Unix(1494510705, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1866,7 +1869,7 @@ func templatesCat1R3_2168401113883102024376Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.76.xml", size: 908, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.76.xml", size: 908, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1943,7 +1946,7 @@ func templatesCat1R3_216840111388310202439Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.9.xml", size: 2445, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.9.xml", size: 2445, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1969,7 +1972,7 @@ func templatesCat1R3_addressXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_address.xml", size: 291, mode: os.FileMode(420), modTime: time.Unix(1475851234, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_address.xml", size: 291, mode: os.FileMode(420), modTime: time.Unix(1492793736, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -2017,7 +2020,7 @@ func templatesCat1R3_authorXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_author.xml", size: 814, mode: os.FileMode(420), modTime: time.Unix(1484771826, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_author.xml", size: 814, mode: os.FileMode(420), modTime: time.Unix(1492793736, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -2056,7 +2059,7 @@ func templatesCat1R3_codeXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_code.xml", size: 1097, mode: os.FileMode(420), modTime: time.Unix(1494460523, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_code.xml", size: 1097, mode: os.FileMode(420), modTime: time.Unix(1494510705, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -2082,7 +2085,7 @@ func templatesCat1R3_fulfillsXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_fulfills.xml", size: 401, mode: os.FileMode(420), modTime: time.Unix(1487786542, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_fulfills.xml", size: 401, mode: os.FileMode(420), modTime: time.Unix(1492793736, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -2100,7 +2103,7 @@ func templatesCat1R3_idXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_id.xml", size: 84, mode: os.FileMode(420), modTime: time.Unix(1475851234, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_id.xml", size: 84, mode: os.FileMode(420), modTime: time.Unix(1492793736, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -2182,7 +2185,7 @@ func templatesCat1R3_measuresXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_measures.xml", size: 2610, mode: os.FileMode(420), modTime: time.Unix(1490660114, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_measures.xml", size: 2610, mode: os.FileMode(420), modTime: time.Unix(1492793736, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -2212,7 +2215,7 @@ func templatesCat1R3_medication_detailsXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_medication_details.xml", size: 594, mode: os.FileMode(420), modTime: time.Unix(1484244257, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_medication_details.xml", size: 594, mode: os.FileMode(420), modTime: time.Unix(1492793736, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -2251,7 +2254,7 @@ func templatesCat1R3_medication_dispenseXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_medication_dispense.xml", size: 1097, mode: os.FileMode(420), modTime: time.Unix(1490660114, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_medication_dispense.xml", size: 1097, mode: os.FileMode(420), modTime: time.Unix(1493239144, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -2274,7 +2277,7 @@ func templatesCat1R3_ordinalityXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_ordinality.xml", size: 406, mode: os.FileMode(420), modTime: time.Unix(1482262669, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_ordinality.xml", size: 406, mode: os.FileMode(420), modTime: time.Unix(1492793736, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -2305,7 +2308,7 @@ func templatesCat1R3_organizationXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_organization.xml", size: 378, mode: os.FileMode(420), modTime: time.Unix(1475851234, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_organization.xml", size: 378, mode: os.FileMode(420), modTime: time.Unix(1492793736, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -2339,7 +2342,7 @@ func templatesCat1R3_patient_dataXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_patient_data.xml", size: 501, mode: os.FileMode(420), modTime: time.Unix(1490660114, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_patient_data.xml", size: 501, mode: os.FileMode(420), modTime: time.Unix(1493311295, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -2413,7 +2416,7 @@ func templatesCat1R3_providersXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_providers.xml", size: 2078, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_providers.xml", size: 2078, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -2448,7 +2451,7 @@ func templatesCat1R3_reasonXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_reason.xml", size: 966, mode: os.FileMode(420), modTime: time.Unix(1482262669, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_reason.xml", size: 966, mode: os.FileMode(420), modTime: time.Unix(1492793736, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -2527,7 +2530,7 @@ func templatesCat1R3_record_targetXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_record_target.xml", size: 2634, mode: os.FileMode(420), modTime: time.Unix(1490660114, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_record_target.xml", size: 2634, mode: os.FileMode(420), modTime: time.Unix(1492793736, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -2569,7 +2572,7 @@ func templatesCat1R3_reporting_parametersXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_reporting_parameters.xml", size: 1102, mode: os.FileMode(420), modTime: time.Unix(1490660114, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_reporting_parameters.xml", size: 1102, mode: os.FileMode(420), modTime: time.Unix(1492793736, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -2601,7 +2604,7 @@ func templatesCat1R3_result_valueXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_result_value.xml", size: 654, mode: os.FileMode(420), modTime: time.Unix(1494449609, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_result_value.xml", size: 654, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -2619,7 +2622,7 @@ func templatesCat1R3_telecomXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_telecom.xml", size: 65, mode: os.FileMode(420), modTime: time.Unix(1475851234, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_telecom.xml", size: 65, mode: os.FileMode(420), modTime: time.Unix(1492793736, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -2781,7 +2784,7 @@ func templatesCat1R3Cat1Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/cat1.xml", size: 5208, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/cat1.xml", size: 5208, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -2798,7 +2801,7 @@ func templatesCat1R3_1_Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_.xml", size: 48, mode: os.FileMode(420), modTime: time.Unix(1475851234, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_.xml", size: 48, mode: os.FileMode(420), modTime: time.Unix(1492793736, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -2828,7 +2831,7 @@ func templatesCat1R3_1_216840111388310202431Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.1.xml", size: 670, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.1.xml", size: 670, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -2859,7 +2862,7 @@ func templatesCat1R3_1_21684011138831020243103Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.103.xml", size: 724, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.103.xml", size: 724, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -2942,7 +2945,7 @@ func templatesCat1R3_1_21684011138831020243105Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.105.xml", size: 3124, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.105.xml", size: 3124, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3015,7 +3018,7 @@ func templatesCat1R3_1_2168401113883102024311Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.11.xml", size: 2802, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.11.xml", size: 2802, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3079,7 +3082,7 @@ func templatesCat1R3_1_2168401113883102024312Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.12.xml", size: 2090, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.12.xml", size: 2090, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3134,7 +3137,79 @@ func templatesCat1R3_1_2168401113883102024313Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.13.xml", size: 1702, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.13.xml", size: 1702, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
+	a := &asset{bytes: bytes, info: info}
+	return a, nil
+}
+
+var _templatesCat1R3_1_21684011138831020243135Xml = []byte(`<entry> 
+  <act classCode="ACT" moodCode="EVN">
+  <!-- Conforms to C-CDA 2.1 Problem Concern Act (V3) -->
+  <templateId root="2.16.840.1.113883.10.20.22.4.3" extension="2015-08-01" />
+  <!-- Diagnosis Concern Act -->
+  <templateId root="2.16.840.1.113883.10.20.24.3.137" />
+  <id root="{{newRandom}}" />
+  <code code="CONC" codeSystem="2.16.840.1.113883.5.6" displayName="Concern" />
+  <!-- The statusCode represents whether this is an active (active),       inactive (suspended) or resolved (completed) diagnosis -->    
+  <statusCode code="active" />
+  <effectiveTime>
+      <!-- Attribute: admission datetime -->
+      <low {{valueOrNullFlavor .EntrySection.StartTime}}/>
+      <!-- Attribute: discharge datetime -->
+      <high {{valueOrNullFlavor .EntrySection.EndTime}}/>
+    </effectiveTime>
+  <entryRelationship typeCode="SUBJ">
+  <observation classCode="OBS" moodCode="EVN">
+    <!--  Problem observation template -->
+    <templateId root="2.16.840.1.113883.10.20.22.4.4" extension="2015-08-01"/>
+    <!-- Diagnosis template -->
+    <templateId root="2.16.840.1.113883.10.20.24.3.135" />
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
+    <code code="29308-4" codeSystem="2.16.840.1.113883.6.1">
+      <translation code="282291009" codeSystem="2.16.840.1.113883.6.96"/>
+    </code>
+    <statusCode code="completed"/>
+    <effectiveTime>
+      <!-- Attribute: admission datetime -->
+      <low {{valueOrNullFlavor .EntrySection.StartTime}}/>
+      <!-- Attribute: discharge datetime -->
+      <high {{valueOrNullFlavor .EntrySection.EndTime}}/>
+    </effectiveTime>
+    {{template "_code.xml" codeDisplayWithPreferredCodeAndLaterality .EntrySection.Entry .EntrySection.Entry.Coded "entryCode" .EntrySection.Laterality .MapDataCriteria}}
+    {{if .EntrySection.HasSetSeverity}}
+    <entryRelationship typeCode="REFR">
+       <observation classCode="OBS" moodCode="EVN">
+          <templateId root="2.16.840.1.113883.10.20.22.4.8" extension="2014-06-09"/>
+          <code code="SEV" 
+                codeSystem="2.16.840.1.113883.5.4"/>
+           <statusCode code="completed"/>
+           <value xsi:type="CD"
+                code="{{.EntrySection.Severity.Code}}"
+                codeSystem="{{oidForCodeSystem .EntrySection.Severity.CodeSystem}}"
+              {{if ne .EntrySection.Severity.Title ""}}
+                displayName="{{.EntrySection.Severity.Title}}"
+              {{end}}
+                sdtc:valueSet="{{oidForCode .EntrySection.Severity.CodedConcept (index .MapDataCriteria.FieldOids "SEVERITY")}}"
+            />
+       </observation>
+    </entryRelationship>
+   {{end}}
+  </observation>
+  </entryRelationship>
+  </act>
+</entry>`)
+
+func templatesCat1R3_1_21684011138831020243135XmlBytes() ([]byte, error) {
+	return _templatesCat1R3_1_21684011138831020243135Xml, nil
+}
+
+func templatesCat1R3_1_21684011138831020243135Xml() (*asset, error) {
+	bytes, err := templatesCat1R3_1_21684011138831020243135XmlBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.135.xml", size: 2698, mode: os.FileMode(420), modTime: time.Unix(1494510825, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3188,7 +3263,7 @@ func templatesCat1R3_1_2168401113883102024314Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.14.xml", size: 1732, mode: os.FileMode(420), modTime: time.Unix(1494460523, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.14.xml", size: 1732, mode: os.FileMode(420), modTime: time.Unix(1494510705, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3226,7 +3301,7 @@ func templatesCat1R3_1_2168401113883102024317Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.17.xml", size: 1124, mode: os.FileMode(420), modTime: time.Unix(1494460523, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.17.xml", size: 1124, mode: os.FileMode(420), modTime: time.Unix(1494510705, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3266,7 +3341,7 @@ func templatesCat1R3_1_2168401113883102024318Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.18.xml", size: 1217, mode: os.FileMode(420), modTime: time.Unix(1494449609, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.18.xml", size: 1217, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3317,7 +3392,7 @@ func templatesCat1R3_1_216840111388310202432Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.2.xml", size: 1353, mode: os.FileMode(420), modTime: time.Unix(1494460523, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.2.xml", size: 1353, mode: os.FileMode(420), modTime: time.Unix(1494510705, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3356,7 +3431,7 @@ func templatesCat1R3_1_2168401113883102024322Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.22.xml", size: 896, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.22.xml", size: 896, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3440,7 +3515,7 @@ func templatesCat1R3_1_2168401113883102024323Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.23.xml", size: 3090, mode: os.FileMode(420), modTime: time.Unix(1494460523, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.23.xml", size: 3090, mode: os.FileMode(420), modTime: time.Unix(1494510705, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3480,7 +3555,7 @@ func templatesCat1R3_1_2168401113883102024326Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.26.xml", size: 1089, mode: os.FileMode(420), modTime: time.Unix(1494449609, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.26.xml", size: 1089, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3523,7 +3598,7 @@ func templatesCat1R3_1_216840111388310202433Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.3.xml", size: 1108, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.3.xml", size: 1108, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3563,7 +3638,7 @@ func templatesCat1R3_1_2168401113883102024331Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.31.xml", size: 1083, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.31.xml", size: 1083, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3599,7 +3674,7 @@ func templatesCat1R3_1_2168401113883102024332Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.32.xml", size: 1011, mode: os.FileMode(420), modTime: time.Unix(1494449609, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.32.xml", size: 1011, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3637,7 +3712,7 @@ func templatesCat1R3_1_2168401113883102024337Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.37.xml", size: 994, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.37.xml", size: 994, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3674,7 +3749,7 @@ func templatesCat1R3_1_2168401113883102024338Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.38.xml", size: 980, mode: os.FileMode(420), modTime: time.Unix(1494449609, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.38.xml", size: 980, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3707,9 +3782,7 @@ var _templatesCat1R3_1_216840111388310202434Xml = []byte(`<entry>
 
 		{{template "_reason.xml" .}}
 
-		{{range .EntrySection.References}}
-				{{template "_fulfills.xml" .}}
-		{{end}}
+		{{template "_fulfills.xml" .EntrySection.Entry}}
 
 	</act>
 </entry>
@@ -3725,7 +3798,7 @@ func templatesCat1R3_1_216840111388310202434Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.4.xml", size: 1277, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.4.xml", size: 1246, mode: os.FileMode(420), modTime: time.Unix(1494510825, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3785,7 +3858,7 @@ func templatesCat1R3_1_2168401113883102024341Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.41.xml", size: 1910, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.41.xml", size: 1910, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3839,7 +3912,7 @@ func templatesCat1R3_1_2168401113883102024342Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.42.xml", size: 1897, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.42.xml", size: 1897, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3879,7 +3952,7 @@ func templatesCat1R3_1_2168401113883102024343Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.43.xml", size: 1186, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.43.xml", size: 1186, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3920,7 +3993,7 @@ func templatesCat1R3_1_2168401113883102024344Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.44.xml", size: 1238, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.44.xml", size: 1238, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3971,7 +4044,7 @@ func templatesCat1R3_1_2168401113883102024345Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.45.xml", size: 1702, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.45.xml", size: 1702, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4017,7 +4090,7 @@ func templatesCat1R3_1_2168401113883102024346Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.46.xml", size: 1230, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.46.xml", size: 1230, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4080,7 +4153,7 @@ func templatesCat1R3_1_2168401113883102024347Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.47.xml", size: 2194, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.47.xml", size: 2194, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4110,7 +4183,7 @@ func templatesCat1R3_1_2168401113883102024351Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.51.xml", size: 616, mode: os.FileMode(420), modTime: time.Unix(1490660114, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.51.xml", size: 616, mode: os.FileMode(420), modTime: time.Unix(1492793736, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4156,7 +4229,7 @@ func templatesCat1R3_1_2168401113883102024354Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.54.xml", size: 1456, mode: os.FileMode(420), modTime: time.Unix(1494460523, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.54.xml", size: 1456, mode: os.FileMode(420), modTime: time.Unix(1494510705, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4190,7 +4263,7 @@ func templatesCat1R3_1_2168401113883102024355Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.55.xml", size: 813, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.55.xml", size: 813, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4226,7 +4299,7 @@ func templatesCat1R3_1_2168401113883102024359Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.59.xml", size: 1058, mode: os.FileMode(420), modTime: time.Unix(1494449609, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.59.xml", size: 1058, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4278,7 +4351,7 @@ func templatesCat1R3_1_2168401113883102024362Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.62.xml", size: 1706, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.62.xml", size: 1706, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4315,7 +4388,7 @@ func templatesCat1R3_1_2168401113883102024363Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.63.xml", size: 1011, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.63.xml", size: 1011, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4382,7 +4455,7 @@ func templatesCat1R3_1_2168401113883102024364Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.64.xml", size: 2554, mode: os.FileMode(420), modTime: time.Unix(1494449609, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.64.xml", size: 2554, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4419,7 +4492,7 @@ func templatesCat1R3_1_2168401113883102024369Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.69.xml", size: 1027, mode: os.FileMode(420), modTime: time.Unix(1494449609, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.69.xml", size: 1027, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4466,7 +4539,7 @@ func templatesCat1R3_1_216840111388310202437Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.7.xml", size: 1494, mode: os.FileMode(420), modTime: time.Unix(1494460523, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.7.xml", size: 1494, mode: os.FileMode(420), modTime: time.Unix(1494510705, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4501,7 +4574,81 @@ func templatesCat1R3_1_2168401113883102024376Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.76.xml", size: 908, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.76.xml", size: 908, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
+	a := &asset{bytes: bytes, info: info}
+	return a, nil
+}
+
+var _templatesCat1R3_1_2168401113883102024381Xml = []byte(`<entry>
+  <encounter classCode="ENC" moodCode="EVN">
+    <!-- Transfer From -->
+    <templateId root="2.16.840.1.113883.10.20.24.3.81" extension="2014-12-01"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
+    <code code="77305-1" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="transferred from"/>
+    <statusCode code="completed"/>
+    <participant typeCode="ORG">
+      <time>
+        <low {{valueOrNullFlavor .EntrySection.StartTime}}/>
+        <high {{valueOrNullFlavor .EntrySection.EndTime}}/>
+      </time>
+      <participantRole classCode="LOCE">
+        <code code="{{.EntrySection.TransferFrom.Code}}"
+              codeSystem="{{oidForCodeSystem .EntrySection.TransferFrom.CodeSystem}}"
+              sdtc:valueSet="{{oidForCode .EntrySection.TransferFrom.CodedConcept (index .MapDataCriteria.FieldOids "TRANSFER_FROM")}}"
+            />
+      </participantRole> 
+    </participant>
+  </encounter>
+</entry>`)
+
+func templatesCat1R3_1_2168401113883102024381XmlBytes() ([]byte, error) {
+	return _templatesCat1R3_1_2168401113883102024381Xml, nil
+}
+
+func templatesCat1R3_1_2168401113883102024381Xml() (*asset, error) {
+	bytes, err := templatesCat1R3_1_2168401113883102024381XmlBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.81.xml", size: 984, mode: os.FileMode(420), modTime: time.Unix(1494510825, 0)}
+	a := &asset{bytes: bytes, info: info}
+	return a, nil
+}
+
+var _templatesCat1R3_1_2168401113883102024382Xml = []byte(`<entry>
+  <encounter classCode="ENC" moodCode="EVN">
+    <!-- Transfer To -->
+    <templateId root="2.16.840.1.113883.10.20.24.3.82" extension="2014-12-01"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
+    <code code="77306-9" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Discharge disposition"/>
+    <statusCode code="completed"/>
+    <participant typeCode="DST">
+      <time>
+        <low {{valueOrNullFlavor .EntrySection.StartTime}}/>
+        <high {{valueOrNullFlavor .EntrySection.EndTime}}/>
+      </time>
+      <participantRole classCode="LOCE">
+        <code code="{{.EntrySection.TransferTo.Code}}"
+              codeSystem="{{oidForCodeSystem .EntrySection.TransferTo.CodeSystem}}"
+              sdtc:valueSet="{{oidForCode .EntrySection.TransferTo.CodedConcept (index .MapDataCriteria.FieldOids "TRANSFER_TO")}}"
+            />
+      </participantRole> 
+      </participant>
+  </encounter>
+</entry>`)
+
+func templatesCat1R3_1_2168401113883102024382XmlBytes() ([]byte, error) {
+	return _templatesCat1R3_1_2168401113883102024382Xml, nil
+}
+
+func templatesCat1R3_1_2168401113883102024382Xml() (*asset, error) {
+	bytes, err := templatesCat1R3_1_2168401113883102024382XmlBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.82.xml", size: 981, mode: os.FileMode(420), modTime: time.Unix(1494510825, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4578,7 +4725,7 @@ func templatesCat1R3_1_216840111388310202439Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.9.xml", size: 2445, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.9.xml", size: 2445, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4604,7 +4751,7 @@ func templatesCat1R3_1_addressXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_address.xml", size: 291, mode: os.FileMode(420), modTime: time.Unix(1475851234, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_address.xml", size: 291, mode: os.FileMode(420), modTime: time.Unix(1492793736, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4652,7 +4799,7 @@ func templatesCat1R3_1_authorXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_author.xml", size: 814, mode: os.FileMode(420), modTime: time.Unix(1484771826, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_author.xml", size: 814, mode: os.FileMode(420), modTime: time.Unix(1492793736, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4691,7 +4838,7 @@ func templatesCat1R3_1_codeXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_code.xml", size: 1097, mode: os.FileMode(420), modTime: time.Unix(1494460523, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_code.xml", size: 1097, mode: os.FileMode(420), modTime: time.Unix(1494510705, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4717,7 +4864,7 @@ func templatesCat1R3_1_fulfillsXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_fulfills.xml", size: 401, mode: os.FileMode(420), modTime: time.Unix(1490660114, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_fulfills.xml", size: 401, mode: os.FileMode(420), modTime: time.Unix(1492793736, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4735,7 +4882,7 @@ func templatesCat1R3_1_idXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_id.xml", size: 84, mode: os.FileMode(420), modTime: time.Unix(1475851234, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_id.xml", size: 84, mode: os.FileMode(420), modTime: time.Unix(1492793736, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4817,7 +4964,7 @@ func templatesCat1R3_1_measuresXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_measures.xml", size: 2610, mode: os.FileMode(420), modTime: time.Unix(1490660114, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_measures.xml", size: 2610, mode: os.FileMode(420), modTime: time.Unix(1492793736, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4847,7 +4994,7 @@ func templatesCat1R3_1_medication_detailsXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_medication_details.xml", size: 594, mode: os.FileMode(420), modTime: time.Unix(1484244257, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_medication_details.xml", size: 594, mode: os.FileMode(420), modTime: time.Unix(1492793736, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4886,7 +5033,7 @@ func templatesCat1R3_1_medication_dispenseXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_medication_dispense.xml", size: 1097, mode: os.FileMode(420), modTime: time.Unix(1490660114, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_medication_dispense.xml", size: 1097, mode: os.FileMode(420), modTime: time.Unix(1492793736, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4909,7 +5056,7 @@ func templatesCat1R3_1_ordinalityXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_ordinality.xml", size: 406, mode: os.FileMode(420), modTime: time.Unix(1482262669, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_ordinality.xml", size: 406, mode: os.FileMode(420), modTime: time.Unix(1492793736, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4940,7 +5087,7 @@ func templatesCat1R3_1_organizationXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_organization.xml", size: 378, mode: os.FileMode(420), modTime: time.Unix(1475851234, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_organization.xml", size: 378, mode: os.FileMode(420), modTime: time.Unix(1492793736, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4974,7 +5121,7 @@ func templatesCat1R3_1_patient_dataXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_patient_data.xml", size: 501, mode: os.FileMode(420), modTime: time.Unix(1490660114, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_patient_data.xml", size: 501, mode: os.FileMode(420), modTime: time.Unix(1492793736, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -5048,7 +5195,7 @@ func templatesCat1R3_1_providersXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_providers.xml", size: 2078, mode: os.FileMode(420), modTime: time.Unix(1494449582, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_providers.xml", size: 2078, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -5083,7 +5230,7 @@ func templatesCat1R3_1_reasonXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_reason.xml", size: 966, mode: os.FileMode(420), modTime: time.Unix(1482262669, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_reason.xml", size: 966, mode: os.FileMode(420), modTime: time.Unix(1492793736, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -5162,7 +5309,7 @@ func templatesCat1R3_1_record_targetXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_record_target.xml", size: 2634, mode: os.FileMode(420), modTime: time.Unix(1490660114, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_record_target.xml", size: 2634, mode: os.FileMode(420), modTime: time.Unix(1492793736, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -5204,7 +5351,7 @@ func templatesCat1R3_1_reporting_parametersXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_reporting_parameters.xml", size: 1102, mode: os.FileMode(420), modTime: time.Unix(1490660114, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_reporting_parameters.xml", size: 1102, mode: os.FileMode(420), modTime: time.Unix(1492793736, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -5236,7 +5383,7 @@ func templatesCat1R3_1_result_valueXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_result_value.xml", size: 671, mode: os.FileMode(420), modTime: time.Unix(1494449609, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_result_value.xml", size: 671, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -5254,7 +5401,7 @@ func templatesCat1R3_1_telecomXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_telecom.xml", size: 65, mode: os.FileMode(420), modTime: time.Unix(1475851234, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_telecom.xml", size: 65, mode: os.FileMode(420), modTime: time.Unix(1492793736, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -5416,7 +5563,7 @@ func templatesCat1R3_1Cat1Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/cat1.xml", size: 5185, mode: os.FileMode(420), modTime: time.Unix(1490660114, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/cat1.xml", size: 5185, mode: os.FileMode(420), modTime: time.Unix(1492793736, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -6103,7 +6250,7 @@ func hqmf_template_oid_mapJson() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "hqmf_template_oid_map.json", size: 20534, mode: os.FileMode(420), modTime: time.Unix(1475851234, 0)}
+	info := bindataFileInfo{name: "hqmf_template_oid_map.json", size: 20534, mode: os.FileMode(420), modTime: time.Unix(1494432774, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -7580,7 +7727,7 @@ func hqmf_qrda_oidsJson() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "hqmf_qrda_oids.json", size: 43927, mode: os.FileMode(420), modTime: time.Unix(1490660114, 0)}
+	info := bindataFileInfo{name: "hqmf_qrda_oids.json", size: 43927, mode: os.FileMode(420), modTime: time.Unix(1494432774, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -7806,7 +7953,7 @@ func hqmf_qrda_oids_r3_1Json() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "hqmf_qrda_oids_r3_1.json", size: 5727, mode: os.FileMode(420), modTime: time.Unix(1485903519, 0)}
+	info := bindataFileInfo{name: "hqmf_qrda_oids_r3_1.json", size: 5727, mode: os.FileMode(420), modTime: time.Unix(1494432774, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -7926,6 +8073,7 @@ var _bindata = map[string]func() (*asset, error){
 	"templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.11.xml":  templatesCat1R3_1_2168401113883102024311Xml,
 	"templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.12.xml":  templatesCat1R3_1_2168401113883102024312Xml,
 	"templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.13.xml":  templatesCat1R3_1_2168401113883102024313Xml,
+	"templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.135.xml": templatesCat1R3_1_21684011138831020243135Xml,
 	"templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.14.xml":  templatesCat1R3_1_2168401113883102024314Xml,
 	"templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.17.xml":  templatesCat1R3_1_2168401113883102024317Xml,
 	"templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.18.xml":  templatesCat1R3_1_2168401113883102024318Xml,
@@ -7956,6 +8104,8 @@ var _bindata = map[string]func() (*asset, error){
 	"templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.69.xml":  templatesCat1R3_1_2168401113883102024369Xml,
 	"templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.7.xml":   templatesCat1R3_1_216840111388310202437Xml,
 	"templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.76.xml":  templatesCat1R3_1_2168401113883102024376Xml,
+	"templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.81.xml":  templatesCat1R3_1_2168401113883102024381Xml,
+	"templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.82.xml":  templatesCat1R3_1_2168401113883102024382Xml,
 	"templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.9.xml":   templatesCat1R3_1_216840111388310202439Xml,
 	"templates/cat1/r3_1/_address.xml":                          templatesCat1R3_1_addressXml,
 	"templates/cat1/r3_1/_author.xml":                           templatesCat1R3_1_authorXml,
@@ -8092,6 +8242,7 @@ var _bintree = &bintree{nil, map[string]*bintree{
 				"_2.16.840.1.113883.10.20.24.3.11.xml":  &bintree{templatesCat1R3_1_2168401113883102024311Xml, map[string]*bintree{}},
 				"_2.16.840.1.113883.10.20.24.3.12.xml":  &bintree{templatesCat1R3_1_2168401113883102024312Xml, map[string]*bintree{}},
 				"_2.16.840.1.113883.10.20.24.3.13.xml":  &bintree{templatesCat1R3_1_2168401113883102024313Xml, map[string]*bintree{}},
+				"_2.16.840.1.113883.10.20.24.3.135.xml": &bintree{templatesCat1R3_1_21684011138831020243135Xml, map[string]*bintree{}},
 				"_2.16.840.1.113883.10.20.24.3.14.xml":  &bintree{templatesCat1R3_1_2168401113883102024314Xml, map[string]*bintree{}},
 				"_2.16.840.1.113883.10.20.24.3.17.xml":  &bintree{templatesCat1R3_1_2168401113883102024317Xml, map[string]*bintree{}},
 				"_2.16.840.1.113883.10.20.24.3.18.xml":  &bintree{templatesCat1R3_1_2168401113883102024318Xml, map[string]*bintree{}},
@@ -8122,6 +8273,8 @@ var _bintree = &bintree{nil, map[string]*bintree{
 				"_2.16.840.1.113883.10.20.24.3.69.xml":  &bintree{templatesCat1R3_1_2168401113883102024369Xml, map[string]*bintree{}},
 				"_2.16.840.1.113883.10.20.24.3.7.xml":   &bintree{templatesCat1R3_1_216840111388310202437Xml, map[string]*bintree{}},
 				"_2.16.840.1.113883.10.20.24.3.76.xml":  &bintree{templatesCat1R3_1_2168401113883102024376Xml, map[string]*bintree{}},
+				"_2.16.840.1.113883.10.20.24.3.81.xml":  &bintree{templatesCat1R3_1_2168401113883102024381Xml, map[string]*bintree{}},
+				"_2.16.840.1.113883.10.20.24.3.82.xml":  &bintree{templatesCat1R3_1_2168401113883102024382Xml, map[string]*bintree{}},
 				"_2.16.840.1.113883.10.20.24.3.9.xml":   &bintree{templatesCat1R3_1_216840111388310202439Xml, map[string]*bintree{}},
 				"_address.xml":                          &bintree{templatesCat1R3_1_addressXml, map[string]*bintree{}},
 				"_author.xml":                           &bintree{templatesCat1R3_1_authorXml, map[string]*bintree{}},

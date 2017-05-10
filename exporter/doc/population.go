@@ -7,11 +7,11 @@ import (
 )
 
 type Population struct {
-	ID               string
-	Type             string
-	Value            int
-	Stratifications  []Stratification
-	SupplementalData SupplementalData
+	ID               string           `json:"id,omitempty"`
+	Type             string           `json:"type,omitempty"`
+	Value            int              `json:"value,omitempty"`
+	Stratifications  []Stratification `json:"stratifications,omitempty"`
+	SupplementalData SupplementalData `json:"supplemental_data,omitempty"`
 }
 
 func (p Population) FindStratification(ID string) *Stratification {
@@ -24,15 +24,15 @@ func (p Population) FindStratification(ID string) *Stratification {
 }
 
 type Stratification struct {
-	ID    string
-	Value int
+	ID    string `json:"id,omitempty"`
+	Value int    `json:"value,omitempty"`
 }
 
 type SupplementalData struct {
-	Sex       map[string]int
-	Ethnicity map[string]int
-	Race      map[string]int
-	Payer     map[string]int
+	Sex       map[string]int `json:"SEX,omitempty"`
+	Ethnicity map[string]int `json:"ETHNICITY,omitempty"`
+	Race      map[string]int `json:"RACE,omitempty"`
+	Payer     map[string]int `json:"PAYER,omitempty"`
 }
 
 func (p Population) Print() string {

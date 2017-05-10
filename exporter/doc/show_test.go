@@ -27,12 +27,12 @@ func TestShowPrint(t *testing.T) {
 					Record:               models.Record{},
 					ProviderPerformances: doc.ProviderPerformances{Timestamp: timestamp},
 				},
-				Measures:  []models.Measure{},
+				Measures:  models.Measure{},
 				StartDate: startDate,
 				EndDate:   endDate,
 				Timestamp: timestamp,
 			},
-			fmt.Sprintf(showCat3TestTemplate, 19700101, 1, "first", "last", 19700101, 19700101),
+			fmt.Sprintf(showCat3TestTemplate, 19700101, 1, "first", "last"),
 		},
 	}
 
@@ -125,31 +125,40 @@ var showCat3TestTemplate = `<?xml version="1.0" encoding="utf-8"?>
 		</assignedEntity>
 	</legalAuthenticator>
 
-	<documentationOf typeCode="DOC">
-	<serviceEvent classCode="PCPR"> <!-- care provision -->
-		<!-- No provider data found in the patient record
-			putting in a fake provider -->
-		<effectiveTime>
-			<low value="20020716"/>
-			<high value="%d"/>
-		</effectiveTime>
-		<!-- You can include multiple performers, each with an NPI, TIN, CCN. -->
-		<performer typeCode="PRF">
-			<time>
-				<low value="20020716"/>
-				<high value="%d"/>
-			</time>
-			<assignedEntity>
-				<!-- This is the provider NPI -->
-				<id root="2.16.840.1.113883.4.6" extension="111111111" />
-				<representedOrganization>
-					<!-- This is the organization TIN -->
-					<id root="2.16.840.1.113883.4.2" extension="1234567" />
-					<!-- This is the organization CCN -->
-					<id root="2.16.840.1.113883.4.336" extension="54321" />
-				</representedOrganization>
-			</assignedEntity>
-		</performer>
-	</serviceEvent>
-</documentationOf>
+	<component><structuredBody><component><section>
+	<!-- Implied template Measure Section templateId -->
+	<templateId root="2.16.840.1.113883.10.20.24.2.2"/>
+	<!-- In this case the query is using an eMeasure -->
+	<!-- QRDA Category III Measure Section template -->
+	<templateId extension="2016-09-01" root="2.16.840.1.113883.10.20.27.2.1"/>
+	<code code="55186-1" codeSystem="2.16.840.1.113883.6.1"/>
+	<title>Measure Section</title>
+	<text/>
+	<entry>
+<organizer classCode="CLUSTER" moodCode="EVN">
+	<!-- Implied template Measure Reference templateId -->
+	<templateId root="2.16.840.1.113883.10.20.24.3.98"/>
+	<!-- SHALL 1..* (one for each referenced measure) Measure Reference and Results template -->
+	<templateId root="2.16.840.1.113883.10.20.27.3.1" extension="2016-09-01"/>
+	<id extension=""/>
+	<statusCode code="completed"/>
+	<reference typeCode="REFR">
+	<externalDocument classCode="DOC" moodCode="EVN">
+		<!-- SHALL: required Id but not restricted to the eMeasure Document/Id-->
+		<!-- QualityMeasureDocument/id This is the version specific identifier for eMeasure -->
+		<id root="2.16.840.1.113883.4.738" extension=""/>
+
+		<!-- SHOULD This is the title of the eMeasure -->
+		<text></text>
+		<!-- SHOULD: setId is the eMeasure version neutral id	-->
+		<setId root=""/>
+		<!-- This is the sequential eMeasure Version number -->
+		<versionNumber value="1"/>
+	</externalDocument>
+	</reference>
+</organizer>
+</entry></section>
+	</component>
+	</structuredBody>
+	</component>
 </ClinicalDocument>`
