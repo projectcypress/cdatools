@@ -303,7 +303,9 @@ func TestEncounterPerformedTemplate(t *testing.T) {
 	assertXPath(t, rootNode, "//entry/encounter/effectiveTime/low", map[string]string{"value": "201101022004+0000"}, nil)
 	assertXPath(t, rootNode, "//entry/encounter/effectiveTime/high", map[string]string{"value": "201001022004+0000"}, nil)
 
-	// continue testing here
+	// test principal diagnosis
+	assertXPath(t, rootNode, "//entry/encounter/entryRelationship/observation/code", map[string]string{"code": "8319008", "codeSystem": "2.16.840.1.113883.6.96"}, nil)
+	assertXPath(t, rootNode, "//entry/encounter/entryRelationship/observation/value", map[string]string{"code": "12345", "codeSystem": "2.16.840.1.113883.6.96"}, nil)
 }
 
 func TestCommunicationFromPatientToProviderTemplate(t *testing.T) {
