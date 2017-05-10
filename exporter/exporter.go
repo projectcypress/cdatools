@@ -276,40 +276,210 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 	return b.String()
 }
 
-func GenerateCat3(measures []byte, header []byte, effectiveDate int64, startDate int64, endDate int64, version string) string {
-	m := []models.Measure{}
-	h := &models.Header{}
+func GenerateCat3(measures []byte, measure_results []byte, effectiveDate int64, startDate int64, endDate int64, version string) string {
+	m := models.Measure{}
+	mr := doc.MeasureResults{}
+	//h := &models.Header{}
 	// TODO: Finish these pieces, including getting results, record with providerperformances
 
 	json.Unmarshal(measures, &m)
-	json.Unmarshal(header, h)
+	json.Unmarshal(measure_results, &mr)
+	//json.Unmarshal(header, h)
+
+
+	var atime1 = new(int64)
+	var atime2 = new(int64)
+	*atime1 = 1449686219
+	*atime2 = 1449686219
+	h := &models.Header{
+		Authors: []models.Author{
+			models.Author{
+				Time: atime1,
+				Entity: models.Entity{
+					Ids: []models.CDAIdentifier{
+						models.CDAIdentifier{
+							Root:      "authorRoot",
+							Extension: "authorExtension",
+						},
+					},
+					Addresses: []models.Address{
+						models.Address{
+							Street: []string{
+								"202 Burlington Road",
+								"Apartment 1",
+							},
+							City:    "Bedford",
+							State:   "MA",
+							Zip:     "01730",
+							Country: "USA",
+							Use:     "PUB",
+						},
+					},
+					Telecoms: []models.Telecom{
+						models.Telecom{
+							Use:   "WP",
+							Value: "1(781)2712000",
+						},
+					},
+				},
+				Device: models.Device{
+					Name:  "deviceName",
+					Model: "deviceModel",
+				},
+				Organization: models.Organization{
+					Entity: models.Entity{
+						Ids: []models.CDAIdentifier{
+							models.CDAIdentifier{
+								Root:      "authorsOrganizationRoot",
+								Extension: "authorsOrganizationExt",
+							},
+						},
+					},
+					Name:    "authorsOrganization",
+					TagName: "representedOrganization",
+				},
+			},
+		},
+		Custodian: models.Author{
+			Entity: models.Entity{
+				Ids: []models.CDAIdentifier{
+					models.CDAIdentifier{
+						Root:      "custodianRoot",
+						Extension: "custodianExtension",
+					},
+				},
+			},
+			Person: models.Person{
+				First: "",
+				Last:  "",
+			},
+			Organization: models.Organization{
+				Entity: models.Entity{
+					Ids: []models.CDAIdentifier{
+						models.CDAIdentifier{
+							Root:      "custodianOrganizationRoot",
+							Extension: "custodianOrganzationExt",
+						},
+					},
+					Addresses: []models.Address{
+						models.Address{
+							Street: []string{
+								"202 Burlington Road",
+								"Apartment 1",
+							},
+							City:    "Bedford",
+							State:   "MA",
+							Zip:     "01730",
+							Country: "USA",
+							Use:     "PUB",
+						},
+					},
+					Telecoms: []models.Telecom{
+						models.Telecom{
+							Use:   "WP",
+							Value: "1(781)2712000",
+						},
+					},
+				},
+				Name:    "CustodianOrganization",
+				TagName: "representedCustodianOrganization",
+			},
+		},
+		Authenticator: models.Authenticator{
+			Author: models.Author{
+				Entity: models.Entity{
+					Ids: []models.CDAIdentifier{
+						models.CDAIdentifier{
+							Root:      "legalAuthenticatorRoot",
+							Extension: "legalAuthenticatorExt",
+						},
+					},
+					Addresses: []models.Address{
+						models.Address{
+							Street: []string{
+								"202 Burlington Road",
+								"Apartment 1",
+							},
+							City:    "Bedford",
+							State:   "MA",
+							Zip:     "01730",
+							Country: "USA",
+							Use:     "PUB",
+						},
+					},
+					Telecoms: []models.Telecom{
+						models.Telecom{
+							Use:   "WP",
+							Value: "1(781)2712000",
+						},
+					},
+				},
+				Time: atime2,
+				Person: models.Person{
+					First: "Legal",
+					Last:  "Authenticator",
+				},
+				Organization: models.Organization{
+					Entity: models.Entity{
+						Ids: []models.CDAIdentifier{
+							models.CDAIdentifier{
+								Root:      "legalAuthenticatorOrgRoot",
+								Extension: "legalAuthenticatorOrgExt",
+							},
+						},
+					},
+					Name:    "LegalAuthenticatorOrg",
+					TagName: "representedOrganization",
+				},
+			},
+		},
+	}
+
+	aggCount := doc.AggregateCount{
+		Populations: 	  	mr.Populations,
+		PopulationGroups: 	mr.PopulationGroups,
+	}
+	aggCounts := make(map[string]doc.AggregateCount, 1)
+	aggCounts[m.HQMFID] = aggCount
+	log.Println(aggCounts)
+	ms := &doc.MeasureSection{
+		Measure: models.Measure{
+			ID:        "measure test id",
+			HQMFID:    m.HQMFID,
+			Name:      m.Name,
+			HQMFSetID: m.HQMFSetID,
+		},
+		Results: aggCounts,
+	}
 
 	if version == "" {
 		version = "r2"
 	}
 
-	data, err := AssetDir("templates/cat3/" + version)
-	if err != nil {
-		fmt.Println(err)
-	}
+	//data, err := AssetDir("templates/cat3/" + version)
+	//if err != nil {
+	//	fmt.Println(err)
+	//}
 
 	cat3Template := template.New("cat3")
 	cat3Template.Funcs(exporterFuncMapCat3(cat3Template))
 
-	for _, d := range data {
-		asset, _ := Asset("templates/cat3/" + version + "/" + d)
-		template.Must(cat3Template.New(d).Parse(string(asset)))
-	}
+	//for _, d := range data {
+	//	asset, _ := Asset("templates/cat3/" + version + "/" + d)
+	//	template.Must(cat3Template.New(d).Parse(string(asset)))
+	//}
 
-	var b bytes.Buffer
+	//var b bytes.Buffer
 
-	c3d := doc.NewCat3Data(*h, models.Record{}, m, startDate, endDate)
 
-	err = cat3Template.ExecuteTemplate(&b, "_show.xml", c3d) //TODO: implement, fix
+	c3d := doc.NewCat3Data(*h, *ms , m, startDate, endDate)
 
-	if err != nil {
-		fmt.Println(err)
-	}
 
-	return b.String()
+	//err = cat3Template.ExecuteTemplate(&b, "_show.xml", c3d) //TODO: implement, fix
+
+	//if err != nil {
+   //		fmt.Println(err)
+   //	}
+
+	return c3d.Print()
 }

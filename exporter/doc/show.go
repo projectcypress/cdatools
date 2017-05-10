@@ -50,18 +50,19 @@ func NewRecord(r models.Record) Record {
 type Cat3Data struct {
 	Header
 	Record
-	Measures  []models.Measure
+	Measures  models.Measure
+	MeasureSection MeasureSection
 	StartDate int64
 	EndDate   int64
 	Timestamp int64
 }
 
-func NewCat3Data(h models.Header, r models.Record, m []models.Measure, start int64, end int64) Cat3Data {
+func NewCat3Data(h models.Header, ms MeasureSection, m models.Measure, start int64, end int64) Cat3Data {
 	timeNow := time.Now().UTC().Unix()
 	return Cat3Data{
 		Header:    NewHeader(h),
-		Record:    NewRecord(r),
 		Measures:  m,
+		MeasureSection: ms,
 		StartDate: start,
 		EndDate:   end,
 		Timestamp: timeNow,
@@ -156,7 +157,7 @@ func (c Cat3Data) cat3Template() string {
 		</assignedEntity>
 	</legalAuthenticator>
 
-	{{.Record.ProviderPerformances.Print}}
+	{{.MeasureSection.Print}}
 </ClinicalDocument>`
 
 	return t

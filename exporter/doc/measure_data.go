@@ -31,6 +31,7 @@ func (md MeasureData) Print() string {
 
 func (md MeasureData) cat3Template() string {
 	t := `<!--	MEASURE DATA REPORTING FOR	{{.Population.Type}} {{.Population.ID}}	-->
+<component>
 <observation classCode="OBS" moodCode="EVN">
 	<!--	Measure Data template	-->
 	<templateId root="2.16.840.1.113883.10.20.27.3.5" extension="2016-09-01"/>
@@ -149,7 +150,6 @@ func (md MeasureData) cat3Template() string {
 				<id root="{{$md.Population.ID}}"/>
 		 </externalObservation>
 	</reference>
-</observation>`
-
+</observation></component>`
 	return t
 }
