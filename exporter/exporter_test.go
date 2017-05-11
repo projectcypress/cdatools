@@ -16,7 +16,7 @@ func TestExport(t *testing.T) {
 
 	startDate := int64(1451606400)
 	endDate := int64(1483228799)
-	ExporterCat1Init(measureData, fixtures.Cms9_26, "r3")
+	ExporterCat1Init(measureData, fixtures.Cms9_26)
 	fmt.Print(GenerateCat1(fixtures.TestPatientDataAmi, startDate, endDate, "r3"))
 }
 
@@ -25,7 +25,7 @@ func BenchmarkExport(b *testing.B) {
 
 	startDate := int64(1451606400)
 	endDate := int64(1483228799)
-	ExporterCat1Init(measureData, fixtures.Cms9_26, "r3")
+	ExporterCat1Init(measureData, fixtures.Cms9_26)
 
 	b.ReportAllocs()
 	for i := 0; i < b.N; i++ {

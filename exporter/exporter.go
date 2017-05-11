@@ -12,8 +12,16 @@ import (
 	"github.com/projectcypress/cdatools/models"
 )
 
+// Global template for Cat1 r3
+var cat1r3Template *template.Template
+
+// Global template for Cat1 r3_1
+var cat1r3_1Template *template.Template
+
 func init() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
+	cat1r3Template = compileTemplates("r3")
+	cat1r3_1Template = compileTemplates("r3_1")
 }
 
 type cat1data struct {
@@ -58,9 +66,6 @@ func exporterFuncMap(cat1Template *template.Template, vsMap models.ValueSetMap) 
 	}
 }
 
-// Global template for Cat1
-var cat1Template *template.Template
-
 // Global Measure Data for a batch of patients
 var m []models.Measure
 
@@ -71,24 +76,11 @@ var vs []models.ValueSet
 var vsMap models.ValueSetMap
 
 //export ExporterCat1Init
-func ExporterCat1Init(measures []byte, valueSets []byte, version string) {
+func ExporterCat1Init(measures []byte, valueSets []byte) {
 	json.Unmarshal(measures, &m)
 	json.Unmarshal(valueSets, &vs)
 
 	vsMap = models.NewValueSetMap(vs)
-
-	cat1Template = template.New("cat1" + version)
-	cat1Template.Funcs(exporterFuncMap(cat1Template, vsMap))
-
-	data, err := AssetDir("templates/cat1/" + version)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	for _, d := range data {
-		asset, _ := Asset("templates/cat1/" + version + "/" + d)
-		template.Must(cat1Template.New(d).Parse(string(asset)))
-	}
 }
 
 //export GenerateCat1
@@ -253,11 +245,32 @@ func GenerateCat1(patient []byte, startDate int64, endDate int64, qrdaVersion st
 
 	var b bytes.Buffer
 
-	err := cat1Template.ExecuteTemplate(&b, "cat1.xml", c1d)
-
+	var err error
+	if qrdaVersion == "r3" {
+		err = cat1r3Template.ExecuteTemplate(&b, cat1r3Template.Name(), c1d)
+	} else {
+		err = cat1r3_1Template.ExecuteTemplate(&b, cat1r3_1Template.Name(), c1d)
+	}
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	return b.String()
+}
+
+func compileTemplates(version string) *template.Template {
+	tmpl := template.New("cat1" + version)
+	tmpl.Funcs(exporterFuncMap(tmpl, vsMap))
+
+	data, err := AssetDir("templates/cat1/" + version)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	for _, d := range data {
+		asset, _ := Asset("templates/cat1/" + version + "/" + d)
+		template.Must(tmpl.New(d).Parse(string(asset)))
+	}
+
+	return tmpl
 }
