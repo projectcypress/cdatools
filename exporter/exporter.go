@@ -85,6 +85,8 @@ func ExporterCat1Init(measures []byte, valueSets []byte) {
 
 //export GenerateCat1
 func GenerateCat1(patient []byte, startDate int64, endDate int64, qrdaVersion string) string {
+	fmt.Println("length of measures: ", len(m))
+	fmt.Println("length of value sets: ", len(vs))
 
 	p := &models.Record{}
 	json.Unmarshal(patient, p)
@@ -247,9 +249,9 @@ func GenerateCat1(patient []byte, startDate int64, endDate int64, qrdaVersion st
 
 	var err error
 	if qrdaVersion == "r3" {
-		err = cat1r3Template.ExecuteTemplate(&b, cat1r3Template.Name(), c1d)
+		err = cat1r3Template.ExecuteTemplate(&b, "cat1.xml", c1d)
 	} else {
-		err = cat1r3_1Template.ExecuteTemplate(&b, cat1r3_1Template.Name(), c1d)
+		err = cat1r3_1Template.ExecuteTemplate(&b, "cat1.xml", c1d)
 	}
 	if err != nil {
 		fmt.Println(err)
