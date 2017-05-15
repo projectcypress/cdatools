@@ -16,12 +16,12 @@ import (
 var cat1r3Template *template.Template
 
 // Global template for Cat1 r3_1
-var cat1r3_1Template *template.Template
+//var cat1r3_1Template *template.Template
 
 func init() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	cat1r3Template = compileTemplates("r3")
-	cat1r3_1Template = compileTemplates("r3_1")
+	//cat1r3_1Template = compileTemplates("r3_1")
 }
 
 type cat1data struct {
@@ -75,7 +75,8 @@ var vs []models.ValueSet
 // Global ValueSetMap for a batch of patients
 var vsMap models.ValueSetMap
 
-//export ExporterCat1Init
+// ExporterCat1Init initializes structures out of the measures and value sets
+// given to be used for GenerateCat1.
 func ExporterCat1Init(measures []byte, valueSets []byte) {
 	json.Unmarshal(measures, &m)
 	json.Unmarshal(valueSets, &vs)
@@ -83,15 +84,17 @@ func ExporterCat1Init(measures []byte, valueSets []byte) {
 	vsMap = models.NewValueSetMap(vs)
 }
 
-//export GenerateCat1
+// GenerateCat1 creates the cat1 xml document for the patient given.
 func GenerateCat1(patient []byte, startDate int64, endDate int64, qrdaVersion string) string {
 	fmt.Println("length of measures: ", len(m))
 	fmt.Println("length of value sets: ", len(vs))
+	fmt.Println("qrda version given: ", qrdaVersion)
 
 	p := &models.Record{}
 	json.Unmarshal(patient, p)
 
 	if qrdaVersion == "" {
+		fmt.Println("qrdaVersion set to r3")
 		qrdaVersion = "r3"
 	}
 
@@ -249,10 +252,13 @@ func GenerateCat1(patient []byte, startDate int64, endDate int64, qrdaVersion st
 
 	var err error
 	if qrdaVersion == "r3" {
+		fmt.Println("printing r3 version of cat1")
 		err = cat1r3Template.ExecuteTemplate(&b, "cat1.xml", c1d)
-	} else {
-		err = cat1r3_1Template.ExecuteTemplate(&b, "cat1.xml", c1d)
-	}
+	} 
+// else {
+// 		fmt.Println("printing r3_1 version of cat1")
+// 		err = cat1r3_1Template.ExecuteTemplate(&b, "cat1.xml", c1d)
+// 	}
 	if err != nil {
 		fmt.Println(err)
 	}
