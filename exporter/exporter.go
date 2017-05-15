@@ -12,8 +12,16 @@ import (
 	"github.com/projectcypress/cdatools/models"
 )
 
+// Global template for Cat1 r3
+var cat1r3Template *template.Template
+
+// Global template for Cat1 r3_1
+//var cat1r3_1Template *template.Template
+
 func init() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
+	cat1r3Template = compileTemplates("r3")
+	//cat1r3_1Template = compileTemplates("r3_1")
 }
 
 type cat1data struct {
@@ -58,35 +66,38 @@ func exporterFuncMap(cat1Template *template.Template, vsMap models.ValueSetMap) 
 	}
 }
 
-//export GenerateCat1
-func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate int64, endDate int64, qrdaVersion string) string {
+// Global Measure Data for a batch of patients
+var m []models.Measure
 
-	p := &models.Record{}
-	m := []models.Measure{}
-	vs := []models.ValueSet{}
+// Global Value Set Data for a batch of patients
+var vs []models.ValueSet
 
-	json.Unmarshal(patient, p)
+// Global ValueSetMap for a batch of patients
+var vsMap models.ValueSetMap
+
+// ExporterCat1Init initializes structures out of the measures and value sets
+// given to be used for GenerateCat1.
+func ExporterCat1Init(measures []byte, valueSets []byte) {
 	json.Unmarshal(measures, &m)
 	json.Unmarshal(valueSets, &vs)
 
-	vsMap := models.NewValueSetMap(vs)
+	vsMap = models.NewValueSetMap(vs)
+}
+
+// GenerateCat1 creates the cat1 xml document for the patient given.
+func GenerateCat1(patient []byte, startDate int64, endDate int64, qrdaVersion string) string {
+	fmt.Println("length of measures: ", len(m))
+	fmt.Println("length of value sets: ", len(vs))
+	fmt.Println("qrda version given: ", qrdaVersion)
+
+	p := &models.Record{}
+	json.Unmarshal(patient, p)
 
 	if qrdaVersion == "" {
+		fmt.Println("qrdaVersion set to r3")
 		qrdaVersion = "r3"
 	}
 
-	data, err := AssetDir("templates/cat1/" + qrdaVersion)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	cat1Template := template.New("cat1")
-	cat1Template.Funcs(exporterFuncMap(cat1Template, vsMap))
-
-	for _, d := range data {
-		asset, _ := Asset("templates/cat1/" + qrdaVersion + "/" + d)
-		template.Must(cat1Template.New(d).Parse(string(asset)))
-	}
 	var atime1 = new(int64)
 	var atime2 = new(int64)
 	*atime1 = 1449686219
@@ -239,11 +250,35 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 
 	var b bytes.Buffer
 
-	err = cat1Template.ExecuteTemplate(&b, "cat1.xml", c1d)
-
+	var err error
+	if qrdaVersion == "r3" {
+		fmt.Println("printing r3 version of cat1")
+		err = cat1r3Template.ExecuteTemplate(&b, "cat1.xml", c1d)
+	} 
+// else {
+// 		fmt.Println("printing r3_1 version of cat1")
+// 		err = cat1r3_1Template.ExecuteTemplate(&b, "cat1.xml", c1d)
+// 	}
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	return b.String()
+}
+
+func compileTemplates(version string) *template.Template {
+	tmpl := template.New("cat1" + version)
+	tmpl.Funcs(exporterFuncMap(tmpl, vsMap))
+
+	data, err := AssetDir("templates/cat1/" + version)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	for _, d := range data {
+		asset, _ := Asset("templates/cat1/" + version + "/" + d)
+		template.Must(tmpl.New(d).Parse(string(asset)))
+	}
+
+	return tmpl
 }
