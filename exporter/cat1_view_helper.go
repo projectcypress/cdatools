@@ -241,3 +241,14 @@ func isNil(i interface{}) bool {
 func derefBool(i *bool) bool {
 	return *i
 }
+
+// RecordTarget is used for rendering the record_target template
+type RecordTarget struct {
+	models.Record
+	CMSCompatibility bool
+}
+
+// createRecordTarget is for initializing a RecordTarget
+func createRecordTarget(record models.Record, cmsCompatibility bool) RecordTarget {
+	return RecordTarget{Record: record, CMSCompatibility: cmsCompatibility}
+}

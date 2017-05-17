@@ -311,6 +311,7 @@ func allDataCriteria(measures []Measure) []DataCriteria {
 func (r *Record) handlePayerInformation() []HasEntry {
 	providers := make([]HasEntry, len(r.InsuranceProviders))
 	for _, prov := range r.InsuranceProviders {
+		prov.Oid = "2.16.840.1.113883.3.560.1.405"
 		providers = append(providers, &prov)
 	}
 	return providers
