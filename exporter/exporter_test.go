@@ -16,5 +16,5 @@ func TestExport(t *testing.T) {
 
 	startDate := int64(1451606400)
 	endDate := int64(1483228799)
-	fmt.Print(GenerateCat1(fixtures.TestPatientDataAmi, measureData, fixtures.Cms9_26, startDate, endDate, "r3"))
+	fmt.Print(GenerateCat1(fixtures.TestPatientDataAmi, measureData, fixtures.Cms9_26, startDate, endDate, "r3", true))
 }
