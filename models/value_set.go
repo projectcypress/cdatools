@@ -49,6 +49,26 @@ type CodeSet struct {
 	Values []Concept
 }
 
+
+func (v ValueSetMap) CodeDisplayWithPreferredCodeForField(entry *Entry, coded *Coded, MapDataCriteria Mdc, codeType string, field string) CodeDisplay {
+	codeDisplay, err := entry.GetCodeDisplay(codeType)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	codeDisplay.MapDataCriteria = MapDataCriteria
+	for FieldOidInd := 0; FieldOidInd < len(MapDataCriteria.FieldOids[field]); FieldOidInd++ {
+		codeDisplay.PreferredCode = coded.PreferredCode(codeDisplay.PreferredCodeSets, codeDisplay.CodeSetRequired, codeDisplay.ValueSetPreferred, v, MapDataCriteria.FieldOids[field][FieldOidInd])
+		if codeDisplay.PreferredCode.Code != "" {
+			//Put the relevant oid in the 0 index for export
+			oldoid := MapDataCriteria.FieldOids[field][0]
+			MapDataCriteria.FieldOids[field][0] = MapDataCriteria.FieldOids[field][FieldOidInd]
+			MapDataCriteria.FieldOids[field][FieldOidInd] = oldoid
+			break
+		}
+	}
+	return codeDisplay
+}
+
 func (v ValueSetMap) CodeDisplayWithPreferredCode(entry *Entry, coded *Coded, MapDataCriteria Mdc, codeType string) CodeDisplay {
 	codeDisplay, err := entry.GetCodeDisplay(codeType)
 	if err != nil {
