@@ -1,10 +1,16 @@
 <entry>
-  <encounter classCode="ENC" moodCode="EVN">
-    <!-- Encounter activities template -->
-    <templateId root="2.16.840.1.113883.10.20.22.4.49" extension="2014-06-09" />
+    <act classCode="ACT" moodCode="EVN" {{negationIndicator .EntrySection.Entry}}>
+    <!--Encounter performed Act -->
+    <templateId root="2.16.840.1.113883.10.20.24.3.133"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
+    <code code="ENC" codeSystem="2.16.840.1.113883.5.6" displayName="Encounter" codeSystemName="ActClass"/>
+    <entryRelationship typeCode="SUBJ">
+    <encounter classCode="ENC" moodCode="EVN">
+    <!--  Encounter activities template -->
+    <templateId root="2.16.840.1.113883.10.20.22.4.49" extension="2015-08-01"/> 
     <!-- Encounter performed template -->
-    <templateId root="2.16.840.1.113883.10.20.24.3.23" extension="2014-12-01" />
-    <id root="1.3.6.1.4.1.115" extension="{{newRandom}}"/>
+    <templateId root="2.16.840.1.113883.10.20.24.3.23" extension="2016-02-01" />
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
     <text>{{.EntrySection.Description}}</text>
     <statusCode code="completed"/>
@@ -27,7 +33,7 @@
           <!-- Attribute: facility location arrival datetime -->
           <low {{valueOrNullFlavor .EntrySection.Facility.StartTime}}/>
           <!-- Attribute: facility location departure datetime -->
-          <high {{valueOrNullFlavor .EntrySection.Facility.StartTime}}/>
+          <high {{valueOrNullFlavor .EntrySection.Facility.EndTime}}/>
         </time>
         <participantRole classCode="SDLOC">
           {{if .EntrySection.Facility.Code}}
@@ -61,13 +67,44 @@
     {{if .EntrySection.Reason}}
       {{template "_reason.xml" .}}
     {{end}}
-    {{if .EntrySection.Entry.PrincipalDiagnosis}}
+    {{if .EntrySection.PrincipalDiagnosis.Codes }}
+    {{if gt (len (index .MapDataCriteria.FieldOids "PRINCIPAL_DIAGNOSIS")) 0 }}
       <entryRelationship typeCode="REFR">
           <observation classCode="OBS" moodCode="EVN">
             <code code="8319008" codeSystem="2.16.840.1.113883.6.96" displayName="Principal Diagnosis" codeSystemName="SNOMED CT"/>
-            {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.PrincipalDiagnosis .MapDataCriteria "principalDiagnosis"}}
+            {{template "_code.xml" codeDisplayWithPreferredCodeForField .EntrySection.Entry .EntrySection.PrincipalDiagnosis .MapDataCriteria "principalDiagnosis" "PRINCIPAL_DIAGNOSIS"}}
           </observation>
-      </entryRelationship
+      </entryRelationship>
+      {{end}}
+    {{end}}
+
+    {{if .EntrySection.Diagnosis }}
+    {{if gt (len (index .MapDataCriteria.FieldOids "DIAGNOSIS")) 0 }}
+            <entryRelationship typeCode="REFR">
+                <act classCode="ACT" moodCode="EVN">
+                  <templateId root="2.16.840.1.113883.10.20.22.4.80" extension="2015-08-01"/>
+                  <code code="29308-4" codeSystem="2.16.840.1.113883.6.1" displayName="Diagnosis" codeSystemName="LOINC"/>
+                  <entryRelationship typeCode="SUBJ">
+                    <observation classCode="OBS" moodCode="EVN">
+                      <!--  Problem observation template -->
+                      <templateId root="2.16.840.1.113883.10.20.22.4.4" extension="2015-08-01"/>
+                      <id root="1.3.6.1.4.1.115" extension="{{newRandom}}"/>
+                      <code code="29308-4" codeSystem="2.16.840.1.113883.6.1">
+                        <translation code="282291009" codeSystem="2.16.840.1.113883.6.96"/>
+                      </code>
+                      <statusCode code="completed"/>
+                      <effectiveTime>
+                        <low {{valueOrNullFlavor $startTime}}/>
+                        <high {{valueOrNullFlavor $endTime}}/>
+                      </effectiveTime>
+                      {{template "_code.xml" codeDisplayWithPreferredCodeForField .EntrySection.Entry .EntrySection.Diagnosis .MapDataCriteria "diagnosis" "DIAGNOSIS"}}
+                    </observation>
+                  </entryRelationship>
+                </act>
+            </entryRelationship>
+      {{end}}
     {{end}}
   </encounter>
+  </entryRelationship>
+  </act>
 </entry>
