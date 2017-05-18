@@ -57,7 +57,7 @@ func exporterFuncMap(cat1Template *template.Template, vsMap models.ValueSetMap) 
 		"isNil":                                      isNil,
 		"derefBool":                                  derefBool,
 		"emptyMdc":                                   models.EmptyMdc,
-		"createRecordTarget":                         createRecordTarget,
+		"newRecordTarget":                            newRecordTarget,
 	}
 }
 
