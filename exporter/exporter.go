@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/pborman/uuid"
+	"github.com/projectcypress/cdatools/exporter/cat3"
 	"github.com/projectcypress/cdatools/models"
 )
 
@@ -115,4 +116,41 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 	}
 
 	return b.String()
+}
+
+func GenerateCat3(measures []byte, measure_results []byte, effectiveDate int64, startDate int64, endDate int64, version string) string {
+	m := models.Measure{}
+	mr := cat3.MeasureResults{}
+
+	json.Unmarshal(measures, &m)
+	json.Unmarshal(measure_results, &mr)
+
+	aggCount := cat3.AggregateCount{
+		Populations:      mr.Populations,
+		PopulationGroups: mr.PopulationGroups,
+	}
+	aggCounts := map[string]cat3.AggregateCount{}
+	aggCounts[m.HQMFID] = aggCount
+	log.Println(aggCounts)
+	ms := &cat3.MeasureSection{
+		Measure: models.Measure{
+			ID:        "measure test id",
+			HQMFID:    m.HQMFID,
+			Name:      m.Name,
+			HQMFSetID: m.HQMFSetID,
+		},
+		Results: aggCounts,
+	}
+
+	// TODO: make header an argument to GenerateCat3()
+	h := &models.Header{}
+	h = nil
+
+	if version == "" {
+		version = "r2"
+	}
+
+	d := cat3.NewDoc(*h, *ms, m, startDate, endDate)
+
+	return cat3.Print(d.Template(), d)
 }
