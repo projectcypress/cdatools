@@ -65,6 +65,7 @@ type FieldValueValue struct {
 type DcKey struct {
 	DataCriteriaOid string
 	ValueSetOid     string
+	NegationOid		string
 }
 
 type Mdc struct {
@@ -106,7 +107,12 @@ func UniqueDataCriteria(allDataCriteria []DataCriteria) []Mdc {
 		}
 
 		// Generate the key for the mappedDataCriteria
-		dc := DcKey{DataCriteriaOid: oid, ValueSetOid: vsOid}
+		dc := DcKey{}
+		if dataCriteria.Negation == true {
+			dc = DcKey{DataCriteriaOid: oid, ValueSetOid: vsOid, NegationOid: "Negation"}
+		} else {
+			dc = DcKey{DataCriteriaOid: oid, ValueSetOid: vsOid, NegationOid: "NA"}
+		}
 
 		var mappedDc = mappedDataCriteria[dc]
 		if mappedDc.FieldOids == nil {
@@ -134,12 +140,12 @@ func UniqueDataCriteria(allDataCriteria []DataCriteria) []Mdc {
 			mappedDataCriteria[dc] = mappedDc
 		}
 	}
-
 	// Add the key to the value to get what HDS would have returned
 	var retDataCriteria []Mdc
 	for key, value := range mappedDataCriteria {
 		value.DataCriteriaOid = key.DataCriteriaOid
 		value.ValueSetOid = key.ValueSetOid
+		value.NegationOid = key.NegationOid
 		retDataCriteria = append(retDataCriteria, value)
 	}
 	return retDataCriteria
