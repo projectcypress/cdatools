@@ -2318,7 +2318,7 @@ func templatesCat1R3_patient_dataXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_patient_data.xml", size: 622, mode: os.FileMode(420), modTime: time.Unix(1495022228, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_patient_data.xml", size: 622, mode: os.FileMode(420), modTime: time.Unix(1495117273, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -2509,7 +2509,7 @@ func templatesCat1R3_record_targetXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_record_target.xml", size: 2767, mode: os.FileMode(420), modTime: time.Unix(1494943327, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_record_target.xml", size: 2767, mode: os.FileMode(420), modTime: time.Unix(1495117273, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -2557,7 +2557,7 @@ func templatesCat1R3_reporting_parametersXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_reporting_parameters.xml", size: 1356, mode: os.FileMode(420), modTime: time.Unix(1495022367, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_reporting_parameters.xml", size: 1356, mode: os.FileMode(420), modTime: time.Unix(1495117273, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -2641,7 +2641,7 @@ var _templatesCat1R3Cat1Xml = []byte(`<?xml version="1.0" encoding="utf-8"?>
   <confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25"/>
   <languageCode code="en"/>
   <!-- reported patient -->
-  {{$recordTarget := createRecordTarget .Record .CMSCompatibility}}
+  {{$recordTarget := newRecordTarget .Record .CMSCompatibility}}
   {{template "_record_target.xml" $recordTarget}}
 
   {{if .Header}}
@@ -2808,7 +2808,7 @@ func templatesCat1R3Cat1Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/cat1.xml", size: 6823, mode: os.FileMode(420), modTime: time.Unix(1495041116, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/cat1.xml", size: 6820, mode: os.FileMode(420), modTime: time.Unix(1495117649, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }

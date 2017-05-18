@@ -27,7 +27,7 @@
   <confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25"/>
   <languageCode code="en"/>
   <!-- reported patient -->
-  {{$recordTarget := createRecordTarget .Record .CMSCompatibility}}
+  {{$recordTarget := newRecordTarget .Record .CMSCompatibility}}
   {{template "_record_target.xml" $recordTarget}}
 
   {{if .Header}}

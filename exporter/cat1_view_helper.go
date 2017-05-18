@@ -248,7 +248,7 @@ type RecordTarget struct {
 	CMSCompatibility bool
 }
 
-// createRecordTarget is for initializing a RecordTarget
-func createRecordTarget(record models.Record, cmsCompatibility bool) RecordTarget {
+// newRecordTarget is for initializing a RecordTarget
+func newRecordTarget(record models.Record, cmsCompatibility bool) RecordTarget {
 	return RecordTarget{Record: record, CMSCompatibility: cmsCompatibility}
 }
