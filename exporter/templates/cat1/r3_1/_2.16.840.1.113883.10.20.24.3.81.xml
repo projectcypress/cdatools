@@ -1,5 +1,5 @@
 <entry>
-  <act classCode="ACT" moodCode="EVN" <%== negation_indicator(entry) %>>
+  <act classCode="ACT" moodCode="EVN" {{negationIndicator $.EntrySection.Entry}} >
     <!-- Transfer From Act -->
     <templateId root="2.16.840.1.113883.10.20.24.3.141"/>
     <id root="{{newRandom}}" />
@@ -12,11 +12,14 @@
     		<statusCode code="completed"/>
     		<participant typeCode="ORG">
     	    <time>
-            <low {{valueOrNullFlavor .EntrySection.TransferFrom.Time}} />
+            <low {{valueOrNullFlavor .EntrySection.TransferFrom.Time}}/>
+            <high {{valueOrNullFlavor .EntrySection.TransferFrom.Time}} />
           </time>
     	    <participantRole classCode="LOCE">
-    	      {{$transferOid := getTransferOid .MapDataCriteria.DataCriteria "TRANSFER_FROM"}}
-            {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.TransferFrom.Coded "transferFrom"}}
+                <code code="{{.EntrySection.TransferFrom.Code}}"
+                      codeSystem="{{oidForCodeSystem .EntrySection.TransferFrom.CodeSystem}}"
+                      sdtc:valueSet="{{oidForCode .EntrySection.TransferFrom.CodedConcept (index .MapDataCriteria.FieldOids "TRANSFER_FROM")}}"
+                    />
     	      </participantRole> 
     	    </participant>
     	</encounter>
