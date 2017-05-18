@@ -7,8 +7,8 @@
     <statusCode code="completed"/>
     <participant typeCode="DST">
       <time>
-        <low {{valueOrNullFlavor .EntrySection.StartTime}}/>
-        <high {{valueOrNullFlavor .EntrySection.EndTime}}/>
+        <low {{valueOrNullFlavor .EntrySection.TransferTo.Time}} />
+        <high {{valueOrNullFlavor .EntrySection.TransferTo.Time}} />
       </time>
       <participantRole classCode="LOCE">
         <code code="{{.EntrySection.TransferTo.Code}}"

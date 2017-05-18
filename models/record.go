@@ -199,7 +199,7 @@ func (r *Record) EntriesForDataCriteria(dataCriteria DataCriteria, vsMap map[str
 		case "2.16.840.1.113883.3.560.1.3", "2.16.840.1.113883.3.560.1.11":
 			entries = r.GetEntriesForOids(dataCriteria, codes, "2.16.840.1.113883.3.560.1.3", "2.16.840.1.113883.3.560.1.11")
 		case "2.16.840.1.113883.3.560.1.71", "2.16.840.1.113883.3.560.1.72":
-	//		// Transfers (either from or to)
+			// Transfers (either from or to)
 			if dataCriteria.FieldValues != nil {
 				if dataCriteria.FieldValues["TRANSFER_FROM"].CodeListID != "" {
 					codes = vsMap[dataCriteria.FieldValues["TRANSFER_FROM"].CodeListID]
