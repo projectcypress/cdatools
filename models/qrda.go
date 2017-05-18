@@ -4,6 +4,7 @@ type Header struct {
 	Authenticator Authenticator
 	Authors       []Author
 	Custodian     Author
+	Identifier    CDAIdentifier
 }
 
 type Author struct {
