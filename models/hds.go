@@ -72,8 +72,15 @@ func (h *HdsMaps) importHQMFTemplateJSON() {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	for id, data := range h.HqmfMap {
-		h.IdMap[makeDefinitionKey(data.Definition, data.Status, data.Negation)] = id
+  err = json.Unmarshal(hqmf_r2_template_oid_map, &h.HqmfR2Map)
+  if err != nil {
+    log.Fatalln(err)
+  }
+  for id, data := range h.HqmfMap {
+    h.IdMap[makeR1DefinitionKey(data.Definition, data.Status, data.Negation)] = id
+  }
+	for id, data := range h.HqmfR2Map {
+		h.IdR2Map[makeR2DefinitionKey(data.Definition, data.Status)] = id
 	}
 }
 
@@ -82,11 +89,20 @@ func (h *HdsMaps) GetTemplateDefinition(id string) DataCriteria {
 }
 
 func (h *HdsMaps) GetID(data DataCriteria) string {
-	return h.IdMap[makeDefinitionKey(data.Definition, data.Status, data.Negation)]
+  id := ""
+	id = h.IdMap[makeR1DefinitionKey(data.Definition, data.Status, data.Negation)]
+  if id == "" {
+    id = h.IdR2Map[makeR2DefinitionKey(data.Definition, data.Status)]
+  }
+  return id
 }
 
-func makeDefinitionKey(definition string, status string, negation bool) string {
-	return fmt.Sprintf("%s-%s-%t", definition, status, negation)
+func makeR1DefinitionKey(definition string, status string, negation bool) string {
+  return fmt.Sprintf("%s-%s-%t", definition, status, negation)
+}
+
+func makeR2DefinitionKey(definition string, status string) string {
+  return fmt.Sprintf("%s-%s", definition, status)
 }
 
 func (h *HdsMaps) HqmfToQrdaOid(hqmfOid string, vsOid string) string {
@@ -289,6 +305,24 @@ var hqmf_qrda_oids = []byte(`[
     "hqmf_oid": "2.16.840.1.113883.3.560.1.80",
     "qrda_name": "Device Recommended",
     "qrda_oid": "2.16.840.1.113883.10.20.24.3.10"
+  },
+  {
+    "hqmf_name": "Diagnosis",
+    "hqmf_oid": "2.16.840.1.113883.10.20.28.3.110",
+    "qrda_name": "Diagnosis Active",
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.135",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "value",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "xsi:type=\"CD\" sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
+        "preferred_code_sets": ["2.16.840.1.113883.3.88.12.3221.7.4"],
+        "code_set_required": true,
+        "value_set_preferred": true
+      }
+    ]
   },
   {
     "hqmf_name": "Diagnosis, Active",
@@ -561,7 +595,15 @@ var hqmf_qrda_oids = []byte(`[
       {
         "code_type": "principalDiagnosis",
         "tag_name": "value",
-        "extra_content": "xsi:type=\"CD\" sdtc:valueSet=\"{{index .MapDataCriteria.FieldOids \"PRINCIPAL_DIAGNOSIS\"}}\"",
+        "extra_content": "xsi:type=\"CD\" sdtc:valueSet=\"{{index .MapDataCriteria.FieldOids \"PRINCIPAL_DIAGNOSIS\" 0}}\"",
+        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "CPT"],
+        "code_set_required": false,
+        "value_set_preferred": true
+      },
+      {
+        "code_type": "diagnosis",
+        "tag_name": "value",
+        "extra_content": "xsi:type=\"CD\" sdtc:valueSet=\"{{index .MapDataCriteria.FieldOids \"DIAGNOSIS\" 0}}\"",
         "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "CPT"],
         "code_set_required": false,
         "value_set_preferred": true
@@ -809,6 +851,60 @@ var hqmf_qrda_oids = []byte(`[
     "qrda_oid": "2.16.840.1.113883.10.20.24.3.40"
   },
   {
+    "hqmf_name": "Immunization Administered",
+    "hqmf_oid": "2.16.840.1.113883.10.20.28.3.112",
+    "qrda_name": "Immunization Administered",
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.140",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
+        "preferred_code_sets": ["2.16.840.1.113762.1.4.1010.6"],
+        "code_set_required": true,
+        "value_set_preferred": true
+      }
+    ]
+  },
+  {
+    "hqmf_name": "Immunization, Allergy",
+    "hqmf_oid": "2.16.840.1.113883.10.20.28.3.114",
+    "qrda_name": "Medication Allergy",
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.44",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
+        "preferred_code_sets": ["*"],
+        "code_set_required": false,
+        "value_set_preferred": false
+      }
+    ]
+  },
+  {
+    "hqmf_name": "Immunization, Intolerance",
+    "hqmf_oid": "2.16.840.1.113883.10.20.28.3.115",
+    "qrda_name": "Medication Intolerance",
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.46",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
+        "preferred_code_sets": ["2.16.840.1.113762.1.4.1010.1"],
+        "code_set_required": true,
+        "value_set_preferred": true
+      }
+    ]
+  },
+  {
     "hqmf_name": "Medication, Active",
     "hqmf_oid": "2.16.840.1.113883.3.560.1.13",
     "qrda_name": "Medication Active",
@@ -1005,8 +1101,8 @@ var hqmf_qrda_oids = []byte(`[
         "exclude_null_flavor": false,
         "extra_content": "xsi:type=\"CD\" sdtc:valueSet=\"2.16.840.1.114222.4.11.3591\"",
         "preferred_code_sets": ["2.16.840.1.114222.4.11.3591"],
-        "code_set_required": true,
-        "value_set_preferred": true
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -2481,5 +2577,389 @@ var hqmf_template_oid_map = []byte(`{
       "definition":"transfer_to",
       "status":"",
       "negation":true}
+}
+`)
+
+var hqmf_r2_template_oid_map = []byte(`{
+"2.16.840.1.113883.10.20.28.3.53":{
+      "definition":"patient_characteristic",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.54":{
+      "definition":"patient_characteristic_birthdate",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.6":{
+      "definition":"patient_characteristic",
+      "status":"clinical_trial_participant",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.55":{
+      "definition":"patient_characteristic_gender",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.56":{
+      "definition":"patient_characteristic_ethnicity",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.57":{
+      "definition":"patient_characteristic_expired",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.58":{
+      "definition":"patient_characteristic_payer",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.59":{
+      "definition":"patient_characteristic_race",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.3.560.1.4":{
+      "definition":"encounter",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.26":{
+      "definition":"encounter",
+      "status":"active",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.5":{
+      "definition":"encounter",
+      "status":"performed",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.27":{
+      "definition":"encounter",
+      "status":"ordered",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.28":{
+      "definition":"encounter",
+      "status":"recommended",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.67":{
+      "definition":"procedure",
+      "status":"performed",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.66":{
+      "definition":"procedure",
+      "status":"ordered",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.69":{
+      "definition":"procedure_result",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.64":{
+      "definition":"procedure_adverse_event",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.65":{
+      "definition":"procedure_intolerance",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.68":{
+      "definition":"procedure",
+      "status":"recommended",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.1":{
+      "definition":"diagnosis",
+      "status":"active",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.19":{
+      "definition":"diagnosis",
+      "status":"resolved",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.17":{
+      "definition":"diagnosis",
+      "status":"family_history",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.18":{
+      "definition":"diagnosis",
+      "status":"inactive",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.110":{
+      "definition":"diagnosis",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.111":{
+      "definition":"family_history",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.23":{
+      "definition":"diagnostic_study",
+      "status":"performed",
+      "negation":false},
+  "￼2.16.840.1.113883.10.20.28.3.25":{
+      "definition":"diagnostic_study_result",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.20":{
+      "definition":"diagnostic_study_adverse_event",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.21":{
+      "definition":"diagnostic_study_intolerance",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.22":{
+      "definition":"diagnostic_study",
+      "status":"ordered",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.23":{
+      "definition":"diagnostic_study",
+      "status":"performed",
+      "negation":true},
+  "2.16.840.1.113883.10.20.28.3.24":{
+      "definition":"diagnostic_study",
+      "status":"recommended",
+      "negation":true},
+  "2.16.840.1.113883.10.20.28.3.49":{
+      "definition":"medication",
+      "status":"dispensed",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.51":{
+      "definition":"medication",
+      "status":"ordered",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.48":{
+      "definition":"medication",
+      "status":"discharge",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.44":{
+      "definition":"medication",
+      "status":"active",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.45":{
+      "definition":"medication",
+      "status":"administered",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.46":{
+      "definition":"medication_adverse_effects",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.47":{
+      "definition":"medication_allergy",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.50":{
+      "definition":"medication_intolerance",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.112":{
+      "definition":"immunization",
+      "status":"administered",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.113":{
+      "definition":"immunization",
+      "status":"order",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.114":{
+      "definition":"immunization",
+      "status":"allergy",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.115":{
+      "definition":"immunization",
+      "status":"intolerance",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.60":{
+      "definition":"physical_exam",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.61":{
+      "definition":"physical_exam",
+      "status":"ordered",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.62":{
+      "definition":"physical_exam",
+      "status":"performed",
+      "negation":false},
+  "22.16.840.1.113883.10.20.28.3.63":{
+      "definition":"physical_exam",
+      "status":"recommended",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.4":{
+      "definition":"laboratory_test",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.42":{
+      "definition":"laboratory_test",
+      "status":"performed",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.39":{
+      "definition":"laboratory_test_adverse_event",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.40":{
+      "definition":"laboratory_test_intolerance",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.41":{
+      "definition":"laboratory_test",
+      "status":"ordered",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.43":{
+      "definition":"laboratory_test",
+      "status":"recommended",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.7":{
+      "definition":"care_goal",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.8":{
+      "definition":"communication_from_patient_to_provider",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.9":{
+      "definition":"communication_from_provider_to_patient",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.10":{
+      "definition":"communication_from_provider_to_provider",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.13":{
+      "definition":"device",
+      "status":"applied",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.11":{
+      "definition":"device_adverse_event",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.12":{
+      "definition":"device_allergy",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.14":{
+      "definition":"device_intolerance",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.15":{
+      "definition":"device",
+      "status":"ordered",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.16":{
+      "definition":"device",
+      "status":"recommended",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.73":{
+      "definition":"substance",
+      "status":"administered",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.77":{
+      "definition":"substance",
+      "status":"ordered",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.46.74":{
+      "definition":"substance_adverse_event",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.76":{
+      "definition":"substance_intolerance",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.75":{
+      "definition":"substance_allergy",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.78":{
+      "definition":"substance",
+      "status":"recommended",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.33":{
+      "definition":"intervention_adverse_event",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.34":{
+      "definition":"intervention_intolerance",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.35":{
+      "definition":"intervention",
+      "status":"ordered",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.36":{
+      "definition":"intervention",
+      "status":"performed",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.38":{
+      "definition":"intervention_result",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.37":{
+      "definition":"intervention",
+      "status":"recommended",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.79":{
+      "definition":"symptom",
+      "status":"active",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.80":{
+      "definition":"symptom",
+      "status":"assessed",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.81":{
+      "definition":"symptom",
+      "status":"inactive",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.82":{
+      "definition":"symptom",
+      "status":"resolved",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.116":{
+      "definition":"symptom",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.30":{
+      "definition":"functional_status",
+      "status":"performed",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.29":{
+      "definition":"functional_status",
+      "status":"ordered",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.31":{
+      "definition":"functional_status",
+      "status":"recommended",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.32":{
+      "definition":"functional_status_result",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.72":{
+      "definition":"risk_category_assessment",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.70":{
+      "definition":"provider_care_experience",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.52":{
+      "definition":"patient_care_experience",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.87":{
+      "definition":"preference_provider",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.86":{
+      "definition":"preference_patient",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.71":{
+      "definition":"provider_characteristic",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.84":{
+      "definition":"transfer_from",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.85":{
+      "definition":"transfer_to",
+      "status":"",
+      "negation":false},
+  "2.16.840.1.113883.10.20.28.3.117":{
+    "definition":"assessment",
+    "status":"performed",
+    "negation":false},
+  "2.16.840.1.113883.10.20.28.3.118":{
+    "definition":"assessment",
+    "status":"recommended",
+    "negation":false}
 }
 `)
