@@ -1,5 +1,6 @@
 package models
 
 type VitalSign struct {
-	LabResult `bson:",inline"`
+	Entry            `bson:",inline"`
 }
+
