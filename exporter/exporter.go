@@ -52,6 +52,7 @@ func exporterFuncMap(cat1Template *template.Template, vsMap models.ValueSetMap) 
 		"hasPreferredCode":                           hasPreferredCode,
 		"hasLaterality":                              hasLaterality,
 		"codeDisplayWithPreferredCode":               vsMap.CodeDisplayWithPreferredCode,
+		"codeDisplayWithPreferredCodeForField":  	  vsMap.CodeDisplayWithPreferredCodeForField,
 		"codeDisplayWithPreferredCodeForResultValue": vsMap.CodeDisplayWithPreferredCodeForResultValue,
 		"codeDisplayWithPreferredCodeAndLaterality":  vsMap.CodeDisplayWithPreferredCodeAndLaterality,
 		"negationIndicator":                          negationIndicator,
