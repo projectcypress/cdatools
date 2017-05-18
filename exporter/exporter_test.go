@@ -13,8 +13,21 @@ import (
 func TestExport(t *testing.T) {
 	t.Skip()
 	measureData := append([]byte("["), append(append(fixtures.Cms9v4a, append([]byte(","), fixtures.Cms26v3...)...), []byte("]")...)...)
-
 	startDate := int64(1451606400)
 	endDate := int64(1483228799)
-	fmt.Print(GenerateCat1(fixtures.TestPatientDataAmi, measureData, fixtures.Cms9_26, startDate, endDate, "r3", true))
+
+	ExporterCat1Init(measureData, fixtures.Cms9_26)
+	fmt.Print(GenerateCat1(fixtures.TestPatientDataAmi, startDate, endDate, "r3", true))
+}
+
+func BenchmarkExport(b *testing.B) {
+	measureData := append([]byte("["), append(append(fixtures.Cms9v4a, append([]byte(","), fixtures.Cms26v3...)...), []byte("]")...)...)
+	startDate := int64(1451606400)
+	endDate := int64(1483228799)
+	ExporterCat1Init(measureData, fixtures.Cms9_26)
+
+	b.ReportAllocs()
+	for i := 0; i < b.N; i++ {
+		GenerateCat1(fixtures.TestPatientDataAmi, startDate, endDate, "r3", true)
+	}
 }

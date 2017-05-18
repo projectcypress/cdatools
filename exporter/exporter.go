@@ -61,18 +61,27 @@ func exporterFuncMap(cat1Template *template.Template, vsMap models.ValueSetMap) 
 	}
 }
 
+// Global Cat1 Measure Data for a batch of patients
+var cat1Measures []models.Measure
+
+// Global Cat1 Value Set Data for a batch of patients
+var cat1ValueSets []models.ValueSet
+
+// Global Cat1 ValueSetMap for a batch of patients
+var cat1ValueSetMap models.ValueSetMap
+
+// ExporterCat1Init initializes structures out of the measures and value sets
+// given to be used for GenerateCat1
+func ExporterCat1Init(measures []byte, valueSets []byte) {
+	json.Unmarshal(measures, &cat1Measures)
+	json.Unmarshal(valueSets, &cat1ValueSets)
+	cat1ValueSetMap = models.NewValueSetMap(cat1ValueSets)
+}
+
 // GenerateCat1 generates a cat1 xml string for export
-func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate int64, endDate int64, qrdaVersion string, cmsCompatibility bool) string {
-
+func GenerateCat1(patient []byte, startDate int64, endDate int64, qrdaVersion string, cmsCompatibility bool) string {
 	p := &models.Record{}
-	m := []models.Measure{}
-	vs := []models.ValueSet{}
-
 	json.Unmarshal(patient, p)
-	json.Unmarshal(measures, &m)
-	json.Unmarshal(valueSets, &vs)
-
-	vsMap := models.NewValueSetMap(vs)
 
 	if qrdaVersion == "" {
 		qrdaVersion = "r3"
@@ -84,7 +93,7 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 	}
 
 	cat1Template := template.New("cat1")
-	cat1Template.Funcs(exporterFuncMap(cat1Template, vsMap))
+	cat1Template.Funcs(exporterFuncMap(cat1Template, cat1ValueSetMap))
 
 	for _, d := range data {
 		asset, _ := Asset("templates/cat1/" + qrdaVersion + "/" + d)
@@ -100,11 +109,11 @@ func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate i
 	h = nil
 
 	reportingProgram := "HQR_EHR"
-	if len(m) > 0 && m[0].Type == "ep" {
+	if len(cat1Measures) > 0 && cat1Measures[0].Type == "ep" {
 		reportingProgram = "PQRS_MU_INDIVIDUAL"
 	}
 
-	c1d := cat1data{Record: *p, Header: h, Measures: m, ValueSets: vs, StartDate: startDate, EndDate: endDate, EntryInfos: p.EntryInfosForPatient(m, vsMap, qrdaVersion), CMSCompatibility: cmsCompatibility, ReportingProgram: reportingProgram}
+	c1d := cat1data{Record: *p, Header: h, Measures: cat1Measures, ValueSets: cat1ValueSets, StartDate: startDate, EndDate: endDate, EntryInfos: p.EntryInfosForPatient(cat1Measures, cat1ValueSetMap, qrdaVersion), CMSCompatibility: cmsCompatibility, ReportingProgram: reportingProgram}
 
 	var b bytes.Buffer
 
