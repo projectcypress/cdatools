@@ -822,7 +822,7 @@ func templatesCat1R3_2168401113883102024323Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.23.xml", size: 3546, mode: os.FileMode(420), modTime: time.Unix(1494428574, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.23.xml", size: 3546, mode: os.FileMode(420), modTime: time.Unix(1495117878, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1861,19 +1861,22 @@ func templatesCat1R3_2168401113883102024376Xml() (*asset, error) {
 
 var _templatesCat1R3_2168401113883102024381Xml = []byte(`<entry>
   <encounter classCode="ENC" moodCode="EVN">
+    <!-- Transfer From -->
     <templateId root="2.16.840.1.113883.10.20.24.3.81" extension="2014-12-01"/>
     <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     <code code="77305-1" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="transferred from"/>
     <statusCode code="completed"/>
     <participant typeCode="ORG">
       <time>
-        <low {{valueOrNullFlavor .EntrySection.TransferFrom.Time}}/>
-        <high {{valueOrNullFlavor .EntrySection.TransferFrom.Time}} />
+        <low {{valueOrNullFlavor .EntrySection.StartTime}}/>
+        <high {{valueOrNullFlavor .EntrySection.EndTime}}/>
       </time>
       <participantRole classCode="LOCE">
-        {{$transferOid := getTransferOid .MapDataCriteria.DataCriteria "TRANSFER_FROM"}}
-        {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.TransferFrom.Coded "transferFrom"}}
-      </participantRole>
+        <code code="{{.EntrySection.TransferFrom.Code}}"
+              codeSystem="{{oidForCodeSystem .EntrySection.TransferFrom.CodeSystem}}"
+              sdtc:valueSet="{{oidForCode .EntrySection.TransferFrom.CodedConcept (index .MapDataCriteria.FieldOids "TRANSFER_FROM")}}"
+            />
+      </participantRole> 
     </participant>
   </encounter>
 </entry>`)
@@ -1888,27 +1891,30 @@ func templatesCat1R3_2168401113883102024381Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.81.xml", size: 900, mode: os.FileMode(420), modTime: time.Unix(1494427319, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.81.xml", size: 984, mode: os.FileMode(420), modTime: time.Unix(1495117912, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
 
 var _templatesCat1R3_2168401113883102024382Xml = []byte(`<entry>
   <encounter classCode="ENC" moodCode="EVN">
+    <!-- Transfer To -->
     <templateId root="2.16.840.1.113883.10.20.24.3.82" extension="2014-12-01"/>
     <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
-    <code code="77306-9" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="transferred to"/>
+    <code code="77306-9" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Discharge disposition"/>
     <statusCode code="completed"/>
     <participant typeCode="DST">
       <time>
-        <low {{valueOrNullFlavor .EntrySection.TransferTo.Time}} />
-        <high {{valueOrNullFlavor .EntrySection.TransferTo.Time}} />
+        <low {{valueOrNullFlavor .EntrySection.StartTime}}/>
+        <high {{valueOrNullFlavor .EntrySection.EndTime}}/>
       </time>
       <participantRole classCode="LOCE">
-        {{$transferOid := getTransferOid .MapDataCriteria.DataCriteria "TRANSFER_TO"}}
-        {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.TransferTo.Coded "transferTo"}}
-      </participantRole>
-    </participant>
+        <code code="{{.EntrySection.TransferTo.Code}}"
+              codeSystem="{{oidForCodeSystem .EntrySection.TransferTo.CodeSystem}}"
+              sdtc:valueSet="{{oidForCode .EntrySection.TransferTo.CodedConcept (index .MapDataCriteria.FieldOids "TRANSFER_TO")}}"
+            />
+      </participantRole> 
+      </participant>
   </encounter>
 </entry>`)
 
@@ -1922,7 +1928,7 @@ func templatesCat1R3_2168401113883102024382Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.82.xml", size: 889, mode: os.FileMode(420), modTime: time.Unix(1494426781, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.82.xml", size: 981, mode: os.FileMode(420), modTime: time.Unix(1495117935, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3559,7 +3565,7 @@ func templatesCat1R3_1_2168401113883102024323Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.23.xml", size: 3522, mode: os.FileMode(420), modTime: time.Unix(1494428578, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.23.xml", size: 3522, mode: os.FileMode(420), modTime: time.Unix(1495117878, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4641,7 +4647,7 @@ func templatesCat1R3_1_2168401113883102024381Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.81.xml", size: 1333, mode: os.FileMode(420), modTime: time.Unix(1494427044, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.81.xml", size: 1333, mode: os.FileMode(420), modTime: time.Unix(1495568065, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
