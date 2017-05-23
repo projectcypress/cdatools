@@ -1,0 +1,45 @@
+{
+      "admitTime": null,
+      "admitType": null,
+      "codes": {
+        "SNOMED-CT": [
+          "32485007"
+        ]
+      },
+      "code_list_id": "2.16.840.1.113883.3.666.5.307",
+      "description": "Encounter, Performed: Encounter Inpatient",
+      "diagnosis": null,
+      "dischargeDisposition": null,
+      "dischargeTime": null,
+      "end_time": 1407917700,
+      "mood_code": "EVN",
+      "negationInd": null,
+      "negationReason": null,
+      "oid": "2.16.840.1.113883.3.560.1.79",
+      "performer_id": null,
+      "principalDiagnosis": {
+        "codes": {
+          "SNOMED-CT": [
+            "8715000"
+          ]
+        }
+      },
+      "reason": null,
+      "specifics": null,
+      "start_time": 1407744900,
+      "status_code": {
+        "HL7 ActStatus": [
+          "performed"
+        ]
+      },
+      "time": null,
+      "transferFrom": {
+        "code": "434771000124107",
+        "code_system": "SNOMED-CT",
+        "codes": {
+        },
+        "time": 1407739500,
+        "title": "Transfer From Outpatient"
+      },
+      "_type": "Encounter"
+    }
