@@ -3,6 +3,9 @@
     {{if .MedicalRecordNumber}}
       {{if .MedicalRecordAssigner}}
         <id extension="{{escape .MedicalRecordNumber}}" root="{{escape .MedicalRecordAssigner}}" />
+        {{if .CMSCompatibility}}
+          <id extension="{{escape .MedicalRecordNumber}}" root="1.3.6.1.4.1.115" />
+        {{end}}
       {{else}}
         <id extension="12345" root="PlaceholderOrganization" />
       {{end}}
