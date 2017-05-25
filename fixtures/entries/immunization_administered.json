@@ -1,0 +1,48 @@
+{
+    "active_datetime": null,
+    "administrationTiming": null,
+    "anatomical_approach": null,
+    "codes": {
+        "CVX": [
+            "155"
+        ]
+    },
+    "cumulativeMedicationDuration": null,
+    "deliveryMethod": null,
+    "description": "Immunization, Administered: Influenza Vaccine",
+    "dose": null,
+    "doseIndicator": null,
+    "doseRestriction": null,
+    "end_time": 1415613600,
+    "freeTextSig": null,
+    "fulfillmentHistory": [
+    ],
+    "fulfillmentInstructions": null,
+    "indication": null,
+    "method": null,
+    "mood_code": "EVN",
+    "negationInd": true,
+    "negationReason": {
+        "code_system": "SNOMED-CT",
+        "code": "105480006"
+    },
+    "oid": "2.16.840.1.113883.10.20.28.3.112",
+    "patientInstructions": null,
+    "productForm": null,
+    "reaction": null,
+    "reason": null,
+    "route": null,
+    "signed_datetime": null,
+    "specifics": null,
+    "start_time": 1415613600,
+    "statusOfMedication": null,
+    "status_code": {
+        "HL7 ActStatus": [
+            "administered"
+        ]
+    },
+    "time": null,
+    "typeOfMedication": null,
+    "vehicle": null,
+    "_type": "Medication"
+}

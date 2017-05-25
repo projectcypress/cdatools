@@ -62,7 +62,7 @@ func (h *HdsMaps) importHqmfQrdaJSON() {
 		hqmfQrdaMapElem["qrda_oid"] = oidsElem.QrdaOid
 		h.HqmfQrdaMap[oidsElem.HqmfOid] = hqmfQrdaMapElem
 	}
-
+	// TODO: make hqmfQrdaMapElem map for R3.1
 }
 
 // NOTE: Had to remove the use of the Asset function that exists in exporter/templates.go:1228
@@ -1792,7 +1792,24 @@ var hqmf_qrda_oids = []byte(`[
 `)
 
 var hqmf_qrda_oids_r3_1 = []byte(`[
-  
+  {
+    "hqmf_name": "Immunization Administered",
+    "hqmf_oid": "2.16.840.1.113883.10.20.28.3.112",
+    "qrda_name": "Immunization Administered",
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.140",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
+        "preferred_code_sets": ["CVX", "RxNorm"],
+        "code_set_required": false,
+        "value_set_preferred": false
+      }
+    ]
+  }
 ]`)
 
 var hqmf_template_oid_map = []byte(`{

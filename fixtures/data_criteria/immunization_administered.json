@@ -1,0 +1,29 @@
+{
+    "title": "Influenza Vaccine",
+    "description": "Immunization, Administered: Influenza Vaccine",
+    "code_list_id": "2.16.840.1.113883.3.464.1003.196.12.1218",
+    "type": "immunizations",
+    "definition": "immunization",
+    "status": "administered",
+    "hard_status": true,
+    "negation": false,
+    "source_data_criteria": "grtr_thn_eql_180daysEndsAfterStartOf_B83A9840_F50D_41B8_9E31_BFECAD915180_da04c8fa_b709_49f0_9b70_fcddea3452b3_source",
+    "variable": false,
+    "temporal_references": [
+        {
+            "type": "EAS",
+            "reference": "Birthdate_PatientCharacteristicBirthdate_0fc1c375_6c30_4e79_91ed_c79389f45cce",
+            "range": {
+                "type": "IVL_PQ",
+                "low": {
+                    "type": "PQ",
+                    "unit": "d",
+                    "value": "180",
+                    "inclusive?": true,
+                    "derived?": false
+                }
+            }
+        }
+    ],
+    "hqmf_oid": "2.16.840.1.113883.10.20.28.3.112"
+}

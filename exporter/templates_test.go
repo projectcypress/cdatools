@@ -876,6 +876,23 @@ func TestCareGoalTemplate(t *testing.T) {
 	assertXPath(t, xrn, "//entry/observation/effectiveTime/low", map[string]string{"value": "201505101500+0000"}, nil)
 }
 
+// This test will work once we have R3.1 export and testing fixed
+// In order to get the tests working, we need to make qrdaVersion a parameter to generateDataForTemplate and xmlRootNodeForQrdaOidWithData
+// func TestImmunizationAdministered(t *testing.T) {
+// 	qrdaOid := "2.16.840.1.113883.10.20.24.3.140"
+// 	dataCriteriaName := "immunization_administered"
+// 	entryName := "immunization_administered"
+
+// 	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Medication{})
+// 	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+// 	printXmlString(xrn.String())
+// 	assertXPath(t, xrn, "//entry/act", map[string]string{"classCode": "ACT", "moodCode": "EVN"}, nil)
+// 	assertXPath(t, xrn, "//entry/act/templateId[@root='2.16.840.1.113883.10.20.24.3.140']", nil, nil)
+// 	assertXPath(t, xrn, "//entry/act/effectiveTime/low", map[string]string{"value": "201411101000+0000"}, nil)
+// 	assertXPath(t, xrn, "//entry/act/effectiveTime/high", map[string]string{"value": "201411101000+0000"}, nil)
+// 	assertXPath(t, xrn, "//entry/act/entryRelationship/substanceAdministration/consumable/manufacturedProduct/manufacturedMaterial/lotNumberText", nil, nil)
+// }
+
 // - - - - - - - - //
 //   H E L P E R   //
 // - - - - - - - - //
