@@ -56,13 +56,13 @@ func (v ValueSetMap) CodeDisplayWithPreferredCodeForField(entry *Entry, coded *C
 		log.Fatalln(err)
 	}
 	codeDisplay.MapDataCriteria = MapDataCriteria
-	for FieldOidInd := 0; FieldOidInd < len(MapDataCriteria.FieldOids[field]); FieldOidInd++ {
-		codeDisplay.PreferredCode = coded.PreferredCode(codeDisplay.PreferredCodeSets, codeDisplay.CodeSetRequired, codeDisplay.ValueSetPreferred, v, MapDataCriteria.FieldOids[field][FieldOidInd])
+	for i := range MapDataCriteria.FieldOids[field] {
+		codeDisplay.PreferredCode = coded.PreferredCode(codeDisplay.PreferredCodeSets, codeDisplay.CodeSetRequired, codeDisplay.ValueSetPreferred, v, MapDataCriteria.FieldOids[field][i])
 		if codeDisplay.PreferredCode.Code != "" {
 			//Put the relevant oid in the 0 index for export
 			oldoid := MapDataCriteria.FieldOids[field][0]
-			MapDataCriteria.FieldOids[field][0] = MapDataCriteria.FieldOids[field][FieldOidInd]
-			MapDataCriteria.FieldOids[field][FieldOidInd] = oldoid
+			MapDataCriteria.FieldOids[field][0] = MapDataCriteria.FieldOids[field][i]
+			MapDataCriteria.FieldOids[field][i] = oldoid
 			break
 		}
 	}
