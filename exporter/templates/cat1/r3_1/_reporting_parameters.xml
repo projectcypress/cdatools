@@ -2,10 +2,10 @@
   <section>
     <!-- This is the templateId for Reporting Parameters section -->
     <templateId root="2.16.840.1.113883.10.20.17.2.1"/>
-    <code code="55187-9" codeSystem="2.16.840.1.113883.6.1"/>
     {{if .CMSCompatibility}}
       <templateId root="2.16.840.1.113883.10.20.17.2.1" extension="2015-07-01" />
     {{end}}
+    <code code="55187-9" codeSystem="2.16.840.1.113883.6.1"/>
     <title>Reporting Parameters</title>
     <text>
       <list>
