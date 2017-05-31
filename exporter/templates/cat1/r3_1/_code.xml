@@ -1,5 +1,7 @@
 <{{- valueOrDefault .TagName "code" -}}
-  {{- if hasPreferredCode .PreferredCode}} code='{{- .PreferredCode.Code}}' codeSystem='{{- oidForCodeSystem .PreferredCode.CodeSystem}}' {{.RenderExtraContent}}
+  {{- if hasPreferredCode .PreferredCode}}
+    {{- if .MapDataCriteria.DataCriteria.Negation}} nullFlavor='NA' {{.RenderExtraContent}}{{- else}} code='{{- .PreferredCode.Code}}' codeSystem='{{- oidForCodeSystem .PreferredCode.CodeSystem}}' {{.RenderExtraContent}}
+    {{- end}}
   {{- else}}
     {{- $excludeNullFlavor := valueOrDefault .ExcludeNullFlavor false}}
     {{- if $excludeNullFlavor}}{{- else}} nullFlavor='UNK' xsi:type="CD"

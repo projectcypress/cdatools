@@ -38,6 +38,14 @@ func (c *Coded) AddCodeIfPresent(codeElement xml.Node) {
 		codeSystem = CodeSystemFor(codeElement.Attribute("codeSystem").String())
 	}
 
+	//extract nullFlavor from attribute if it is NA
+	nullFlavorAttribute := codeElement.Attribute("nullFlavor")
+	nullFlavorValueSet := codeElement.Attributes()
+	if nullFlavorAttribute != nil && nullFlavorValueSet["valueSet"] != nil {
+		code = nullFlavorValueSet["valueSet"].String()
+		codeSystem = nullFlavorAttribute.String()
+	}
+
 	if code != "" && codeSystem != "" {
 		c.AddCode(code, codeSystem)
 	}
