@@ -303,9 +303,9 @@ func TestEncounterPerformedTemplate(t *testing.T) {
 	assertXPath(t, rootNode, "//entry/encounter/effectiveTime/low", map[string]string{"value": "201101022004+0000"}, nil)
 	assertXPath(t, rootNode, "//entry/encounter/effectiveTime/high", map[string]string{"value": "201001022004+0000"}, nil)
 
-	// test principal diagnosis
-	assertXPath(t, rootNode, "//entry/encounter/entryRelationship/observation/code", map[string]string{"code": "8319008", "codeSystem": "2.16.840.1.113883.6.96"}, nil)
-	assertXPath(t, rootNode, "//entry/encounter/entryRelationship/observation/value", map[string]string{"code": "8715000", "codeSystem": "2.16.840.1.113883.6.96"}, nil)
+	// test principal diagnosis.  Not yet, this is only a concept in R3.1
+	//assertXPath(t, rootNode, "//entry/encounter/entryRelationship/observation/code", map[string]string{"code": "8319008", "codeSystem": "2.16.840.1.113883.6.96"}, nil)
+	//assertXPath(t, rootNode, "//entry/encounter/entryRelationship/observation/value", map[string]string{"code": "8715000", "codeSystem": "2.16.840.1.113883.6.96"}, nil)
 }
 
 func TestTransferFromTemplate(t *testing.T) {
