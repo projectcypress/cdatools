@@ -1842,10 +1842,10 @@ var hqmf_qrda_oids_r3_1 = []byte(`[
     "code_displays": [
       {
         "code_type": "entryCode",
-        "tag_name": "code",
+        "tag_name": "value",
         "attribute": "",
         "exclude_null_flavor": false,
-        "preferred_code_sets": ["LOINC", "SNOMED-CT", "ICD-9-CM", "ICD-10-CM"],
+        "preferred_code_sets": ["2.16.840.1.113883.3.88.12.3221.7.4"],
         "code_set_required": false,
         "value_set_preferred": false
       }
