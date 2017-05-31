@@ -32,6 +32,16 @@
       <high {{valueOrNullFlavor .EntrySection.EndTime}}/>
     </effectiveTime>
     {{template "_code.xml" codeDisplayWithPreferredCodeAndLaterality .EntrySection.Entry .EntrySection.Entry.Coded "entryCode" .EntrySection.Laterality .MapDataCriteria}}
+
+    {{if .EntrySection.HasSetAnatomicalLocation}}
+      <targetSiteCode xsi:type="CD"
+                code="{{.EntrySection.AnatomicalLocation.Code}}"
+                codeSystem="{{oidForCodeSystem .EntrySection.AnatomicalLocation.CodeSystem}}"
+                sdtc:valueSet="{{oidForCode .EntrySection.AnatomicalLocation (index .MapDataCriteria.FieldOids "ANATOMICAL_LOCATION_SITE")}}"
+            />
+    {{ end }}
+
+
     {{if .EntrySection.HasSetSeverity}}
     <entryRelationship typeCode="REFR">
        <observation classCode="OBS" moodCode="EVN">

@@ -321,6 +321,14 @@ var hqmf_qrda_oids = []byte(`[
         "preferred_code_sets": ["2.16.840.1.113883.3.88.12.3221.7.4"],
         "code_set_required": true,
         "value_set_preferred": true
+      },
+      {
+        "code_type": "anatomicalLocation",
+        "tag_name": "targetSiteCode",
+        "extra_content": "xsi:type=\"CD\" sdtc:valueSet=\"{{index .MapDataCriteria.FieldOids \"ANATOMICAL_LOCATION_SITE\" 0}}\"",
+        "preferred_code_sets": ["*"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -1518,13 +1526,29 @@ var hqmf_qrda_oids = []byte(`[
     "hqmf_name": "Transfer From (attribute)",
     "hqmf_oid": "2.16.840.1.113883.3.560.1.71",
     "qrda_name": "Transfer From",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.81"
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.81",
+    "code_displays": [
+      {
+        "code_type": "transferFrom",
+        "preferred_code_sets": ["*"],
+        "code_set_required": false,
+        "value_set_preferred": false
+      }
+    ]
   },
   {
     "hqmf_name": "Transfer To (attribute)",
     "hqmf_oid": "2.16.840.1.113883.3.560.1.72",
     "qrda_name": "Transfer To",
-    "qrda_oid": "2.16.840.1.113883.10.20.24.3.82"
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.82",
+    "code_displays": [
+      {
+        "code_type": "transferTo",
+        "preferred_code_sets": ["*"],
+        "code_set_required": false,
+        "value_set_preferred": false
+      }
+    ]
   },
   {
     "hqmf_name": "Laboratory Test, not Performed",

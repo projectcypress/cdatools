@@ -33,6 +33,10 @@ func (con *Condition) GetEntry() *Entry {
 	return &con.Entry
 }
 
+func (con *Condition) HasSetAnatomicalLocation() bool {
+	return con.AnatomicalLocation != CodedConcept{}
+}
+
 func (con *Condition) HasSetOrdinality() bool {
 	return con.Ordinality != Ordinality{}
 }
