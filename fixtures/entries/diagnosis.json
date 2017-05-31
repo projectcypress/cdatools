@@ -1,0 +1,43 @@
+{
+    "anatomical_location": {
+        "code_system": "SNOMED-CT",
+        "code": "24028007",
+        "title": "Right"
+    },
+    "anatomical_target": null,
+    "causeOfDeath": null,
+    "codes": {
+        "ICD-10-CM": [
+            "Q72.20"
+        ],
+        "SNOMED-CT": [
+            "298049006"
+        ],
+        "ICD-9-CM": [
+            "V49.76"
+        ]
+    },
+    "description": "Diagnosis: Unilateral Amputation Below Or Above Knee, Unspecified Laterality",
+    "end_time": null,
+    "laterality": null,
+    "mood_code": "EVN",
+    "name": null,
+    "negationInd": null,
+    "negationReason": null,
+    "oid": "2.16.840.1.113883.10.20.28.3.110",
+    "ordinality": null,
+    "priority": null,
+    "reason": null,
+    "severity": null,
+    "specifics": null,
+    "start_time": 1052812800,
+    "status_code": {
+        "HL7 ActStatus": [
+            null
+        ]
+    },
+    "time": null,
+    "time_of_death": null,
+    "type": null,
+    "_type": "Condition"
+}

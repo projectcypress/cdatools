@@ -1,0 +1,19 @@
+{
+    "title": "Unilateral Amputation Below or Above Knee, Unspecified Laterality",
+    "description": "Diagnosis: Unilateral Amputation Below or Above Knee, Unspecified Laterality",
+    "code_list_id": "2.16.840.1.113883.3.464.1003.113.12.1059",
+    "type": "conditions",
+    "definition": "diagnosis",
+    "hard_status": false,
+    "negation": false,
+    "source_data_criteria": "prefix_9c9d8815_dc39_40e4_9897_507fd28d64cb_9a655be4_4072_4d34_9e13_fccc6a603231_source",
+    "variable": false,
+    "field_values": {
+        "ANATOMICAL_LOCATION_SITE": {
+            "type": "CD",
+            "code_list_id": "2.16.840.1.113883.3.464.1003.122.12.1036",
+            "title": "Left Grouping Value Set"
+        }
+    },
+    "hqmf_oid": "2.16.840.1.113883.10.20.28.3.110"
+}

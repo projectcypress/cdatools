@@ -876,7 +876,8 @@ func TestCareGoalTemplate(t *testing.T) {
 	assertXPath(t, xrn, "//entry/observation/effectiveTime/low", map[string]string{"value": "201505101500+0000"}, nil)
 }
 
-// This test will work once we have R3.1 export and testing fixed
+// The tests below will work once we have R3.1 export and testing fixed
+
 // In order to get the tests working, we need to make qrdaVersion a parameter to generateDataForTemplate and xmlRootNodeForQrdaOidWithData
 // func TestImmunizationAdministered(t *testing.T) {
 // 	qrdaOid := "2.16.840.1.113883.10.20.24.3.140"
@@ -891,6 +892,24 @@ func TestCareGoalTemplate(t *testing.T) {
 // 	assertXPath(t, xrn, "//entry/act/effectiveTime/low", map[string]string{"value": "201411101000+0000"}, nil)
 // 	assertXPath(t, xrn, "//entry/act/effectiveTime/high", map[string]string{"value": "201411101000+0000"}, nil)
 // 	assertXPath(t, xrn, "//entry/act/entryRelationship/substanceAdministration/consumable/manufacturedProduct/manufacturedMaterial/lotNumberText", nil, nil)
+// }
+
+// func TestDiagnosis(t *testing.T) {
+// 	qrdaOid := "2.16.840.1.113883.10.20.24.3.135"
+// 	dataCriteriaName := "diagnosis"
+// 	entryName := "diagnosis"
+
+// 	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Condition{})
+// 	xrn := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+
+// 	assertXPath(t, xrn, "//entry/act", map[string]string{"classCode": "ACT", "moodCode": "EVN"}, nil)
+// 	assertXPath(t, xrn, "//entry/act/templateId[@root='2.16.840.1.113883.10.20.24.3.137']", nil, nil)
+// 	assertXPath(t, xrn, "//entry/act/effectiveTime/low", map[string]string{"value": "200305130800+0000"}, nil)
+
+// 	assertXPath(t, xrn, "//entry/act/entryRelationship/observation/templateId[@root='2.16.840.1.113883.10.20.24.3.135']", nil, nil)
+// 	assertXPath(t, xrn, "//entry/act/entryRelationship/observation/effectiveTime/low", map[string]string{"value": "200305130800+0000"}, nil)
+// 	assertXPath(t, xrn, "//entry/act/entryRelationship/observation/effectiveTime/high[@nullFlavor='UNK']", nil, nil)
+// 	assertXPath(t, xrn, "//entry/act/entryRelationship/observation/targetSiteCode", map[string]string{"code": "24028007", "codeSystem": "2.16.840.1.113883.6.96", "displayName": "Right"}, nil)
 // }
 
 // - - - - - - - - //

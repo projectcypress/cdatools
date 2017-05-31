@@ -1833,6 +1833,23 @@ var hqmf_qrda_oids_r3_1 = []byte(`[
         "value_set_preferred": false
       }
     ]
+  },
+  {
+    "hqmf_name": "Diagnosis",
+    "hqmf_oid": "2.16.840.1.113883.10.20.28.3.110",
+    "qrda_name": "Diagnosis",
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.135",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "preferred_code_sets": ["LOINC", "SNOMED-CT", "ICD-9-CM", "ICD-10-CM"],
+        "code_set_required": false,
+        "value_set_preferred": false
+      }
+    ]
   }
 ]`)
 
