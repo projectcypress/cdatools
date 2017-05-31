@@ -1,0 +1,17 @@
+{
+  "title": "Acute care hospital",
+  "description": "Transfer From: Acute care hospital",
+  "type": "transfers",
+  "definition": "transfer_from",
+  "hard_status": false,
+  "negation": false,
+  "source_data_criteria": "TransferFromAcuteCareHospital",
+  "variable": false,
+  "field_values": {
+    "TRANSFER_FROM": {
+      "type": "CD",
+      "code_list_id": "2.16.840.1.113883.3.666.5.684",
+      "title": "Acute care hospital"
+    }
+  }
+}

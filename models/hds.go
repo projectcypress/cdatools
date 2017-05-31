@@ -557,6 +557,14 @@ var hqmf_qrda_oids = []byte(`[
         "preferred_code_sets": ["*"],
         "code_set_required": false,
         "value_set_preferred": false
+      },
+      {
+        "code_type": "principalDiagnosis",
+        "tag_name": "value",
+        "extra_content": "xsi:type=\"CD\" sdtc:valueSet=\"{{index .MapDataCriteria.FieldOids \"PRINCIPAL_DIAGNOSIS\"}}\"",
+        "preferred_code_sets": ["SNOMED-CT", "ICD-9-CM", "ICD-10-CM", "CPT"],
+        "code_set_required": false,
+        "value_set_preferred": true
       }
     ]
   },

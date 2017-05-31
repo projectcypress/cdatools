@@ -303,7 +303,39 @@ func TestEncounterPerformedTemplate(t *testing.T) {
 	assertXPath(t, rootNode, "//entry/encounter/effectiveTime/low", map[string]string{"value": "201101022004+0000"}, nil)
 	assertXPath(t, rootNode, "//entry/encounter/effectiveTime/high", map[string]string{"value": "201001022004+0000"}, nil)
 
-	// continue testing here
+	// test principal diagnosis
+	assertXPath(t, rootNode, "//entry/encounter/entryRelationship/observation/code", map[string]string{"code": "8319008", "codeSystem": "2.16.840.1.113883.6.96"}, nil)
+	assertXPath(t, rootNode, "//entry/encounter/entryRelationship/observation/value", map[string]string{"code": "8715000", "codeSystem": "2.16.840.1.113883.6.96"}, nil)
+}
+
+func TestTransferFromTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.81"
+	dataCriteriaName := "transfer_from"
+	entryName := "transfer_from"
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Encounter{})
+
+	rootNode := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+	assertXPath(t, rootNode, "//entry/encounter/templateId[@root='2.16.840.1.113883.10.20.24.3.81']", nil, nil)
+	assertXPath(t, rootNode, "//entry/encounter/participant/time/low", map[string]string{"value": "201408110815+0000"}, nil)
+	assertXPath(t, rootNode, "//entry/encounter/participant/time/high", map[string]string{"value": "201408130815+0000"}, nil)
+	assertXPath(t, rootNode, "//entry/encounter/participant/participantRole/code", map[string]string{"code": "434771000124107"}, nil)
+	assertXPath(t, rootNode, "//entry/encounter/participant/participantRole/code", map[string]string{"codeSystem": "2.16.840.1.113883.6.96"}, nil)
+	assertXPath(t, rootNode, "//entry/encounter/participant/participantRole/code", map[string]string{"sdtc:valueSet": "2.16.840.1.113883.3.666.5.684"}, nil)
+}
+
+func TestTransferToTemplate(t *testing.T) {
+	qrdaOid := "2.16.840.1.113883.10.20.24.3.82"
+	dataCriteriaName := "transfer_to"
+	entryName := "transfer_to"
+	ei := generateDataForTemplate(dataCriteriaName, entryName, &models.Encounter{})
+
+	rootNode := xmlRootNodeForQrdaOidWithData(qrdaOid, ei)
+	assertXPath(t, rootNode, "//entry/encounter/templateId[@root='2.16.840.1.113883.10.20.24.3.82']", nil, nil)
+	assertXPath(t, rootNode, "//entry/encounter/participant/time/low", map[string]string{"value": "201408110815+0000"}, nil)
+	assertXPath(t, rootNode, "//entry/encounter/participant/time/high", map[string]string{"value": "201408130815+0000"}, nil)
+	assertXPath(t, rootNode, "//entry/encounter/participant/participantRole/code", map[string]string{"code": "434771000124107"}, nil)
+	assertXPath(t, rootNode, "//entry/encounter/participant/participantRole/code", map[string]string{"codeSystem": "2.16.840.1.113883.6.96"}, nil)
+	assertXPath(t, rootNode, "//entry/encounter/participant/participantRole/code", map[string]string{"sdtc:valueSet": "2.16.840.1.113883.3.666.5.684"}, nil)
 }
 
 func TestCommunicationFromPatientToProviderTemplate(t *testing.T) {

@@ -92,6 +92,7 @@ var TestPatientDataAmi = []byte(`
           "32485007"
         ]
       },
+      "code_list_id": "2.16.840.1.113883.3.666.5.307",
       "description": "Encounter, Performed: Encounter Inpatient",
       "diagnosis": null,
       "dischargeDisposition": null,
@@ -102,7 +103,13 @@ var TestPatientDataAmi = []byte(`
       "negationReason": null,
       "oid": "2.16.840.1.113883.3.560.1.79",
       "performer_id": null,
-      "principalDiagnosis": null,
+      "principalDiagnosis": {
+        "codes": {
+          "SNOMED-CT": [
+            "8715000"
+          ]
+        }
+      },
       "reason": null,
       "specifics": null,
       "start_time": 1407744900,
@@ -113,7 +120,7 @@ var TestPatientDataAmi = []byte(`
       },
       "time": null,
       "transferFrom": {
-        "code": "73770003",
+        "code": "434771000124107",
         "code_system": "SNOMED-CT",
         "codes": {
         },
