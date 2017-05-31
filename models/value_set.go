@@ -59,6 +59,9 @@ func (v ValueSetMap) CodeDisplayWithPreferredCodeForField(entry *Entry, coded *C
 	for FieldOidInd := 0; FieldOidInd < len(MapDataCriteria.FieldOids[field]); FieldOidInd++ {
 		codeDisplay.PreferredCode = coded.PreferredCode(codeDisplay.PreferredCodeSets, codeDisplay.CodeSetRequired, codeDisplay.ValueSetPreferred, v, MapDataCriteria.FieldOids[field][FieldOidInd])
 		if codeDisplay.PreferredCode.Code != "" {
+			oldoid := MapDataCriteria.FieldOids[field][0]
+			MapDataCriteria.FieldOids[field][0] = MapDataCriteria.FieldOids[field][FieldOidInd]
+			MapDataCriteria.FieldOids[field][FieldOidInd] = oldoid
 			break
 		}
 	}
@@ -114,9 +117,12 @@ func (v ValueSetMap) OidForCode(codedValue CodedConcept, valuesetOids []string) 
 func codeSetContainsCode(sets []CodeSet, codedValue CodedConcept) bool {
 	for _, cs := range sets {
 		for _, val := range cs.Values {
-			if (val.CodeSystem == codedValue.CodeSystem ||
+			if ((val.CodeSystem == codedValue.CodeSystem ||
 				val.CodeSystemName == codedValue.CodeSystemName ||
-				val.CodeSystemName == codedValue.CodeSystem) &&
+				val.CodeSystemName == codedValue.CodeSystem) ||
+				(val.CodeSystem == codeSystemAliases[codedValue.CodeSystem] ||
+				val.CodeSystemName == codeSystemAliases[codedValue.CodeSystemName] ||
+				val.CodeSystemName == codeSystemAliases[codedValue.CodeSystem])) &&
 				val.Code == codedValue.Code {
 				return true
 			}
