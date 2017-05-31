@@ -51,6 +51,8 @@ func exporterFuncMap(cat1Template *template.Template, vsMap models.ValueSetMap) 
 		"codeDisplayAttributeIsCodes":                codeDisplayAttributeIsCodes,
 		"hasPreferredCode":                           hasPreferredCode,
 		"hasLaterality":                              hasLaterality,
+		"hasAnatomicalLocation":                      hasAnatomicalLocation,
+		"hasSeverity":                                hasSeverity,
 		"codeDisplayWithPreferredCode":               vsMap.CodeDisplayWithPreferredCode,
 		"codeDisplayWithPreferredCodeForField":  	  vsMap.CodeDisplayWithPreferredCodeForField,
 		"codeDisplayWithPreferredCodeForResultValue": vsMap.CodeDisplayWithPreferredCodeForResultValue,

@@ -230,6 +230,14 @@ func hasLaterality(l models.Laterality) bool {
 	return l != models.Laterality{}
 }
 
+func hasAnatomicalLocation(anatomicalLocation models.AnatomicalLocation) bool {
+	return anatomicalLocation != models.AnatomicalLocation{}
+}
+
+func hasSeverity(severity models.Severity) bool {
+	return severity != models.Severity{}
+}
+
 func codeDisplayAttributeIsCodes(attribute string) bool {
 	return attribute == "codes"
 }
