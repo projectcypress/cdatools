@@ -29,7 +29,7 @@ var oidMap = map[string]string{
 	"2.16.840.1.113883.1.11.19717":    "HL7 ActNoImmunicationReason",
 	"2.16.840.1.113883.3.88.12.80.33": "NUBC",
 	"2.16.840.1.113883.1.11.78":       "HL7 Observation Interpretation",
-	"2.16.840.1.113883.3.221.5":       "SOP",
+	"2.16.840.1.113883.3.221.5":       "Source of Payment Typology",
 	"2.16.840.1.113883.6.13":          "CDT",
 	"2.16.840.1.113883.18.2":          "AdministrativeSex"}
 
