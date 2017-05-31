@@ -822,7 +822,7 @@ func templatesCat1R3_2168401113883102024323Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.23.xml", size: 3546, mode: os.FileMode(420), modTime: time.Unix(1495656358, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.23.xml", size: 3546, mode: os.FileMode(420), modTime: time.Unix(1496260530, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1891,7 +1891,7 @@ func templatesCat1R3_2168401113883102024381Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.81.xml", size: 984, mode: os.FileMode(420), modTime: time.Unix(1495656412, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.81.xml", size: 984, mode: os.FileMode(420), modTime: time.Unix(1496260561, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1928,7 +1928,7 @@ func templatesCat1R3_2168401113883102024382Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.82.xml", size: 981, mode: os.FileMode(420), modTime: time.Unix(1495656412, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.82.xml", size: 981, mode: os.FileMode(420), modTime: time.Unix(1496260561, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3120,6 +3120,61 @@ func templatesCat1R3_1_2168401113883102024312Xml() (*asset, error) {
 	return a, nil
 }
 
+var _templatesCat1R3_1_21684011138831020243140Xml = []byte(`<entry>
+  <act classCode="ACT" moodCode="EVN" {{negationIndicator .EntrySection.Entry}}>
+    <!-- Immunization, Administered template -->
+    <templateId root="2.16.840.1.113883.10.20.24.3.140"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
+    <code code="416118004" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Administration"/>
+    <statusCode code="completed"/>
+    <effectiveTime xsi:type="IVL_TS">
+      <low {{valueOrNullFlavor .EntrySection.StartTime}}/>
+      <high {{valueOrNullFlavor .EntrySection.EndTime}}/>
+    </effectiveTime>
+    <entryRelationship typeCode="COMP">
+      <substanceAdministration classCode="SBADM" moodCode="EVN">
+        <!-- Immunization Activity template -->
+        <templateId root="2.16.840.1.113883.10.20.22.4.52" extension="2014-06-09"/>
+        <id root="{{newRandom}}"/>
+        <text>{{.EntrySection.Entry.Description}}</text>
+        <statusCode code="completed"/>
+        <effectiveTime xsi:type="IVL_TS">
+          <low {{valueOrNullFlavor .EntrySection.StartTime}}/>
+          <high {{valueOrNullFlavor .EntrySection.EndTime}}/>
+        </effectiveTime>
+        {{template "_medication_details.xml" .}}
+        <consumable>
+          <manufacturedProduct classCode="MANU">
+            <!-- Immunization Information (consolidation) template -->
+            <templateId root="2.16.840.1.113883.10.20.22.4.54" extension="2014-06-09"/>
+            <id root="{{newRandom}}"/>
+            <manufacturedMaterial>
+              {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
+              <lotNumberText>1</lotNumberText>
+            </manufacturedMaterial>
+          </manufacturedProduct>
+        </consumable>
+      </substanceAdministration>
+    </entryRelationship>
+    {{template "_reason.xml" .}}
+  </act>
+</entry>`)
+
+func templatesCat1R3_1_21684011138831020243140XmlBytes() ([]byte, error) {
+	return _templatesCat1R3_1_21684011138831020243140Xml, nil
+}
+
+func templatesCat1R3_1_21684011138831020243140Xml() (*asset, error) {
+	bytes, err := templatesCat1R3_1_21684011138831020243140XmlBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.140.xml", size: 1918, mode: os.FileMode(420), modTime: time.Unix(1496260530, 0)}
+	a := &asset{bytes: bytes, info: info}
+	return a, nil
+}
+
 var _templatesCat1R3_1_2168401113883102024317Xml = []byte(`<entry>
   <observation classCode="OBS" moodCode="RQO" {{negationIndicator .EntrySection.Entry}}>
     <!-- Consolidated Plan of Care Activity Observation
@@ -3383,7 +3438,7 @@ func templatesCat1R3_1_2168401113883102024323Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.23.xml", size: 3522, mode: os.FileMode(420), modTime: time.Unix(1495656358, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.23.xml", size: 3522, mode: os.FileMode(420), modTime: time.Unix(1496260530, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4439,7 +4494,7 @@ func templatesCat1R3_1_2168401113883102024381Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.81.xml", size: 1333, mode: os.FileMode(420), modTime: time.Unix(1495656358, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.81.xml", size: 1333, mode: os.FileMode(420), modTime: time.Unix(1496260530, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4483,7 +4538,7 @@ func templatesCat1R3_1_2168401113883102024382Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.82.xml", size: 1321, mode: os.FileMode(420), modTime: time.Unix(1495656358, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.82.xml", size: 1321, mode: os.FileMode(420), modTime: time.Unix(1496260530, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -5430,7 +5485,7 @@ func templatesCat1R3_1Cat1Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/cat1.xml", size: 6888, mode: os.FileMode(420), modTime: time.Unix(1495656358, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/cat1.xml", size: 6885, mode: os.FileMode(420), modTime: time.Unix(1496260530, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
