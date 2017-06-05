@@ -199,7 +199,7 @@ func (i *ImporterSuite) TestExtractInsuranceProviders(c *C) {
 	insuranceProvider := i.patient.InsuranceProviders[0]
 	c.Assert(len(i.patient.InsuranceProviders), Equals, 1)
 	c.Assert(insuranceProvider.ID.Root, Equals, "1.3.6.1.4.1.115")
-	c.Assert(insuranceProvider.Codes["SOP"][0], Equals, "349")
+	c.Assert(insuranceProvider.Codes["Source of Payment Typology"][0], Equals, "349")
 	c.Assert(*insuranceProvider.StartTime, Equals, int64(1111851000)) // March 26, 2005 @ 15:30:00 GMT
 }
 
