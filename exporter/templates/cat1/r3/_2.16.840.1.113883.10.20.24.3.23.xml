@@ -27,7 +27,7 @@
           <!-- Attribute: facility location arrival datetime -->
           <low {{valueOrNullFlavor .EntrySection.Facility.StartTime}}/>
           <!-- Attribute: facility location departure datetime -->
-          <high {{valueOrNullFlavor .EntrySection.Facility.StartTime}}/>
+          <high {{valueOrNullFlavor .EntrySection.Facility.EndTime}}/>
         </time>
         <participantRole classCode="SDLOC">
           {{if .EntrySection.Facility.Code}}
