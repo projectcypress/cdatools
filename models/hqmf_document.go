@@ -65,7 +65,7 @@ type FieldValueValue struct {
 type DcKey struct {
 	DataCriteriaOid string
 	ValueSetOid     string
-	NegationOid		string
+	NegationOid     string
 }
 
 type Mdc struct {
@@ -108,7 +108,7 @@ func UniqueDataCriteria(allDataCriteria []DataCriteria) []Mdc {
 
 		// Generate the key for the mappedDataCriteria
 		dc := DcKey{}
-		if dataCriteria.Negation == true {
+		if dataCriteria.Negation {
 			dc = DcKey{DataCriteriaOid: oid, ValueSetOid: vsOid, NegationOid: "Negation"}
 		} else {
 			dc = DcKey{DataCriteriaOid: oid, ValueSetOid: vsOid, NegationOid: "NA"}
