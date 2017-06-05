@@ -63,6 +63,14 @@ func (h *HdsMaps) importHqmfQrdaJSON() {
 		h.HqmfQrdaMap[oidsElem.HqmfOid] = hqmfQrdaMapElem
 	}
 	// TODO: make hqmfQrdaMapElem map for R3.1
+  for _, oidsElem := range hqmfQrdaOids_r3_1 {
+    hqmfQrdaMapElem := make(map[string]string)
+    hqmfQrdaMapElem["hqmf_name"] = oidsElem.HqmfName
+    hqmfQrdaMapElem["hqmf_oid"] = oidsElem.HqmfOid
+    hqmfQrdaMapElem["qrda_name"] = oidsElem.QrdaName
+    hqmfQrdaMapElem["qrda_oid"] = oidsElem.QrdaOid
+    h.HqmfQrdaMap[oidsElem.HqmfOid] = hqmfQrdaMapElem
+  }
 }
 
 // NOTE: Had to remove the use of the Asset function that exists in exporter/templates.go:1228
@@ -319,9 +327,9 @@ var hqmf_qrda_oids = []byte(`[
         "attribute": "",
         "exclude_null_flavor": false,
         "extra_content": "xsi:type=\"CD\" sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
-        "preferred_code_sets": ["2.16.840.1.113883.3.88.12.3221.7.4"],
-        "code_set_required": true,
-        "value_set_preferred": true
+        "preferred_code_sets": ["SNOMED-CT"],
+        "code_set_required": false,
+        "value_set_preferred": false
       }
     ]
   },
@@ -1817,6 +1825,42 @@ var hqmf_qrda_oids = []byte(`[
 
 var hqmf_qrda_oids_r3_1 = []byte(`[
   {
+    "hqmf_name": "Immunization, Allergy",
+    "hqmf_oid": "2.16.840.1.113883.10.20.28.3.114",
+    "qrda_name": "Medication Allergy",
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.44",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
+        "preferred_code_sets": ["*"],
+        "code_set_required": false,
+        "value_set_preferred": false
+      }
+    ]
+  },
+  {
+    "hqmf_name": "Immunization, Intolerance",
+    "hqmf_oid": "2.16.840.1.113883.10.20.28.3.115",
+    "qrda_name": "Medication Intolerance",
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.46",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
+        "preferred_code_sets": ["2.16.840.1.113762.1.4.1010.1"],
+        "code_set_required": true,
+        "value_set_preferred": true
+      }
+    ]
+  },
+  {
     "hqmf_name": "Immunization Administered",
     "hqmf_oid": "2.16.840.1.113883.10.20.28.3.112",
     "qrda_name": "Immunization Administered",
@@ -1845,7 +1889,8 @@ var hqmf_qrda_oids_r3_1 = []byte(`[
         "tag_name": "value",
         "attribute": "",
         "exclude_null_flavor": false,
-        "preferred_code_sets": ["2.16.840.1.113883.3.88.12.3221.7.4"],
+        "extra_content": "xsi:type=\"CD\" sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
+        "preferred_code_sets": ["SNOMED-CT"],
         "code_set_required": false,
         "value_set_preferred": false
       }

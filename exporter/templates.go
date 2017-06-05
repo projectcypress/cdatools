@@ -2418,11 +2418,20 @@ var _templatesCat1R3_providersXml = []byte(`<documentationOf typeCode="DOC">
               <id root="{{ escape .Root}}" extension="{{ escape .Extension}}" />
             {{end}}
           {{end}}
+          {{if .Provider.Specialty }}
+          <code code="{{ .Provider.Specialty}}" codeSystemName="Healthcare Provider Taxonomy (HIPAA)" codeSystem="2.16.840.1.113883.6.101"/>
+          {{end}}
+          {{range .Provider.Addresses}}
+            {{template "_address.xml" .}}
+          {{end}}
           <representedOrganization>
             {{range .Provider.CDAIdentifiers}}
               {{if eq .Root "2.16.840.1.113883.4.2"}}
                 <id root="2.16.840.1.113883.4.2" extension="{{ escape .Extension}}" />
               {{end}}
+            {{end}}
+            {{range .Provider.Addresses}}
+              {{template "_address.xml" .}}
             {{end}}
           </representedOrganization>
         </assignedEntity>
@@ -2467,7 +2476,7 @@ func templatesCat1R3_providersXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_providers.xml", size: 2078, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_providers.xml", size: 2481, mode: os.FileMode(420), modTime: time.Unix(1496435953, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -5140,11 +5149,20 @@ var _templatesCat1R3_1_providersXml = []byte(`<documentationOf typeCode="DOC">
               <id root="{{ escape .Root}}" extension="{{ escape .Extension}}" />
             {{end}}
           {{end}}
+          {{if .Provider.Specialty }}
+          <code code="{{ .Provider.Specialty}}" codeSystemName="Healthcare Provider Taxonomy (HIPAA)" codeSystem="2.16.840.1.113883.6.101"/>
+          {{end}}
+          {{range .Provider.Addresses}}
+            {{template "_address.xml" .}}
+          {{end}}
           <representedOrganization>
             {{range .Provider.CDAIdentifiers}}
               {{if eq .Root "2.16.840.1.113883.4.2"}}
                 <id root="2.16.840.1.113883.4.2" extension="{{ escape .Extension}}" />
               {{end}}
+            {{end}}
+            {{range .Provider.Addresses}}
+              {{template "_address.xml" .}}
             {{end}}
           </representedOrganization>
         </assignedEntity>
@@ -5189,7 +5207,7 @@ func templatesCat1R3_1_providersXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_providers.xml", size: 2078, mode: os.FileMode(420), modTime: time.Unix(1494432834, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_providers.xml", size: 2481, mode: os.FileMode(420), modTime: time.Unix(1496428670, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
