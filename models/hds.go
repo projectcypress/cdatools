@@ -62,15 +62,15 @@ func (h *HdsMaps) importHqmfQrdaJSON() {
 		hqmfQrdaMapElem["qrda_oid"] = oidsElem.QrdaOid
 		h.HqmfQrdaMap[oidsElem.HqmfOid] = hqmfQrdaMapElem
 	}
-	// TODO: make hqmfQrdaMapElem map for R3.1
-  for _, oidsElem := range hqmfQrdaOids_r3_1 {
-    hqmfQrdaMapElem := make(map[string]string)
-    hqmfQrdaMapElem["hqmf_name"] = oidsElem.HqmfName
-    hqmfQrdaMapElem["hqmf_oid"] = oidsElem.HqmfOid
-    hqmfQrdaMapElem["qrda_name"] = oidsElem.QrdaName
-    hqmfQrdaMapElem["qrda_oid"] = oidsElem.QrdaOid
-    h.HqmfQrdaMap[oidsElem.HqmfOid] = hqmfQrdaMapElem
-  }
+
+	for _, oidsElem := range hqmfQrdaOids_r3_1 {
+		hqmfQrdaMapElem := make(map[string]string)
+		hqmfQrdaMapElem["hqmf_name"] = oidsElem.HqmfName
+		hqmfQrdaMapElem["hqmf_oid"] = oidsElem.HqmfOid
+		hqmfQrdaMapElem["qrda_name"] = oidsElem.QrdaName
+		hqmfQrdaMapElem["qrda_oid"] = oidsElem.QrdaOid
+		h.HqmfQrdaMap[oidsElem.HqmfOid] = hqmfQrdaMapElem
+	}
 }
 
 // NOTE: Had to remove the use of the Asset function that exists in exporter/templates.go:1228
@@ -80,15 +80,15 @@ func (h *HdsMaps) importHQMFTemplateJSON() {
 	if err != nil {
 		log.Fatalln(err)
 	}
-  err = json.Unmarshal(hqmf_r2_template_oid_map, &h.HqmfR2Map)
-  if err != nil {
-    log.Fatalln(err)
-  }
-  for id, data := range h.HqmfMap {
-    h.IdMap[makeR1DefinitionKey(data.Definition, data.Status, data.Negation)] = id
-  }
-  for id, data := range h.HqmfR2Map {
-    h.IdR2Map[makeR2DefinitionKey(data.Definition, data.Status)] = id
+	err = json.Unmarshal(hqmf_r2_template_oid_map, &h.HqmfR2Map)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	for id, data := range h.HqmfMap {
+		h.IdMap[makeR1DefinitionKey(data.Definition, data.Status, data.Negation)] = id
+	}
+	for id, data := range h.HqmfR2Map {
+		h.IdR2Map[makeR2DefinitionKey(data.Definition, data.Status)] = id
 
 	}
 }
@@ -98,20 +98,20 @@ func (h *HdsMaps) GetTemplateDefinition(id string) DataCriteria {
 }
 
 func (h *HdsMaps) GetID(data DataCriteria) string {
-  id := ""
-  id = h.IdMap[makeR1DefinitionKey(data.Definition, data.Status, data.Negation)]
-  if id == "" {
-    id = h.IdR2Map[makeR2DefinitionKey(data.Definition, data.Status)]
-  }
-  return id
+	id := ""
+	id = h.IdMap[makeR1DefinitionKey(data.Definition, data.Status, data.Negation)]
+	if id == "" {
+		id = h.IdR2Map[makeR2DefinitionKey(data.Definition, data.Status)]
+	}
+	return id
 }
 
 func makeR1DefinitionKey(definition string, status string, negation bool) string {
-  return fmt.Sprintf("%s-%s-%t", definition, status, negation)
+	return fmt.Sprintf("%s-%s-%t", definition, status, negation)
 }
 
 func makeR2DefinitionKey(definition string, status string) string {
-  return fmt.Sprintf("%s-%s", definition, status)
+	return fmt.Sprintf("%s-%s", definition, status)
 }
 
 func (h *HdsMaps) HqmfToQrdaOid(hqmfOid string, vsOid string) string {

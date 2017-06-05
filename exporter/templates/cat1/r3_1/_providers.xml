@@ -18,8 +18,8 @@
               <id root="{{ escape .Root}}" extension="{{ escape .Extension}}" />
             {{end}}
           {{end}}
-          {{if .Provider.Specialty }}
-          <code code="{{ .Provider.Specialty}}" codeSystemName="Healthcare Provider Taxonomy (HIPAA)" codeSystem="2.16.840.1.113883.6.101"/>
+          {{if .Provider.Specialty}}
+            <code code="{{ .Provider.Specialty}}" codeSystemName="Healthcare Provider Taxonomy (HIPAA)" codeSystem="2.16.840.1.113883.6.101"/>
           {{end}}
           {{range .Provider.Addresses}}
             {{template "_address.xml" .}}
