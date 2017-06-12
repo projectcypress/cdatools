@@ -43,7 +43,7 @@ func (c *Coded) AddCodeIfPresent(codeElement xml.Node) {
 	nullFlavorValueSet := codeElement.Attributes()
 	if nullFlavorAttribute != nil && nullFlavorValueSet["valueSet"] != nil {
 		code = nullFlavorValueSet["valueSet"].String()
-		codeSystem = nullFlavorAttribute.String()
+		codeSystem = nullFlavorAttribute.String() + "_VALUESET"
 	}
 
 	if code != "" && codeSystem != "" {
