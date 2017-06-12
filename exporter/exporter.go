@@ -67,18 +67,27 @@ func exporterFuncMap(cat1Template *template.Template, vsMap models.ValueSetMap) 
 	}
 }
 
-// GenerateCat1 generates a cat1 xml string for export
-func GenerateCat1(patient []byte, measures []byte, valueSets []byte, startDate int64, endDate int64, qrdaVersion string, cmsCompatibility bool) string {
+// Global Measure Data for a batch of patients
+var m []models.Measure
 
-	p := &models.Record{}
-	m := []models.Measure{}
-	vs := []models.ValueSet{}
+// Global Value Set Data for a batch of patients
+var vs []models.ValueSet
 
-	json.Unmarshal(patient, p)
+// Global ValueSetMap for a batch of patients
+var vsMap models.ValueSetMap
+
+func LoadMeasuresAndValueSets(measures []byte, valueSets []byte) {
 	json.Unmarshal(measures, &m)
 	json.Unmarshal(valueSets, &vs)
+	vsMap = models.NewValueSetMap(vs)
+}
 
-	vsMap := models.NewValueSetMap(vs)
+// GenerateCat1 generates a cat1 xml string for export
+func GenerateCat1(patient []byte, startDate int64, endDate int64, qrdaVersion string, cmsCompatibility bool) string {
+
+	p := &models.Record{}
+
+	json.Unmarshal(patient, p)
 
 	if qrdaVersion == "" {
 		qrdaVersion = "r3"
