@@ -1,0 +1,18 @@
+<entry>
+  <!-- Patient Characteristic Payer -->
+  <observation classCode="OBS" moodCode="EVN">
+    <templateId root="2.16.840.1.113883.10.20.24.3.55"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
+    <code code="48768-6" codeSystemName="LOINC" codeSystem="2.16.840.1.113883.6.1" displayName="Payment source"/> 
+    <statusCode code="completed"/>
+    <effectiveTime>
+      <!-- Attribute: Start Datetime -->
+      <low {{valueOrNullFlavor .EntrySection.StartTime}}/>
+      {{if .EntrySection.EndTime}}
+        <high {{valueOrNullFlavor .EntrySection.EndTime}} />
+      {{end}}
+    </effectiveTime>
+    {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
+
+  </observation>            
+</entry>

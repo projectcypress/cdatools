@@ -1,0 +1,21 @@
+<entry>
+  <observation classCode="OBS" moodCode="EVN" {{negationIndicator .EntrySection.Entry}}>
+    <!-- Lab test performed -->
+    <templateId root="2.16.840.1.113883.10.20.24.3.38" extension="2016-02-01"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
+    {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
+    <text>{{.EntrySection.Entry.Description}}</text>
+    <statusCode code="completed"/>
+
+    <effectiveTime>
+      <low {{valueOrNullFlavor .EntrySection.StartTime}}/>
+      <high {{valueOrNullFlavor .EntrySection.EndTime}}/>
+    </effectiveTime>
+    {{if not .EntrySection.Entry.IsValuesEmpty}}
+      {{template "_result_value.xml" (.EntrySection.Entry.WrapResultValues .EntrySection.Entry.Values .MapDataCriteria)}}
+    {{else}}
+      <value xsi:type="PQ" nullFlavor="UNK"/>
+    {{end}}
+    {{template "_reason.xml" .}}
+    </observation>
+</entry>
