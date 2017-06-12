@@ -43,6 +43,12 @@ func (h *HdsMaps) importHqmfQrdaJSON() {
 	if err != nil {
 		log.Fatalln(err)
 	}
+	var hqmfQrdaOids_r4 []HqmfQrdaOidsWithCodeDisplays
+	err = json.Unmarshal(hqmf_qrda_oids_r4, &hqmfQrdaOids_r4)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
 	h.QrdaCodeDisplayMap["r3"] = make(map[string][]CodeDisplay)
 	for _, oidsElem := range hqmfQrdaOids_r3 {
 		h.QrdaCodeDisplayMap["r3"][oidsElem.QrdaOid] = oidsElem.CodeDisplays
@@ -50,6 +56,10 @@ func (h *HdsMaps) importHqmfQrdaJSON() {
 	h.QrdaCodeDisplayMap["r3_1"] = make(map[string][]CodeDisplay)
 	for _, oidsElem := range hqmfQrdaOids_r3_1 {
 		h.QrdaCodeDisplayMap["r3_1"][oidsElem.QrdaOid] = oidsElem.CodeDisplays
+	}
+	h.QrdaCodeDisplayMap["r4"] = make(map[string][]CodeDisplay)
+	for _, oidsElem := range hqmfQrdaOids_r4 {
+		h.QrdaCodeDisplayMap["r4"][oidsElem.QrdaOid] = oidsElem.CodeDisplays
 	}
 
 	// create hqmfQrdaMap (map) of hqmf oid to map[string]string
@@ -62,8 +72,15 @@ func (h *HdsMaps) importHqmfQrdaJSON() {
 		hqmfQrdaMapElem["qrda_oid"] = oidsElem.QrdaOid
 		h.HqmfQrdaMap[oidsElem.HqmfOid] = hqmfQrdaMapElem
 	}
-
 	for _, oidsElem := range hqmfQrdaOids_r3_1 {
+		hqmfQrdaMapElem := make(map[string]string)
+		hqmfQrdaMapElem["hqmf_name"] = oidsElem.HqmfName
+		hqmfQrdaMapElem["hqmf_oid"] = oidsElem.HqmfOid
+		hqmfQrdaMapElem["qrda_name"] = oidsElem.QrdaName
+		hqmfQrdaMapElem["qrda_oid"] = oidsElem.QrdaOid
+		h.HqmfQrdaMap[oidsElem.HqmfOid] = hqmfQrdaMapElem
+	}
+	for _, oidsElem := range hqmfQrdaOids_r4 {
 		hqmfQrdaMapElem := make(map[string]string)
 		hqmfQrdaMapElem["hqmf_name"] = oidsElem.HqmfName
 		hqmfQrdaMapElem["hqmf_oid"] = oidsElem.HqmfOid
@@ -89,7 +106,6 @@ func (h *HdsMaps) importHQMFTemplateJSON() {
 	}
 	for id, data := range h.HqmfR2Map {
 		h.IdR2Map[makeR2DefinitionKey(data.Definition, data.Status)] = id
-
 	}
 }
 
@@ -132,6 +148,8 @@ func (h *HdsMaps) HqmfToQrdaOid(hqmfOid string, vsOid string) string {
 
 func (h *HdsMaps) CodeDisplayForQrdaOid(oid string, version string) []CodeDisplay {
 	if codeDisplays, ok := h.QrdaCodeDisplayMap[version][oid]; ok {
+		return codeDisplays
+	} else if codeDisplays, ok := h.QrdaCodeDisplayMap["r3_1"][oid]; ok {
 		return codeDisplays
 	} else if codeDisplays, ok := h.QrdaCodeDisplayMap["r3"][oid]; ok {
 		return codeDisplays
@@ -1891,6 +1909,55 @@ var hqmf_qrda_oids_r3_1 = []byte(`[
         "exclude_null_flavor": false,
         "extra_content": "xsi:type=\"CD\" sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
         "preferred_code_sets": ["SNOMED-CT"],
+        "code_set_required": false,
+        "value_set_preferred": false
+      }
+    ]
+  }
+]`)
+
+var hqmf_qrda_oids_r4 = []byte(`[
+  {
+    "hqmf_name": "Assessment, Performed",
+    "hqmf_oid": "2.16.840.1.113883.10.20.28.3.117",
+    "qrda_name": "Assessment Performed",
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.144",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
+        "preferred_code_sets": ["*"],
+        "code_set_required": false,
+        "value_set_preferred": false
+      },
+      {
+        "code_type": "resultValue",
+        "tag_name": "value",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "xsi:type=\"CD\" sdtc:valueSet=\"{{index .MapDataCriteria.ResultOids 0}}\"",
+        "preferred_code_sets": ["SNOMED-CT"],
+        "code_set_required": false,
+        "value_set_preferred": false
+      }
+    ]
+  },
+  {
+    "hqmf_name": "Assessment, Recommended",
+    "hqmf_oid": "2.16.840.1.113883.10.20.28.3.118",
+    "qrda_name": "Assessment Recommended",
+    "qrda_oid": "2.16.840.1.113883.10.20.24.3.145",
+    "code_displays": [
+      {
+        "code_type": "entryCode",
+        "tag_name": "code",
+        "attribute": "",
+        "exclude_null_flavor": false,
+        "extra_content": "sdtc:valueSet=\"{{.MapDataCriteria.ValueSetOid}}\"",
+        "preferred_code_sets": ["*"],
         "code_set_required": false,
         "value_set_preferred": false
       }

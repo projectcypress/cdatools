@@ -1,0 +1,14 @@
+{{if .EntrySection.Route}}
+    {{$vset := oidForCode .EntrySection.Route (index .MapDataCriteria.FieldOids "ROUTE")}}
+    <routeCode code="{{.EntrySection.Route.Code}}"
+               codeSystem="{{oidForCodeSystem .EntrySection.Route.CodeSystem}}"
+               {{if ne $vset ""}}
+                   sdtc:valueSet="{{$vset}}"
+               {{end}}
+               />
+{{end}}
+{{if (.EntrySection.Entry.NegationInd) and (derefBool .EntrySection.Entry.NegationInd)}}
+	<doseQuantity nullFlavor="NA"/>
+{{else if .EntrySection.HasSetDose}}
+    <doseQuantity {{.EntrySection.DoseQuantity}}/>
+{{end}}

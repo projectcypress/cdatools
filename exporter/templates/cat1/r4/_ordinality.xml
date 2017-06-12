@@ -1,0 +1,7 @@
+{{if .EntrySection.HasSetOrdinality}}
+    {{$valueSetOid := oidForCode .EntrySection.Ordinality.CodedConcept (index .MapDataCriteria.FieldOids "ORDINAL")}}
+    <priorityCode  code="{{.EntrySection.Ordinality.Code}}" 
+                codeSystem="{{oidForCodeSystem .EntrySection.Ordinality.CodeSystem}}"
+                {{if $valueSetOid}} sdtc:valueSet="{{$valueSetOid}}" {{end}}
+                />
+{{end}}

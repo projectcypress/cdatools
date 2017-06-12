@@ -49,7 +49,6 @@ type CodeSet struct {
 	Values []Concept
 }
 
-
 func (v ValueSetMap) CodeDisplayWithPreferredCodeForField(entry *Entry, coded *Coded, MapDataCriteria Mdc, codeType string, field string) CodeDisplay {
 	codeDisplay, err := entry.GetCodeDisplay(codeType)
 	if err != nil {
@@ -122,8 +121,8 @@ func codeSetContainsCode(sets []CodeSet, codedValue CodedConcept) bool {
 				val.CodeSystemName == codedValue.CodeSystemName ||
 				val.CodeSystemName == codedValue.CodeSystem) ||
 				(val.CodeSystem == codeSystemAliases[codedValue.CodeSystem] ||
-				val.CodeSystemName == codeSystemAliases[codedValue.CodeSystemName] ||
-				val.CodeSystemName == codeSystemAliases[codedValue.CodeSystem])) &&
+					val.CodeSystemName == codeSystemAliases[codedValue.CodeSystemName] ||
+					val.CodeSystemName == codeSystemAliases[codedValue.CodeSystem])) &&
 				val.Code == codedValue.Code {
 				return true
 			}

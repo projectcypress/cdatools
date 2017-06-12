@@ -1,0 +1,66 @@
+<documentationOf typeCode="DOC">
+  <serviceEvent classCode="PCPR"> <!-- care provision -->
+  {{if .ProviderPerformances}}
+    {{range .ProviderPerformances }}
+      <effectiveTime>
+        <low {{valueOrNullFlavor .StartDate}}/>
+        <high {{valueOrNullFlavor .EndDate}}/>
+      </effectiveTime>
+      <!-- You can include multiple performers, each with an NPI, TIN, CCN. -->
+      <performer typeCode="PRF">
+        <time>
+          <low {{valueOrNullFlavor .StartDate}}/>
+          <high {{valueOrNullFlavor .EndDate}}/>
+        </time>
+        <assignedEntity>
+          {{range .Provider.CDAIdentifiers}}
+            {{if ne .Root "2.16.840.1.113883.4.2"}}
+              <id root="{{ escape .Root}}" extension="{{ escape .Extension}}" />
+            {{end}}
+          {{end}}
+          {{if .Provider.Specialty}}
+            <code code="{{ .Provider.Specialty}}" codeSystemName="Healthcare Provider Taxonomy (HIPAA)" codeSystem="2.16.840.1.113883.6.101"/>
+          {{end}}
+          {{range .Provider.Addresses}}
+            {{template "_address.xml" .}}
+          {{end}}
+          <representedOrganization>
+            {{range .Provider.CDAIdentifiers}}
+              {{if eq .Root "2.16.840.1.113883.4.2"}}
+                <id root="2.16.840.1.113883.4.2" extension="{{ escape .Extension}}" />
+              {{end}}
+            {{end}}
+            {{range .Provider.Addresses}}
+              {{template "_address.xml" .}}
+            {{end}}
+          </representedOrganization>
+        </assignedEntity>
+      </performer>
+    {{end}}
+  {{else}}
+  <!-- No provider data found in the patient record
+       putting in a fake provider -->
+  <effectiveTime>
+    <low value="20020716"/>
+    <high value="{{timeToFormat timeNow "20060102"}}"/>
+  </effectiveTime>
+  <!-- You can include multiple performers, each with an NPI, TIN, CCN. -->
+  <performer typeCode="PRF">
+    <time>
+      <low value="20020716"/>
+      <high value="{{timeToFormat timeNow "20060102"}}"/>
+    </time>
+    <assignedEntity>
+      <!-- This is the provider NPI -->
+      <id root="2.16.840.1.113883.4.6" extension="1234567893" />
+      <representedOrganization>
+        <!-- This is the organization TIN -->
+        <id root="2.16.840.1.113883.4.2" extension="123456789" />
+        <!-- This is the organization CCN -->
+        <id root="2.16.840.1.113883.4.336" extension="54321" />
+      </representedOrganization>
+    </assignedEntity>
+  </performer>
+  {{end}}
+  </serviceEvent>
+</documentationOf>

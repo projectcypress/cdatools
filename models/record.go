@@ -20,6 +20,7 @@ type Record struct {
 }
 
 type RecordGroup struct {
+	Assessments          AssessmentsGroup         `json:"assessments,omitempty"`
 	Encounters           EncounterGroup           `json:"encounters,omitempty"`
 	LabResults           LabResultsGroup          `json:"results,omitempty"`
 	ProviderPerformances ProviderPerformanceGroup `json:"provider_performances,omitempty"`
@@ -29,18 +30,19 @@ type RecordGroup struct {
 	Allergies            AllergyGroup             `json:"allergies,omitempty"`
 	Conditions           ConditionGroup           `json:"conditions,omitempty"`
 	VitalSigns           VitalSignGroup           `json:"vital_signs,omitempty"`
-	Communications   	 CommunicationGroup       `json:"communications,omitempty"`
-	MedicalEquipment 	 MedicalEquipmentGroup    `json:"medical_equipment,omitempty"`
+	Communications       CommunicationGroup       `json:"communications,omitempty"`
+	MedicalEquipment     MedicalEquipmentGroup    `json:"medical_equipment,omitempty"`
 
 	// These weren't in the Entries() method.
-	Languages        LanguagesGroup        `json:"languages,omitempty"`
-	CareGoals        EntryGroup            `json:"care_goals,omitempty"`
+	Languages LanguagesGroup `json:"languages,omitempty"`
+	CareGoals EntryGroup     `json:"care_goals,omitempty"`
 }
 
 type Language struct {
 	Coded
 }
 
+type AssessmentsGroup []Assessment
 type EntryGroup []Entry
 type EncounterGroup []Encounter
 type LabResultsGroup []LabResult
@@ -96,17 +98,21 @@ func (r *Record) Entries() []HasEntry {
 	for i := range r.Conditions {
 		entries = append(entries, &r.Conditions[i])
 	}
-	
+
 	for i := range r.Communications {
 		entries = append(entries, &r.Communications[i])
 	}
-	
+
 	for i := range r.MedicalEquipment {
 		entries = append(entries, &r.MedicalEquipment[i])
 	}
 
 	for i := range r.VitalSigns {
 		entries = append(entries, &r.VitalSigns[i])
+	}
+
+	for i := range r.Assessments {
+		entries = append(entries, &r.Assessments[i])
 	}
 
 	return entries
@@ -133,7 +139,7 @@ func (r *Record) GetEntriesForOids(dataCriteria DataCriteria, codes []CodeSet, o
 							transferFrom.Codes = make(map[string][]string)
 						}
 						transferFrom.Codes[transferFrom.CodeSystem] = []string{transferFrom.Code}
-						if (len(codes) > 0 && codeSetContainsCode(codes,transferFrom.CodedConcept)) {
+						if len(codes) > 0 && codeSetContainsCode(codes, transferFrom.CodedConcept) {
 							newId := ObjectIdentifier{ID: uuid.New()}
 							newEntry := Entry{Oid: "2.16.840.1.113883.3.560.1.71", ObjectIdentifier: newId}
 							newEntry.StartTime = transferFrom.Time
@@ -143,7 +149,7 @@ func (r *Record) GetEntriesForOids(dataCriteria DataCriteria, codes []CodeSet, o
 							var newTransElm HasEntry = &Encounter{Entry: newEntry, TransferFrom: newTrans}
 							entries = append(entries, newTransElm)
 						}
-						
+
 					}
 				} else if dataCriteriaOid == "2.16.840.1.113883.3.560.1.72" {
 					if transferTo := &entry.(*Encounter).TransferTo; transferTo != nil {
@@ -151,7 +157,7 @@ func (r *Record) GetEntriesForOids(dataCriteria DataCriteria, codes []CodeSet, o
 							transferTo.Codes = make(map[string][]string)
 						}
 						transferTo.Codes[transferTo.CodeSystem] = []string{transferTo.Code}
-						if len(codes) > 0 && codeSetContainsCode(codes,transferTo.CodedConcept) {
+						if len(codes) > 0 && codeSetContainsCode(codes, transferTo.CodedConcept) {
 							newId := ObjectIdentifier{ID: uuid.New()}
 							newEntry := Entry{Oid: "2.16.840.1.113883.3.560.1.72", ObjectIdentifier: newId}
 							newEntry.StartTime = transferTo.Time
