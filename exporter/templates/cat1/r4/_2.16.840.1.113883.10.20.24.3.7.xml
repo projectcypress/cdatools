@@ -1,0 +1,31 @@
+<entry>
+  <procedure classCode="PROC" moodCode="EVN" {{negationIndicator .EntrySection.Entry}}>
+    <!-- Procedure Activity Procedure -->
+    <templateId root="2.16.840.1.113883.10.20.22.4.14" extension="2014-06-09"/>
+    <!-- Device Applied -->
+    <templateId root="2.16.840.1.113883.10.20.24.3.7" extension="2016-02-01"/>
+    <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
+    <code code="360030002" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="application of device"/>
+    <text>{{.EntrySection.Entry.Description}}</text>
+    <statusCode code="completed"/>
+    
+    <effectiveTime>
+      <low {{valueOrNullFlavor .EntrySection.Entry.StartTime}}/>
+      <high {{valueOrNullFlavor .EntrySection.Entry.EndTime}}/>
+    </effectiveTime>
+
+    {{$vset := oidForCode .EntrySection.AnatomicalStructure (index .MapDataCriteria.FieldOids "ANATOMICAL_LOCATION_SITE")}}
+    {{if ne $vset ""}}
+      <targetSiteCode code="{{.EntrySection.AnatomicalStructure.Code}}"
+        codeSystem="{{oidForCodeSystem .EntrySection.AnatomicalStructure}}" sdtc:valueSet="{{$vset}}"/>
+    {{end}}
+    <participant typeCode="DEV">
+      <participantRole classCode="MANU">
+        <playingDevice classCode="DEV">
+          {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
+        </playingDevice>
+      </participantRole>
+    </participant>
+    {{template "_reason.xml" .}}
+  </procedure>
+</entry>
