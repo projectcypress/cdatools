@@ -20,4 +20,7 @@
             codeSystem='{{- oidForCodeSystem .Laterality.CodeSystem}}'/>
     </qualifier>
   {{- end}}
+  {{- range .Translations}}
+    <translation code="{{- .Code}}" codeSystem="{{- oidForCodeSystem .CodeSystem}}"/>
+  {{- end}}
 </{{- valueOrDefault .TagName "code"}}>

@@ -1748,6 +1748,12 @@ var Cms9_26 = []byte(`
             "code_system_version": null,
             "display_name": "Birth (finding)"
         }, {
+            "code": "3950001222",
+            "code_system": "2.16.840.1.113883.6.96",
+            "code_system_name": "SNOMED-CT",
+            "code_system_version": null,
+            "display_name": "Birth (finding)"
+        }, {
             "code": "first",
             "code_system": "codeSetB",
             "code_system_name": "RxNorm",
