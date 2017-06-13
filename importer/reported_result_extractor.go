@@ -10,6 +10,37 @@ import (
 	"github.com/pebbe/util"
 )
 
+type Cat3Results struct {
+	SupplementalData SupplementalData  `json:"supplemental_data"`
+	IPP              int               `json:"IPP"`
+	DENOM            int               `json:"DENOM"`
+	NUMER            int               `json:"NUMER"`
+	PR               map[string]string `json:"PR"`
+	DENEX            int               `json:"DENEX"`
+	PopIds           PopIds            `json:"population_ids"`
+}
+
+type SupplementalData struct {
+	IPP   SupDataElem `json:"IPP"`
+	DENOM SupDataElem `json:"DENOM"`
+	NUMER SupDataElem `json:"NUMER"`
+	DENEX SupDataElem `json:"DENEX"`
+}
+
+type SupDataElem struct {
+	RACE      map[string]int    `json:"RACE"`
+	ETHNICITY map[string]int    `json:"ETHNICITY"`
+	SEX       map[string]int    `json:"SEX"`
+	PAYER     map[string]string `json:"PAYER"`
+}
+
+type PopIds struct {
+	IPP   string `json:"IPP"`
+	DENOM string `json:"DENOM"`
+	NUMER string `json:"NUMER"`
+	DENEX string `json:"DENEX"`
+}
+
 func extractResultsByIdds(measureID string, ids map[string]string, document string) string {
 
 	doc, err := xml.Parse([]byte(document), nil, nil, 0, xml.DefaultEncodingBytes)
