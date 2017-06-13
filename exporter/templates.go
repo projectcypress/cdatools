@@ -3576,14 +3576,23 @@ var _templatesCat1R3_1_2168401113883102024323Xml = []byte(`<entry>
       <entryRelationship typeCode="REFR">
           <observation classCode="OBS" moodCode="EVN">
             <code code="8319008" codeSystem="2.16.840.1.113883.6.96" displayName="Principal Diagnosis" codeSystemName="SNOMED CT"/>
-            {{template "_code.xml" codeDisplayWithPreferredCodeForField .EntrySection.Entry .EntrySection.PrincipalDiagnosis .MapDataCriteria "principalDiagnosis" "PRINCIPAL_DIAGNOSIS"}}
+            {{template "_code.xml" codeDisplayWithPreferredCodeForField .EntrySection.Entry .EntrySection.PrincipalDiagnosis.Coded .MapDataCriteria "principalDiagnosis" "PRINCIPAL_DIAGNOSIS"}}
           </observation>
       </entryRelationship>
       {{end}}
+    {{else if .EntrySection.PrincipalDiagnosis.Code }}
+    {{ $vs := oidForCode .EntrySection.PrincipalDiagnosis.CodedConcept (index .MapDataCriteria.FieldOids "PRINCIPAL_DIAGNOSIS") }}
+    <entryRelationship typeCode="REFR">
+      <observation classCode="OBS" moodCode="EVN">
+        <code code="8319008" codeSystem="2.16.840.1.113883.6.96" displayName="Principal Diagnosis" codeSystemName="SNOMED CT"/>
+        <value code="{{.EntrySection.PrincipalDiagnosis.Code}}" xsi:type='CD'
+               codeSystem="{{oidForCodeSystem .EntrySection.PrincipalDiagnosis.CodeSystem}}"
+        {{- if $vs}} sdtc:valueSet="{{$vs}}"/> {{- else}} /> {{- end}}
+      </observation>
+    </entryRelationship>
     {{end}}
-
-    {{if .EntrySection.Diagnosis }}
-    {{if gt (len (index .MapDataCriteria.FieldOids "DIAGNOSIS")) 0 }}
+    {{if .EntrySection.Diagnosis.Codes }}
+      {{if gt (len (index .MapDataCriteria.FieldOids "DIAGNOSIS")) 0 }}
             <entryRelationship typeCode="REFR">
                 <act classCode="ACT" moodCode="EVN">
                   <templateId root="2.16.840.1.113883.10.20.22.4.80" extension="2015-08-01"/>
@@ -3601,12 +3610,38 @@ var _templatesCat1R3_1_2168401113883102024323Xml = []byte(`<entry>
                         <low {{valueOrNullFlavor $startTime}}/>
                         <high {{valueOrNullFlavor $endTime}}/>
                       </effectiveTime>
-                      {{template "_code.xml" codeDisplayWithPreferredCodeForField .EntrySection.Entry .EntrySection.Diagnosis .MapDataCriteria "diagnosis" "DIAGNOSIS"}}
+                      {{template "_code.xml" codeDisplayWithPreferredCodeForField .EntrySection.Entry .EntrySection.Diagnosis.Coded .MapDataCriteria "diagnosis" "DIAGNOSIS"}}
                     </observation>
                   </entryRelationship>
                 </act>
             </entryRelationship>
-      {{end}}
+      {{ end }}
+    {{else if .EntrySection.Diagnosis.Code }}
+    {{ $vs := oidForCode .EntrySection.Diagnosis.CodedConcept (index .MapDataCriteria.FieldOids "DIAGNOSIS") }}
+            <entryRelationship typeCode="REFR">
+                <act classCode="ACT" moodCode="EVN">
+                  <templateId root="2.16.840.1.113883.10.20.22.4.80" extension="2015-08-01"/>
+                  <code code="29308-4" codeSystem="2.16.840.1.113883.6.1" displayName="Diagnosis" codeSystemName="LOINC"/>
+                  <entryRelationship typeCode="SUBJ">
+                    <observation classCode="OBS" moodCode="EVN">
+                      <!--  Problem observation template -->
+                      <templateId root="2.16.840.1.113883.10.20.22.4.4" extension="2015-08-01"/>
+                      <id root="1.3.6.1.4.1.115" extension="{{newRandom}}"/>
+                      <code code="29308-4" codeSystem="2.16.840.1.113883.6.1">
+                        <translation code="282291009" codeSystem="2.16.840.1.113883.6.96"/>
+                      </code>
+                      <statusCode code="completed"/>
+                      <effectiveTime>
+                        <low {{valueOrNullFlavor $startTime}}/>
+                        <high {{valueOrNullFlavor $endTime}}/>
+                      </effectiveTime>
+                      <value code="{{.EntrySection.Diagnosis.Code}}" xsi:type='CD'
+                           codeSystem="{{oidForCodeSystem .EntrySection.Diagnosis.CodeSystem}}"
+                            {{- if $vs}} sdtc:valueSet="{{$vs}}"/> {{- else}} /> {{- end}}
+                    </observation>
+                  </entryRelationship>
+                </act>
+            </entryRelationship> 
     {{end}}
   </encounter>
   </entryRelationship>
@@ -3624,7 +3659,7 @@ func templatesCat1R3_1_2168401113883102024323Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.23.xml", size: 5687, mode: os.FileMode(420), modTime: time.Unix(1497376103, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.23.xml", size: 8090, mode: os.FileMode(420), modTime: time.Unix(1497376127, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4769,9 +4804,9 @@ var _templatesCat1R3_1_216840111388310202439Xml = []byte(`<entry>
             </playingDevice>
           </participantRole>
         </participant>
-        {{template "_reason.xml" .}}
       </supply>
     </entryRelationship>
+    {{template "_reason.xml" .}}
   </act>
 </entry>
 `)
@@ -4786,7 +4821,7 @@ func templatesCat1R3_1_216840111388310202439Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.9.xml", size: 1787, mode: os.FileMode(420), modTime: time.Unix(1497376103, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.9.xml", size: 1783, mode: os.FileMode(420), modTime: time.Unix(1497376127, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -6392,14 +6427,23 @@ var _templatesCat1R4_2168401113883102024323Xml = []byte(`<entry>
       <entryRelationship typeCode="REFR">
           <observation classCode="OBS" moodCode="EVN">
             <code code="8319008" codeSystem="2.16.840.1.113883.6.96" displayName="Principal Diagnosis" codeSystemName="SNOMED CT"/>
-            {{template "_code.xml" codeDisplayWithPreferredCodeForField .EntrySection.Entry .EntrySection.PrincipalDiagnosis .MapDataCriteria "principalDiagnosis" "PRINCIPAL_DIAGNOSIS"}}
+            {{template "_code.xml" codeDisplayWithPreferredCodeForField .EntrySection.Entry .EntrySection.PrincipalDiagnosis.Coded .MapDataCriteria "principalDiagnosis" "PRINCIPAL_DIAGNOSIS"}}
           </observation>
       </entryRelationship>
       {{end}}
+    {{else if .EntrySection.PrincipalDiagnosis.Code }}
+    {{ $vs := oidForCode .EntrySection.PrincipalDiagnosis.CodedConcept (index .MapDataCriteria.FieldOids "PRINCIPAL_DIAGNOSIS") }}
+    <entryRelationship typeCode="REFR">
+      <observation classCode="OBS" moodCode="EVN">
+        <code code="8319008" codeSystem="2.16.840.1.113883.6.96" displayName="Principal Diagnosis" codeSystemName="SNOMED CT"/>
+        <value code="{{.EntrySection.PrincipalDiagnosis.Code}}" xsi:type='CD'
+               codeSystem="{{oidForCodeSystem .EntrySection.PrincipalDiagnosis.CodeSystem}}"
+                {{- if $vs}} sdtc:valueSet="{{$vs}}"/> {{- else}} /> {{- end}}
+      </observation>
+    </entryRelationship>
     {{end}}
-
-    {{if .EntrySection.Diagnosis }}
-    {{if gt (len (index .MapDataCriteria.FieldOids "DIAGNOSIS")) 0 }}
+    {{if .EntrySection.Diagnosis.Codes }}
+      {{if gt (len (index .MapDataCriteria.FieldOids "DIAGNOSIS")) 0 }}
             <entryRelationship typeCode="REFR">
                 <act classCode="ACT" moodCode="EVN">
                   <templateId root="2.16.840.1.113883.10.20.22.4.80" extension="2015-08-01"/>
@@ -6417,12 +6461,38 @@ var _templatesCat1R4_2168401113883102024323Xml = []byte(`<entry>
                         <low {{valueOrNullFlavor $startTime}}/>
                         <high {{valueOrNullFlavor $endTime}}/>
                       </effectiveTime>
-                      {{template "_code.xml" codeDisplayWithPreferredCodeForField .EntrySection.Entry .EntrySection.Diagnosis .MapDataCriteria "diagnosis" "DIAGNOSIS"}}
+                      {{template "_code.xml" codeDisplayWithPreferredCodeForField .EntrySection.Entry .EntrySection.Diagnosis.Coded .MapDataCriteria "diagnosis" "DIAGNOSIS"}}
                     </observation>
                   </entryRelationship>
                 </act>
             </entryRelationship>
-      {{end}}
+      {{ end }}
+    {{else if .EntrySection.Diagnosis.Code }}
+    {{ $vs := oidForCode .EntrySection.Diagnosis.CodedConcept (index .MapDataCriteria.FieldOids "DIAGNOSIS") }}
+            <entryRelationship typeCode="REFR">
+                <act classCode="ACT" moodCode="EVN">
+                  <templateId root="2.16.840.1.113883.10.20.22.4.80" extension="2015-08-01"/>
+                  <code code="29308-4" codeSystem="2.16.840.1.113883.6.1" displayName="Diagnosis" codeSystemName="LOINC"/>
+                  <entryRelationship typeCode="SUBJ">
+                    <observation classCode="OBS" moodCode="EVN">
+                      <!--  Problem observation template -->
+                      <templateId root="2.16.840.1.113883.10.20.22.4.4" extension="2015-08-01"/>
+                      <id root="1.3.6.1.4.1.115" extension="{{newRandom}}"/>
+                      <code code="29308-4" codeSystem="2.16.840.1.113883.6.1">
+                        <translation code="282291009" codeSystem="2.16.840.1.113883.6.96"/>
+                      </code>
+                      <statusCode code="completed"/>
+                      <effectiveTime>
+                        <low {{valueOrNullFlavor $startTime}}/>
+                        <high {{valueOrNullFlavor $endTime}}/>
+                      </effectiveTime>
+                      <value code="{{.EntrySection.Diagnosis.Code}}" xsi:type='CD'
+                           codeSystem="{{oidForCodeSystem .EntrySection.Diagnosis.CodeSystem}}"
+                            {{- if $vs}} sdtc:valueSet="{{$vs}}"/> {{- else}} /> {{- end}}
+                    </observation>
+                  </entryRelationship>
+                </act>
+            </entryRelationship> 
     {{end}}
   </encounter>
   </entryRelationship>
@@ -6440,7 +6510,7 @@ func templatesCat1R4_2168401113883102024323Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r4/_2.16.840.1.113883.10.20.24.3.23.xml", size: 5687, mode: os.FileMode(420), modTime: time.Unix(1497376103, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r4/_2.16.840.1.113883.10.20.24.3.23.xml", size: 8098, mode: os.FileMode(420), modTime: time.Unix(1497376127, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -7508,9 +7578,9 @@ var _templatesCat1R4_216840111388310202439Xml = []byte(`<entry>
             </playingDevice>
           </participantRole>
         </participant>
-        {{template "_reason.xml" .}}
       </supply>
     </entryRelationship>
+    {{template "_reason.xml" .}}
   </act>
 </entry>
 `)
@@ -7525,7 +7595,7 @@ func templatesCat1R4_216840111388310202439Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r4/_2.16.840.1.113883.10.20.24.3.9.xml", size: 1787, mode: os.FileMode(420), modTime: time.Unix(1497376103, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r4/_2.16.840.1.113883.10.20.24.3.9.xml", size: 1783, mode: os.FileMode(420), modTime: time.Unix(1497376127, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }

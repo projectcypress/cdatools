@@ -34,8 +34,8 @@
             </playingDevice>
           </participantRole>
         </participant>
-        {{template "_reason.xml" .}}
       </supply>
     </entryRelationship>
+    {{template "_reason.xml" .}}
   </act>
 </entry>
