@@ -3570,7 +3570,7 @@ var _templatesCat1R3_1_2168401113883102024323Xml = []byte(`<entry>
         {{if .EntrySection.Reason}}
           {{template "_reason.xml" .}}
         {{end}}
-        {{if or .EntrySection.PrincipalDiagnosis.Codes EntrySection.PrincipalDiagnosis.Code}}
+        {{if or .EntrySection.PrincipalDiagnosis.Codes .EntrySection.PrincipalDiagnosis.Code}}
           <entryRelationship typeCode="REFR">
             <observation classCode="OBS" moodCode="EVN">
               <code code="8319008" codeSystem="2.16.840.1.113883.6.96" displayName="Principal Diagnosis" codeSystemName="SNOMED CT"/>        
@@ -3636,7 +3636,7 @@ func templatesCat1R3_1_2168401113883102024323Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.23.xml", size: 7140, mode: os.FileMode(420), modTime: time.Unix(1497376151, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.23.xml", size: 7141, mode: os.FileMode(420), modTime: time.Unix(1497377435, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -6398,7 +6398,7 @@ var _templatesCat1R4_2168401113883102024323Xml = []byte(`<entry>
         {{if .EntrySection.Reason}}
           {{template "_reason.xml" .}}
         {{end}}
-        {{if or .EntrySection.PrincipalDiagnosis.Codes EntrySection.PrincipalDiagnosis.Code}}
+        {{if or .EntrySection.PrincipalDiagnosis.Codes .EntrySection.PrincipalDiagnosis.Code}}
           <entryRelationship typeCode="REFR">
             <observation classCode="OBS" moodCode="EVN">
               <code code="8319008" codeSystem="2.16.840.1.113883.6.96" displayName="Principal Diagnosis" codeSystemName="SNOMED CT"/>        
@@ -6464,7 +6464,7 @@ func templatesCat1R4_2168401113883102024323Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r4/_2.16.840.1.113883.10.20.24.3.23.xml", size: 7140, mode: os.FileMode(420), modTime: time.Unix(1497376151, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r4/_2.16.840.1.113883.10.20.24.3.23.xml", size: 7141, mode: os.FileMode(420), modTime: time.Unix(1497377427, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
