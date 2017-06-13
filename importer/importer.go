@@ -339,6 +339,13 @@ func Read_patient(document string) string {
 		patient.Procedures = append(patient.Procedures, rawRiskCategoryAssessments[i].(models.Procedure))
 	}
 
+	// Assessment
+	var assessmentXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.144']")
+	assessments := ExtractSection(patientElement, assessmentXPath, AssessmentPerformedExtractor, "2.16.840.1.113883.10.20.28.3.117", "performed")
+	for i := range assessments {
+		patient.Assessments = append(patient.Assessments, assessments[i].(models.Assessment))
+	}
+
 	// Diagnostic Study, not Performed
 	var diagnosticStudyNotPerformedXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.18']")
 	rawDiagnosticStudyNotPerformed := ExtractSection(patientElement, diagnosticStudyNotPerformedXPath, ProcedureExtractor, "2.16.840.1.113883.3.560.1.103", "performed")
