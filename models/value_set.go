@@ -85,22 +85,16 @@ func (v ValueSetMap) CodeDisplayWithPreferredCodeForResultValue(entry *Entry, co
 	}
 	codeDisplay.MapDataCriteria = MapDataCriteria
 	for i, oid := range MapDataCriteria.ResultOids {
-	//for ResultOidInd := 0; ResultOidInd < len(MapDataCriteria.ResultOids); ResultOidInd++ {
-		codeDisplay.PreferredCode = coded.PreferredCode(codeDisplay.PreferredCodeSets, codeDisplay.CodeSetRequired, codeDisplay.ValueSetPreferred, v, MapDataCriteria.ResultOids[i])
+		codeDisplay.PreferredCode = coded.PreferredCode(codeDisplay.PreferredCodeSets, codeDisplay.CodeSetRequired, codeDisplay.ValueSetPreferred, v, oid)
 		if codeDisplay.PreferredCode.Code != "" {
-			oldoid := MapDataCriteria.ResultOids[0]
+			oldOid := MapDataCriteria.ResultOids[0]
 			MapDataCriteria.ResultOids[0] = oid
-			MapDataCriteria.ResultOids[i] = oldoid
-			break
+			MapDataCriteria.ResultOids[i] = oldOid
+			return codeDisplay
 		}
 	}
-	if codeDisplay.PreferredCode.Code == "" {//Concept{CodeSystem: codeSystem, Code: code}
-		for codeSystem := range coded.Codes {
-			for _, code := range coded.Codes[codeSystem] {
-				codeDisplay.PreferredCode = Concept{CodeSystem: codeSystem, Code: code}
-				break
-			}
-		}
+	for codeSystem, codes := range coded.Codes {
+		codeDisplay.PreferredCode = Concept{CodeSystem: codeSystem, Code: codes[0]}
 	}
 	return codeDisplay
 }
