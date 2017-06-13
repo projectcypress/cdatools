@@ -66,7 +66,7 @@
         {{if .EntrySection.Reason}}
           {{template "_reason.xml" .}}
         {{end}}
-        {{if or .EntrySection.PrincipalDiagnosis.Codes EntrySection.PrincipalDiagnosis.Code}}
+        {{if or .EntrySection.PrincipalDiagnosis.Codes .EntrySection.PrincipalDiagnosis.Code}}
           <entryRelationship typeCode="REFR">
             <observation classCode="OBS" moodCode="EVN">
               <code code="8319008" codeSystem="2.16.840.1.113883.6.96" displayName="Principal Diagnosis" codeSystemName="SNOMED CT"/>        
