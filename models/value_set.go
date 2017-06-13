@@ -56,7 +56,8 @@ func (v ValueSetMap) CodeDisplayWithPreferredCodeForField(entry *Entry, coded *C
 	}
 	codeDisplay.MapDataCriteria = MapDataCriteria
 	for i, oid := range MapDataCriteria.FieldOids[field] {
-		codeDisplay.PreferredCode = coded.PreferredCode(codeDisplay.PreferredCodeSets, codeDisplay.CodeSetRequired, codeDisplay.ValueSetPreferred, v, MapDataCriteria.FieldOids[field][i])
+		preferredCodes := coded.PreferredCodes(codeDisplay.PreferredCodeSets, codeDisplay.CodeSetRequired, codeDisplay.ValueSetPreferred, v, MapDataCriteria.FieldOids[field][i])
+		codeDisplay.setCodesFromPreferred(preferredCodes)
 		if codeDisplay.PreferredCode.Code != "" {
 			//Put the relevant oid in the 0 index for export
 			oldoid := MapDataCriteria.FieldOids[field][0]
@@ -74,7 +75,8 @@ func (v ValueSetMap) CodeDisplayWithPreferredCode(entry *Entry, coded *Coded, Ma
 		log.Fatalln(err)
 	}
 	codeDisplay.MapDataCriteria = MapDataCriteria
-	codeDisplay.PreferredCode = coded.PreferredCode(codeDisplay.PreferredCodeSets, codeDisplay.CodeSetRequired, codeDisplay.ValueSetPreferred, v, MapDataCriteria.ValueSetOid)
+	preferredCodes := coded.PreferredCodes(codeDisplay.PreferredCodeSets, codeDisplay.CodeSetRequired, codeDisplay.ValueSetPreferred, v, MapDataCriteria.ValueSetOid)
+	codeDisplay.setCodesFromPreferred(preferredCodes)
 	return codeDisplay
 }
 
@@ -85,7 +87,8 @@ func (v ValueSetMap) CodeDisplayWithPreferredCodeForResultValue(entry *Entry, co
 	}
 	codeDisplay.MapDataCriteria = MapDataCriteria
 	for i, oid := range MapDataCriteria.ResultOids {
-		codeDisplay.PreferredCode = coded.PreferredCode(codeDisplay.PreferredCodeSets, codeDisplay.CodeSetRequired, codeDisplay.ValueSetPreferred, v, oid)
+		preferredCodes := coded.PreferredCodes(codeDisplay.PreferredCodeSets, codeDisplay.CodeSetRequired, codeDisplay.ValueSetPreferred, v, oid)
+		codeDisplay.setCodesFromPreferred(preferredCodes)
 		if codeDisplay.PreferredCode.Code != "" {
 			oldOid := MapDataCriteria.ResultOids[0]
 			MapDataCriteria.ResultOids[0] = oid
@@ -105,7 +108,8 @@ func (v ValueSetMap) CodeDisplayWithPreferredCodeAndLaterality(entry *Entry, cod
 	if err != nil {
 		log.Fatal(err)
 	}
-	codeDisplay.PreferredCode = coded.PreferredCode(codeDisplay.PreferredCodeSets, codeDisplay.CodeSetRequired, codeDisplay.ValueSetPreferred, v, MapDataCriteria.ValueSetOid)
+	preferredCodes := coded.PreferredCodes(codeDisplay.PreferredCodeSets, codeDisplay.CodeSetRequired, codeDisplay.ValueSetPreferred, v, MapDataCriteria.ValueSetOid)
+	codeDisplay.setCodesFromPreferred(preferredCodes)
 	codeDisplay.Laterality = laterality
 	codeDisplay.MapDataCriteria = MapDataCriteria
 	return codeDisplay
@@ -119,6 +123,15 @@ func (v ValueSetMap) OidForCode(codedValue CodedConcept, valuesetOids []string) 
 		}
 	}
 	return ""
+}
+
+func (c *CodeDisplay) setCodesFromPreferred(preferredCodes []Concept) {
+	if len(preferredCodes) > 0 {
+		c.PreferredCode = preferredCodes[0]
+		if len(preferredCodes) > 1 {
+			c.Translations = preferredCodes[1:]
+		}
+	}
 }
 
 func codeSetContainsCode(sets []CodeSet, codedValue CodedConcept) bool {

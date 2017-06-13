@@ -49,6 +49,7 @@ type CodeDisplay struct {
 	EntryFieldNameForCoded string     `json:"entry_field_name_for_coded"`
 	Description            string     `json:"description"`
 	Laterality             Laterality `json:"laterality,omitempty"`
+	Translations           []Concept
 	MapDataCriteria        Mdc
 }
 
