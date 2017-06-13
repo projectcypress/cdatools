@@ -41,8 +41,8 @@ func EncounterPerformedExtractor(entry *models.Entry, entryElement xml.Node) int
 	//extract diagnoses
 	var pdXPath = xpath.Compile("cda:entryRelationship/cda:observation[cda:code/@code='8319008']")
 	var diagXPath = xpath.Compile("cda:entryRelationship/cda:act/cda:entryRelationship/cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.22.4.4']")
-	ExtractCodes(&encounter.PrincipalDiagnosis, entryElement, pdXPath)
-	ExtractCodes(&encounter.Diagnosis, entryElement, diagXPath)
+	ExtractCodes(&encounter.PrincipalDiagnosis.Coded, entryElement, pdXPath)
+	ExtractCodes(&encounter.Diagnosis.Coded, entryElement, diagXPath)
 
 	//extract facility
 	extractFacility(&encounter, entryElement)

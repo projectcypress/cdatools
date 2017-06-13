@@ -2,14 +2,14 @@ package models
 
 type Encounter struct {
 	Entry                `bson:",inline"`
-	AdmitTime            *int64            `json:"admitTime,omitempty"`
-	DischargeTime        *int64            `json:"discharge_time,omitempty"`
-	DischargeDisposition map[string]string `json:"dischargeDisposition,omitempty"`
-	TransferTo           Transfer          `json:"transferTo,omitempty"`
-	TransferFrom         Transfer          `json:"transferFrom,omitempty"`
-	Facility             Facility          `json:"facility,omitempty"`
-	PrincipalDiagnosis   Coded             `json:"principalDiagnosis,omitempty"`
-	Diagnosis            Coded             `json:"diagnosis,omitempty"`
+	AdmitTime            *int64             `json:"admitTime,omitempty"`
+	DischargeTime        *int64             `json:"discharge_time,omitempty"`
+	DischargeDisposition map[string]string  `json:"dischargeDisposition,omitempty"`
+	TransferTo           Transfer           `json:"transferTo,omitempty"`
+	TransferFrom         Transfer           `json:"transferFrom,omitempty"`
+	Facility             Facility           `json:"facility,omitempty"`
+	PrincipalDiagnosis   PrincipalDiagnosis `json:"principalDiagnosis,omitempty"`
+	Diagnosis            Diagnosis          `json:"diagnosis,omitempty"`
 }
 
 type Facility struct {
@@ -25,6 +25,16 @@ type Transfer struct {
 	Coded
 	CodedConcept
 	Time *int64 `json:"time,omitempty"`
+}
+
+type PrincipalDiagnosis struct {
+	Coded
+	CodedConcept
+}
+
+type Diagnosis struct {
+	Coded
+	CodedConcept
 }
 
 func (enc *Encounter) GetEntry() *Entry {
