@@ -95,6 +95,7 @@ func (v ValueSetMap) CodeDisplayWithPreferredCodeForResultValue(entry *Entry, co
 	}
 	for codeSystem, codes := range coded.Codes {
 		codeDisplay.PreferredCode = Concept{CodeSystem: codeSystem, Code: codes[0]}
+		break
 	}
 	return codeDisplay
 }

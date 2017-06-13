@@ -54,7 +54,7 @@ func exporterFuncMap(cat1Template *template.Template, vsMap models.ValueSetMap) 
 		"hasAnatomicalLocation":                      hasAnatomicalLocation,
 		"hasSeverity":                                hasSeverity,
 		"codeDisplayWithPreferredCode":               vsMap.CodeDisplayWithPreferredCode,
-		"codeDisplayWithPreferredCodeForField":  	  vsMap.CodeDisplayWithPreferredCodeForField,
+		"codeDisplayWithPreferredCodeForField":       vsMap.CodeDisplayWithPreferredCodeForField,
 		"codeDisplayWithPreferredCodeForResultValue": vsMap.CodeDisplayWithPreferredCodeForResultValue,
 		"codeDisplayWithPreferredCodeAndLaterality":  vsMap.CodeDisplayWithPreferredCodeAndLaterality,
 		"negationIndicator":                          negationIndicator,
@@ -62,6 +62,8 @@ func exporterFuncMap(cat1Template *template.Template, vsMap models.ValueSetMap) 
 		"derefBool":                                  derefBool,
 		"emptyMdc":                                   models.EmptyMdc,
 		"newRecordTarget":                            newRecordTarget,
+		"sampleCodeSystemInCoded":                    sampleCodeSystemInCoded,
+		"firstCodeInCodeSystem":                      firstCodeInCodeSystem,
 	}
 }
 

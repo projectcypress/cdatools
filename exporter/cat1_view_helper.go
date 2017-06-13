@@ -260,3 +260,15 @@ type RecordTarget struct {
 func newRecordTarget(record models.Record, cmsCompatibility bool) RecordTarget {
 	return RecordTarget{Record: record, CMSCompatibility: cmsCompatibility}
 }
+
+func sampleCodeSystemInCoded(coded models.Coded) string {
+	var sampleCodeSystem string
+	for codeSystem := range coded.Codes {
+		sampleCodeSystem = codeSystem
+	}
+	return sampleCodeSystem
+}
+
+func firstCodeInCodeSystem(coded models.Coded, codeSystem string) string {
+	return coded.Codes[codeSystem][0]
+}
