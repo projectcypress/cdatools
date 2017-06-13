@@ -45,10 +45,7 @@ func EncounterPerformedExtractor(entry *models.Entry, entryElement xml.Node) int
 	encounter.Diagnosis.Coded.Codes = map[string][]string{}
 	ExtractCodes(&encounter.PrincipalDiagnosis.Coded, entryElement, pdXPath)
 	ExtractCodes(&encounter.Diagnosis.Coded, entryElement, diagXPath)
-
-	//encounter.PrincipalDiagnosis.Code = &models.CodedConcept{}
 	ExtractCodedConcept(&encounter.PrincipalDiagnosis.CodedConcept, entryElement, pdXPath)
-	//encounter.Diagnosis.Code = &models.CodedConcept{}
 	ExtractCodedConcept(&encounter.Diagnosis.CodedConcept, entryElement, diagXPath)
 
 	//extract facility
