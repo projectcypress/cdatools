@@ -7,7 +7,7 @@ import (
 type Medication struct {
 	Entry                  `bson:",inline"`
 	AdministrationTiming   AdministrationTiming `json:"administrationTiming,omitempty"`
-	AllowedAdministrations *int64               `json:"allowed_administrations,omitempty"`
+	AllowedAdministrations *int64               `json:"allowedAdministrations,omitempty"`
 	Route                  *CodedConcept        `json:"route,omitempty"`
 	Dose                   Scalar               `json:"dose,omitempty"`
 	AnatomicalApproach     *CodedConcept        `json:"anatomical_approach,omitempty"`
