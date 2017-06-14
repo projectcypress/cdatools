@@ -2140,7 +2140,7 @@ var _templatesCat1R3_codeXml = []byte(`<{{- valueOrDefault .TagName "code" -}}
 >
   {{- $attribute := valueOrDefault .Attribute "codes"}}
   {{- if codeDisplayAttributeIsCodes $attribute}}
-    <originalText>{{- .Description}}</originalText>
+    <originalText>{{- escape .Description}}</originalText>
   {{- end}}
   {{- if hasLaterality .Laterality}}
     <!-- QDM Attribute: Laterality -->
@@ -2164,7 +2164,7 @@ func templatesCat1R3_codeXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_code.xml", size: 1111, mode: os.FileMode(420), modTime: time.Unix(1495117865, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_code.xml", size: 1118, mode: os.FileMode(420), modTime: time.Unix(1497471798, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4897,7 +4897,7 @@ var _templatesCat1R3_1_codeXml = []byte(`<{{- valueOrDefault .TagName "code" -}}
 >
   {{- $attribute := valueOrDefault .Attribute "codes"}}
   {{- if codeDisplayAttributeIsCodes $attribute}}
-    <originalText>{{- .Description}}</originalText>
+    <originalText>{{- escape .Description}}</originalText>
   {{- end}}
   {{- if hasLaterality .Laterality}}
     <!-- QDM Attribute: Laterality -->
@@ -4921,7 +4921,7 @@ func templatesCat1R3_1_codeXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_code.xml", size: 1227, mode: os.FileMode(420), modTime: time.Unix(1497376103, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_code.xml", size: 1234, mode: os.FileMode(420), modTime: time.Unix(1497471798, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -7656,7 +7656,7 @@ var _templatesCat1R4_codeXml = []byte(`<{{- valueOrDefault .TagName "code" -}}
 >
   {{- $attribute := valueOrDefault .Attribute "codes"}}
   {{- if codeDisplayAttributeIsCodes $attribute}}
-    <originalText>{{- .Description}}</originalText>
+    <originalText>{{- escape .Description}}</originalText>
   {{- end}}
   {{- if hasLaterality .Laterality}}
     <!-- QDM Attribute: Laterality -->
@@ -7680,7 +7680,7 @@ func templatesCat1R4_codeXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r4/_code.xml", size: 1227, mode: os.FileMode(420), modTime: time.Unix(1497468456, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r4/_code.xml", size: 1234, mode: os.FileMode(420), modTime: time.Unix(1497471798, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }

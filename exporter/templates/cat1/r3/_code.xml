@@ -8,7 +8,7 @@
 >
   {{- $attribute := valueOrDefault .Attribute "codes"}}
   {{- if codeDisplayAttributeIsCodes $attribute}}
-    <originalText>{{- .Description}}</originalText>
+    <originalText>{{- escape .Description}}</originalText>
   {{- end}}
   {{- if hasLaterality .Laterality}}
     <!-- QDM Attribute: Laterality -->
