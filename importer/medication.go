@@ -77,6 +77,7 @@ func extractMedication(entry *models.Entry, entryElement xml.Node) models.Medica
 	medication.Vehicle.AddCodeIfPresent(FirstElement(vehicleXPath, entryElement))
 
 	medication.OrderInformation = []models.OrderInformation{}
+	extractSupplyInformation(&medication, entryElement)
 	extractOrderInformation(&medication, entryElement)
 
 	medication.FulfillmentHistory = []models.FulfillmentHistory{}
@@ -119,6 +120,17 @@ func extractDoseRestriction(medication *models.Medication, entryElement xml.Node
 }
 
 func extractOrderInformation(medication *models.Medication, entryElement xml.Node) {
+	oiXPath := xpath.Compile("./cda:repeatNumber")
+	oiElement := FirstElement(oiXPath, entryElement)
+	
+	if oiElement != nil {
+		fills, err := strconv.ParseInt(FirstElementContent(xpath.Compile("./@value"), oiElement), 10, 64)
+		util.CheckErr(err)
+		medication.AllowedAdministrations = &fills
+	}
+}
+
+func extractSupplyInformation(medication *models.Medication, entryElement xml.Node) {
 	oiXPath := xpath.Compile("./cda:entryRelationship[@typeCode='REFR']/cda:supply[@moodCode='INT']")
 	oiElement := FirstElement(oiXPath, entryElement)
 

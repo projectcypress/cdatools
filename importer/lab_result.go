@@ -13,6 +13,10 @@ func ResultExtractor(entry *models.Entry, entryElement xml.Node) interface{} {
 	var codePath = xpath.Compile("cda:code")
 	ExtractCodes(&result.Entry.Coded, entryElement, codePath)
 
+	//extract values
+	var valuePath = xpath.Compile("cda:value")
+	ExtractValues(&result.Entry, entryElement, valuePath)
+
 	extractInterpretation(&result, entryElement)
 	extractReferenceRange(&result, entryElement)
 
@@ -32,6 +36,7 @@ func LabResultExtractor(entry *models.Entry, entryElement xml.Node) interface{} 
 	//extract values
 	var valuePath = xpath.Compile("cda:value")
 	ExtractValues(&labResult.Entry, entryElement, valuePath)
+	ExtractReasonOrNegation(&labResult.Entry, entryElement)
 
 	return labResult
 }

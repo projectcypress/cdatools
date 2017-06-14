@@ -58,6 +58,7 @@ func extractReferences(entry *models.Entry, entryElement xml.Node) {
 		idElem, err := ref.Search("./sdtc:actReference/sdtc:id")
 		util.CheckErr(err)
 		reference.ReferencedID = idElem[0].Attr("extension")
+		reference.ExportedRef = idElem[0].Attr("extension")
 		entry.References = append(entry.References, reference)
 	}
 }
