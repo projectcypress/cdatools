@@ -270,7 +270,7 @@ func Read_patient(document string) string {
 
 	// Functional Status, Performed
 	var functionalStatusPerformedXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.26']")
-	rawFunctionalStatuses = ExtractSection(patientElement, functionalStatusPerformedXPath, ResultExtractor, "2.16.840.1.113883.3.560.1.85", "")
+	rawFunctionalStatuses = ExtractSection(patientElement, functionalStatusPerformedXPath, ResultExtractor, "2.16.840.1.113883.3.560.1.85", "performed")
 	for i := range rawFunctionalStatuses {
 		patient.LabResults = append(patient.LabResults, rawFunctionalStatuses[i].(models.LabResult))
 	}

@@ -32,6 +32,7 @@ type Reference struct {
 	Type           string `json:"type,omitempty"`
 	ReferencedType string `json:"referenced_type,omitempty"`
 	ReferencedID   string `json:"referenced_id,omitempty"`
+	ExportedRef	   string `json:"exported_ref,omitempty"`
 }
 
 // used by exporter template to display a code. ex. (if TagName is priorityCode) <priorityCode code="1234"></priorityCode>
