@@ -51,6 +51,10 @@ func ConditionExtractor(entry *models.Entry, entryElement xml.Node) interface{} 
 	var lateralityXPath = xpath.Compile("cda:value/cda:qualifier/cda:value")
 	ExtractLaterality(&condition, entryElement, lateralityXPath)
 
+	//extract anatomical Location
+	var anatomicalLocationXPath = xpath.Compile("cda:targetSiteCode")
+	ExtractAnatomicalLocation(&condition, entryElement, anatomicalLocationXPath)
+
 	return condition
 }
 
@@ -77,5 +81,12 @@ func ExtractLaterality(diagnosis *models.Condition, entryElement xml.Node, later
 	if lateralityElement != nil {
 		diagnosis.Laterality.AddCodeIfPresent(lateralityElement)
 		diagnosis.AnatomicalLocation.AddCodeIfPresent(lateralityElement)
+	}
+}
+
+func ExtractAnatomicalLocation(diagnosis *models.Condition, entryElement xml.Node, anatomicalLocationXPath *xpath.Expression) {
+	anatomicalLocationElement := FirstElement(anatomicalLocationXPath, entryElement)
+	if anatomicalLocationElement != nil {
+		diagnosis.AnatomicalLocation.AddCodeIfPresent(anatomicalLocationElement)
 	}
 }
