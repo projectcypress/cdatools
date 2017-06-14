@@ -40,9 +40,9 @@ func (c *Coded) AddCodeIfPresent(codeElement xml.Node) {
 
 	//extract nullFlavor from attribute if it is NA
 	nullFlavorAttribute := codeElement.Attribute("nullFlavor")
-	nullFlavorValueSet := codeElement.Attribute("valueSet")
-	if nullFlavorAttribute != nil && nullFlavorValueSet != nil {
-		code = nullFlavorValueSet.String()
+	nullFlavorValueSet := codeElement.Attributes()
+	if nullFlavorAttribute != nil && nullFlavorValueSet["valueSet"] != nil {
+		code = nullFlavorValueSet["valueSet"].String()
 		codeSystem = nullFlavorAttribute.String() + "_VALUESET"
 	}
 

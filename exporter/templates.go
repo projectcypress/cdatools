@@ -7645,10 +7645,12 @@ func templatesCat1R4_authorXml() (*asset, error) {
 }
 
 var _templatesCat1R4_codeXml = []byte(`<{{- valueOrDefault .TagName "code" -}}
-  {{- if hasPreferredCode .PreferredCode}} code='{{- .PreferredCode.Code}}' codeSystem='{{- oidForCodeSystem .PreferredCode.CodeSystem}}' {{.RenderExtraContent}}
+  {{- if hasPreferredCode .PreferredCode}}
+    {{- if .MapDataCriteria.DataCriteria.Negation}} nullFlavor="NA" {{.RenderExtraContent}}{{- else}} code="{{- .PreferredCode.Code}}" codeSystem="{{- oidForCodeSystem .PreferredCode.CodeSystem}}" {{.RenderExtraContent}}
+    {{- end}}
   {{- else}}
     {{- $excludeNullFlavor := valueOrDefault .ExcludeNullFlavor false}}
-    {{- if $excludeNullFlavor}}{{- else}} nullFlavor='UNK' xsi:type="CD"
+    {{- if $excludeNullFlavor}}{{- else}} nullFlavor="UNK" xsi:type="CD"
     {{- end}}
   {{- end -}}
 >
@@ -7678,7 +7680,7 @@ func templatesCat1R4_codeXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r4/_code.xml", size: 1111, mode: os.FileMode(420), modTime: time.Unix(1497448792, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r4/_code.xml", size: 1227, mode: os.FileMode(420), modTime: time.Unix(1497448854, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
