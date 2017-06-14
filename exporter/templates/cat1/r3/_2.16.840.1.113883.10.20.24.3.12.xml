@@ -41,7 +41,7 @@
           <high {{valueOrNullFlavor .EntrySection.EndTime}}/>
         </effectiveTime>
         {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
-        <text>{{.EntrySection.Description}}</text>
+        <text>{{escape .EntrySection.Description}}</text>
       </observation>
     </component>
   </organizer>

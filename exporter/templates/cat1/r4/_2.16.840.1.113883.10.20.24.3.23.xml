@@ -50,15 +50,15 @@
                 {{$firstAddr := index .EntrySection.Facility.Addresses 0}}
                 <addr>
                   <streetAddressLine>{{$firstAddr.Street}}</streetAddressLine>
-                  <city>{{$firstAddr.City}}</city>
-                  <state>{{$firstAddr.State}}</state>
-                  <postalCode>{{$firstAddr.Zip}}</postalCode>
-                  <country>{{$firstAddr.Country}}</country>
+                  <city>{{escape $firstAddr.City}}</city>
+                  <state>{{escape $firstAddr.State}}</state>
+                  <postalCode>{{escape $firstAddr.Zip}}</postalCode>
+                  <country>{{escape $firstAddr.Country}}</country>
                 </addr>
               {{end}}
               <telecom nullFlavor="UNK"/>
               <playingEntity classCode="PLC">
-                <name>{{.EntrySection.Facility.Name}}</name>
+                <name>{{escape .EntrySection.Facility.Name}}</name>
               </playingEntity>
             </participantRole>
           </participant>

@@ -6,7 +6,7 @@
     <templateId root="2.16.840.1.113883.10.20.24.3.76" extension="2014-12-01"/>  
     <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     <code code="418799008" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Symptom"/>
-    <text>{{.EntrySection.Description}}</text>
+    <text>{{escape .EntrySection.Description}}</text>
     <statusCode code="completed"/> 
    
     <effectiveTime>
