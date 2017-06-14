@@ -128,7 +128,7 @@ func Read_patient(document string) string {
 		patient.Medications = append(patient.Medications, rawMedicationDispenseds[i].(models.Medication))
 	}
 
-    //medication dispense act
+	//medication dispense act
 	var medicationDispensedActXPath = xpath.Compile("//cda:entry/cda:act[./cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.139']/cda:entryRelationship/cda:supply[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.45']")
 	rawMedicationDispensedActs := ExtractSection(patientElement, medicationDispensedActXPath, MedicationDispensedExtractor, "2.16.840.1.113883.3.560.1.8", "dispensed")
 	for i := range rawMedicationDispensedActs {
@@ -649,18 +649,18 @@ func set_patient_expired(patient *models.Record, xmlNode xml.Node) {
 func set_status_code(entry *models.Entry, status string) {
 	entry.StatusCode = map[string][]string{}
 	//if status != "" { // only set a status code if status is not empty
-		switch status {
-		case "active":
-			entry.StatusCode["SNOMED-CT"] = []string{"55561003"}
-			entry.StatusCode["HL7 ActStatus"] = []string{"active"}
-		case "inactive":
-			entry.StatusCode["SNOMED-CT"] = []string{"73425007"}
-		case "resolved":
-			entry.StatusCode["SNOMED-CT"] = []string{"413322009"}
-		case "":
-			entry.StatusCode["HL7 ActStatus"] = []string{""}
-		default:
-			entry.StatusCode["HL7 ActStatus"] = []string{status}
-		}
+	switch status {
+	case "active":
+		entry.StatusCode["SNOMED-CT"] = []string{"55561003"}
+		entry.StatusCode["HL7 ActStatus"] = []string{"active"}
+	case "inactive":
+		entry.StatusCode["SNOMED-CT"] = []string{"73425007"}
+	case "resolved":
+		entry.StatusCode["SNOMED-CT"] = []string{"413322009"}
+	case "":
+		entry.StatusCode["HL7 ActStatus"] = []string{""}
+	default:
+		entry.StatusCode["HL7 ActStatus"] = []string{status}
+	}
 	//}
 }
