@@ -82,7 +82,11 @@ func extractMedication(entry *models.Entry, entryElement xml.Node) models.Medica
 	medication.FulfillmentHistory = []models.FulfillmentHistory{}
 	extractFulfillmentHistory(&medication, entryElement)
 
-	ExtractReasonOrNegation(&medication.Entry, entryElement)
+	if entryElement.Parent().Name() == "entryRelationship" {
+		ExtractReasonOrNegation(&medication.Entry, entryElement.Parent().Parent())
+	} else {
+		ExtractReasonOrNegation(&medication.Entry, entryElement)
+	}
 	return medication
 }
 
@@ -130,26 +134,31 @@ func extractOrderInformation(medication *models.Medication, entryElement xml.Nod
 		qoXPath := xpath.Compile("./cda:quantity")
 		ExtractScalar(&oi.QuantityOrdered, oiElement, qoXPath)
 
+		medication.AllowedAdministrations = &fills
 		medication.OrderInformation = append(medication.OrderInformation, oi)
 	}
 }
 
 func extractFulfillmentHistory(medication *models.Medication, entryElement xml.Node) {
 	fhXPath := xpath.Compile("./cda:entryRelationship/cda:supply[@moodCode='EVN']")
-	fhElement := FirstElement(fhXPath, entryElement)
+	fulfillmentElements, err := entryElement.Search(fhXPath)
+	util.CheckErr(err)
+	if len(fulfillmentElements) > 0 {
+		for _, fhElement := range fulfillmentElements {
+			if fhElement != nil {
+				fh := models.FulfillmentHistory{}
+				fh.PrescriptionNumber = FirstElementContent(xpath.Compile("./cda:id/@root"), fhElement)
+				fh.DispenseDate = GetTimestamp(xpath.Compile("./cda:effectiveTime/@value"), fhElement)
+				ExtractScalar(&fh.QuantityDispensed, fhElement, xpath.Compile("./cda:quantity"))
+				fillNumber := FirstElementContent(xpath.Compile("./cda:entryRelationship[@typeCode='COMP']/cda:sequenceNumber/@value"), fhElement)
+				if fillNumber != "" {
+					fillnumber, err := strconv.ParseInt(fillNumber, 10, 64)
+					fh.FillNumber = fillnumber
+					util.CheckErr(err)
+				}
 
-	if fhElement != nil {
-		fh := models.FulfillmentHistory{}
-		fh.PrescriptionNumber = FirstElementContent(xpath.Compile("./cda:id/@root"), fhElement)
-		fh.DispenseDate = GetTimestamp(xpath.Compile("./cda:effectiveTime/@value"), fhElement)
-		ExtractScalar(&fh.QuantityDispensed, fhElement, xpath.Compile("./cda:quantity"))
-		fillNumber := FirstElementContent(xpath.Compile("./cda:entryRelationship[@typeCode='COMP']/cda:sequenceNumber/@value"), fhElement)
-		if fillNumber != "" {
-			fillnumber, err := strconv.ParseInt(fillNumber, 10, 64)
-			fh.FillNumber = fillnumber
-			util.CheckErr(err)
+				medication.FulfillmentHistory = append(medication.FulfillmentHistory, fh)
+			}
 		}
-
-		medication.FulfillmentHistory = append(medication.FulfillmentHistory, fh)
 	}
 }

@@ -16,6 +16,7 @@ func TransferFromExtractor(entry *models.Entry, entryElement xml.Node) interface
 
 	var locationCodePath = xpath.Compile("cda:participant[@typeCode='ORG']/cda:participantRole[@classCode='LOCE']/cda:code")
 	extractLocation(&transferFromEncounter.TransferFrom, entryElement, locationCodePath)
+	ExtractCodedConcept(&transferFromEncounter.TransferFrom.CodedConcept, entryElement, locationCodePath)
 
 	return transferFromEncounter
 }
@@ -30,6 +31,7 @@ func TransferToExtractor(entry *models.Entry, entryElement xml.Node) interface{}
 
 	var locationCodePath = xpath.Compile("cda:participant[@typeCode='DST']/cda:participantRole[@classCode='LOCE']/cda:code")
 	extractLocation(&transferToEncounter.TransferTo, entryElement, locationCodePath)
+	ExtractCodedConcept(&transferToEncounter.TransferTo.CodedConcept, entryElement, locationCodePath)
 
 	return transferToEncounter
 }

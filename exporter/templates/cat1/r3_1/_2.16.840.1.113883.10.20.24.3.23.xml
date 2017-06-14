@@ -66,13 +66,17 @@
         {{if .EntrySection.Reason}}
           {{template "_reason.xml" .}}
         {{end}}
-        {{if or .EntrySection.PrincipalDiagnosis.Codes .EntrySection.PrincipalDiagnosis.Code}}
+        {{if or .EntrySection.PrincipalDiagnosis.Code .EntrySection.PrincipalDiagnosis.Codes}}
           <entryRelationship typeCode="REFR">
             <observation classCode="OBS" moodCode="EVN">
-              <code code="8319008" codeSystem="2.16.840.1.113883.6.96" displayName="Principal Diagnosis" codeSystemName="SNOMED CT"/>        
+              <code code="8319008" codeSystem="2.16.840.1.113883.6.96" displayName="Principal Diagnosis" codeSystemName="SNOMED CT"/>
               {{if .EntrySection.PrincipalDiagnosis.Codes}}
                 {{if gt (len (index .MapDataCriteria.FieldOids "PRINCIPAL_DIAGNOSIS")) 0}}
                   {{template "_code.xml" codeDisplayWithPreferredCodeForField .EntrySection.Entry .EntrySection.PrincipalDiagnosis.Coded .MapDataCriteria "principalDiagnosis" "PRINCIPAL_DIAGNOSIS"}}
+                {{else}}
+                  {{$codeSystem := sampleCodeSystemInCoded .EntrySection.PrincipalDiagnosis.Coded}}
+                  <value code="{{firstCodeInCodeSystem .EntrySection.PrincipalDiagnosis.Coded $codeSystem}}" xsi:type="CD"
+                         codeSystem="{{$codeSystem}}"/>
                 {{end}}
               {{else if .EntrySection.PrincipalDiagnosis.Code}}
                 {{$vs := oidForCode .EntrySection.PrincipalDiagnosis.CodedConcept (index .MapDataCriteria.FieldOids "PRINCIPAL_DIAGNOSIS")}}
@@ -83,7 +87,7 @@
             </observation>
           </entryRelationship>
         {{end}}
-        {{if or .EntrySection.Diagnosis.Codes .EntrySection.Diagnosis.Code}}
+        {{if or .EntrySection.Diagnosis.Code .EntrySection.Diagnosis.Codes}}
           <entryRelationship typeCode="REFR">
             <act classCode="ACT" moodCode="EVN">
               <templateId root="2.16.840.1.113883.10.20.22.4.80" extension="2015-08-01"/>
@@ -104,6 +108,10 @@
                   {{if .EntrySection.Diagnosis.Codes}}
                     {{if gt (len (index .MapDataCriteria.FieldOids "DIAGNOSIS")) 0}}
                       {{template "_code.xml" codeDisplayWithPreferredCodeForField .EntrySection.Entry .EntrySection.Diagnosis.Coded .MapDataCriteria "diagnosis" "DIAGNOSIS"}}  
+                    {{else}}
+                      {{$codeSystem := sampleCodeSystemInCoded .EntrySection.Diagnosis.Coded}}
+                      <value code="{{firstCodeInCodeSystem .EntrySection.Diagnosis.Coded $codeSystem}}" xsi:type="CD"
+                            codeSystem="{{$codeSystem}}"/>
                     {{end}}
                   {{else if .EntrySection.Diagnosis.Code}}
                     {{$vs := oidForCode .EntrySection.Diagnosis.CodedConcept (index .MapDataCriteria.FieldOids "DIAGNOSIS")}}

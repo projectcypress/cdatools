@@ -20,8 +20,11 @@ func MedicalEquipmentExtractor(entry *models.Entry, entryElement xml.Node) inter
 	extractAnatomicalStructure(&medicalEquipment, entryElement)
 	extractRemovalTime(&medicalEquipment, entryElement)
 
-	ExtractReasonOrNegation(&medicalEquipment.Entry, entryElement)
-
+	if entryElement.Parent().Name() == "entryRelationship" {
+		ExtractReasonOrNegation(&medicalEquipment.Entry, entryElement.Parent().Parent())
+	} else {
+		ExtractReasonOrNegation(&medicalEquipment.Entry, entryElement)
+	}
 	return medicalEquipment
 }
 

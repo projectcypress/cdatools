@@ -56,7 +56,7 @@ func Read_patient(document string) string {
 
 	//r3.1 diagnosis
 	var diagnosisXPath = xpath.Compile("//cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.135']")
-	rawDiagnoses := ExtractSection(patientElement, diagnosisXPath, ConditionExtractor, "2.16.840.1.113883.3.560.1.2", "active")
+	rawDiagnoses := ExtractSection(patientElement, diagnosisXPath, ConditionExtractor, "2.16.840.1.113883.10.20.28.3.110", "")
 	for i := range rawDiagnoses {
 		patient.Conditions = append(patient.Conditions, rawDiagnoses[i].(models.Condition))
 	}
@@ -126,6 +126,13 @@ func Read_patient(document string) string {
 	rawMedicationDispenseds := ExtractSection(patientElement, medicationDispensedXPath, MedicationDispensedExtractor, "2.16.840.1.113883.3.560.1.8", "dispensed")
 	for i := range rawMedicationDispenseds {
 		patient.Medications = append(patient.Medications, rawMedicationDispenseds[i].(models.Medication))
+	}
+
+    //medication dispense act
+	var medicationDispensedActXPath = xpath.Compile("//cda:entry/cda:act[./cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.139']/cda:entryRelationship/cda:supply[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.45']")
+	rawMedicationDispensedActs := ExtractSection(patientElement, medicationDispensedActXPath, MedicationDispensedExtractor, "2.16.840.1.113883.3.560.1.8", "dispensed")
+	for i := range rawMedicationDispensedActs {
+		patient.Medications = append(patient.Medications, rawMedicationDispensedActs[i].(models.Medication))
 	}
 
 	//medication administered
@@ -235,7 +242,7 @@ func Read_patient(document string) string {
 
 	// Lab Test, Performed
 	var labResultPerformedXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.38']")
-	rawLabResults = ExtractSection(patientElement, labResultPerformedXPath, ResultExtractor, "2.16.840.1.113883.3.560.1.5", "performed")
+	rawLabResults = ExtractSection(patientElement, labResultPerformedXPath, LabResultExtractor, "2.16.840.1.113883.3.560.1.5", "performed")
 	for i := range rawLabResults {
 		patient.LabResults = append(patient.LabResults, rawLabResults[i].(models.LabResult))
 	}
@@ -277,15 +284,15 @@ func Read_patient(document string) string {
 	}
 
 	//Medical Equipment Not Ordered
-	var medEquipNotOrderedXPath = xpath.Compile("//cda:act[cda:code/@code = 'SPLY']")
-	rawMedEquipNotOrdered := ExtractSection(patientElement, medEquipNotOrderedXPath, MedicalEquipmentExtractor, "2.16.840.1.113883.3.560.1.137", "")
-	for i := range rawMedEquipNotOrdered {
-		patient.MedicalEquipment = append(patient.MedicalEquipment, rawMedEquipNotOrdered[i].(models.MedicalEquipment))
+	var medEquipOrderedXPath = xpath.Compile("//cda:supply[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.9']")
+	rawMedEquipOrdered := ExtractSection(patientElement, medEquipOrderedXPath, MedicalEquipmentExtractor, "2.16.840.1.113883.3.560.1.137", "ordered")
+	for i := range rawMedEquipOrdered {
+		patient.MedicalEquipment = append(patient.MedicalEquipment, rawMedEquipOrdered[i].(models.MedicalEquipment))
 	}
 
 	// procedure performed
 	var procedurePerformedXPath = xpath.Compile("//cda:entry/cda:procedure[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.64']")
-	rawProcedurePerformed := ExtractSection(patientElement, procedurePerformedXPath, ProcedurePerformedExtractor, "2.16.840.1.113883.3.560.1.6", "")
+	rawProcedurePerformed := ExtractSection(patientElement, procedurePerformedXPath, ProcedurePerformedExtractor, "2.16.840.1.113883.3.560.1.6", "performed")
 	for i := range rawProcedurePerformed {
 		patient.Procedures = append(patient.Procedures, rawProcedurePerformed[i].(models.Procedure))
 	}
@@ -641,7 +648,7 @@ func set_patient_expired(patient *models.Record, xmlNode xml.Node) {
 // create status code. then set status code from status if necessary
 func set_status_code(entry *models.Entry, status string) {
 	entry.StatusCode = map[string][]string{}
-	if status != "" { // only set a status code if status is not empty
+	//if status != "" { // only set a status code if status is not empty
 		switch status {
 		case "active":
 			entry.StatusCode["SNOMED-CT"] = []string{"55561003"}
@@ -650,8 +657,10 @@ func set_status_code(entry *models.Entry, status string) {
 			entry.StatusCode["SNOMED-CT"] = []string{"73425007"}
 		case "resolved":
 			entry.StatusCode["SNOMED-CT"] = []string{"413322009"}
+		case "":
+			entry.StatusCode["HL7 ActStatus"] = []string{""}
 		default:
 			entry.StatusCode["HL7 ActStatus"] = []string{status}
 		}
-	}
+	//}
 }
