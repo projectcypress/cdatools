@@ -648,7 +648,6 @@ func set_patient_expired(patient *models.Record, xmlNode xml.Node) {
 // create status code. then set status code from status if necessary
 func set_status_code(entry *models.Entry, status string) {
 	entry.StatusCode = map[string][]string{}
-	//if status != "" { // only set a status code if status is not empty
 	switch status {
 	case "active":
 		entry.StatusCode["SNOMED-CT"] = []string{"55561003"}
@@ -662,5 +661,4 @@ func set_status_code(entry *models.Entry, status string) {
 	default:
 		entry.StatusCode["HL7 ActStatus"] = []string{status}
 	}
-	//}
 }
