@@ -12,6 +12,9 @@ func InsuranceProviderExtractor(entry *models.Entry, entryElement xml.Node) inte
 
 	var codePath = xpath.Compile("cda:value")
 	ExtractCodes(&insuranceProvider.Entry.Coded, entryElement, codePath)
+	if insuranceProvider.Entry.Coded.Codes["Source of Payment Typology"] != nil {
+		insuranceProvider.Entry.Coded.Codes["SOP"] = insuranceProvider.Entry.Coded.Codes["Source of Payment Typology"]
+	}
 
 	return insuranceProvider
 }
