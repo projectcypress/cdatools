@@ -2,7 +2,7 @@ cdatools [![Build Status](https://travis-ci.org/projectcypress/cdatools.svg?bran
 ================================
 # Installation
 
-`go get github.com/projectcypress/cdatools`
+`go get github.com/projectcypress/cdatools/...`
 
 # Building
 
