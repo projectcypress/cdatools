@@ -62,7 +62,10 @@ func ProcedureOrderExtractor(entry *models.Entry, entryElement xml.Node) interfa
 func extractBaseProcedure(procedure *models.Procedure, entryElement xml.Node) {
 	var codePath = xpath.Compile("cda:code")
 	ExtractCodes(&procedure.Entry.Coded, entryElement, codePath)
-	ExtractCodedConcept(&procedure.Ordinality.CodedConcept, entryElement, xpath.Compile("cda:priorityCode"))
+	var ordinalityXPathR3 = xpath.Compile("cda:priorityCode")
+	var ordinalityXPathR31 = xpath.Compile("cda:entryRelationship/cda:observation[./cda:code[@code='260870009']]/cda:value")
+	ExtractCodedConcept(&procedure.Ordinality.CodedConcept, entryElement, ordinalityXPathR3)
+	ExtractCodedConcept(&procedure.Ordinality.CodedConcept, entryElement, ordinalityXPathR31)
 	extractPerformer(&procedure.Performer, entryElement)
 	extractAnatomicalTarget(&procedure.AnatomicalTarget, entryElement)
 	ExtractReasonOrNegation(&procedure.Entry, entryElement)
