@@ -43,6 +43,10 @@ func ConditionExtractor(entry *models.Entry, entryElement xml.Node) interface{} 
 	var codePath = xpath.Compile("cda:value")
 	ExtractCodes(&condition.Entry.Coded, entryElement, codePath)
 
+	//extract ordinality
+	var ordinalityXPath = xpath.Compile("cda:priorityCode")
+	ExtractOrdinality(&condition, entryElement, ordinalityXPath)
+
 	//extract severity
 	var severityXPath = xpath.Compile("cda:entryRelationship/cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.22.4.8']/cda:value")
 	ExtractSeverity(&condition, entryElement, severityXPath)
@@ -67,6 +71,13 @@ func DiagnosisInactiveExtractor(entry *models.Entry, entryElement xml.Node) inte
 	ExtractCodes(&diagnosisInactive.Entry.Coded, entryElement, codePath)
 
 	return diagnosisInactive
+}
+
+func ExtractOrdinality(diagnosis *models.Condition, entryElement xml.Node, ordinalityXPath *xpath.Expression) {
+	ordinalityElement := FirstElement(ordinalityXPath, entryElement)
+	if ordinalityElement != nil {
+		diagnosis.Ordinality.AddCodeIfPresent(ordinalityElement)
+	}
 }
 
 func ExtractSeverity(diagnosis *models.Condition, entryElement xml.Node, severityXPath *xpath.Expression) {
