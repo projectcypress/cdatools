@@ -598,9 +598,12 @@ func TestProcedurePerformedTemplate(t *testing.T) {
 	assertXPath(t, xrn, "//entry/procedure", map[string]string{"classCode": "PROC", "moodCode": "EVN"}, nil)
 	assertXPath(t, xrn, "//entry/procedure/templateId[@root='2.16.840.1.113883.10.20.24.3.64']", nil, nil)
 	assertXPath(t, xrn, "//entry/procedure/id", map[string]string{"root": "1.3.6.1.4.1.115"}, nil)
-	assertContent(t, xrn, "//entry/procedure/text", "Procedure, Performed: General or Neuraxial Anesthesia")
-	assertXPath(t, xrn, "//entry/procedure/effectiveTime/low", map[string]string{"value": "201504070830+0000"}, nil)
+	assertContent(t, xrn, "//entry/procedure/text", "Procedure, Performed: Clinical Staging Procedure")
+	assertXPath(t, xrn, "//entry/procedure/effectiveTime/low", map[string]string{"value": "201503120830+0000"}, nil)
 	assertXPath(t, xrn, "//entry/procedure/entryRelationship/procedure/effectiveTime", map[string]string{"value": "201504070840+0000"}, nil)
+	assertXPath(t, xrn, "//entry/procedure/entryRelationship/observation/value[@code='369895002' and @codeSystem='2.16.840.1.113883.6.96']", nil, nil)
+	assertXPath(t, xrn, "//entry/procedure/entryRelationship/observation/value[@code='433451000124108' and @codeSystem='2.16.840.1.113883.6.96']", nil, nil)
+	assertXPath(t, xrn, "//entry/procedure/entryRelationship/observation/value[@code='433411000124107' and @codeSystem='2.16.840.1.113883.6.96']", nil, nil)
 }
 
 func TestInterventionOrderTemplate(t *testing.T) {
