@@ -1,36 +1,62 @@
 {
-      "anatomical_approach": null,
-      "anatomical_target": null,
+  "anatomical_approach": null,
+  "anatomical_target": null,
+  "codes": {
+    "SNOMED-CT": [
+      "116783008"
+    ]
+  },
+  "description": "Procedure, Performed: Clinical Staging Procedure",
+  "end_time": 1426150800,
+  "incisionTime": 1428396000,
+  "method": null,
+  "mood_code": "EVN",
+  "negationInd": null,
+  "negationReason": null,
+  "oid": "2.16.840.1.113883.3.560.1.6",
+  "ordinality": null,
+  "performer_id": null,
+  "radiation_dose": null,
+  "radiation_duration": null,
+  "reaction": null,
+  "reason": null,
+  "source": null,
+  "specifics": null,
+  "start_time": 1426149000,
+  "status_code": {
+    "HL7 ActStatus": [
+      "performed"
+    ]
+  },
+  "time": null,
+  "values": [
+    {
       "codes": {
-        "ICD-10-PCS": [
-          "3E0F7DZ"
-        ],
         "SNOMED-CT": [
-          "24277005"
+          "369895002"
         ]
       },
-      "description": "Procedure, Performed: General or Neuraxial Anesthesia",
-      "end_time": 1428397200,
-      "incisionTime": 1428396000,
-      "method": null,
-      "mood_code": "EVN",
-      "negationInd": null,
-      "negationReason": null,
-      "oid": "2.16.840.1.113883.3.560.1.6",
-      "ordinality": null,
-      "performer_id": null,
-      "radiation_dose": null,
-      "radiation_duration": null,
-      "reaction": null,
-      "reason": null,
-      "source": null,
-      "specifics": null,
-      "start_time": 1428395400,
-      "status_code": {
-        "HL7 ActStatus": [
-          "performed"
+      "description": "Breast Cancer Primary Tumor Size T1",
+      "_type": "CodedResultValue"
+    },
+    {
+      "codes": {
+        "SNOMED-CT": [
+          "433451000124108"
         ]
       },
-      "time": null,
-      "_type": "Procedure"
+      "description": "Breast Cancer Regional Lymph Node Status N1",
+      "_type": "CodedResultValue"
+    },
+    {
+      "codes": {
+        "SNOMED-CT": [
+          "433411000124107"
+        ]
+      },
+      "description": "Breast Distant Metastasis Status M0",
+      "_type": "CodedResultValue"
     }
+  ],
+  "_type": "Procedure"
+}

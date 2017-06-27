@@ -37,6 +37,7 @@ func exporterFuncMap(cat1Template *template.Template, vsMap models.ValueSetMap) 
 		"identifierForInt":                           identifierForInt,
 		"identifierForIntp":                          identifierForIntp,
 		"identifierForString":                        identifierForString,
+		"identifierForResultValue":                   identifierForResultValue,
 		"escape":                                     escape,
 		"executeTemplateForEntry":                    generateExecuteTemplateForEntry(cat1Template),
 		"condAssign":                                 condAssign,

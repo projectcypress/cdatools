@@ -23,29 +23,28 @@
               codeSystem="2.16.840.1.113883.6.96"
               codeSystemName="SNOMED CT" 
               displayName="incision"/>
-              <effectiveTime {{valueOrNullFlavor .EntrySection.IncisionTime}}/>
+        <effectiveTime {{valueOrNullFlavor .EntrySection.IncisionTime}}/>
       </procedure>
     </entryRelationship>
     {{end}}
 
     {{range .EntrySection.Entry.Values}}
       <entryRelationship typeCode="REFR">
-       <observation classCode="OBS" moodCode="EVN">
-         <!-- Conforms to C-CDA R2 Result Observation (V2) -->
-         <templateId root="2.16.840.1.113883.10.20.22.4.2" extension="2015-08-01"/>
-         <!-- Result (QRDA I R3) -->
-         <templateId root="2.16.840.1.113883.10.20.24.3.87" extension="2016-02-01"/>
-         <id root="1.3.6.1.4.1.115" extension="{{identifierForInterface $}}"/>
+        <observation classCode="OBS" moodCode="EVN">
+          <!-- Conforms to C-CDA R2 Result Observation (V2) -->
+          <templateId root="2.16.840.1.113883.10.20.22.4.2" extension="2015-08-01"/>
+          <!-- Result (QRDA I R3) -->
+          <templateId root="2.16.840.1.113883.10.20.24.3.87" extension="2016-02-01"/>
+          <id root="1.3.6.1.4.1.115" extension="{{identifierForResultValue .}}"/>
           {{template "_code.xml" codeDisplayWithPreferredCode $.EntrySection.Entry $.EntrySection.Entry.Coded $.MapDataCriteria "entryCode"}}
           <statusCode code="completed"/>
           <effectiveTime>
             <low {{valueOrNullFlavor $.EntrySection.StartTime}}/>
             <high {{valueOrNullFlavor $.EntrySection.EndTime}}/>
           </effectiveTime>
-         {{template "_result_value.xml" ($.EntrySection.Entry.WrapResultValue . $.MapDataCriteria)}}
-        
-       </observation>
-     </entryRelationship>
-   {{end}}
+          {{template "_result_value.xml" ($.EntrySection.Entry.WrapResultValue . $.MapDataCriteria)}}
+        </observation>
+      </entryRelationship>
+    {{end}}
   </procedure>
 </entry>

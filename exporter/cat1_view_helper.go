@@ -7,6 +7,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"log"
+	"sort"
 	"strconv"
 	"strings"
 	"text/template"
@@ -81,6 +82,23 @@ func identifierForIntp(objs ...*int64) string {
 func identifierForString(objs ...string) string {
 	b := strings.Join(objs, ",")
 	return identifierFor([]byte(b))
+}
+
+// identifierForResultValue generates an MD5 representation of a ResultValue
+func identifierForResultValue(resultValue models.ResultValue) string {
+	// Get all codes in the ResultValue and sort them
+	var codesInResultValue []string
+	for _, codes := range resultValue.Codes {
+		codesInResultValue = append(codesInResultValue, codes...)
+	}
+	sort.Strings(codesInResultValue)
+
+	// Put sorted codes in byte array and hash that to create identifier
+	var b []byte
+	for _, code := range codesInResultValue {
+		b = append(b, []byte(code)...)
+	}
+	return identifierFor(b)
 }
 
 // git blame schreiber
