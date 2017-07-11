@@ -65,7 +65,7 @@ func TestIdentifierForIntp(t *testing.T) {
 }
 
 func TestTimeToFormat(t *testing.T) {
-	assert.Equal(t, "20160101-700", timeToFormat(1451606400, "20060102-700"))
+	assert.Equal(t, "20160101+0000", timeToFormat(1451606400, "20060102-0700"))
 }
 
 func TestNegationIndicator(t *testing.T) {
