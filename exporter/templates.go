@@ -2701,7 +2701,7 @@ func templatesCat1R3_reporting_parametersXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_reporting_parameters.xml", size: 1366, mode: os.FileMode(420), modTime: time.Unix(1499966804, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_reporting_parameters.xml", size: 1366, mode: os.FileMode(420), modTime: time.Unix(1500054277, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -2844,16 +2844,9 @@ var _templatesCat1R3Cat1Xml = []byte(`<?xml version="1.0" encoding="utf-8"?>
     <author>
       <time value="{{timeNow}}"/>
       <assignedAuthor>
-        <!-- id extension="Cypress" root="2.16.840.1.113883.19.5"/ -->
         <!-- NPI -->
-        {{if .CMSCompatibility}}
-          {{range .Record.ProviderPerformances}}
-            {{range .Provider.CDAIdentifiers}}
-              {{if eq .Root "2.16.840.1.113883.4.6"}}
-                <id root="2.16.840.1.113883.4.6" extension="{{.Extension}}" />
-              {{end}}
-            {{end}}
-          {{end}}
+        {{range .Record.ProviderIdentifiersForRoot "2.16.840.1.113883.4.6" "1234567893" }}
+          <id root="2.16.840.1.113883.4.6" extension="{{.}}" />
         {{end}}
         <addr>
           <streetAddressLine>202 Burlington Rd.</streetAddressLine>
@@ -2872,9 +2865,11 @@ var _templatesCat1R3Cat1Xml = []byte(`<?xml version="1.0" encoding="utf-8"?>
     <custodian>
       <assignedCustodian>
         <representedCustodianOrganization>
-          <!-- HQR Only -->
           {{if and .CMSCompatibility (eq .ReportingProgram "HQR_EHR")}}
-            <id root="2.16.840.1.113883.4.336" extension="800890"/>
+            <!-- HQR Only -->
+            {{range .Record.ProviderIdentifiersForRoot "2.16.840.1.113883.4.336" "800890" }}
+              <id root="2.16.840.1.113883.4.336" extension="{{.}}" />
+            {{end}}
           {{else}}
             <id root="2.16.840.1.113883.19.5"/>
           {{end}}
@@ -2952,7 +2947,7 @@ func templatesCat1R3Cat1Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/cat1.xml", size: 6822, mode: os.FileMode(420), modTime: time.Unix(1499966032, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/cat1.xml", size: 6701, mode: os.FileMode(420), modTime: time.Unix(1500054277, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -5458,7 +5453,7 @@ func templatesCat1R3_1_reporting_parametersXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_reporting_parameters.xml", size: 1235, mode: os.FileMode(420), modTime: time.Unix(1499966791, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_reporting_parameters.xml", size: 1235, mode: os.FileMode(420), modTime: time.Unix(1500054277, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -5603,18 +5598,10 @@ var _templatesCat1R3_1Cat1Xml = []byte(`<?xml version="1.0" encoding="utf-8"?>
     <author>
       <time value="{{timeNow}}"/>
       <assignedAuthor>
-        <!-- id extension="Cypress" root="2.16.840.1.113883.19.5"/ -->
         <!-- NPI -->
-        {{if .CMSCompatibility}}
-          {{range .Record.ProviderPerformances}}
-            {{range .Provider.CDAIdentifiers}}
-              {{if eq .Root "2.16.840.1.113883.4.6"}}
-                <id root="2.16.840.1.113883.4.6" extension="{{.Extension}}" />
-              {{end}}
-            {{end}}
-          {{end}}
+        {{range .Record.ProviderIdentifiersForRoot "2.16.840.1.113883.4.6" "1234567893" }}
+          <id root="2.16.840.1.113883.4.6" extension="{{.}}" />
         {{end}}
-        <id extension="FakeNPI" root="2.16.840.1.113883.4.6"/>
         <addr>
           <streetAddressLine>202 Burlington Rd.</streetAddressLine>
           <city>Bedford</city>
@@ -5632,12 +5619,14 @@ var _templatesCat1R3_1Cat1Xml = []byte(`<?xml version="1.0" encoding="utf-8"?>
     <custodian>
       <assignedCustodian>
         <representedCustodianOrganization>
-        <!-- HQR Only -->
-        {{if and .CMSCompatibility (eq .ReportingProgram "HQR_EHR")}}
-          <id root="2.16.840.1.113883.4.336" extension="800890"/>
-        {{else}}
-          <id root="2.16.840.1.113883.19.5"/>
-        {{end}}
+          {{if and .CMSCompatibility (eq .ReportingProgram "HQR_EHR")}}
+            <!-- HQR Only -->
+            {{range .Record.ProviderIdentifiersForRoot "2.16.840.1.113883.4.336" "800890" }}
+              <id root="2.16.840.1.113883.4.336" extension="{{.}}" />
+            {{end}}
+          {{else}}
+            <id root="2.16.840.1.113883.19.5"/>
+          {{end}}
           <name>Cypress Test Deck</name>
           <telecom use="WP" value="tel:(781)271-3000"/>
           <addr>
@@ -5712,7 +5701,7 @@ func templatesCat1R3_1Cat1Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/cat1.xml", size: 6887, mode: os.FileMode(420), modTime: time.Unix(1499966032, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/cat1.xml", size: 6715, mode: os.FileMode(420), modTime: time.Unix(1500054277, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -8219,7 +8208,7 @@ func templatesCat1R4_reporting_parametersXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r4/_reporting_parameters.xml", size: 1235, mode: os.FileMode(420), modTime: time.Unix(1499966086, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r4/_reporting_parameters.xml", size: 1235, mode: os.FileMode(420), modTime: time.Unix(1500054277, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -8364,18 +8353,10 @@ var _templatesCat1R4Cat1Xml = []byte(`<?xml version="1.0" encoding="utf-8"?>
     <author>
       <time value="{{timeNow}}"/>
       <assignedAuthor>
-        <!-- id extension="Cypress" root="2.16.840.1.113883.19.5"/ -->
         <!-- NPI -->
-        {{if .CMSCompatibility}}
-          {{range .Record.ProviderPerformances}}
-            {{range .Provider.CDAIdentifiers}}
-              {{if eq .Root "2.16.840.1.113883.4.6"}}
-                <id root="2.16.840.1.113883.4.6" extension="{{.Extension}}" />
-              {{end}}
-            {{end}}
-          {{end}}
+        {{range .Record.ProviderIdentifiersForRoot "2.16.840.1.113883.4.6" "1234567893" }}
+          <id root="2.16.840.1.113883.4.6" extension="{{.}}" />
         {{end}}
-        <id extension="FakeNPI" root="2.16.840.1.113883.4.6"/>
         <addr>
           <streetAddressLine>202 Burlington Rd.</streetAddressLine>
           <city>Bedford</city>
@@ -8393,12 +8374,14 @@ var _templatesCat1R4Cat1Xml = []byte(`<?xml version="1.0" encoding="utf-8"?>
     <custodian>
       <assignedCustodian>
         <representedCustodianOrganization>
-        <!-- HQR Only -->
-        {{if and .CMSCompatibility (eq .ReportingProgram "HQR_EHR")}}
-          <id root="2.16.840.1.113883.4.336" extension="800890"/>
-        {{else}}
-          <id root="2.16.840.1.113883.19.5"/>
-        {{end}}
+          {{if and .CMSCompatibility (eq .ReportingProgram "HQR_EHR")}}
+            <!-- HQR Only -->
+            {{range .Record.ProviderIdentifiersForRoot "2.16.840.1.113883.4.336" "800890" }}
+              <id root="2.16.840.1.113883.4.336" extension="{{.}}" />
+            {{end}}
+          {{else}}
+            <id root="2.16.840.1.113883.19.5"/>
+          {{end}}
           <name>Cypress Test Deck</name>
           <telecom use="WP" value="tel:(781)271-3000"/>
           <addr>
@@ -8473,7 +8456,7 @@ func templatesCat1R4Cat1Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r4/cat1.xml", size: 6887, mode: os.FileMode(420), modTime: time.Unix(1499966032, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r4/cat1.xml", size: 6715, mode: os.FileMode(420), modTime: time.Unix(1500054277, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }

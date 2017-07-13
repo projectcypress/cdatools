@@ -262,6 +262,16 @@ func (r *Record) EntryInfosForPatient(measures []Measure, vsMap map[string][]Cod
 	return entryInfos
 }
 
+// ProviderIdentifiersForRoot gets all the Extensions for a given Root, for the providers on a given record
+// def is a Default value, only passed back if there are no valid identifiers in the Record
+func (r Record) ProviderIdentifiersForRoot(root string, def string) []string {
+	ids := IdentifiersForRoot(GetProviders(r.ProviderPerformances), root)
+	if len(ids) == 0 && def != "" {
+		ids = append(ids, def)
+	}
+	return ids
+}
+
 // ResolveReference takes a Reference object, and finds the Entry that it refers to
 func (r *Record) ResolveReference(ref Reference) HasEntry {
 	switch ref.ReferencedType {

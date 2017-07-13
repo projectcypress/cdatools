@@ -86,16 +86,9 @@
     <author>
       <time value="{{timeNow}}"/>
       <assignedAuthor>
-        <!-- id extension="Cypress" root="2.16.840.1.113883.19.5"/ -->
         <!-- NPI -->
-        {{if .CMSCompatibility}}
-          {{range .Record.ProviderPerformances}}
-            {{range .Provider.CDAIdentifiers}}
-              {{if eq .Root "2.16.840.1.113883.4.6"}}
-                <id root="2.16.840.1.113883.4.6" extension="{{.Extension}}" />
-              {{end}}
-            {{end}}
-          {{end}}
+        {{range .Record.ProviderIdentifiersForRoot "2.16.840.1.113883.4.6" "1234567893" }}
+          <id root="2.16.840.1.113883.4.6" extension="{{.}}" />
         {{end}}
         <addr>
           <streetAddressLine>202 Burlington Rd.</streetAddressLine>
@@ -114,9 +107,11 @@
     <custodian>
       <assignedCustodian>
         <representedCustodianOrganization>
-          <!-- HQR Only -->
           {{if and .CMSCompatibility (eq .ReportingProgram "HQR_EHR")}}
-            <id root="2.16.840.1.113883.4.336" extension="800890"/>
+            <!-- HQR Only -->
+            {{range .Record.ProviderIdentifiersForRoot "2.16.840.1.113883.4.336" "800890" }}
+              <id root="2.16.840.1.113883.4.336" extension="{{.}}" />
+            {{end}}
           {{else}}
             <id root="2.16.840.1.113883.19.5"/>
           {{end}}
