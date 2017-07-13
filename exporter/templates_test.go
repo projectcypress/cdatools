@@ -373,7 +373,7 @@ func TestCommunicationFromProviderToProviderTemplate(t *testing.T) {
 	assertXPath(t, xrn, "//entry/act/effectiveTime/low", map[string]string{"value": "201405020815+0000"}, nil)
 	assertXPath(t, xrn, "//entry/act/effectiveTime/high", map[string]string{"value": "201405020823+0000"}, nil)
 
-	assertXPath(t, xrn, "//entry/act/code", map[string]string{"code": "312904009", "codeSystem": "2.16.840.1.113883.6.96"}, nil)
+	assertXPath(t, xrn, "//entry/act/code", map[string]string{"nullFlavor": "NA", "sdtc:valueSet": "2.16.840.1.113883.3.526.3.1283"}, nil)
 
 	assertXPath(t, xrn, "//entry/act/entryRelationship/observation/templateId", map[string]string{"root": "2.16.840.1.113883.10.20.24.3.88"}, nil)
 }
@@ -390,7 +390,7 @@ func TestCommunicationFromProviderToPatientTemplate(t *testing.T) {
 	assertXPath(t, xrn, "//entry/act/templateId", map[string]string{"root": qrdaOid}, nil)
 	assertXPath(t, xrn, "//entry/act/effectiveTime/low", map[string]string{"value": "201404251800+0000"}, nil)
 	assertXPath(t, xrn, "//entry/act/effectiveTime/high", map[string]string{"value": "201404251800+0000"}, nil)
-	assertXPath(t, xrn, "//entry/act/code", map[string]string{"code": "410264007", "codeSystem": "2.16.840.1.113883.6.96"}, nil)
+	assertXPath(t, xrn, "//entry/act/code", map[string]string{"nullFlavor": "NA", "sdtc:valueSet": "2.16.840.1.113883.3.117.1.7.1.415"}, nil)
 }
 
 func TestDeviceAppliedTemplate(t *testing.T) {
