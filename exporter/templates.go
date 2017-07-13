@@ -2131,8 +2131,8 @@ func templatesCat1R3_authorXml() (*asset, error) {
 
 var _templatesCat1R3_codeXml = []byte(`<{{- valueOrDefault .TagName "code" -}}
   {{- if hasPreferredCode .PreferredCode}}
-    {{- if .MapDataCriteria.DataCriteria.Negation}} nullFlavor="NA" {{.RenderExtraContent}}{{- else}} code="{{- .PreferredCode.Code}}" codeSystem="{{- oidForCodeSystem .PreferredCode.CodeSystem}}" {{.RenderExtraContent}}
-    {{- end}}
+    {{- if .MapDataCriteria.DataCriteria.Negation}} nullFlavor="NA" {{- else}} code="{{- .PreferredCode.Code}}" codeSystem="{{- oidForCodeSystem .PreferredCode.CodeSystem}}" {{- end}}
+    {{.RenderExtraContent}}
   {{- else}}
     {{- $excludeNullFlavor := valueOrDefault .ExcludeNullFlavor false}}
     {{- if $excludeNullFlavor}}{{- else}} nullFlavor="UNK" xsi:type="CD"
@@ -2168,7 +2168,7 @@ func templatesCat1R3_codeXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_code.xml", size: 1360, mode: os.FileMode(420), modTime: time.Unix(1499952010, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_code.xml", size: 1337, mode: os.FileMode(420), modTime: time.Unix(1499955398, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4890,8 +4890,8 @@ func templatesCat1R3_1_authorXml() (*asset, error) {
 
 var _templatesCat1R3_1_codeXml = []byte(`<{{- valueOrDefault .TagName "code" -}}
   {{- if hasPreferredCode .PreferredCode}}
-    {{- if .MapDataCriteria.DataCriteria.Negation}} nullFlavor="NA" {{.RenderExtraContent}}{{- else}} code="{{- .PreferredCode.Code}}" codeSystem="{{- oidForCodeSystem .PreferredCode.CodeSystem}}" {{.RenderExtraContent}}
-    {{- end}}
+    {{- if .MapDataCriteria.DataCriteria.Negation}} nullFlavor="NA" {{- else}} code="{{- .PreferredCode.Code}}" codeSystem="{{- oidForCodeSystem .PreferredCode.CodeSystem}}" {{- end}}
+    {{.RenderExtraContent}}
   {{- else}}
     {{- $excludeNullFlavor := valueOrDefault .ExcludeNullFlavor false}}
     {{- if $excludeNullFlavor}}{{- else}} nullFlavor="UNK" xsi:type="CD"
@@ -4927,7 +4927,7 @@ func templatesCat1R3_1_codeXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_code.xml", size: 1360, mode: os.FileMode(420), modTime: time.Unix(1498573415, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_code.xml", size: 1337, mode: os.FileMode(420), modTime: time.Unix(1499955395, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -7651,8 +7651,8 @@ func templatesCat1R4_authorXml() (*asset, error) {
 
 var _templatesCat1R4_codeXml = []byte(`<{{- valueOrDefault .TagName "code" -}}
   {{- if hasPreferredCode .PreferredCode}}
-    {{- if .MapDataCriteria.DataCriteria.Negation}} nullFlavor="NA" {{.RenderExtraContent}}{{- else}} code="{{- .PreferredCode.Code}}" codeSystem="{{- oidForCodeSystem .PreferredCode.CodeSystem}}" {{.RenderExtraContent}}
-    {{- end}}
+    {{- if .MapDataCriteria.DataCriteria.Negation}} nullFlavor="NA" {{- else}} code="{{- .PreferredCode.Code}}" codeSystem="{{- oidForCodeSystem .PreferredCode.CodeSystem}}" {{- end}}
+    {{.RenderExtraContent}}
   {{- else}}
     {{- $excludeNullFlavor := valueOrDefault .ExcludeNullFlavor false}}
     {{- if $excludeNullFlavor}}{{- else}} nullFlavor="UNK" xsi:type="CD"
@@ -7688,7 +7688,7 @@ func templatesCat1R4_codeXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r4/_code.xml", size: 1360, mode: os.FileMode(420), modTime: time.Unix(1498573415, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r4/_code.xml", size: 1337, mode: os.FileMode(420), modTime: time.Unix(1499955389, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
