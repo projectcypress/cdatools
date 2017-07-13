@@ -62,3 +62,45 @@ func TestEntriesForDataCriteria(t *testing.T) {
 	// TODO: This test will have to change when we get a new export of CMS9v4a with all the HQMFOid fields filled.
 	assert.Equal(t, len(entries), 1)
 }
+
+func TestGetIdentifiersForRoot(t *testing.T) {
+	rec := Record{
+		ProviderPerformances: []ProviderPerformance{
+			ProviderPerformance{
+				Provider: Provider{
+					CDAIdentifiers: []CDAIdentifier{
+						CDAIdentifier{
+							Root:      "test",
+							Extension: "value1",
+						},
+						CDAIdentifier{
+							Root:      "notvalid",
+							Extension: "notthisvalue",
+						},
+					},
+				},
+			},
+			ProviderPerformance{
+				Provider: Provider{
+					CDAIdentifiers: []CDAIdentifier{
+						CDAIdentifier{
+							Root:      "test",
+							Extension: "value2",
+						},
+						CDAIdentifier{
+							Root:      "notvalid",
+							Extension: "notthisvalueeither",
+						},
+					},
+				},
+			},
+		},
+	}
+
+	ids := rec.ProviderIdentifiersForRoot("test", "default")
+	assert.Equal(t, 2, len(ids))
+
+	ids = rec.ProviderIdentifiersForRoot("nonexistent", "default")
+	assert.Equal(t, 1, len(ids))
+	assert.Contains(t, ids, "default")
+}

@@ -10,3 +10,12 @@ type ProviderPerformance struct {
 func (pp *ProviderPerformance) GetEntry() *Entry {
 	return &pp.Entry
 }
+
+// GetProviders returns the Provider objects from a slice of ProviderPerformances
+func GetProviders(perfs []ProviderPerformance) []Provider {
+	provs := []Provider{}
+	for _, pp := range perfs {
+		provs = append(provs, pp.Provider)
+	}
+	return provs
+}
