@@ -2130,10 +2130,12 @@ func templatesCat1R3_authorXml() (*asset, error) {
 }
 
 var _templatesCat1R3_codeXml = []byte(`<{{- valueOrDefault .TagName "code" -}}
-  {{- if hasPreferredCode .PreferredCode}} code='{{- .PreferredCode.Code}}' codeSystem='{{- oidForCodeSystem .PreferredCode.CodeSystem}}' {{.RenderExtraContent}}
+  {{- if hasPreferredCode .PreferredCode}}
+    {{- if .MapDataCriteria.DataCriteria.Negation}} nullFlavor="NA" {{.RenderExtraContent}}{{- else}} code="{{- .PreferredCode.Code}}" codeSystem="{{- oidForCodeSystem .PreferredCode.CodeSystem}}" {{.RenderExtraContent}}
+    {{- end}}
   {{- else}}
     {{- $excludeNullFlavor := valueOrDefault .ExcludeNullFlavor false}}
-    {{- if $excludeNullFlavor}}{{- else}} nullFlavor='UNK' xsi:type="CD"
+    {{- if $excludeNullFlavor}}{{- else}} nullFlavor="UNK" xsi:type="CD"
     {{- end}}
   {{- end -}}
 >
@@ -2166,7 +2168,7 @@ func templatesCat1R3_codeXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_code.xml", size: 1244, mode: os.FileMode(420), modTime: time.Unix(1498573415, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_code.xml", size: 1360, mode: os.FileMode(420), modTime: time.Unix(1499952010, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
