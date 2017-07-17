@@ -2842,7 +2842,7 @@ var _templatesCat1R3Cat1Xml = []byte(`<?xml version="1.0" encoding="utf-8"?>
 
   {{else}}
     <author>
-      <time value="{{timeNow}}"/>
+      <time value="{{timeToFormat timeNow "20060102150405-0700"}}"/>
       <assignedAuthor>
         <!-- NPI -->
         {{range .Record.ProviderIdentifiersForRoot "2.16.840.1.113883.4.6" "1234567893" }}
@@ -2894,7 +2894,7 @@ var _templatesCat1R3Cat1Xml = []byte(`<?xml version="1.0" encoding="utf-8"?>
     </informationRecipient>
     {{end}}
     <legalAuthenticator>
-      <time value="{{ timeNow }}"/>
+      <time value="{{timeToFormat timeNow "20060102150405-0700"}}"/>
       <signatureCode code="S"/>
       <assignedEntity>
         <id root="bc01a5d1-3a34-4286-82cc-43eb04c972a7"/>
@@ -2947,7 +2947,7 @@ func templatesCat1R3Cat1Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/cat1.xml", size: 6701, mode: os.FileMode(420), modTime: time.Unix(1500062669, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/cat1.xml", size: 6769, mode: os.FileMode(420), modTime: time.Unix(1500300889, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -5596,7 +5596,7 @@ var _templatesCat1R3_1Cat1Xml = []byte(`<?xml version="1.0" encoding="utf-8"?>
 
   {{else}}
     <author>
-      <time value="{{timeNow}}"/>
+      <time value="{{timeToFormat timeNow "20060102150405-0700"}}"/>
       <assignedAuthor>
         <!-- NPI -->
         {{range .Record.ProviderIdentifiersForRoot "2.16.840.1.113883.4.6" "1234567893" }}
@@ -5648,7 +5648,7 @@ var _templatesCat1R3_1Cat1Xml = []byte(`<?xml version="1.0" encoding="utf-8"?>
       </informationRecipient>
     {{end}}
     <legalAuthenticator>
-      <time value="{{timeNow}}"/>
+      <time value="{{timeToFormat timeNow "20060102150405-0700"}}"/>
       <signatureCode code="S"/>
       <assignedEntity>
         <id root="bc01a5d1-3a34-4286-82cc-43eb04c972a7"/>
@@ -5701,7 +5701,7 @@ func templatesCat1R3_1Cat1Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/cat1.xml", size: 6715, mode: os.FileMode(420), modTime: time.Unix(1500062669, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/cat1.xml", size: 6785, mode: os.FileMode(420), modTime: time.Unix(1500300872, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -8163,7 +8163,7 @@ func templatesCat1R4_record_targetXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r4/_record_target.xml", size: 2767, mode: os.FileMode(420), modTime: time.Unix(1497393183, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r4/_record_target.xml", size: 2767, mode: os.FileMode(420), modTime: time.Unix(1500300824, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -8351,7 +8351,7 @@ var _templatesCat1R4Cat1Xml = []byte(`<?xml version="1.0" encoding="utf-8"?>
 
   {{else}}
     <author>
-      <time value="{{timeNow}}"/>
+      <time value="{{timeToFormat timeNow "20060102150405-0700"}}"/>
       <assignedAuthor>
         <!-- NPI -->
         {{range .Record.ProviderIdentifiersForRoot "2.16.840.1.113883.4.6" "1234567893" }}
@@ -8403,7 +8403,7 @@ var _templatesCat1R4Cat1Xml = []byte(`<?xml version="1.0" encoding="utf-8"?>
       </informationRecipient>
     {{end}}
     <legalAuthenticator>
-      <time value="{{timeNow}}"/>
+      <time value="{{timeToFormat timeNow "20060102150405-0700"}}"/>
       <signatureCode code="S"/>
       <assignedEntity>
         <id root="bc01a5d1-3a34-4286-82cc-43eb04c972a7"/>
@@ -8456,7 +8456,7 @@ func templatesCat1R4Cat1Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r4/cat1.xml", size: 6715, mode: os.FileMode(420), modTime: time.Unix(1500062669, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r4/cat1.xml", size: 6785, mode: os.FileMode(420), modTime: time.Unix(1500300302, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }

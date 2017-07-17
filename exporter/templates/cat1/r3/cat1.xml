@@ -84,7 +84,7 @@
 
   {{else}}
     <author>
-      <time value="{{timeNow}}"/>
+      <time value="{{timeToFormat timeNow "20060102150405-0700"}}"/>
       <assignedAuthor>
         <!-- NPI -->
         {{range .Record.ProviderIdentifiersForRoot "2.16.840.1.113883.4.6" "1234567893" }}
@@ -136,7 +136,7 @@
     </informationRecipient>
     {{end}}
     <legalAuthenticator>
-      <time value="{{ timeNow }}"/>
+      <time value="{{timeToFormat timeNow "20060102150405-0700"}}"/>
       <signatureCode code="S"/>
       <assignedEntity>
         <id root="bc01a5d1-3a34-4286-82cc-43eb04c972a7"/>
