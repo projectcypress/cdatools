@@ -11,7 +11,7 @@ import (
 func TestReasonInCodesTrue(t *testing.T) {
 	code := CodeSet{}
 	reason := CodedConcept{}
-	code.Values = []Concept{Concept{Code: "test", CodeSystem: "codeSystem"}}
+	code.Values = []Concept{Concept{Code: "test", CodeSystemName: "codeSystem"}}
 	reason.Code = "test"
 	reason.CodeSystem = "codeSystem"
 	assert.True(t, reasonInCodes(code, reason))
@@ -20,7 +20,7 @@ func TestReasonInCodesTrue(t *testing.T) {
 func TestReasonInCodesFalse(t *testing.T) {
 	code := CodeSet{}
 	reason := CodedConcept{}
-	code.Values = []Concept{Concept{Code: "not code", CodeSystem: "codeSystem"}}
+	code.Values = []Concept{Concept{Code: "not code", CodeSystemName: "codeSystem"}}
 	reason.Code = "test"
 	reason.CodeSystem = "codeSystem"
 	assert.False(t, reasonInCodes(code, reason))
