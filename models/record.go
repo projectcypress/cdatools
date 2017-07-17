@@ -1,8 +1,6 @@
 package models
 
 import (
-	"regexp"
-
 	"github.com/pborman/uuid"
 )
 
@@ -118,20 +116,22 @@ func (r *Record) Entries() []HasEntry {
 	return entries
 }
 
-var negationRegexp *regexp.Regexp = regexp.MustCompile(`2\.16\.840\.1\.113883\.3\.526\.3\.100[7-9]`)
-
 // GetEntriesForOids returns all the entries which include the list of OIDs given
-func (r *Record) GetEntriesForOids(dataCriteria DataCriteria, codes []CodeSet, oids ...string) []HasEntry {
+func (r *Record) GetEntriesForOids(dataCriteria DataCriteria, codes []CodeSet, negationCodes []CodeSet, oids ...string) []HasEntry {
 	var entries []HasEntry
 	for _, entry := range r.Entries() {
 		for _, oid := range oids {
 			if entry.GetEntry().Oid == oid {
 				entryData := entry.GetEntry()
 				dataCriteriaOid := dataCriteria.HQMFOid
-				if negationRegexp.FindStringIndex(dataCriteria.CodeListID) != nil {
+				if dataCriteria.Negation && len(negationCodes) > 0 {
 					// Add the entry to FilteredEntries if Entry.negationReason is in codes
-					if reasonInCodes(codes[0], entryData.NegationReason) {
-						entries = append(entries, entry)
+					for _, negationCode := range negationCodes {
+						if reasonInCodes(negationCode, entryData.NegationReason) {
+							if entryData.IsInCodeSet(codes) {
+								entries = append(entries, entry)
+							}
+						}
 					}
 				} else if dataCriteriaOid == "2.16.840.1.113883.3.560.1.71" {
 					if transferFrom := &entry.(*Encounter).TransferFrom; transferFrom != nil {
@@ -168,14 +168,8 @@ func (r *Record) GetEntriesForOids(dataCriteria DataCriteria, codes []CodeSet, o
 							entries = append(entries, newTransElm)
 						}
 					}
-				} else {
-					if entryData.IsInCodeSet(codes) && entryData.NegationInd != nil {
-						if *entryData.NegationInd == dataCriteria.Negation {
-							entries = append(entries, entry)
-						}
-					} else if entryData.IsInCodeSet(codes) && entryData.NegationInd == nil && !dataCriteria.Negation {
-						entries = append(entries, entry)
-					}
+				} else if entryData.IsInCodeSet(codes) && entryData.NegationInd == nil {
+					entries = append(entries, entry)
 				}
 			}
 		}
@@ -194,29 +188,31 @@ func (r *Record) EntriesForDataCriteria(dataCriteria DataCriteria, vsMap map[str
 		entries = r.handlePayerInformation()
 	default:
 		var codes []CodeSet
+		var negationCodes []CodeSet
 		codes = vsMap[dataCriteria.CodeListID]
+		negationCodes = vsMap[dataCriteria.NegationCodeListID]
 
 		switch dataCriteriaOid {
 		case "2.16.840.1.113883.3.560.1.5", "2.16.840.1.113883.3.560.1.12":
 			// If Lab Test: Performed, look for Lab Test: Result too
-			entries = r.GetEntriesForOids(dataCriteria, codes, "2.16.840.1.113883.3.560.1.5", "2.16.840.1.113883.3.560.1.12")
+			entries = r.GetEntriesForOids(dataCriteria, codes, negationCodes, "2.16.840.1.113883.3.560.1.5", "2.16.840.1.113883.3.560.1.12")
 		case "2.16.840.1.113883.3.560.1.6", "2.16.840.1.113883.3.560.1.63":
-			entries = r.GetEntriesForOids(dataCriteria, codes, "2.16.840.1.113883.3.560.1.6", "2.16.840.1.113883.3.560.1.63")
+			entries = r.GetEntriesForOids(dataCriteria, codes, negationCodes, "2.16.840.1.113883.3.560.1.6", "2.16.840.1.113883.3.560.1.63")
 		case "2.16.840.1.113883.3.560.1.3", "2.16.840.1.113883.3.560.1.11":
-			entries = r.GetEntriesForOids(dataCriteria, codes, "2.16.840.1.113883.3.560.1.3", "2.16.840.1.113883.3.560.1.11")
+			entries = r.GetEntriesForOids(dataCriteria, codes, negationCodes, "2.16.840.1.113883.3.560.1.3", "2.16.840.1.113883.3.560.1.11")
 		case "2.16.840.1.113883.3.560.1.71", "2.16.840.1.113883.3.560.1.72":
 			// Transfers (either from or to)
 			if dataCriteria.FieldValues != nil {
 				if dataCriteria.FieldValues["TRANSFER_FROM"].CodeListID != "" {
 					codes = vsMap[dataCriteria.FieldValues["TRANSFER_FROM"].CodeListID]
-					entries = r.GetEntriesForOids(dataCriteria, codes, dataCriteriaOid, "2.16.840.1.113883.3.560.1.79")
+					entries = r.GetEntriesForOids(dataCriteria, codes, negationCodes, dataCriteriaOid, "2.16.840.1.113883.3.560.1.79")
 				} else if dataCriteria.FieldValues["TRANSFER_TO"].CodeListID != "" {
 					codes = vsMap[dataCriteria.FieldValues["TRANSFER_TO"].CodeListID]
-					entries = r.GetEntriesForOids(dataCriteria, codes, dataCriteriaOid, "2.16.840.1.113883.3.560.1.79")
+					entries = r.GetEntriesForOids(dataCriteria, codes, negationCodes, dataCriteriaOid, "2.16.840.1.113883.3.560.1.79")
 				}
 			}
 		default:
-			entries = r.GetEntriesForOids(dataCriteria, codes, dataCriteriaOid)
+			entries = r.GetEntriesForOids(dataCriteria, codes, negationCodes, dataCriteriaOid)
 		}
 
 		// Gonna have to do for now. First time I've ever made Go panic and I have no clue how it happened.
@@ -351,7 +347,7 @@ func (r *Record) handlePayerInformation() []HasEntry {
 // TODO: this belongs on CodeSet.
 func reasonInCodes(code CodeSet, reason CodedConcept) bool {
 	for _, value := range code.Values {
-		if reason.Code == value.Code && reason.CodeSystem == value.CodeSystem {
+		if reason.Code == value.Code && reason.CodeSystem == value.CodeSystemName {
 			return true
 		}
 	}
