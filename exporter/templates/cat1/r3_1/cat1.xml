@@ -15,7 +15,7 @@
   <templateId root="2.16.840.1.113883.10.20.24.1.2" extension="2016-02-01"/>
   {{if .CMSCompatibility}}
     <!-- CMS QRDA templateId -->
-    <templateId root="2.16.840.1.113883.10.20.24.1.3" extension="2015-07-01" />
+    <templateId root="2.16.840.1.113883.10.20.24.1.3" extension="2016-03-01" />
   {{end}}
   <!-- This is the globally unique identifier for this QRDA document -->
   <id root="{{newRandom}}"/>
@@ -163,7 +163,13 @@
       </assignedEntity>
     </legalAuthenticator>
   {{end}}
-
+  {{if .CMSCompatibility}}
+    <participant typeCode="DEV">
+      <associatedEntity classCode="RGPR">
+        <id root="2.16.840.1.113883.3.2074.1" extension="0014ABC1D1EFG1H"/>
+      </associatedEntity>
+    </participant>
+  {{end}}
   {{template "_providers.xml" .Record}}
   <component>
     <structuredBody>

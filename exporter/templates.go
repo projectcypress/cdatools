@@ -2947,7 +2947,7 @@ func templatesCat1R3Cat1Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/cat1.xml", size: 6769, mode: os.FileMode(420), modTime: time.Unix(1500300889, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/cat1.xml", size: 6769, mode: os.FileMode(420), modTime: time.Unix(1500393904, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -5183,7 +5183,7 @@ var _templatesCat1R3_1_patient_dataXml = []byte(`<component>
     <!-- This is the templateId for Patient Data QDM section -->
     <templateId root="2.16.840.1.113883.10.20.24.2.1" extension="2016-02-01" />
     {{if .CMSCompatibility}}
-      <templateId root="2.16.840.1.113883.10.20.24.2.1" extension="2015-07-01"/>
+      <templateId root="2.16.840.1.113883.10.20.24.2.1.1" extension="2016-03-01"/>
     {{end}}
 
     <code code="55188-7" codeSystem="2.16.840.1.113883.6.1"/>
@@ -5208,7 +5208,7 @@ func templatesCat1R3_1_patient_dataXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_patient_data.xml", size: 623, mode: os.FileMode(420), modTime: time.Unix(1495819396, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_patient_data.xml", size: 625, mode: os.FileMode(420), modTime: time.Unix(1500393904, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -5408,7 +5408,7 @@ func templatesCat1R3_1_record_targetXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_record_target.xml", size: 2767, mode: os.FileMode(420), modTime: time.Unix(1495819396, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_record_target.xml", size: 2767, mode: os.FileMode(420), modTime: time.Unix(1500391152, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -5418,7 +5418,7 @@ var _templatesCat1R3_1_reporting_parametersXml = []byte(`<component>
     <!-- This is the templateId for Reporting Parameters section -->
     <templateId root="2.16.840.1.113883.10.20.17.2.1"/>
     {{if .CMSCompatibility}}
-      <templateId root="2.16.840.1.113883.10.20.17.2.1" extension="2015-07-01" />
+      <templateId root="2.16.840.1.113883.10.20.17.2.1.1" extension="2016-03-01" />
     {{end}}
     <code code="55187-9" codeSystem="2.16.840.1.113883.6.1"/>
     <title>Reporting Parameters</title>
@@ -5431,6 +5431,9 @@ var _templatesCat1R3_1_reporting_parametersXml = []byte(`<component>
       <act classCode="ACT" moodCode="EVN">
         <!-- This is the templateId for Reporting Parameteres Act -->
         <templateId root="2.16.840.1.113883.10.20.17.3.8"/>
+        {{if .CMSCompatibility}}
+          <templateId root="2.16.840.1.113883.10.20.17.3.8.1" extension="2016-03-01"/>
+        {{end}}
         <id root="1.3.6.1.4.1.115" extension="{{identifierForInt .StartDate .EndDate}}" />
         <code code="252116004" codeSystem="2.16.840.1.113883.6.96" displayName="Observation Parameters"/>
         <effectiveTime>
@@ -5453,7 +5456,7 @@ func templatesCat1R3_1_reporting_parametersXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_reporting_parameters.xml", size: 1235, mode: os.FileMode(420), modTime: time.Unix(1500062669, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_reporting_parameters.xml", size: 1373, mode: os.FileMode(420), modTime: time.Unix(1500393904, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -5525,7 +5528,7 @@ var _templatesCat1R3_1Cat1Xml = []byte(`<?xml version="1.0" encoding="utf-8"?>
   <templateId root="2.16.840.1.113883.10.20.24.1.2" extension="2016-02-01"/>
   {{if .CMSCompatibility}}
     <!-- CMS QRDA templateId -->
-    <templateId root="2.16.840.1.113883.10.20.24.1.3" extension="2015-07-01" />
+    <templateId root="2.16.840.1.113883.10.20.24.1.3" extension="2016-03-01" />
   {{end}}
   <!-- This is the globally unique identifier for this QRDA document -->
   <id root="{{newRandom}}"/>
@@ -5673,7 +5676,13 @@ var _templatesCat1R3_1Cat1Xml = []byte(`<?xml version="1.0" encoding="utf-8"?>
       </assignedEntity>
     </legalAuthenticator>
   {{end}}
-
+  {{if .CMSCompatibility}}
+    <participant typeCode="DEV">
+      <associatedEntity classCode="RGPR">
+        <id root="2.16.840.1.113883.3.2074.1" extension="0014ABC1D1EFG1H"/>
+      </associatedEntity>
+    </participant>
+  {{end}}
   {{template "_providers.xml" .Record}}
   <component>
     <structuredBody>
@@ -5701,7 +5710,7 @@ func templatesCat1R3_1Cat1Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/cat1.xml", size: 6785, mode: os.FileMode(420), modTime: time.Unix(1500300872, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/cat1.xml", size: 7017, mode: os.FileMode(420), modTime: time.Unix(1500393904, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -7938,7 +7947,7 @@ var _templatesCat1R4_patient_dataXml = []byte(`<component>
     <!-- This is the templateId for Patient Data QDM section -->
     <templateId root="2.16.840.1.113883.10.20.24.2.1" extension="2016-08-01" />
     {{if .CMSCompatibility}}
-      <templateId root="2.16.840.1.113883.10.20.24.2.1" extension="2017-07-01"/>
+      <templateId root="2.16.840.1.113883.10.20.24.2.1.1" extension="2017-07-01"/>
     {{end}}
 
     <code code="55188-7" codeSystem="2.16.840.1.113883.6.1"/>
@@ -7963,7 +7972,7 @@ func templatesCat1R4_patient_dataXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r4/_patient_data.xml", size: 623, mode: os.FileMode(420), modTime: time.Unix(1497393183, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r4/_patient_data.xml", size: 625, mode: os.FileMode(420), modTime: time.Unix(1500393904, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -8173,7 +8182,7 @@ var _templatesCat1R4_reporting_parametersXml = []byte(`<component>
     <!-- This is the templateId for Reporting Parameters section -->
     <templateId root="2.16.840.1.113883.10.20.17.2.1"/>
     {{if .CMSCompatibility}}
-      <templateId root="2.16.840.1.113883.10.20.17.2.1" extension="2015-07-01" />
+      <templateId root="2.16.840.1.113883.10.20.17.2.1.1" extension="2015-07-01" />
     {{end}}
     <code code="55187-9" codeSystem="2.16.840.1.113883.6.1"/>
     <title>Reporting Parameters</title>
@@ -8208,7 +8217,7 @@ func templatesCat1R4_reporting_parametersXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r4/_reporting_parameters.xml", size: 1235, mode: os.FileMode(420), modTime: time.Unix(1500062669, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r4/_reporting_parameters.xml", size: 1237, mode: os.FileMode(420), modTime: time.Unix(1500393904, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -8280,7 +8289,7 @@ var _templatesCat1R4Cat1Xml = []byte(`<?xml version="1.0" encoding="utf-8"?>
   <templateId root="2.16.840.1.113883.10.20.24.1.2" extension="2016-02-01"/>
   {{if .CMSCompatibility}}
     <!-- CMS QRDA templateId -->
-    <templateId root="2.16.840.1.113883.10.20.24.1.3" extension="2015-07-01" />
+    <templateId root="2.16.840.1.113883.10.20.24.1.3" extension="2017-07-01" />
   {{end}}
   <!-- This is the globally unique identifier for this QRDA document -->
   <id root="{{newRandom}}"/>
@@ -8428,7 +8437,13 @@ var _templatesCat1R4Cat1Xml = []byte(`<?xml version="1.0" encoding="utf-8"?>
       </assignedEntity>
     </legalAuthenticator>
   {{end}}
-
+  {{if .CMSCompatibility}}
+    <participant typeCode="DEV">
+      <associatedEntity classCode="RGPR">
+        <id root="2.16.840.1.113883.3.2074.1" extension="0014ABC1D1EFG1H"/>
+      </associatedEntity>
+    </participant>
+  {{end}}
   {{template "_providers.xml" .Record}}
   <component>
     <structuredBody>
@@ -8456,7 +8471,7 @@ func templatesCat1R4Cat1Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r4/cat1.xml", size: 6785, mode: os.FileMode(420), modTime: time.Unix(1500300302, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r4/cat1.xml", size: 7017, mode: os.FileMode(420), modTime: time.Unix(1500393904, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
