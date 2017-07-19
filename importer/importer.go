@@ -13,7 +13,27 @@ import (
 	"github.com/projectcypress/cdatools/models"
 )
 
+// This is to catch any panics in the code. If there is a panic, the status
+// will be set to true and we will return a failure status code instead of
+// crashing the program.
+func catchPanics(status *bool) {
+	if r := recover(); r != nil {
+		fmt.Println("caught panic in cdatools:\n", r)
+		*status = true
+	}
+}
+
 func Read_patient(document string) string {
+	var status bool
+	result := read_patient(document, &status)
+	if status {
+		return "Import Failed"
+	}
+	return result
+}
+
+func read_patient(document string, status *bool) string {
+	defer catchPanics(status)
 
 	doc, err := xml.Parse([]byte(document), nil, nil, 0, xml.DefaultEncodingBytes)
 	if err != nil {
