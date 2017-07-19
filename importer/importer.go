@@ -8,9 +8,9 @@ import (
 
 	"github.com/jbowtie/gokogiri/xml"
 	"github.com/jbowtie/gokogiri/xpath"
+	"github.com/juju/errors"
 	"github.com/pebbe/util"
 	"github.com/projectcypress/cdatools/models"
-	"github.com/juju/errors"
 )
 
 func Read_patient(document string) string {
@@ -591,18 +591,43 @@ func GetTimestamp(xpath *xpath.Expression, xmlNode xml.Node) *int64 {
 
 func TimestampToSeconds(timestamp string) *int64 {
 	var desiredDateUnix = new(int64)
-	year, _ := strconv.ParseInt(timestamp[0:4], 10, 32)
-	month, _ := strconv.ParseInt(timestamp[4:6], 10, 32)
-	day, _ := strconv.ParseInt(timestamp[6:8], 10, 32)
+	tlen := len(timestamp)
+	if tlen < 8 {
+		return nil
+	}
+	year, err := strconv.ParseInt(timestamp[0:4], 10, 32)
+	if err != nil {
+		return nil
+	}
+	month, err := strconv.ParseInt(timestamp[4:6], 10, 32)
+	if err != nil {
+		return nil
+	}
+	day, err := strconv.ParseInt(timestamp[6:8], 10, 32)
+	if err != nil {
+		return nil
+	}
 	var hour, minute, second int64
-	if len(timestamp) > 8 {
-		hour, _ = strconv.ParseInt(timestamp[8:10], 10, 32)
-		minute, _ = strconv.ParseInt(timestamp[10:12], 10, 32)
-		second, _ = strconv.ParseInt(timestamp[12:14], 10, 32)
-	} else {
-		hour = 0
-		minute = 0
-		second = 0
+	if tlen > 8 {
+		for i := range timestamp {
+			switch i {
+			case 9:
+				hour, err = strconv.ParseInt(timestamp[8:10], 10, 32)
+			case 11:
+				minute, err = strconv.ParseInt(timestamp[10:12], 10, 32)
+			case 13:
+				second, err = strconv.ParseInt(timestamp[12:14], 10, 32)
+			default:
+				// The timestamp was an improper length.
+				if i == (tlen - 1) {
+					return nil
+				}
+			}
+			// Make sure none of the parsing fails.
+			if err != nil {
+				return nil
+			}
+		}
 	}
 
 	desiredDate := time.Date(int(year), time.Month(month), int(day), int(hour), int(minute), int(second), 0, time.UTC)
