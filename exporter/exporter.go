@@ -85,6 +85,16 @@ func LoadMeasuresAndValueSets(measures []byte, valueSets []byte) {
 
 // GenerateCat1 generates a cat1 xml string for export
 func GenerateCat1(patient []byte, startDate int64, endDate int64, qrdaVersion string, cmsCompatibility bool) string {
+	var status bool
+	result := generateCat1(patient, startDate, endDate, qrdaVersion, cmsCompatibility, &status)
+	if status {
+		return "Export Failed"
+	}
+	return result
+}
+
+func generateCat1(patient []byte, startDate int64, endDate int64, qrdaVersion string, cmsCompatibility bool, status *bool) string {
+	defer catchPanics(status)
 
 	p := &models.Record{}
 
@@ -134,6 +144,17 @@ func GenerateCat1(patient []byte, startDate int64, endDate int64, qrdaVersion st
 }
 
 func GenerateCat3(measures []byte, measure_results []byte, effectiveDate int64, startDate int64, endDate int64, version string) string {
+	var status bool
+	result := generateCat3(measures, measure_results, effectiveDate, startDate, endDate, version, &status)
+	if status {
+		return "Export Failed"
+	}
+	return result
+}
+
+func generateCat3(measures []byte, measure_results []byte, effectiveDate int64, startDate int64, endDate int64, version string, status *bool) string {
+	defer catchPanics(status)
+
 	m := models.Measure{}
 	mr := cat3.MeasureResults{}
 
@@ -168,4 +189,14 @@ func GenerateCat3(measures []byte, measure_results []byte, effectiveDate int64, 
 	d := cat3.NewDoc(*h, *ms, m, startDate, endDate)
 
 	return cat3.Print(d.Template(), d)
+}
+
+// This is to catch any panics in the code. If there is a panic, the status
+// will be set to true and we will return a failure status code instead of
+// crashing the program.
+func catchPanics(status *bool) {
+	if r := recover(); r != nil {
+		fmt.Println("caught panic in cdatools:\n", r)
+		*status = true
+	}
 }
