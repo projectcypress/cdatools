@@ -5208,7 +5208,7 @@ func templatesCat1R3_1_patient_dataXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_patient_data.xml", size: 625, mode: os.FileMode(420), modTime: time.Unix(1500393904, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_patient_data.xml", size: 625, mode: os.FileMode(420), modTime: time.Unix(1500478348, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -5456,7 +5456,7 @@ func templatesCat1R3_1_reporting_parametersXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_reporting_parameters.xml", size: 1373, mode: os.FileMode(420), modTime: time.Unix(1500393904, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_reporting_parameters.xml", size: 1373, mode: os.FileMode(420), modTime: time.Unix(1500478348, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -5710,7 +5710,7 @@ func templatesCat1R3_1Cat1Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/cat1.xml", size: 7017, mode: os.FileMode(420), modTime: time.Unix(1500393904, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/cat1.xml", size: 7017, mode: os.FileMode(420), modTime: time.Unix(1500478348, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -7791,8 +7791,6 @@ var _templatesCat1R4_measuresXml = []byte(`<component>
             <text>{{escape .Name}}</text>
             <!-- SHOULD: setId is the eMeasure version neutral id  -->
             <setId root="{{escape .HQMFSetID}}"/>
-            <!-- This is the sequential eMeasure Version number -->
-            <versionNumber value="{{.HQMFVersionNumber}}"/>
           </externalDocument>
         </reference>
       </organizer>
@@ -7812,7 +7810,7 @@ func templatesCat1R4_measuresXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r4/_measures.xml", size: 2610, mode: os.FileMode(420), modTime: time.Unix(1497393183, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r4/_measures.xml", size: 2482, mode: os.FileMode(420), modTime: time.Unix(1500487845, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -7972,7 +7970,7 @@ func templatesCat1R4_patient_dataXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r4/_patient_data.xml", size: 625, mode: os.FileMode(420), modTime: time.Unix(1500393904, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r4/_patient_data.xml", size: 625, mode: os.FileMode(420), modTime: time.Unix(1500478348, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -8195,6 +8193,7 @@ var _templatesCat1R4_reporting_parametersXml = []byte(`<component>
       <act classCode="ACT" moodCode="EVN">
         <!-- This is the templateId for Reporting Parameteres Act -->
         <templateId root="2.16.840.1.113883.10.20.17.3.8"/>
+        <templateId root="2.16.840.1.113883.10.20.17.3.8.1" extension="2016-03-01"/>
         <id root="1.3.6.1.4.1.115" extension="{{identifierForInt .StartDate .EndDate}}" />
         <code code="252116004" codeSystem="2.16.840.1.113883.6.96" displayName="Observation Parameters"/>
         <effectiveTime>
@@ -8217,7 +8216,7 @@ func templatesCat1R4_reporting_parametersXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r4/_reporting_parameters.xml", size: 1237, mode: os.FileMode(420), modTime: time.Unix(1500393904, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r4/_reporting_parameters.xml", size: 1322, mode: os.FileMode(420), modTime: time.Unix(1500487845, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -8471,7 +8470,7 @@ func templatesCat1R4Cat1Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r4/cat1.xml", size: 7017, mode: os.FileMode(420), modTime: time.Unix(1500393904, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r4/cat1.xml", size: 7017, mode: os.FileMode(420), modTime: time.Unix(1500478348, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }

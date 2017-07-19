@@ -54,8 +54,6 @@
             <text>{{escape .Name}}</text>
             <!-- SHOULD: setId is the eMeasure version neutral id  -->
             <setId root="{{escape .HQMFSetID}}"/>
-            <!-- This is the sequential eMeasure Version number -->
-            <versionNumber value="{{.HQMFVersionNumber}}"/>
           </externalDocument>
         </reference>
       </organizer>
