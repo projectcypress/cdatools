@@ -270,7 +270,7 @@ func (i *ImporterSuite) TestMedicationActive(c *C) {
 	c.Assert(medicationActive.AdministrationTiming.Period.Unit, Equals, "h")
 	c.Assert(medicationActive.AdministrationTiming.Period.Value, Equals, "6")
 	c.Assert(*medicationActive.StartTime, Equals, int64(1092658739))
-	c.Assert(*medicationActive.EndTime, Equals, int64(1092676026))
+	c.Assert(*medicationActive.EndTime, Equals, int64(1092672366))
 	c.Assert(medicationActive.Oid, Equals, "2.16.840.1.113883.3.560.1.13")
 	c.Assert(medicationActive.Route.Code, Equals, "C38288")
 	c.Assert(medicationActive.Route.CodeSystemName, Equals, "NCI Thesaurus")
@@ -284,7 +284,7 @@ func (i *ImporterSuite) TestMedicationActive(c *C) {
 	c.Assert(medicationActive.OrderInformation[0].Fills, Equals, int64(1))
 	c.Assert(medicationActive.OrderInformation[0].QuantityOrdered.Value, Equals, "75")
 	c.Assert(medicationActive.OrderInformation[0].OrderNumber, Equals, "12345")
-	c.Assert(*medicationActive.OrderInformation[0].OrderDate, Equals, int64(1092676026))
+	c.Assert(*medicationActive.OrderInformation[0].OrderDate, Equals, int64(1092672366))
 	c.Assert(medicationActive.StatusCode["SNOMED-CT"][0], Equals, "55561003")
 	c.Assert(medicationActive.StatusCode["HL7 ActStatus"][0], Equals, "active")
 

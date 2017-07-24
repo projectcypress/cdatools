@@ -3,7 +3,6 @@ package importer
 import (
 	"encoding/json"
 	"fmt"
-	"strconv"
 	"time"
 
 	"github.com/jbowtie/gokogiri/xml"
@@ -609,53 +608,45 @@ func GetTimestamp(xpath *xpath.Expression, xmlNode xml.Node) *int64 {
 	return nil
 }
 
+// TimestampToSeconds returns the unix timestamp equivalent of a qrda timestamp
 func TimestampToSeconds(timestamp string) *int64 {
-	var desiredDateUnix = new(int64)
-	tlen := len(timestamp)
-	if tlen < 8 {
+	var date time.Time
+	var err error
+	switch len(timestamp) {
+	case 8:
+		// typical date
+		date, err = time.Parse("20060102", timestamp)
+	case 10:
+		// has hour
+		date, err = time.Parse("2006010215", timestamp)
+	case 12:
+		// has hour and minute
+		date, err = time.Parse("200601021504", timestamp)
+	case 14:
+		// has hour and minute and seconds
+		date, err = time.Parse("20060102150405", timestamp)
+	// timezones
+	case 13:
+		// typical date with timezone
+		date, err = time.Parse("20060102-0700", timestamp)
+	case 15:
+		// has hour and timezone
+		date, err = time.Parse("2006010215-0700", timestamp)
+	case 17:
+		// has hour and minute and timezone
+		date, err = time.Parse("200601021504-0700", timestamp)
+	case 19:
+		// has hour and minute and seconds and timezone
+		date, err = time.Parse("20060102150405-0700", timestamp)
+	default:
 		return nil
 	}
-	year, err := strconv.ParseInt(timestamp[0:4], 10, 32)
 	if err != nil {
 		return nil
 	}
-	month, err := strconv.ParseInt(timestamp[4:6], 10, 32)
-	if err != nil {
-		return nil
-	}
-	day, err := strconv.ParseInt(timestamp[6:8], 10, 32)
-	if err != nil {
-		return nil
-	}
-	var hour, minute, second int64
-	if tlen > 8 {
-		for i := range timestamp {
-			switch i {
-			case 9:
-				hour, err = strconv.ParseInt(timestamp[8:10], 10, 32)
-			case 11:
-				minute, err = strconv.ParseInt(timestamp[10:12], 10, 32)
-			case 13:
-				second, err = strconv.ParseInt(timestamp[12:14], 10, 32)
-			default:
-				// The timestamp was an improper length.
-				if i == (tlen - 1) {
-					return nil
-				}
-			}
-			// Make sure none of the parsing fails.
-			if err != nil {
-				return nil
-			}
-		}
-	}
-
-	desiredDate := time.Date(int(year), time.Month(month), int(day), int(hour), int(minute), int(second), 0, time.UTC)
-	*desiredDateUnix = desiredDate.Unix()
-	return desiredDateUnix
+	t := date.Unix()
+	return &t
 }
-
-// private
 
 func extractValueAndUnit(entry *models.Entry, valueElement xml.Node, valString string) {
 	if unit := valueElement.Attribute("unit"); unit == nil {
