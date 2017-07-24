@@ -483,7 +483,7 @@ var Cat1Good = []byte(`
                 <!-- QDM Attribute: Start datetime -->
                 <low value="20040816121859" />
                 <!-- QDM Attribute: Stop datetime -->
-                <high value="20040816166666" />
+                <high value="20040816160606" />
               </effectiveTime>
               <!-- QDM Attribute: Frequency -->
               <effectiveTime xsi:type="PIVL_TS" institutionSpecified="true" operator="A">
@@ -514,7 +514,7 @@ var Cat1Good = []byte(`
                   <id root="12345"/>
                   <statusCode code="completed"/>
                   <effectiveTime xsi:type="IVL_TS">
-                    <low value="20040816166666"/>
+                    <low value="20040816160606"/>
                     <high nullFlavor="UNK"/>
                   </effectiveTime>
                   <repeatNumber value="1"/>
