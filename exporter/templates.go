@@ -4475,7 +4475,7 @@ var _templatesCat1R3_1_2168401113883102024363Xml = []byte(`<entry>
     <!-- Consolidated Plan of Care Activity Procedure TemplateId (Implied Template) -->
     <templateId root="2.16.840.1.113883.10.20.22.4.41" extension="2014-06-09"/> 
     <!-- QRDA Procedure, Order TemplateId --> 
-    <templateId root="2.16.840.1.113883.10.20.24.3.63" extension="2014-12-01"/> 
+    <templateId root="2.16.840.1.113883.10.20.24.3.63" extension="2016-02-01"/> 
     <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
     <text>{{escape .EntrySection.Description}}</text>
@@ -4502,7 +4502,7 @@ func templatesCat1R3_1_2168401113883102024363Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.63.xml", size: 1016, mode: os.FileMode(420), modTime: time.Unix(1497493486, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.63.xml", size: 1016, mode: os.FileMode(420), modTime: time.Unix(1500672815, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -7276,7 +7276,7 @@ var _templatesCat1R4_2168401113883102024363Xml = []byte(`<entry>
     <!-- Consolidated Plan of Care Activity Procedure TemplateId (Implied Template) -->
     <templateId root="2.16.840.1.113883.10.20.22.4.41" extension="2014-06-09"/> 
     <!-- QRDA Procedure, Order TemplateId --> 
-    <templateId root="2.16.840.1.113883.10.20.24.3.63" extension="2014-12-01"/> 
+    <templateId root="2.16.840.1.113883.10.20.24.3.63" extension="2016-02-01"/> 
     <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
     {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
     <text>{{escape .EntrySection.Description}}</text>
@@ -7303,7 +7303,7 @@ func templatesCat1R4_2168401113883102024363Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r4/_2.16.840.1.113883.10.20.24.3.63.xml", size: 1016, mode: os.FileMode(420), modTime: time.Unix(1497493486, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r4/_2.16.840.1.113883.10.20.24.3.63.xml", size: 1016, mode: os.FileMode(420), modTime: time.Unix(1500672663, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -7810,7 +7810,7 @@ func templatesCat1R4_measuresXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r4/_measures.xml", size: 2482, mode: os.FileMode(420), modTime: time.Unix(1500487845, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r4/_measures.xml", size: 2482, mode: os.FileMode(420), modTime: time.Unix(1500656086, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -8216,7 +8216,7 @@ func templatesCat1R4_reporting_parametersXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r4/_reporting_parameters.xml", size: 1322, mode: os.FileMode(420), modTime: time.Unix(1500487845, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r4/_reporting_parameters.xml", size: 1322, mode: os.FileMode(420), modTime: time.Unix(1500656086, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
