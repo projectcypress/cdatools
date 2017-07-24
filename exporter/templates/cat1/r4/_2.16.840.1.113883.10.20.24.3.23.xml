@@ -76,7 +76,7 @@
                 {{else}}
                   {{$codeSystem := sampleCodeSystemInCoded .EntrySection.PrincipalDiagnosis.Coded}}
                   <value code="{{firstCodeInCodeSystem .EntrySection.PrincipalDiagnosis.Coded $codeSystem}}" xsi:type="CD"
-                         codeSystem="{{$codeSystem}}"/>
+                         codeSystem="{{oidForCodeSystem $codeSystem}}"/>
                 {{end}}
               {{else if .EntrySection.PrincipalDiagnosis.Code}}
                 {{$vs := oidForCode .EntrySection.PrincipalDiagnosis.CodedConcept (index .MapDataCriteria.FieldOids "PRINCIPAL_DIAGNOSIS")}}
@@ -111,7 +111,7 @@
                     {{else}}
                       {{$codeSystem := sampleCodeSystemInCoded .EntrySection.Diagnosis.Coded}}
                       <value code="{{firstCodeInCodeSystem .EntrySection.Diagnosis.Coded $codeSystem}}" xsi:type="CD"
-                            codeSystem="{{$codeSystem}}"/>
+                            codeSystem="{{oidForCodeSystem $codeSystem}}"/>
                     {{end}}
                   {{else if .EntrySection.Diagnosis.Code}}
                     {{$vs := oidForCode .EntrySection.Diagnosis.CodedConcept (index .MapDataCriteria.FieldOids "DIAGNOSIS")}}
