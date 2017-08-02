@@ -11,7 +11,7 @@
         <!-- Encounter performed template -->
         <templateId root="2.16.840.1.113883.10.20.24.3.23" extension="2016-02-01" />
         <id root="1.3.6.1.4.1.115" extension="{{.EntrySection.Entry.ObjectIdentifier.ID}}"/>
-        {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
+        {{template "_code.xml" generateCodeDisplay .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
         <text>{{escape .EntrySection.Description}}</text>
         <statusCode code="completed"/>
         <effectiveTime>
@@ -72,7 +72,7 @@
               <code code="8319008" codeSystem="2.16.840.1.113883.6.96" displayName="Principal Diagnosis" codeSystemName="SNOMED CT"/>
               {{if .EntrySection.PrincipalDiagnosis.Codes}}
                 {{if gt (len (index .MapDataCriteria.FieldOids "PRINCIPAL_DIAGNOSIS")) 0}}
-                  {{template "_code.xml" codeDisplayWithPreferredCodeForField .EntrySection.Entry .EntrySection.PrincipalDiagnosis.Coded .MapDataCriteria "principalDiagnosis" "PRINCIPAL_DIAGNOSIS"}}
+                  {{template "_code.xml" generateCodeDisplay .EntrySection.Entry .EntrySection.PrincipalDiagnosis.Coded .MapDataCriteria "principalDiagnosis"}}
                 {{else}}
                   {{$codeSystem := sampleCodeSystemInCoded .EntrySection.PrincipalDiagnosis.Coded}}
                   <value code="{{firstCodeInCodeSystem .EntrySection.PrincipalDiagnosis.Coded $codeSystem}}" xsi:type="CD"
@@ -107,7 +107,7 @@
                   </effectiveTime>
                   {{if .EntrySection.Diagnosis.Codes}}
                     {{if gt (len (index .MapDataCriteria.FieldOids "DIAGNOSIS")) 0}}
-                      {{template "_code.xml" codeDisplayWithPreferredCodeForField .EntrySection.Entry .EntrySection.Diagnosis.Coded .MapDataCriteria "diagnosis" "DIAGNOSIS"}}  
+                      {{template "_code.xml" generateCodeDisplay .EntrySection.Entry .EntrySection.Diagnosis.Coded .MapDataCriteria "diagnosis"}}  
                     {{else}}
                       {{$codeSystem := sampleCodeSystemInCoded .EntrySection.Diagnosis.Coded}}
                       <value code="{{firstCodeInCodeSystem .EntrySection.Diagnosis.Coded $codeSystem}}" xsi:type="CD"

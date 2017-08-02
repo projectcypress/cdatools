@@ -30,7 +30,7 @@
         <participant typeCode="DEV">
           <participantRole classCode="MANU">
             <playingDevice classCode="DEV">
-              {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
+              {{template "_code.xml" generateCodeDisplay .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
             </playingDevice>
           </participantRole>
         </participant>

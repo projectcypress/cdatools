@@ -1,7 +1,5 @@
 package models
 
-import "log"
-
 // It is very important that NewValueSetMap gets called to get a populated ValueSetMap
 type ValueSetMap map[string][]CodeSet
 
@@ -49,64 +47,63 @@ type CodeSet struct {
 	Values []Concept
 }
 
-func (v ValueSetMap) CodeDisplayWithPreferredCodeForField(entry *Entry, coded *Coded, MapDataCriteria Mdc, codeType string, field string) CodeDisplay {
+func (v ValueSetMap) GenerateCodeDisplay(entry *Entry, coded *Coded, MapDataCriteria Mdc, codeType string) CodeDisplay {
 	codeDisplay, err := entry.GetCodeDisplay(codeType)
 	if err != nil {
-		log.Fatalln(err)
+		panic(err.Error())
 	}
 	codeDisplay.MapDataCriteria = MapDataCriteria
-	for i, oid := range MapDataCriteria.FieldOids[field] {
-		preferredCodes := coded.PreferredCodes(codeDisplay.PreferredCodeSets, codeDisplay.CodeSetRequired, codeDisplay.ValueSetPreferred, v, MapDataCriteria.FieldOids[field][i])
-		codeDisplay.setCodesFromPreferred(preferredCodes)
-		if codeDisplay.PreferredCode.Code != "" {
-			//Put the relevant oid in the 0 index for export
-			oldoid := MapDataCriteria.FieldOids[field][0]
-			MapDataCriteria.FieldOids[field][0] = oid
-			MapDataCriteria.FieldOids[field][i] = oldoid
+	switch codeType {
+	case "resultValue":
+		for i, oid := range MapDataCriteria.ResultOids {
+			preferredCodes := coded.PreferredCodes(codeDisplay.PreferredCodeSets, codeDisplay.CodeSetRequired, codeDisplay.ValueSetPreferred, v, oid)
+			codeDisplay.setCodesFromPreferred(preferredCodes)
+			if codeDisplay.PreferredCode.Code != "" {
+				oldOid := MapDataCriteria.ResultOids[0]
+				MapDataCriteria.ResultOids[0] = oid
+				MapDataCriteria.ResultOids[i] = oldOid
+				return codeDisplay
+			}
+		}
+		for codeSystem, codes := range coded.Codes {
+			codeDisplay.PreferredCode = Concept{CodeSystem: codeSystem, Code: codes[0]}
 			break
 		}
-	}
-	return codeDisplay
-}
-
-func (v ValueSetMap) CodeDisplayWithPreferredCode(entry *Entry, coded *Coded, MapDataCriteria Mdc, codeType string) CodeDisplay {
-	codeDisplay, err := entry.GetCodeDisplay(codeType)
-	if err != nil {
-		log.Fatalln(err)
-	}
-	codeDisplay.MapDataCriteria = MapDataCriteria
-	preferredCodes := coded.PreferredCodes(codeDisplay.PreferredCodeSets, codeDisplay.CodeSetRequired, codeDisplay.ValueSetPreferred, v, MapDataCriteria.ValueSetOid)
-	codeDisplay.setCodesFromPreferred(preferredCodes)
-	return codeDisplay
-}
-
-func (v ValueSetMap) CodeDisplayWithPreferredCodeForResultValue(entry *Entry, coded *Coded, MapDataCriteria Mdc, codeType string) CodeDisplay {
-	codeDisplay, err := entry.GetCodeDisplay(codeType)
-	if err != nil {
-		log.Fatalln(err)
-	}
-	codeDisplay.MapDataCriteria = MapDataCriteria
-	for i, oid := range MapDataCriteria.ResultOids {
-		preferredCodes := coded.PreferredCodes(codeDisplay.PreferredCodeSets, codeDisplay.CodeSetRequired, codeDisplay.ValueSetPreferred, v, oid)
-		codeDisplay.setCodesFromPreferred(preferredCodes)
-		if codeDisplay.PreferredCode.Code != "" {
-			oldOid := MapDataCriteria.ResultOids[0]
-			MapDataCriteria.ResultOids[0] = oid
-			MapDataCriteria.ResultOids[i] = oldOid
-			return codeDisplay
+	case "diagnosis", "principalDiagnosis": // Preferred Code For Field
+		field := codeTypeToField(codeType)
+		for i, oid := range MapDataCriteria.FieldOids[field] {
+			preferredCodes := coded.PreferredCodes(codeDisplay.PreferredCodeSets, codeDisplay.CodeSetRequired, codeDisplay.ValueSetPreferred, v, MapDataCriteria.FieldOids[field][i])
+			codeDisplay.setCodesFromPreferred(preferredCodes)
+			if codeDisplay.PreferredCode.Code != "" {
+				//Put the relevant oid in the 0 index for export
+				oldoid := MapDataCriteria.FieldOids[field][0]
+				MapDataCriteria.FieldOids[field][0] = oid
+				MapDataCriteria.FieldOids[field][i] = oldoid
+				break
+			}
 		}
-	}
-	for codeSystem, codes := range coded.Codes {
-		codeDisplay.PreferredCode = Concept{CodeSystem: codeSystem, Code: codes[0]}
-		break
+	default: // In most scenarios, with "entryCode" codeType
+		preferredCodes := coded.PreferredCodes(codeDisplay.PreferredCodeSets, codeDisplay.CodeSetRequired, codeDisplay.ValueSetPreferred, v, MapDataCriteria.ValueSetOid)
+		codeDisplay.setCodesFromPreferred(preferredCodes)
 	}
 	return codeDisplay
 }
 
-func (v ValueSetMap) CodeDisplayWithPreferredCodeAndLaterality(entry *Entry, coded *Coded, codeType string, laterality Laterality, MapDataCriteria Mdc) CodeDisplay {
+func codeTypeToField(codeType string) string {
+	switch codeType {
+	case "diagnosis":
+		return "DIAGNOSIS"
+	case "principalDiagnosis":
+		return "PRINCIPAL_DIAGNOSIS"
+	}
+	return codeType
+}
+
+// For R3 Compatibility with a single template. If R3 is phased out in the future, this may be deleted.
+func (v ValueSetMap) GenerateCodeDisplayWithLaterality(entry *Entry, coded *Coded, MapDataCriteria Mdc, codeType string, laterality Laterality) CodeDisplay {
 	codeDisplay, err := entry.GetCodeDisplay(codeType)
 	if err != nil {
-		log.Fatal(err)
+		panic(err.Error())
 	}
 	preferredCodes := coded.PreferredCodes(codeDisplay.PreferredCodeSets, codeDisplay.CodeSetRequired, codeDisplay.ValueSetPreferred, v, MapDataCriteria.ValueSetOid)
 	codeDisplay.setCodesFromPreferred(preferredCodes)
