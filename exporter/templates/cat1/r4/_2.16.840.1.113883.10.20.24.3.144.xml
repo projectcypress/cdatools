@@ -13,6 +13,7 @@
       </effectiveTime>
       {{template "_result_value.xml" ($.EntrySection.Entry.WrapResultValue . $.MapDataCriteria)}}
       {{template "_reason.xml" $}}
+      {{template "_results.xml" $}}
     </observation>
   </entry>
 {{end}}

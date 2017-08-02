@@ -56,6 +56,7 @@
 // exporter/templates/cat1/r3/_record_target.xml
 // exporter/templates/cat1/r3/_reporting_parameters.xml
 // exporter/templates/cat1/r3/_result_value.xml
+// exporter/templates/cat1/r3/_results.xml
 // exporter/templates/cat1/r3/_telecom.xml
 // exporter/templates/cat1/r3/cat1.xml
 // exporter/templates/cat1/r3_1/_.xml
@@ -112,6 +113,7 @@
 // exporter/templates/cat1/r3_1/_record_target.xml
 // exporter/templates/cat1/r3_1/_reporting_parameters.xml
 // exporter/templates/cat1/r3_1/_result_value.xml
+// exporter/templates/cat1/r3_1/_results.xml
 // exporter/templates/cat1/r3_1/_telecom.xml
 // exporter/templates/cat1/r3_1/cat1.xml
 // exporter/templates/cat1/r4/_.xml
@@ -168,6 +170,7 @@
 // exporter/templates/cat1/r4/_record_target.xml
 // exporter/templates/cat1/r4/_reporting_parameters.xml
 // exporter/templates/cat1/r4/_result_value.xml
+// exporter/templates/cat1/r4/_results.xml
 // exporter/templates/cat1/r4/_telecom.xml
 // exporter/templates/cat1/r4/cat1.xml
 // exporter/hqmf_template_oid_map.json
@@ -895,6 +898,7 @@ var _templatesCat1R3_2168401113883102024326Xml = []byte(`<entry>
     <!-- Result -->
     {{if len .EntrySection.Entry.Values}}
       {{template "_result_value.xml" (.EntrySection.Entry.WrapResultValue (index .EntrySection.Entry.Values 0) .MapDataCriteria)}}
+      {{template "_results.xml" .}}
     {{else}}
       <value xsi:type="CD" nullFlavor="UNK"/>
     {{end}}
@@ -911,7 +915,7 @@ func templatesCat1R3_2168401113883102024326Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.26.xml", size: 1096, mode: os.FileMode(420), modTime: time.Unix(1501782992, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.26.xml", size: 1132, mode: os.FileMode(420), modTime: time.Unix(1501789861, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1751,25 +1755,7 @@ var _templatesCat1R3_2168401113883102024364Xml = []byte(`<entry>
       </procedure>
     </entryRelationship>
     {{end}}
-
-    {{range .EntrySection.Entry.Values}}
-      <entryRelationship typeCode="REFR">
-        <observation classCode="OBS" moodCode="EVN">
-          <!-- Conforms to C-CDA R2 Result Observation (V2) -->
-          <templateId root="2.16.840.1.113883.10.20.22.4.2" extension="2014-06-09"/>
-          <!-- Result (QRDA I R3) -->
-          <templateId root="2.16.840.1.113883.10.20.24.3.87" extension="2014-12-01"/>
-          <id root="1.3.6.1.4.1.115" extension="{{identifierForResultValue .}}"/>
-          {{template "_code.xml" codeDisplayWithPreferredCode $.EntrySection.Entry $.EntrySection.Entry.Coded $.MapDataCriteria "entryCode"}}
-          <statusCode code="completed"/>
-          <effectiveTime>
-            <low {{valueOrNullFlavor $.EntrySection.StartTime}}/>
-            <high {{valueOrNullFlavor $.EntrySection.EndTime}}/>
-          </effectiveTime>
-          {{template "_result_value.xml" ($.EntrySection.Entry.WrapResultValue . $.MapDataCriteria)}}
-        </observation>
-      </entryRelationship>
-    {{end}}
+    {{template "_results.xml" .}}
   </procedure>
 </entry>`)
 
@@ -1783,7 +1769,7 @@ func templatesCat1R3_2168401113883102024364Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.64.xml", size: 2556, mode: os.FileMode(420), modTime: time.Unix(1501782992, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_2.16.840.1.113883.10.20.24.3.64.xml", size: 1567, mode: os.FileMode(420), modTime: time.Unix(1501789861, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -2738,6 +2724,41 @@ func templatesCat1R3_result_valueXml() (*asset, error) {
 	return a, nil
 }
 
+var _templatesCat1R3_resultsXml = []byte(`{{range .EntrySection.Entry.Values}}
+<entryRelationship typeCode="REFR">
+     <observation classCode="OBS" moodCode="EVN">
+        <!-- Conforms to C-CDA R2.1 Result Observation (V3) -->
+        <templateId root="2.16.840.1.113883.10.20.22.4.2" extension="2014-06-09" />
+        <!-- Result (V3) -->
+        <templateId root="2.16.840.1.113883.10.20.24.3.87" extension="2014-12-01" />
+        <id root="1.3.6.1.4.1.115" extension="{{identifierForResultValue .}}"/>
+        {{template "_code.xml" codeDisplayWithPreferredCode $.EntrySection.Entry $.EntrySection.Entry.Coded $.MapDataCriteria "entryCode"}}
+        <statusCode code="completed"/>
+        <effectiveTime>
+            <low {{valueOrNullFlavor $.EntrySection.StartTime}}/>
+            <high {{valueOrNullFlavor $.EntrySection.EndTime}}/>
+        </effectiveTime>
+        {{template "_result_value.xml" ($.EntrySection.Entry.WrapResultValue . $.MapDataCriteria)}}
+    </observation>
+</entryRelationship>
+{{end}}
+`)
+
+func templatesCat1R3_resultsXmlBytes() ([]byte, error) {
+	return _templatesCat1R3_resultsXml, nil
+}
+
+func templatesCat1R3_resultsXml() (*asset, error) {
+	bytes, err := templatesCat1R3_resultsXmlBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "templates/cat1/r3/_results.xml", size: 972, mode: os.FileMode(420), modTime: time.Unix(1501789861, 0)}
+	a := &asset{bytes: bytes, info: info}
+	return a, nil
+}
+
 var _templatesCat1R3_telecomXml = []byte(`<telecom use="{{escape .Use}}" value="tel:+{{escape .Value}}" />
 `)
 
@@ -3667,6 +3688,7 @@ var _templatesCat1R3_1_2168401113883102024326Xml = []byte(`<entry>
     <!-- Result -->
     {{if len .EntrySection.Entry.Values}}
       {{template "_result_value.xml" (.EntrySection.Entry.WrapResultValue (index .EntrySection.Entry.Values 0) .MapDataCriteria)}}
+      {{template "_results.xml" .}}
     {{else}}
       <value xsi:type="CD" nullFlavor="UNK"/>
     {{end}}
@@ -3683,7 +3705,7 @@ func templatesCat1R3_1_2168401113883102024326Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.26.xml", size: 1096, mode: os.FileMode(420), modTime: time.Unix(1501782992, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.26.xml", size: 1132, mode: os.FileMode(420), modTime: time.Unix(1501789861, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -4536,25 +4558,7 @@ var _templatesCat1R3_1_2168401113883102024364Xml = []byte(`<entry>
       </procedure>
     </entryRelationship>
     {{end}}
-
-    {{range .EntrySection.Entry.Values}}
-      <entryRelationship typeCode="REFR">
-        <observation classCode="OBS" moodCode="EVN">
-          <!-- Conforms to C-CDA R2 Result Observation (V2) -->
-          <templateId root="2.16.840.1.113883.10.20.22.4.2" extension="2015-08-01"/>
-          <!-- Result (QRDA I R3) -->
-          <templateId root="2.16.840.1.113883.10.20.24.3.87" extension="2016-02-01"/>
-          <id root="1.3.6.1.4.1.115" extension="{{identifierForResultValue .}}"/>
-          {{template "_code.xml" codeDisplayWithPreferredCode $.EntrySection.Entry $.EntrySection.Entry.Coded $.MapDataCriteria "entryCode"}}
-          <statusCode code="completed"/>
-          <effectiveTime>
-            <low {{valueOrNullFlavor $.EntrySection.StartTime}}/>
-            <high {{valueOrNullFlavor $.EntrySection.EndTime}}/>
-          </effectiveTime>
-          {{template "_result_value.xml" ($.EntrySection.Entry.WrapResultValue . $.MapDataCriteria)}}
-        </observation>
-      </entryRelationship>
-    {{end}}
+    {{template "_results.xml" .}}
   </procedure>
 </entry>`)
 
@@ -4568,7 +4572,7 @@ func templatesCat1R3_1_2168401113883102024364Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.64.xml", size: 2556, mode: os.FileMode(420), modTime: time.Unix(1501782992, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_2.16.840.1.113883.10.20.24.3.64.xml", size: 1567, mode: os.FileMode(420), modTime: time.Unix(1501789861, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -5493,6 +5497,41 @@ func templatesCat1R3_1_result_valueXml() (*asset, error) {
 	return a, nil
 }
 
+var _templatesCat1R3_1_resultsXml = []byte(`{{range .EntrySection.Entry.Values}}
+<entryRelationship typeCode="REFR">
+     <observation classCode="OBS" moodCode="EVN">
+        <!-- Conforms to C-CDA R2.1 Result Observation (V3) -->
+        <templateId root="2.16.840.1.113883.10.20.22.4.2" extension="2015-08-01" />
+        <!-- Result (V3) -->
+        <templateId root="2.16.840.1.113883.10.20.24.3.87" extension="2016-02-01" />
+        <id root="1.3.6.1.4.1.115" extension="{{identifierForResultValue .}}"/>
+        {{template "_code.xml" codeDisplayWithPreferredCode $.EntrySection.Entry $.EntrySection.Entry.Coded $.MapDataCriteria "entryCode"}}
+        <statusCode code="completed"/>
+        <effectiveTime>
+            <low {{valueOrNullFlavor $.EntrySection.StartTime}}/>
+            <high {{valueOrNullFlavor $.EntrySection.EndTime}}/>
+        </effectiveTime>
+        {{template "_result_value.xml" ($.EntrySection.Entry.WrapResultValue . $.MapDataCriteria)}}
+    </observation>
+</entryRelationship>
+{{end}}
+`)
+
+func templatesCat1R3_1_resultsXmlBytes() ([]byte, error) {
+	return _templatesCat1R3_1_resultsXml, nil
+}
+
+func templatesCat1R3_1_resultsXml() (*asset, error) {
+	bytes, err := templatesCat1R3_1_resultsXmlBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_results.xml", size: 972, mode: os.FileMode(420), modTime: time.Unix(1501789861, 0)}
+	a := &asset{bytes: bytes, info: info}
+	return a, nil
+}
+
 var _templatesCat1R3_1_telecomXml = []byte(`<telecom use="{{escape .Use}}" value="tel:+{{escape .Value}}" />
 `)
 
@@ -6105,6 +6144,7 @@ var _templatesCat1R4_21684011138831020243144Xml = []byte(`{{range .EntrySection.
       </effectiveTime>
       {{template "_result_value.xml" ($.EntrySection.Entry.WrapResultValue . $.MapDataCriteria)}}
       {{template "_reason.xml" $}}
+      {{template "_results.xml" $}}
     </observation>
   </entry>
 {{end}}`)
@@ -6119,7 +6159,7 @@ func templatesCat1R4_21684011138831020243144Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r4/_2.16.840.1.113883.10.20.24.3.144.xml", size: 939, mode: os.FileMode(420), modTime: time.Unix(1501782992, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r4/_2.16.840.1.113883.10.20.24.3.144.xml", size: 975, mode: os.FileMode(420), modTime: time.Unix(1501789861, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -7337,25 +7377,7 @@ var _templatesCat1R4_2168401113883102024364Xml = []byte(`<entry>
       </procedure>
     </entryRelationship>
     {{end}}
-
-    {{range .EntrySection.Entry.Values}}
-      <entryRelationship typeCode="REFR">
-        <observation classCode="OBS" moodCode="EVN">
-          <!-- Conforms to C-CDA R2 Result Observation (V2) -->
-          <templateId root="2.16.840.1.113883.10.20.22.4.2" extension="2015-08-01"/>
-          <!-- Result (QRDA I R3) -->
-          <templateId root="2.16.840.1.113883.10.20.24.3.87" extension="2016-02-01"/>
-          <id root="1.3.6.1.4.1.115" extension="{{identifierForResultValue .}}"/>
-          {{template "_code.xml" codeDisplayWithPreferredCode $.EntrySection.Entry $.EntrySection.Entry.Coded $.MapDataCriteria "entryCode"}}
-          <statusCode code="completed"/>
-          <effectiveTime>
-            <low {{valueOrNullFlavor $.EntrySection.StartTime}}/>
-            <high {{valueOrNullFlavor $.EntrySection.EndTime}}/>
-          </effectiveTime>
-          {{template "_result_value.xml" ($.EntrySection.Entry.WrapResultValue . $.MapDataCriteria)}}
-        </observation>
-      </entryRelationship>
-    {{end}}
+    {{template "_results.xml" .}}
   </procedure>
 </entry>`)
 
@@ -7369,7 +7391,7 @@ func templatesCat1R4_2168401113883102024364Xml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r4/_2.16.840.1.113883.10.20.24.3.64.xml", size: 2556, mode: os.FileMode(420), modTime: time.Unix(1501782992, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r4/_2.16.840.1.113883.10.20.24.3.64.xml", size: 1567, mode: os.FileMode(420), modTime: time.Unix(1501789861, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -8249,6 +8271,41 @@ func templatesCat1R4_result_valueXml() (*asset, error) {
 	}
 
 	info := bindataFileInfo{name: "templates/cat1/r4/_result_value.xml", size: 654, mode: os.FileMode(420), modTime: time.Unix(1501691853, 0)}
+	a := &asset{bytes: bytes, info: info}
+	return a, nil
+}
+
+var _templatesCat1R4_resultsXml = []byte(`{{range .EntrySection.Entry.Values}}
+<entryRelationship typeCode="REFR">
+     <observation classCode="OBS" moodCode="EVN">
+        <!-- Conforms to C-CDA R2.1 Result Observation (V3) -->
+        <templateId root="2.16.840.1.113883.10.20.22.4.2" extension="2015-08-01" />
+        <!-- Result (V3) -->
+        <templateId root="2.16.840.1.113883.10.20.24.3.87" extension="2016-02-01" />
+        <id root="1.3.6.1.4.1.115" extension="{{identifierForResultValue .}}"/>
+        {{template "_code.xml" codeDisplayWithPreferredCode $.EntrySection.Entry $.EntrySection.Entry.Coded $.MapDataCriteria "entryCode"}}
+        <statusCode code="completed"/>
+        <effectiveTime>
+            <low {{valueOrNullFlavor $.EntrySection.StartTime}}/>
+            <high {{valueOrNullFlavor $.EntrySection.EndTime}}/>
+        </effectiveTime>
+        {{template "_result_value.xml" ($.EntrySection.Entry.WrapResultValue . $.MapDataCriteria)}}
+    </observation>
+</entryRelationship>
+{{end}}
+`)
+
+func templatesCat1R4_resultsXmlBytes() ([]byte, error) {
+	return _templatesCat1R4_resultsXml, nil
+}
+
+func templatesCat1R4_resultsXml() (*asset, error) {
+	bytes, err := templatesCat1R4_resultsXmlBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "templates/cat1/r4/_results.xml", size: 972, mode: os.FileMode(420), modTime: time.Unix(1501789861, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -10973,6 +11030,7 @@ var _bindata = map[string]func() (*asset, error){
 	"templates/cat1/r3/_record_target.xml": templatesCat1R3_record_targetXml,
 	"templates/cat1/r3/_reporting_parameters.xml": templatesCat1R3_reporting_parametersXml,
 	"templates/cat1/r3/_result_value.xml": templatesCat1R3_result_valueXml,
+	"templates/cat1/r3/_results.xml": templatesCat1R3_resultsXml,
 	"templates/cat1/r3/_telecom.xml": templatesCat1R3_telecomXml,
 	"templates/cat1/r3/cat1.xml": templatesCat1R3Cat1Xml,
 	"templates/cat1/r3_1/_.xml": templatesCat1R3_1_Xml,
@@ -11029,6 +11087,7 @@ var _bindata = map[string]func() (*asset, error){
 	"templates/cat1/r3_1/_record_target.xml": templatesCat1R3_1_record_targetXml,
 	"templates/cat1/r3_1/_reporting_parameters.xml": templatesCat1R3_1_reporting_parametersXml,
 	"templates/cat1/r3_1/_result_value.xml": templatesCat1R3_1_result_valueXml,
+	"templates/cat1/r3_1/_results.xml": templatesCat1R3_1_resultsXml,
 	"templates/cat1/r3_1/_telecom.xml": templatesCat1R3_1_telecomXml,
 	"templates/cat1/r3_1/cat1.xml": templatesCat1R3_1Cat1Xml,
 	"templates/cat1/r4/_.xml": templatesCat1R4_Xml,
@@ -11085,6 +11144,7 @@ var _bindata = map[string]func() (*asset, error){
 	"templates/cat1/r4/_record_target.xml": templatesCat1R4_record_targetXml,
 	"templates/cat1/r4/_reporting_parameters.xml": templatesCat1R4_reporting_parametersXml,
 	"templates/cat1/r4/_result_value.xml": templatesCat1R4_result_valueXml,
+	"templates/cat1/r4/_results.xml": templatesCat1R4_resultsXml,
 	"templates/cat1/r4/_telecom.xml": templatesCat1R4_telecomXml,
 	"templates/cat1/r4/cat1.xml": templatesCat1R4Cat1Xml,
 	"hqmf_template_oid_map.json": hqmf_template_oid_mapJson,
@@ -11194,6 +11254,7 @@ var _bintree = &bintree{nil, map[string]*bintree{
 				"_record_target.xml": &bintree{templatesCat1R3_record_targetXml, map[string]*bintree{}},
 				"_reporting_parameters.xml": &bintree{templatesCat1R3_reporting_parametersXml, map[string]*bintree{}},
 				"_result_value.xml": &bintree{templatesCat1R3_result_valueXml, map[string]*bintree{}},
+				"_results.xml": &bintree{templatesCat1R3_resultsXml, map[string]*bintree{}},
 				"_telecom.xml": &bintree{templatesCat1R3_telecomXml, map[string]*bintree{}},
 				"cat1.xml": &bintree{templatesCat1R3Cat1Xml, map[string]*bintree{}},
 			}},
@@ -11252,6 +11313,7 @@ var _bintree = &bintree{nil, map[string]*bintree{
 				"_record_target.xml": &bintree{templatesCat1R3_1_record_targetXml, map[string]*bintree{}},
 				"_reporting_parameters.xml": &bintree{templatesCat1R3_1_reporting_parametersXml, map[string]*bintree{}},
 				"_result_value.xml": &bintree{templatesCat1R3_1_result_valueXml, map[string]*bintree{}},
+				"_results.xml": &bintree{templatesCat1R3_1_resultsXml, map[string]*bintree{}},
 				"_telecom.xml": &bintree{templatesCat1R3_1_telecomXml, map[string]*bintree{}},
 				"cat1.xml": &bintree{templatesCat1R3_1Cat1Xml, map[string]*bintree{}},
 			}},
@@ -11310,6 +11372,7 @@ var _bintree = &bintree{nil, map[string]*bintree{
 				"_record_target.xml": &bintree{templatesCat1R4_record_targetXml, map[string]*bintree{}},
 				"_reporting_parameters.xml": &bintree{templatesCat1R4_reporting_parametersXml, map[string]*bintree{}},
 				"_result_value.xml": &bintree{templatesCat1R4_result_valueXml, map[string]*bintree{}},
+				"_results.xml": &bintree{templatesCat1R4_resultsXml, map[string]*bintree{}},
 				"_telecom.xml": &bintree{templatesCat1R4_telecomXml, map[string]*bintree{}},
 				"cat1.xml": &bintree{templatesCat1R4Cat1Xml, map[string]*bintree{}},
 			}},
