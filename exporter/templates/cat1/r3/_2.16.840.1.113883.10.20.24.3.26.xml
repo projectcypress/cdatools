@@ -17,6 +17,7 @@
     <!-- Result -->
     {{if len .EntrySection.Entry.Values}}
       {{template "_result_value.xml" (.EntrySection.Entry.WrapResultValue (index .EntrySection.Entry.Values 0) .MapDataCriteria)}}
+      {{template "_results.xml" .}}
     {{else}}
       <value xsi:type="CD" nullFlavor="UNK"/>
     {{end}}

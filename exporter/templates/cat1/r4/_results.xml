@@ -1,0 +1,18 @@
+{{range .EntrySection.Entry.Values}}
+<entryRelationship typeCode="REFR">
+     <observation classCode="OBS" moodCode="EVN">
+        <!-- Conforms to C-CDA R2.1 Result Observation (V3) -->
+        <templateId root="2.16.840.1.113883.10.20.22.4.2" extension="2015-08-01" />
+        <!-- Result (V3) -->
+        <templateId root="2.16.840.1.113883.10.20.24.3.87" extension="2016-02-01" />
+        <id root="1.3.6.1.4.1.115" extension="{{identifierForResultValue .}}"/>
+        {{template "_code.xml" codeDisplayWithPreferredCode $.EntrySection.Entry $.EntrySection.Entry.Coded $.MapDataCriteria "entryCode"}}
+        <statusCode code="completed"/>
+        <effectiveTime>
+            <low {{valueOrNullFlavor $.EntrySection.StartTime}}/>
+            <high {{valueOrNullFlavor $.EntrySection.EndTime}}/>
+        </effectiveTime>
+        {{template "_result_value.xml" ($.EntrySection.Entry.WrapResultValue . $.MapDataCriteria)}}
+    </observation>
+</entryRelationship>
+{{end}}

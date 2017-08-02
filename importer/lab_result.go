@@ -14,7 +14,7 @@ func ResultExtractor(entry *models.Entry, entryElement xml.Node) interface{} {
 	ExtractCodes(&result.Entry.Coded, entryElement, codePath)
 
 	//extract values
-	var valuePath = xpath.Compile("cda:value")
+	var valuePath = xpath.Compile(".//cda:value")
 	ExtractValues(&result.Entry, entryElement, valuePath)
 
 	extractInterpretation(&result, entryElement)

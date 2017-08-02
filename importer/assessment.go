@@ -13,7 +13,7 @@ func AssessmentPerformedExtractor(entry *models.Entry, entryElement xml.Node) in
 	var codePath = xpath.Compile("cda:code")
 	ExtractCodes(&assessmentPerformed.Entry.Coded, entryElement, codePath)
 	ExtractReasonOrNegation(&assessmentPerformed.Entry, entryElement)
-	scalarPath := xpath.Compile("cda:value")
+	scalarPath := xpath.Compile(".//cda:value")
 	ExtractValues(&assessmentPerformed.Entry, entryElement, scalarPath)
 
 	// set Status Code
