@@ -15,7 +15,7 @@
     <participant typeCode="CSM">
       <participantRole classCode="MANU">
         <playingEntity classCode="MMAT">
-          {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
+          {{template "_code.xml" generateCodeDisplay .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
           <name>{{escape .EntrySection.Description}}</name>
         </playingEntity>
       </participantRole>

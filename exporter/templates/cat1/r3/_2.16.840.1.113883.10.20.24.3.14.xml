@@ -31,7 +31,7 @@
     </effectiveTime>
     {{template "_ordinality.xml" .}}
 
-    {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
+    {{template "_code.xml" generateCodeDisplay .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
   </observation>
   </entryRelationship>
   </act>

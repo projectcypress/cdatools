@@ -1,7 +1,7 @@
 {{if not .ResultValueEntry.IsValuesEmpty}}
     {{range .Values}}
         {{if .IsCodesPresent}}
-            {{template "_code.xml" codeDisplayWithPreferredCodeForResultValue $.ResultValueEntry .Coded $.ResultValueMdc "resultValue"}}
+            {{template "_code.xml" generateCodeDisplay $.ResultValueEntry .Coded $.ResultValueMdc "resultValue"}}
         {{else if eq .GetScalarType "num"}}
             <value xsi:type="PQ" value="{{.Scalar}}" {{if ne .Units ""}}unit="{{.Units}}"{{else}}unit="1"{{end}}/>
         {{else if eq .GetScalarType "bool"}}

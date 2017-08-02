@@ -27,7 +27,7 @@
           <!-- Attribute: abatement datetime -->
           <high {{valueOrNullFlavor .EntrySection.Entry.EndTime}} />
         </effectiveTime>
-        {{template "_code.xml" codeDisplayWithPreferredCode .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
+        {{template "_code.xml" generateCodeDisplay .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode"}}
         {{if hasLaterality .EntrySection.Laterality}}
           <targetSiteCode code="{{.EntrySection.Laterality.Code}}"
                           codeSystem="{{oidForCodeSystem .EntrySection.Laterality.CodeSystem}}"

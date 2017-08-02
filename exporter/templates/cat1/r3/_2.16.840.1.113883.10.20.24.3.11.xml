@@ -31,7 +31,7 @@
       <high {{valueOrNullFlavor .EntrySection.EndTime}}/>
     </effectiveTime>
     {{template "_ordinality.xml" .}}
-    {{template "_code.xml" codeDisplayWithPreferredCodeAndLaterality .EntrySection.Entry .EntrySection.Entry.Coded "entryCode" .EntrySection.Laterality .MapDataCriteria}}
+    {{template "_code.xml" generateCodeDisplayWithLaterality .EntrySection.Entry .EntrySection.Entry.Coded .MapDataCriteria "entryCode" .EntrySection.Laterality}}
     {{if .EntrySection.HasSetSeverity}}
     <entryRelationship typeCode="REFR">
        <observation classCode="OBS" moodCode="EVN">
