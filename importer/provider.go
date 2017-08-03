@@ -95,29 +95,29 @@ func ProviderExtractor(performerElement xml.Node) models.Provider {
 
 func OrganizationExtractor(organzationElement xml.Node) models.Organization {
 	var org models.Organization
+	if organzationElement != nil {
+		nameXPath := xpath.Compile("cda:name")
+		org.Name = FirstElementContent(nameXPath, organzationElement)
 
-	nameXPath := xpath.Compile("cda:name")
-	org.Name = FirstElementContent(nameXPath, organzationElement)
+		addressXPath := xpath.Compile("cda:addr")
+		addressElements, err := organzationElement.Search(addressXPath)
+		if err != nil {
+			fmt.Printf("Error extracting addresses %v \n", err)
+		}
+		org.Addresses = make([]models.Address, len(addressElements))
+		for i, addressElement := range addressElements {
+			org.Addresses[i] = ImportAddress(addressElement)
+		}
 
-	addressXPath := xpath.Compile("cda:addr")
-	addressElements, err := organzationElement.Search(addressXPath)
-	if err != nil {
-		fmt.Printf("Error extracting addresses %v \n", err)
+		telecomXPath := xpath.Compile("cda:telecom")
+		telecomElements, err := organzationElement.Search(telecomXPath)
+		if err != nil {
+			fmt.Printf("Error extracting telecoms %v \n", err)
+		}
+		org.Telecoms = make([]models.Telecom, len(telecomElements))
+		for i, telecomElement := range telecomElements {
+			org.Telecoms[i] = ImportTelecom(telecomElement)
+		}
 	}
-	org.Addresses = make([]models.Address, len(addressElements))
-	for i, addressElement := range addressElements {
-		org.Addresses[i] = ImportAddress(addressElement)
-	}
-
-	telecomXPath := xpath.Compile("cda:telecom")
-	telecomElements, err := organzationElement.Search(telecomXPath)
-	if err != nil {
-		fmt.Printf("Error extracting telecoms %v \n", err)
-	}
-	org.Telecoms = make([]models.Telecom, len(telecomElements))
-	for i, telecomElement := range telecomElements {
-		org.Telecoms[i] = ImportTelecom(telecomElement)
-	}
-
 	return org
 }
