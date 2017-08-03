@@ -5,7 +5,7 @@ import (
 
 	"github.com/jbowtie/gokogiri/xml"
 	"github.com/jbowtie/gokogiri/xpath"
-	"github.com/pebbe/util"
+
 	"github.com/projectcypress/cdatools/models"
 )
 
@@ -31,7 +31,9 @@ func MedicalEquipmentExtractor(entry *models.Entry, entryElement xml.Node) inter
 func extractManufacturer(medicalEquipment *models.MedicalEquipment, entryElement xml.Node) {
 	mfXPath := xpath.Compile("./cda:participant/cda:participantRole/cda:scopingEntity/cda:desc")
 	manufacturerElements, err := entryElement.Search(mfXPath)
-	util.CheckErr(err)
+	if err != nil {
+		panic(err.Error())
+	}
 
 	for _, MFElement := range manufacturerElements {
 		manufacturerAttr := MFElement.Attribute("inner_text")
@@ -44,7 +46,9 @@ func extractManufacturer(medicalEquipment *models.MedicalEquipment, entryElement
 func extractAnatomicalStructure(medicalEquipment *models.MedicalEquipment, entryElement xml.Node) {
 	asXPath := xpath.Compile("./cda:targetSiteCode")
 	asElements, err := entryElement.Search(asXPath)
-	util.CheckErr(err)
+	if err != nil {
+		panic(err.Error())
+	}
 
 	for _, ASElement := range asElements {
 		codeElement := ASElement.Attribute("code")

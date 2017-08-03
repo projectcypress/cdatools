@@ -7,36 +7,37 @@ import (
 
 	"github.com/jbowtie/gokogiri/xml"
 	"github.com/jbowtie/gokogiri/xpath"
-	"github.com/juju/errors"
-	"github.com/pebbe/util"
+
 	"github.com/projectcypress/cdatools/models"
 )
 
 // This is to catch any panics in the code. If there is a panic, the status
-// will be set to true and we will return a failure status code instead of
-// crashing the program.
-func catchPanics(status *bool) {
+// will be set to true and errmsg will contain the message passed into the panic.
+// This function should only be used in the library API functions and a non-nil pointer
+// should be passed in.
+func catchPanics(failed *bool, errmsg *string) {
 	if r := recover(); r != nil {
-		fmt.Println("caught panic in cdatools:\n", r)
-		*status = true
+		*failed = true
+		*errmsg = fmt.Sprintf("caught panic in cdatools: %v", r)
 	}
 }
 
 func Read_patient(document string) string {
-	var status bool
-	result := read_patient(document, &status)
-	if status {
-		return "Import Failed"
+	var failed bool
+	var errmsg string
+	result := read_patient(document, &failed, &errmsg)
+	if failed {
+		return "Import Failed: " + errmsg
 	}
 	return result
 }
 
-func read_patient(document string, status *bool) string {
-	defer catchPanics(status)
+func read_patient(document string, failed *bool, errmsg *string) string {
+	defer catchPanics(failed, errmsg)
 
 	doc, err := xml.Parse([]byte(document), nil, nil, 0, xml.DefaultEncodingBytes)
 	if err != nil {
-		return errors.Annotate(err, "Error: Failed to Parse XML").Error()
+		panic(err.Error())
 	}
 	defer doc.Free()
 
@@ -47,7 +48,7 @@ func read_patient(document string, status *bool) string {
 	var patientXPath = xpath.Compile("/cda:ClinicalDocument/cda:recordTarget/cda:patientRole/cda:patient")
 	patientElements, err := doc.Root().Search(patientXPath)
 	if err != nil {
-		return errors.Annotate(err, "Error: Failed to Search XML").Error()
+		panic(err.Error())
 	}
 	patientElement := patientElements[0]
 	patient := &models.Record{}
@@ -421,7 +422,7 @@ func read_patient(document string, status *bool) string {
 
 	patientJSON, err := json.Marshal(patient)
 	if err != nil {
-		fmt.Println(err)
+		panic(err.Error())
 	}
 
 	return string(patientJSON)
@@ -430,7 +431,9 @@ func read_patient(document string, status *bool) string {
 
 func ExtractSection(xmlNode xml.Node, sectionXpath *xpath.Expression, extractor EntryExtractor, oid string, status string) []interface{} {
 	sectionElements, err := xmlNode.Search(sectionXpath)
-	util.CheckErr(err)
+	if err != nil {
+		panic(err.Error())
+	}
 
 	entries := make([]interface{}, len(sectionElements))
 	for i, entryElement := range sectionElements {
@@ -479,11 +482,15 @@ func ExtractEntry(entryElement xml.Node, oid string, extractor EntryExtractor, s
 
 func ExtractCodes(coded *models.Coded, entryElement xml.Node, codePath *xpath.Expression) {
 	codeElements, err := entryElement.Search(codePath)
-	util.CheckErr(err)
+	if err != nil {
+		panic(err.Error())
+	}
 	for _, codeElement := range codeElements {
 		coded.AddCodeIfPresent(codeElement)
 		translationElements, err := codeElement.Search("cda:translation")
-		util.CheckErr(err)
+		if err != nil {
+			panic(err.Error())
+		}
 		for _, translationElement := range translationElements {
 			coded.AddCodeIfPresent(translationElement)
 		}
@@ -492,7 +499,9 @@ func ExtractCodes(coded *models.Coded, entryElement xml.Node, codePath *xpath.Ex
 
 func ExtractCodedConcept(concept *models.CodedConcept, entryElement xml.Node, codePath *xpath.Expression) {
 	conceptElements, err := entryElement.Search(codePath)
-	util.CheckErr(err)
+	if err != nil {
+		panic(err.Error())
+	}
 	for _, conceptElement := range conceptElements {
 		concept.AddCodeIfPresent(conceptElement)
 	}
@@ -507,7 +516,9 @@ func ExtractDates(entry *models.Entry, entryElement xml.Node) {
 
 func ExtractScalar(scalar *models.Scalar, entryElement xml.Node, scalarPath *xpath.Expression) {
 	scalarElements, err := entryElement.Search(scalarPath)
-	util.CheckErr(err)
+	if err != nil {
+		panic(err.Error())
+	}
 
 	for _, scalarElement := range scalarElements {
 		unitAttr := scalarElement.Attribute("unit")
@@ -518,14 +529,18 @@ func ExtractScalar(scalar *models.Scalar, entryElement xml.Node, scalarPath *xpa
 				scalar.Unit = unitAttr.String()
 			}
 			scalar.Value = valueAttr.String()
-			util.CheckErr(err)
+			if err != nil {
+				panic(err.Error())
+			}
 		}
 	}
 }
 
 func ExtractValues(entry *models.Entry, entryElement xml.Node, valuePath *xpath.Expression) {
 	valueElements, err := entryElement.Search(valuePath)
-	util.CheckErr(err)
+	if err != nil {
+		panic(err.Error())
+	}
 	if len(valueElements) > 0 {
 		for _, valueElement := range valueElements {
 			value := valueElement.Attribute("value")
@@ -551,7 +566,9 @@ func ExtractValues(entry *models.Entry, entryElement xml.Node, valuePath *xpath.
 func ExtractReasonOrNegation(entry *models.Entry, entryElement xml.Node) {
 	reasonXPath := xpath.Compile("./cda:entryRelationship[@typeCode='RSON']/cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.88']/cda:value | ./cda:entryRelationship[@typeCode='RSON']/cda:act[cda:templateId/@root='2.16.840.1.113883.10.20.1.27']/cda:code")
 	reasonElements, err := entryElement.Search(reasonXPath)
-	util.CheckErr(err)
+	if err != nil {
+		panic(err.Error())
+	}
 
 	for _, reasonElement := range reasonElements {
 		codeSystemOidAttr := reasonElement.Attribute("codeSystem")
@@ -582,7 +599,9 @@ func ExtractReasonOrNegation(entry *models.Entry, entryElement xml.Node) {
 
 func FirstElement(xpath *xpath.Expression, xmlNode xml.Node) xml.Node {
 	resultNodes, err := xmlNode.Search(xpath)
-	util.CheckErr(err)
+	if err != nil {
+		panic(err.Error())
+	}
 	if len(resultNodes) > 0 {
 		firstNode := resultNodes[0]
 		return firstNode
@@ -592,7 +611,9 @@ func FirstElement(xpath *xpath.Expression, xmlNode xml.Node) xml.Node {
 
 func FirstElementContent(xpath *xpath.Expression, xmlNode xml.Node) string {
 	resultNodes, err := xmlNode.Search(xpath)
-	util.CheckErr(err)
+	if err != nil {
+		panic(err.Error())
+	}
 	if len(resultNodes) > 0 {
 		firstNode := resultNodes[0]
 		return firstNode.Content()
@@ -669,13 +690,17 @@ func extractNegation(entry *models.Entry, entryElement xml.Node) {
 func set_patient_expired(patient *models.Record, xmlNode xml.Node) {
 	var patientExpiredXPath = xpath.Compile("//cda:entry/cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.54']")
 	patientExpiredElements, err := xmlNode.Search(patientExpiredXPath)
-	util.CheckErr(err)
+	if err != nil {
+		panic(err.Error())
+	}
 
 	for _, patientExpiredElement := range patientExpiredElements { // if patient is dead
 		patient.Expired = true
 		deathDateXPath := xpath.Compile("cda:effectiveTime/cda:low")
 		deathDateElements, err := patientExpiredElement.Search(deathDateXPath)
-		util.CheckErr(err)
+		if err != nil {
+			panic(err.Error())
+		}
 		for _, deathDateElement := range deathDateElements { // if patient death date exists
 			if value := deathDateElement.Attribute("value"); value != nil {
 				patient.DeathDate = TimestampToSeconds(value.String())

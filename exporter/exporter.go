@@ -85,16 +85,17 @@ func LoadMeasuresAndValueSets(measures []byte, valueSets []byte) {
 
 // GenerateCat1 generates a cat1 xml string for export
 func GenerateCat1(patient []byte, startDate int64, endDate int64, qrdaVersion string, cmsCompatibility bool) string {
-	var status bool
-	result := generateCat1(patient, startDate, endDate, qrdaVersion, cmsCompatibility, &status)
-	if status {
-		return "Export Failed"
+	var failed bool
+	var errmsg string
+	result := generateCat1(patient, startDate, endDate, qrdaVersion, cmsCompatibility, &failed, &errmsg)
+	if failed {
+		return "Export Failed: " + errmsg
 	}
 	return result
 }
 
-func generateCat1(patient []byte, startDate int64, endDate int64, qrdaVersion string, cmsCompatibility bool, status *bool) string {
-	defer catchPanics(status)
+func generateCat1(patient []byte, startDate int64, endDate int64, qrdaVersion string, cmsCompatibility bool, failed *bool, errmsg *string) string {
+	defer catchPanics(failed, errmsg)
 
 	p := &models.Record{}
 
@@ -144,16 +145,17 @@ func generateCat1(patient []byte, startDate int64, endDate int64, qrdaVersion st
 }
 
 func GenerateCat3(measures []byte, measure_results []byte, effectiveDate int64, startDate int64, endDate int64, version string) string {
-	var status bool
-	result := generateCat3(measures, measure_results, effectiveDate, startDate, endDate, version, &status)
-	if status {
-		return "Export Failed"
+	var failed bool
+	var errmsg string
+	result := generateCat3(measures, measure_results, effectiveDate, startDate, endDate, version, &failed, &errmsg)
+	if failed {
+		return "Export Failed: " + errmsg
 	}
 	return result
 }
 
-func generateCat3(measures []byte, measure_results []byte, effectiveDate int64, startDate int64, endDate int64, version string, status *bool) string {
-	defer catchPanics(status)
+func generateCat3(measures []byte, measure_results []byte, effectiveDate int64, startDate int64, endDate int64, version string, failed *bool, errmsg *string) string {
+	defer catchPanics(failed, errmsg)
 
 	m := models.Measure{}
 	mr := cat3.MeasureResults{}
@@ -192,11 +194,12 @@ func generateCat3(measures []byte, measure_results []byte, effectiveDate int64, 
 }
 
 // This is to catch any panics in the code. If there is a panic, the status
-// will be set to true and we will return a failure status code instead of
-// crashing the program.
-func catchPanics(status *bool) {
+// will be set to true and errmsg will contain the message passed into the panic.
+// This function should only be used in the library API functions and a non-nil pointer
+// should be passed in.
+func catchPanics(failed *bool, errmsg *string) {
 	if r := recover(); r != nil {
-		fmt.Println("caught panic in cdatools:\n", r)
-		*status = true
+		*failed = true
+		*errmsg = fmt.Sprintf("caught panic in cdatools: %v", r)
 	}
 }
