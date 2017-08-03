@@ -35,7 +35,7 @@ func ProcedurePerformedExtractor(entry *models.Entry, entryElement xml.Node) int
 	extractBaseProcedure(&procedurePerformed, entryElement)
 	extractIncisionTime(&procedurePerformed, entryElement)
 	
-	scalarPath := xpath.Compile("cda:entryRelationship/cda:observation/cda:value")
+	scalarPath := xpath.Compile("cda:entryRelationship/cda:observation[./cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.87']/cda:value")
 	ExtractValues(&procedurePerformed.Entry, entryElement, scalarPath)
 	return procedurePerformed
 }
@@ -69,7 +69,7 @@ func extractBaseProcedure(procedure *models.Procedure, entryElement xml.Node) {
 	extractPerformer(&procedure.Performer, entryElement)
 	extractAnatomicalTarget(&procedure.AnatomicalTarget, entryElement)
 	ExtractReasonOrNegation(&procedure.Entry, entryElement)
-	scalarPath := xpath.Compile("cda:value")
+	scalarPath := xpath.Compile("./cda:value | ./cda:entryRelationship/cda:observation[./cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.87']/cda:value")
 	ExtractValues(&procedure.Entry, entryElement, scalarPath)
 }
 

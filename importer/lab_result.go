@@ -14,7 +14,7 @@ func ResultExtractor(entry *models.Entry, entryElement xml.Node) interface{} {
 	ExtractCodes(&result.Entry.Coded, entryElement, codePath)
 
 	//extract values
-	var valuePath = xpath.Compile(".//cda:value")
+	var valuePath = xpath.Compile("./cda:value | ./cda:entryRelationship/cda:observation[./cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.87']/cda:value")
 	ExtractValues(&result.Entry, entryElement, valuePath)
 
 	extractInterpretation(&result, entryElement)
