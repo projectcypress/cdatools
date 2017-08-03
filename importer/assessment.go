@@ -9,7 +9,7 @@ import (
 func AssessmentPerformedExtractor(entry *models.Entry, entryElement xml.Node) interface{} {
 	assessmentPerformed := models.Assessment{}
 	assessmentPerformed.Entry = *entry
-	
+
 	var codePath = xpath.Compile("cda:code")
 	ExtractCodes(&assessmentPerformed.Entry.Coded, entryElement, codePath)
 	ExtractReasonOrNegation(&assessmentPerformed.Entry, entryElement)

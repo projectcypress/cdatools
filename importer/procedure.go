@@ -34,7 +34,7 @@ func ProcedurePerformedExtractor(entry *models.Entry, entryElement xml.Node) int
 
 	extractBaseProcedure(&procedurePerformed, entryElement)
 	extractIncisionTime(&procedurePerformed, entryElement)
-	
+
 	scalarPath := xpath.Compile("cda:entryRelationship/cda:observation[./cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.87']/cda:value")
 	ExtractValues(&procedurePerformed.Entry, entryElement, scalarPath)
 	return procedurePerformed

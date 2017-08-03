@@ -5,7 +5,7 @@ import (
 
 	"github.com/jbowtie/gokogiri/xml"
 	"github.com/jbowtie/gokogiri/xpath"
-	"github.com/pebbe/util"
+
 	"github.com/projectcypress/cdatools/models"
 )
 
@@ -20,7 +20,9 @@ func GestationalAgeExtractor(entry *models.Entry, entryElement xml.Node) interfa
 	ExtractValues(&gestationalAge.Entry, entryElement, valueXPath)
 
 	gestationalAgeScalar, err := strconv.Atoi(gestationalAge.Entry.Values[0].Scalar)
-	util.CheckErr(err)
+	if err != nil {
+		panic(err.Error())
+	}
 	switch gestationalAgeScalar {
 	case 39:
 		entry.Codes["SNOMED-CT"] = []string{"80487005"}

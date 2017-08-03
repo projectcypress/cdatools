@@ -3,7 +3,7 @@ package importer
 import (
 	"github.com/jbowtie/gokogiri/xml"
 	"github.com/jbowtie/gokogiri/xpath"
-	"github.com/pebbe/util"
+
 	"github.com/projectcypress/cdatools/models"
 )
 
@@ -80,7 +80,9 @@ func extractFacility(encounter *models.Encounter, entryElement xml.Node) {
 
 		addressXPath := xpath.Compile("cda:addr")
 		addressElements, err := participantElement.Search(addressXPath)
-		util.CheckErr(err)
+		if err != nil {
+			panic(err.Error())
+		}
 		facility.Addresses = make([]models.Address, len(addressElements))
 		for i, addressElement := range addressElements {
 			facility.Addresses[i] = ImportAddress(addressElement)
@@ -88,7 +90,9 @@ func extractFacility(encounter *models.Encounter, entryElement xml.Node) {
 
 		telecomXPath := xpath.Compile("cda:telecom")
 		telecomElements, err := participantElement.Search(telecomXPath)
-		util.CheckErr(err)
+		if err != nil {
+			panic(err.Error())
+		}
 		facility.Telecoms = make([]models.Telecom, len(telecomElements))
 		for i, telecomElement := range telecomElements {
 			facility.Telecoms[i] = ImportTelecom(telecomElement)

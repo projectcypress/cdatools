@@ -5,7 +5,6 @@ import (
 
 	"github.com/jbowtie/gokogiri/xml"
 	"github.com/jbowtie/gokogiri/xpath"
-	"github.com/pebbe/util"
 	"github.com/projectcypress/cdatools/models"
 )
 
@@ -99,7 +98,9 @@ func extractAdministrationTiming(medication *models.Medication, entryElement xml
 		institutionSpecifiedAttr := adminTimingElement.Attribute("institutionSpecified")
 		if institutionSpecifiedAttr != nil {
 			institutionSpecified, err := strconv.ParseBool(institutionSpecifiedAttr.String())
-			util.CheckErr(err)
+			if err != nil {
+				panic(err.Error())
+			}
 			medication.AdministrationTiming.InstitutionSpecified = institutionSpecified
 		}
 		periodXPath := xpath.Compile("./cda:period")
@@ -125,7 +126,9 @@ func extractOrderInformation(medication *models.Medication, entryElement xml.Nod
 
 	if oiElement != nil {
 		fills, err := strconv.ParseInt(FirstElementContent(xpath.Compile("./@value"), oiElement), 10, 64)
-		util.CheckErr(err)
+		if err != nil {
+			panic(err.Error())
+		}
 		medication.AllowedAdministrations = &fills
 	}
 }
@@ -139,7 +142,9 @@ func extractSupplyInformation(medication *models.Medication, entryElement xml.No
 		//provider information not captured, unsure if necessary
 		oi.OrderNumber = FirstElementContent(xpath.Compile("./cda:id/@root"), oiElement)
 		fills, err := strconv.ParseInt(FirstElementContent(xpath.Compile("./cda:repeatNumber/@value"), oiElement), 10, 64)
-		util.CheckErr(err)
+		if err != nil {
+			panic(err.Error())
+		}
 		oi.Fills = fills
 		oi.OrderDate = GetTimestamp(xpath.Compile("./cda:effectiveTime/cda:low/@value"), oiElement)
 
@@ -154,7 +159,9 @@ func extractSupplyInformation(medication *models.Medication, entryElement xml.No
 func extractFulfillmentHistory(medication *models.Medication, entryElement xml.Node) {
 	fhXPath := xpath.Compile("./cda:entryRelationship/cda:supply[@moodCode='EVN']")
 	fulfillmentElements, err := entryElement.Search(fhXPath)
-	util.CheckErr(err)
+	if err != nil {
+		panic(err.Error())
+	}
 	if len(fulfillmentElements) > 0 {
 		for _, fhElement := range fulfillmentElements {
 			if fhElement != nil {
@@ -165,7 +172,9 @@ func extractFulfillmentHistory(medication *models.Medication, entryElement xml.N
 				fillNumber := FirstElementContent(xpath.Compile("./cda:entryRelationship[@typeCode='COMP']/cda:sequenceNumber/@value"), fhElement)
 				if fillNumber != "" {
 					fillnumber, err := strconv.ParseInt(fillNumber, 10, 64)
-					util.CheckErr(err)
+					if err != nil {
+						panic(err.Error())
+					}
 					fh.FillNumber = fillnumber
 				}
 

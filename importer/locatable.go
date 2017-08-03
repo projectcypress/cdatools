@@ -3,7 +3,7 @@ package importer
 import (
 	"github.com/jbowtie/gokogiri/xml"
 	"github.com/jbowtie/gokogiri/xpath"
-	"github.com/pebbe/util"
+
 	"github.com/projectcypress/cdatools/models"
 )
 
@@ -11,7 +11,9 @@ func ImportAddress(addressElement xml.Node) models.Address {
 	var address = models.Address{}
 	address.Use = addressElement.Attr("use")
 	streetNameElements, err := addressElement.Search(xpath.Compile("cda:streetAddressLine"))
-	util.CheckErr(err)
+	if err != nil {
+		panic(err.Error())
+	}
 	address.Street = make([]string, len(streetNameElements))
 	for i, streetNameElement := range streetNameElements {
 		address.Street[i] = streetNameElement.Content()
