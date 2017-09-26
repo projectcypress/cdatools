@@ -49,6 +49,7 @@ func (i *ImporterSuite) TestExtractDemograpics(c *C) {
 	c.Assert(i.patient.Race.CodeSystem, Equals, "CDC Race and Ethnicity")
 	c.Assert(i.patient.Ethnicity.Code, Equals, "2186-5")
 	c.Assert(i.patient.Ethnicity.CodeSystem, Equals, "CDC Race and Ethnicity")
+	c.Assert(i.patient.Gender, Equals, "M")
 }
 
 func (i *ImporterSuite) TestExtractEncountersPerformed(c *C) {

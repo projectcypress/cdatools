@@ -11,8 +11,24 @@ func ExtractDemographics(patient *models.Record, patientElement xml.Node) {
 	patient.First = FirstElementContent(firstNameXPath, patientElement)
 	var lastNameXPath = xpath.Compile("cda:name/cda:family")
 	patient.Last = FirstElementContent(lastNameXPath, patientElement)
+
 	var genderXPath = xpath.Compile("cda:administrativeGenderCode/@code")
-	patient.Gender = FirstElementContent(genderXPath, patientElement)
+	genderResults, err := patientElement.Search(genderXPath)
+	if err != nil {
+		panic(err.Error())
+	}
+	if len(genderResults) == 0 {
+		genderResults, err = patientElement.Search(xpath.Compile("cda:administrativeGenderCode/@nullFlavor"))
+		if err != nil {
+			panic(err.Error())
+		}
+	}
+	if len(genderResults) == 0 {
+		patient.Gender = "NULL"
+	} else {
+		firstNode := genderResults[0]
+		patient.Gender = firstNode.Content()
+	}
 	var birthTimeXPath = xpath.Compile("cda:birthTime/@value")
 	patient.BirthDate = GetTimestamp(birthTimeXPath, patientElement)
 
