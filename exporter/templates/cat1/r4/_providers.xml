@@ -24,6 +24,14 @@
           {{range .Provider.Addresses}}
             {{template "_address.xml" .}}
           {{end}}
+          {{if .Provider.GivenName}}
+            <assignedPerson>
+              <name>
+                <given>{{.Provider.GivenName}}</given>
+                <family>{{.Provider.FamilyName}}</family>
+              </name>
+            </assignedPerson>
+          {{end}}
           <representedOrganization>
             {{range .Provider.CDAIdentifiers}}
               {{if eq .Root "2.16.840.1.113883.4.2"}}
