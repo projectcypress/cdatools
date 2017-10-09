@@ -510,8 +510,10 @@ func ExtractCodedConcept(concept *models.CodedConcept, entryElement xml.Node, co
 func ExtractDates(entry *models.Entry, entryElement xml.Node) {
 	var timeLowXPath = xpath.Compile("cda:effectiveTime/cda:low/@value")
 	var timeHighXPath = xpath.Compile("cda:effectiveTime/cda:high/@value")
+	var timeXPath = xpath.Compile("cda:effectiveTime/@value")
 	entry.StartTime = GetTimestamp(timeLowXPath, entryElement)
 	entry.EndTime = GetTimestamp(timeHighXPath, entryElement)
+	entry.Time = GetTimestamp(timeXPath, entryElement)
 }
 
 func ExtractScalar(scalar *models.Scalar, entryElement xml.Node, scalarPath *xpath.Expression) {
