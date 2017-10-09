@@ -1264,10 +1264,7 @@
               <text>Diagnostic Study, Result: Cup to Disc Ratio (Code List: 2.16.840.1.113883.3.526.3.1333)</text>
               <statusCode code="completed"/>
 
-              <effectiveTime>
-                <low value='19890923063243'/>
-                <high value='19890923101231'/>
-              </effectiveTime>
+              <effectiveTime value='19890923063243'/>
               <value xsi:type="CD" nullFlavor="UNK"/>
 
               <entryRelationship typeCode="RSON">

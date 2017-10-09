@@ -804,8 +804,7 @@ func (i *ImporterSuite) TestExtractDiagnosticStudyResult(c *C) {
 	c.Assert(diagnosticStudyResult.ID.Root, Equals, "50f84c1b7042f987750001e7")
 	c.Assert(diagnosticStudyResult.Oid, Equals, "2.16.840.1.113883.3.560.1.11")
 	c.Assert(diagnosticStudyResult.Codes["LOINC"][0], Equals, "71485-7")
-	c.Assert(*diagnosticStudyResult.StartTime, Equals, int64(622535563))
-	c.Assert(*diagnosticStudyResult.EndTime, Equals, int64(622548751))
+	c.Assert(*diagnosticStudyResult.Time, Equals, int64(622535563))
 	c.Assert(*diagnosticStudyResult.NegationInd, Equals, true)
 	c.Assert(diagnosticStudyResult.NegationReason, Equals, models.CodedConcept{Code: "79899007"})
 }

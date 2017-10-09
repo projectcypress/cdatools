@@ -2530,7 +2530,7 @@ func templatesCat1R3_providersXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_providers.xml", size: 2752, mode: os.FileMode(420), modTime: time.Unix(1507051871, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_providers.xml", size: 2752, mode: os.FileMode(420), modTime: time.Unix(1507574311, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -2695,7 +2695,7 @@ func templatesCat1R3_reporting_parametersXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3/_reporting_parameters.xml", size: 1370, mode: os.FileMode(420), modTime: time.Unix(1507039156, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3/_reporting_parameters.xml", size: 1370, mode: os.FileMode(420), modTime: time.Unix(1507574311, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -5311,7 +5311,7 @@ func templatesCat1R3_1_providersXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r3_1/_providers.xml", size: 2752, mode: os.FileMode(420), modTime: time.Unix(1507051861, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r3_1/_providers.xml", size: 2752, mode: os.FileMode(420), modTime: time.Unix(1507574311, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -8099,7 +8099,7 @@ func templatesCat1R4_providersXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r4/_providers.xml", size: 2752, mode: os.FileMode(420), modTime: time.Unix(1507051851, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r4/_providers.xml", size: 2752, mode: os.FileMode(420), modTime: time.Unix(1507574311, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -8262,7 +8262,7 @@ func templatesCat1R4_reporting_parametersXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/cat1/r4/_reporting_parameters.xml", size: 1322, mode: os.FileMode(420), modTime: time.Unix(1507038957, 0)}
+	info := bindataFileInfo{name: "templates/cat1/r4/_reporting_parameters.xml", size: 1322, mode: os.FileMode(420), modTime: time.Unix(1507574311, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
