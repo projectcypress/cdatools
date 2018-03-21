@@ -101,10 +101,10 @@ func extractFacility(encounter *models.Encounter, entryElement xml.Node) {
 		facility.Code = &models.CodedConcept{}
 		ExtractCodedConcept(facility.Code, participantElement, xpath.Compile("cda:code"))
 
-		var timeLowXPath = xpath.Compile("cda:effectiveTime/cda:low/@value")
-		var timeHighXPath = xpath.Compile("cda:effectiveTime/cda:high/@value")
-		facility.StartTime = GetTimestamp(timeLowXPath, entryElement)
-		facility.EndTime = GetTimestamp(timeHighXPath, entryElement)
+		var timeLowXPath = xpath.Compile("../cda:time/cda:low/@value")
+		var timeHighXPath = xpath.Compile("../cda:time/cda:high/@value")
+		facility.StartTime = GetTimestamp(timeLowXPath, participantElement)
+		facility.EndTime = GetTimestamp(timeHighXPath, participantElement)
 
 		encounter.Facility = facility
 	}
