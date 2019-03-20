@@ -6,7 +6,7 @@ import (
 	"github.com/projectcypress/cdatools/models"
 )
 
-// returns Encounter with TransferFrom field
+// TransferFromExtractor returns Encounter with TransferFrom field
 func TransferFromExtractor(entry *models.Entry, entryElement xml.Node) interface{} {
 	transferFromEncounter := models.Encounter{}
 	transferFromEncounter.Entry = *entry
@@ -21,7 +21,7 @@ func TransferFromExtractor(entry *models.Entry, entryElement xml.Node) interface
 	return transferFromEncounter
 }
 
-// returns Encounter with TransferTo field
+// TransferToExtractor returns Encounter with TransferTo field
 func TransferToExtractor(entry *models.Entry, entryElement xml.Node) interface{} {
 	transferToEncounter := models.Encounter{}
 	transferToEncounter.Entry = *entry

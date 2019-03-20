@@ -66,7 +66,7 @@ func (entry *Entry) GetEntry() *Entry {
 	return entry
 }
 
-// returns codeDisplay. also returns true if code display was found and false if not found
+// GetCodeDisplay returns codeDisplay. also returns true if code display was found and false if not found
 func (e *Entry) GetCodeDisplay(codeType string) (CodeDisplay, error) {
 	for _, codeDisplay := range e.CodeDisplays {
 		if codeDisplay.CodeType == codeType {
