@@ -21,7 +21,7 @@ func init() {
 	hds.importHQMFTemplateJSON()
 }
 
-// Returns an Hds with properly populated maps.
+// NewHds returns an Hds with properly populated maps.
 func NewHds() *HdsMaps {
 	return hds
 }
